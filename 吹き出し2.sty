@@ -1,0 +1,407 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{吹き出し2}[2026/01/20, ver.1.0.0]
+
+%\definecolor{bubblegreen}{RGB}{103,184,104}
+%\definecolor{bubblegray}{RGB}{241,240,240}
+
+\tcbset{
+  commonoptions/.style={
+    enhanced,
+    enhanced jigsaw,
+    %fonttitle=\bfseries,
+    %boxed title style={opacityback=0, opacityframe=0},
+    sharp corners,
+    arc=4mm,
+    opacityframe=0,
+    after skip=0mm,
+    fontupper=\mgfamily,
+    before upper=\begin{flushleft},
+    after upper=\end{flushleft}
+    },
+  }
+
+\newtcolorbox{ミーちゃん最初}[1][]{
+    commonoptions,
+    %attach boxed title to top right={yshift=-7mm, xshift=-2mm},
+    top=2mm,%6mm,
+    right skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=7mm] at (frame.north east) {\roundperson{ミーちゃん}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southwest,
+    colback=bubblegreen,
+    colupper=white,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{ミーちゃん最後}[1][]{
+    commonoptions,
+    right skip=1.5cm,
+    rounded corners=northwest,
+    rounded corners=south,
+    colback=bubblegreen,
+    colupper=white,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+\NewEnviron{ミーちゃん単体}{\vspace{1mm}%
+\tcbox[commonoptions,
+    finish={\node[anchor=center, yshift=-5.5mm,xshift=7mm] at (frame.north east) {\roundperson{ミーちゃん}};},
+    rounded corners,
+    colback=bubblegreen,
+    colupper=white,
+    before=\hfill,
+    after skip=1mm,
+    right skip=1.5cm,
+    varwidth upper]
+    {\raggedright\BODY}
+}
+
+\newtcolorbox{ミーちゃん困り顔1最初}[1][]{
+    commonoptions,
+    %attach boxed title to top right={yshift=-7mm, xshift=-2mm},
+    top=2mm,%6mm,
+    right skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=7mm] at (frame.north east) {\roundperson{ミーちゃん困り顔1}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southwest,
+    colback=bubblegreen,
+    colupper=white,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{ミーちゃん困り顔1最後}[1][]{
+    commonoptions,
+    right skip=1.5cm,
+    rounded corners=northwest,
+    rounded corners=south,
+    colback=bubblegreen,
+    colupper=white,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+\NewEnviron{ミーちゃん困り顔1単体}{\vspace{1mm}%
+\tcbox[commonoptions,
+    finish={\node[anchor=center, yshift=-5.5mm,xshift=7mm] at (frame.north east) {\roundperson{ミーちゃん困り顔1}};},
+    rounded corners,
+    colback=bubblegreen,
+    colupper=white,
+    before=\hfill,
+    after skip=1mm,
+    right skip=1.5cm,
+    varwidth upper]
+    {\raggedright\BODY}
+}
+
+\newtcolorbox{ミーちゃん困り顔2最初}[1][]{
+    commonoptions,
+    %attach boxed title to top right={yshift=-7mm, xshift=-2mm},
+    top=2mm,%6mm,
+    right skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=7mm] at (frame.north east) {\roundperson{ミーちゃん困り顔2}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southwest,
+    colback=bubblegreen,
+    colupper=white,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{ミーちゃん困り顔2最後}[1][]{
+    commonoptions,
+    right skip=1.5cm,
+    rounded corners=northwest,
+    rounded corners=south,
+    colback=bubblegreen,
+    colupper=white,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+\NewEnviron{ミーちゃん困り顔2単体}{\vspace{1mm}%
+\tcbox[commonoptions,
+    finish={\node[anchor=center, yshift=-5.5mm,xshift=7mm] at (frame.north east) {\roundperson{ミーちゃん困り顔2}};},
+    rounded corners,
+    colback=bubblegreen,
+    colupper=white,
+    before=\hfill,
+    after skip=1mm,
+    right skip=1.5cm,
+    varwidth upper]
+    {\raggedright\BODY}
+}
+
+\newtcolorbox{ミーちゃんぶりっ子最初}[1][]{
+    commonoptions,
+    %attach boxed title to top right={yshift=-7mm, xshift=-2mm},
+    top=2mm,%6mm,
+    right skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=7mm] at (frame.north east) {\roundperson{ミーちゃんぶりっ子}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southwest,
+    colback=bubblegreen,
+    colupper=white,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{ミーちゃんぶりっ子最後}[1][]{
+    commonoptions,
+    right skip=1.5cm,
+    rounded corners=northwest,
+    rounded corners=south,
+    colback=bubblegreen,
+    colupper=white,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+\NewEnviron{ミーちゃんぶりっ子単体}{\vspace{1mm}%
+\tcbox[commonoptions,
+    finish={\node[anchor=center, yshift=-5.5mm,xshift=7mm] at (frame.north east) {\roundperson{ミーちゃんぶりっ子}};},
+    rounded corners,
+    colback=bubblegreen,
+    colupper=white,
+    before=\hfill,
+    after skip=1mm,
+    right skip=1.5cm,
+    varwidth upper]
+    {\raggedright\BODY}
+}
+
+\newtcolorbox{ミーちゃん笑顔最初}[1][]{
+    commonoptions,
+    %attach boxed title to top right={yshift=-7mm, xshift=-2mm},
+    top=2mm,%6mm,
+    right skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=7mm] at (frame.north east) {\roundperson{ミーちゃん笑顔}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southwest,
+    colback=bubblegreen,
+    colupper=white,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{ミーちゃん笑顔最後}[1][]{
+    commonoptions,
+    right skip=1.5cm,
+    rounded corners=northwest,
+    rounded corners=south,
+    colback=bubblegreen,
+    colupper=white,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+\NewEnviron{ミーちゃん笑顔単体}{\vspace{1mm}%
+\tcbox[commonoptions,
+    finish={\node[anchor=center, yshift=-5.5mm,xshift=7mm] at (frame.north east) {\roundperson{ミーちゃん笑顔}};},
+    rounded corners,
+    colback=bubblegreen,
+    colupper=white,
+    before=\hfill,
+    after skip=1mm,
+    right skip=1.5cm,
+    varwidth upper]
+    {\raggedright\BODY}
+}
+
+\newtcolorbox{ハーくん最初}[1][]{
+    commonoptions,
+    %attach boxed title to top right={yshift=-7mm, xshift=-2mm},
+    top=2mm,%6mm,
+    right skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=7mm] at (frame.north east) {\roundperson{ハーくん}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southwest,
+    colback=bubbleblue,
+    colupper=white,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{ハーくん最後}[1][]{
+    commonoptions,
+    right skip=1.5cm,
+    rounded corners=northwest,
+    rounded corners=south,
+    colback=bubbleblue,
+    colupper=white,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+\NewEnviron{ハーくん単体}{\vspace{1mm}%
+\tcbox[commonoptions,
+    finish={\node[anchor=center, yshift=-5.5mm,xshift=7mm] at (frame.north east) {\roundperson{ハーくん}};},
+    rounded corners,
+    colback=bubbleblue,
+    colupper=white,
+    before=\hfill,
+    after skip=1mm,
+    right skip=1.5cm,
+    varwidth upper]
+    {\raggedright\BODY}
+}
+
+\newtcolorbox{ハーくん困り顔1最初}[1][]{
+    commonoptions,
+    %attach boxed title to top right={yshift=-7mm, xshift=-2mm},
+    top=2mm,%6mm,
+    right skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=7mm] at (frame.north east) {\roundperson{ハーくん困り顔1}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southwest,
+    colback=bubbleblue,
+    colupper=white,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{ハーくん困り顔1最後}[1][]{
+    commonoptions,
+    right skip=1.5cm,
+    rounded corners=northwest,
+    rounded corners=south,
+    colback=bubbleblue,
+    colupper=white,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+\NewEnviron{ハーくん困り顔1単体}{\vspace{1mm}%
+\tcbox[commonoptions,
+    finish={\node[anchor=center, yshift=-5.5mm,xshift=7mm] at (frame.north east) {\roundperson{ハーくん困り顔1}};},
+    rounded corners,
+    colback=bubbleblue,
+    colupper=white,
+    before=\hfill,
+    after skip=1mm,
+    right skip=1.5cm,
+    varwidth upper]
+    {\raggedright\BODY}
+}
+
+\newtcolorbox{ハーくん困り顔2最初}[1][]{
+    commonoptions,
+    %attach boxed title to top right={yshift=-7mm, xshift=-2mm},
+    top=2mm,%6mm,
+    right skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=7mm] at (frame.north east) {\roundperson{ハーくん困り顔2}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southwest,
+    colback=bubbleblue,
+    colupper=white,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{ハーくん困り顔2最後}[1][]{
+    commonoptions,
+    right skip=1.5cm,
+    rounded corners=northwest,
+    rounded corners=south,
+    colback=bubbleblue,
+    colupper=white,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+\NewEnviron{ハーくん困り顔2単体}{\vspace{1mm}%
+\tcbox[commonoptions,
+    finish={\node[anchor=center, yshift=-5.5mm,xshift=7mm] at (frame.north east) {\roundperson{ハーくん困り顔2}};},
+    rounded corners,
+    colback=bubbleblue,
+    colupper=white,
+    before=\hfill,
+    after skip=1mm,
+    right skip=1.5cm,
+    varwidth upper]
+    {\raggedright\BODY}
+}
+
+\newtcolorbox{ハーくん笑顔最初}[1][]{
+    commonoptions,
+    %attach boxed title to top right={yshift=-7mm, xshift=-2mm},
+    top=2mm,%6mm,
+    right skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=7mm] at (frame.north east) {\roundperson{ハーくん笑顔}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southwest,
+    colback=bubbleblue,
+    colupper=white,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{ハーくん笑顔最後}[1][]{
+    commonoptions,
+    right skip=1.5cm,
+    rounded corners=northwest,
+    rounded corners=south,
+    colback=bubbleblue,
+    colupper=white,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+\NewEnviron{ハーくん笑顔単体}{\vspace{1mm}%
+\tcbox[commonoptions,
+    finish={\node[anchor=center, yshift=-5.5mm,xshift=7mm] at (frame.north east) {\roundperson{ハーくん笑顔}};},
+    rounded corners,
+    colback=bubbleblue,
+    colupper=white,
+    before=\hfill,
+    after skip=1mm,
+    right skip=1.5cm,
+    varwidth upper]
+    {\raggedright\BODY}
+}
+
+\newtcolorbox{先生最初}[1][]{
+    commonoptions,
+    %attach boxed title to top left={yshift=-7mm, xshift=2mm},
+    top=2mm,%6mm,
+    left skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=-7mm] at (frame.north west) {\roundperson{先生}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southeast,
+    colback=black!10,
+    colupper=black,
+    coltitle=black,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{先生最後}[1][]{
+    commonoptions,
+    left skip=1.5cm,
+    rounded corners=northeast,
+    rounded corners=south,
+    colback=black!10,
+    colupper=black,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+
+\NewEnviron{先生単体}{\vspace{1mm}%
+\tcbox[commonoptions,
+    rounded corners,
+    finish={\node[anchor=center, yshift=-5.5mm,xshift=-7mm] at (frame.north west) {\roundperson{先生}};},
+    colback=black!10,
+    colupper=black,
+    after skip=1mm,
+    left skip=1.5cm,
+    varwidth upper]
+    {\raggedright\BODY}
+}
+
+
+%\newcommand{\roundperson}[1]{
+%\begin{tikzpicture}\clip (0,0) circle (0.7cm) node {\includegraphics[width=1.4cm]{#1}};\end{tikzpicture}
+%}

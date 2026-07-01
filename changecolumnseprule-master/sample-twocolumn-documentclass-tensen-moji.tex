@@ -1,0 +1,16 @@
+% ドキュメントクラスオプションの twocolumn オプション
+\documentclass[uplatex,dvipdfmx,twocolumn]{jsarticle}
+\usepackage{lipsum}
+\pagestyle{empty}
+\usepackage{changecolumnseprule}
+
+\makeatletter
+\def\cdotsvrule{\cleaders\hbox{\rule{0pt}{5pt}.}\vfil}
+\changecolumnseprule{\cdotsvrule\hb@xt@\z@{\hspace{-.38zw}\mbox{\tate ~✂~キリトリセン~✂~}}\cdotsvrule}% 点線・文字入り
+\makeatother
+
+\begin{document}
+\lipsum[1-10]
+\end{document}
+
+

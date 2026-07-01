@@ -1,0 +1,13 @@
+% ドキュメントクラスオプションの twocolumn オプション
+\documentclass[uplatex,dvipdfmx,twocolumn]{jsarticle}
+\usepackage{lipsum}
+\pagestyle{empty}
+\usepackage{changecolumnseprule}
+
+\changecolumnseprule{\cleaders\hbox{\rule{0pt}{4pt}.}\vfil}% 点線
+
+\begin{document}
+\lipsum[1-10]
+\end{document}
+
+

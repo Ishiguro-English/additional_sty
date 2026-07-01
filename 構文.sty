@@ -1,0 +1,56 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{構文}[2026/03/31, ver.1.0.0]
+
+\def\N#1{\hspace{-.5zw}\mbox{\textcolor{red}{\bgt{〈\hspace{0pt}}}}\nolinebreak#1\nolinebreak\textcolor{red}{\bgt{〉\inhibitglue}}}
+\def\A#1{\hspace{-.5zw}\mbox{\textcolor{blue}{\bgt{［\hspace{0pt}}}}\nolinebreak#1\nolinebreak\textcolor{blue}{\bgt{］\inhibitglue}}}
+\def\M#1{\hspace{-.5zw}\mbox{\textcolor{green}{\bgt{（\hspace{0pt}}}}\nolinebreak#1\nolinebreak\textcolor{green}{\bgt{）\inhibitglue}}}
+\def\S#1{\textcolor{brown}{\uu{\textcolor{black}{#1}}{\bgt{S}}}}
+\def\V#1{\textcolor{brown}{\uu{\textcolor{black}{#1}}{\bgt{V}}}}
+\def\O#1{\textcolor{brown}{\uu{\textcolor{black}{#1}}{\bgt{O}}}}
+\def\C#1{\textcolor{brown}{\uu{\textcolor{black}{#1}}{\bgt{C}}}}
+\def\s#1{\textcolor{brown}{\uu{\textcolor{black}{#1}}{\bgt{S'}}}}
+\def\v#1{\textcolor{brown}{\uu{\textcolor{black}{#1}}{\bgt{V'}}}}
+\def\o#1{\textcolor{brown}{\uu{\textcolor{black}{#1}}{\bgt{O'}}}}
+\def\m#1{\textcolor{brown}{\uu{\textcolor{black}{#1}}{\bgt{M'}}}}
+\def\x#1{\textcolor{brown}{\uu{\textcolor{black}{#1}}{\bgt{×}}}}
+\def\X[#1]#2{\textcolor{brown}{\uu{\textcolor{black}{#2}}{\bgt{#1}}}}
+\newcommand{\gray}[1]{\textcolor{black!60}{(#1)}}
+\renewcommand{\mru}[2][]{%
+  \jghostguarded{% 前後に和文ゴースト挿入
+  \begingroup
+  \setkeys{品詞}{#1}%
+  \pgfmathparse{0.9*\f@size}\edef\品詞@fontsize{\pgfmathresult}%
+  \pgfmathparse{0.15*\f@size}\edef\品詞@roundedcorners{3.5*\pgfmathresult}%
+  \pgfmathparse{0.04*\f@size}\edef\品詞@linewidth{2*\pgfmathresult}%
+  \pgfmathparse{0.1*\f@size}\edef\品詞@innersep{\pgfmathresult}%
+  \pgfmathparse{1.1*\f@size}\edef\品詞@minimumwidth{\pgfmathresult}%
+  \ifydir
+    \def\品詞@node{\vphantom{あ}#2}%
+  \else
+    \def\品詞@node{\mbox{\tate\vphantom{あ}#2}}%
+  \fi
+  \mbox{\yoko
+  \begin{tikzpicture}[baseline=(A.base),font=\normalsize]
+    \node[draw=red!50!orange, rectangle, rounded corners=\品詞@roundedcorners pt,
+          text=\cmdKV@品詞@text,
+          %fill=\cmdKV@品詞@fill,
+          fill opacity=1,%
+          line width=\品詞@linewidth pt,
+          inner sep=\品詞@innersep pt, outer sep=0pt,
+          minimum width=\品詞@minimumwidth pt,
+          ] (A) {\品詞@node};
+  \end{tikzpicture}}%
+  \endgroup
+  }%
+}
+\newcounter{例文番号}
+\setcounter{例文番号}{1}
+\renewcommand{\ex}[2]{\br{.3}\見出しぶら下げ*{\quad\raisebox{-.2zw}{\tikz\node[fill=gray!60,ellipse,inner sep=0pt]{\texthti{Ex.\the例文番号}};}}{#1\par#2}\br{.3}\stepcounter{例文番号}}
+\newenvironment{jq}{\begin{jquotation}[.3\baselineskip]}{\end{jquotation}}
+\newenvironment{jq*}{\br{.3}}{\br{.3}}
+\newcommand{\語注}[2][2]{\alt<\Star>[#1]{#2}}
+\newcounter{hoibangou}
+\newcommand{\hoi}[2][1]{\stepcounter{hoibangou}\br0~\一行カラーボックス{\raisebox{-.2zw}{\mg{\Large\thehoibangou}}}{\mg{#2}\strut\hfill{\small\レベル説明{#1}}}\br{.5}}
+\newcommand{\Appendix}{\setcounter{hoibangou}{0}\twocolumn[\begin{asbox7}{Appendix}\end{asbox7}]~\br{-1}}
+\newenvironment{例題}[2][]{\begin{太い枠囲み}[#1]{#2}\begin{choubun}}{\end{choubun}\end{太い枠囲み}\br1\ノート}
+\newcommand{\宿題解説}{\begin{asbox7}{宿題解説}\end{asbox7}}

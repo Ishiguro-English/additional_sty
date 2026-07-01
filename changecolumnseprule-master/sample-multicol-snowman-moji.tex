@@ -1,0 +1,28 @@
+% multicol パッケージによる部分的段組
+\documentclass[uplatex,dvipdfmx]{jsarticle}
+\usepackage{lipsum}
+\pagestyle{empty}
+\usepackage{scsnowman}
+\usepackage{multicol}
+\usepackage{changecolumnseprule}
+
+\makeatletter
+\def\snowmanvrule{\cleaders\hbox{\makebox[1zw][c]{\scsnowman[arms,muffler,hat,adjustbaseline,scale=1.3]}}\vfil}
+\changecolumnseprule{\snowmanvrule\hbox{\mbox{\tate ~✂~キリトリセン~✂~}}\snowmanvrule}% ☃・文字入り
+\makeatother
+
+\begin{document}
+\lipsum[1-2]
+
+\begin{multicols}{2}
+\lipsum[1-2]
+\end{multicols}
+
+\lipsum[1-2]
+
+\begin{multicols*}{2}
+\lipsum[1-10]
+\end{multicols*}
+\end{document}
+
+

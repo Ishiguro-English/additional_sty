@@ -1,0 +1,106 @@
+\documentclass [10pt,fleqn,b5j]{jsarticlek}
+\usepackage{amstext,amsmath,amssymb}
+\usepackage{ceo}
+
+\begin{document}
+\noindent
+許諾事項（copyright@toru yasuda）
+\\
+
+このstyle（フォントを含む）の著作権は安田亨にあります．
+
+個人の通常使用の場合は無料としますが，フォントを複製し販売するとか，法人（印刷所，予備校，塾など会社として出版，大部数のテキストなど）でスタイルを何かに収録して商業利用をする場合には使用料をお支払いください．
+
+使用料のお支払いが発生する使い方をご希望の場合は，下記へご連絡ください．
+
+連絡は hocsom@gmail.com へ．
+
+\bigskip
+
+\noindent
+1．CenturyOldStyleについて
+
+古くから本文の書体として使われ，
+高校数学教科書の主流の活字にCenturyOldという字体があります．
+TeXでこの書体を使いたいと思い，細々と試みてきました．
+TeXコンサルタントの吉永徹美氏に助言をあおぎ，
+やっとフォント自体はおおむね整備できました．
+ある程度は使える状態なので，公開します．
+
+現時点で認識している問題はスタイルファイルceo.styの不備による不具合で，
+フォント自体のバグは，認識していません（知らないことで潜んでいる可能性はあります）．
+
+\bigskip
+
+\noindent
+(1)問題点
+
+欧文が日本語に比べて大きいようです．
+CMが小さいため，それにあわせて，jsarticleで，奥村先生が，
+日本語を小さくされているのが１つの理由ですが，
+私が作成時に大きくしすぎた可能性も否定できません．
+この解決のためにはjsarticleの倍率に手を加えるのがよいと思い，
+奥村先生にもそのように言っていただきました．
+この点はいつでも変更できるので，後日に検討することにします．
+
+リガチャとカーニングが設定してありません．その知識がないためです．
+
+\bigskip
+
+\noindent
+(2)少し紹介
+
+\noindent
+\kigouk{1}
+分数は$a+b-c=\dfrac{a}{b}$，
+で分数罫線との隙間はtfmで小さくしてあります．
+
+積分は$\displaystyle\int^{a}_{b}\sin xdx$です．
+太字は通常の太字$\bd{x=a}$はありますが，
+ルートの太字$\bd{\sqrt{\dfrac{a}{b}}}$は現時点では用意してありません．
+記号としては作ってあり，数学拡張記号も太字を用意する予定です．
+
+積分記号は数種類取りそろえています．
+標準は受験雑誌「大学への数学」のものですが，
+他に
+\begin{quote}
+  チャートで有名な数研のＳ字積分 \raise2.5ex\hbox{\ceoex{\char"DA}}
+
+  一松信先生の解析学序説（裳華房）の積分記号 \raise2.ex\hbox{\ceoex{\char"DC}}
+\end{quote}
+ほかに \raise2.5ex\hbox{\ceoex{\char"DB}} が入れてあります．
+標準の積分記号を変更するにはceo.styのintopの文字コードを変更します．
+たとえば裳華房風にする場合は"DCにします．
+同時に使うこともできます．（そんな人はいないって）
+$\inta_{a}^{b}dx,\intb_{a}^{b}dx,\intc_{a}^{b}dx$
+
+クロスのx,yも入れました．
+\ceoi{\char"D1}，\ceoi{\char"D2} です．
+ただしx,yを変えるのも，やはりceo.styで文字コードを"D1，"D2に変更します．
+
+\kigoua{A}，\kigoua{E}など様々な記号があります．
+
+\kigouc{adedb}と顔文字も出ます．
+分数や積分，シグマでは，
+$\kane$ displaystyleをつけてもつけなくても結果が同じになるようにしてあります．
+いちいちverbatimしなくていいように偽の
+$\doru$や円記号$\kane$とか作ってあります．いろいろな記号
+$a \neq b$，$\sum_{k=1}^{n}$，$\vardelta x$ $\maruichi$ $\koyab$
+があります．
+
+最初は大きさ固定のルート
+$\sqrtb{g}\sqrtb{h}$，
+$\sqrtd{\dfrac{a}{b}}$，
+$\sqrti{\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}$
+を作り，垂直ルート
+$\vsqrt{\dfrac{\dfrac{a}{b}}{\dfrac{c}{\dfrac{e}{f}}}}$
+から逃れていました．
+しかし，普通のルートでこれを避け，十分実用になるように調整できました．
+
+$\sqrt{\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}+\sqrt{2+\sqrt{2+\sqrt{2+\sqrt{2+\sqrt{2}}}}}$
+です．いかがでしょうか？
+
+大きさ固定根号は，仕様を変えたので，
+現在はusepackage\{amssymb\} しないと読み出されません．
+まあ，普通のsqrtでできますので大きさ固定根号は忘れてください．
+\end{document}

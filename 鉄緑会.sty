@@ -1,0 +1,876 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{鉄緑会}[2025/03/14, ver.1.0.0]
+
+\usepackage{tetsuryoku}%
+
+% 私家版======================================================================================
+% 読み込み------------------------------------------------------------------------------------
+\usepackage{ascolorbox,ceo,changecolumnseprule,kcolorbox,setspace,pxrubrica2,罫線ノート,小道具,デザイン,%ノート,% \爪と相性が悪い（\checknotedataのせい）ため見送り
+表紙,品詞,吹き出し}%
+\usepackage[explicit]{titlesec}%
+%\usepackage{answerbox}% ceoより後で読み込む/\pboxがplext.styと重複するため見送り
+% フォント------------------------------------------------------------------------------------
+\usepackage[alphabet,prefer2004jis]{pxchfon}%
+  \let\hmrfamily\relax%
+  \let\hsffamily\relax%
+  \let\hmgfamily\relax%
+%%% ↑\daenが明朝体になる不具合により削除
+%%%%%%%%%%\setlightminchofont{HiraginoSans-W1.ttc}%
+%%%%%%%%%%%\setmediumminchofont{HiraMinProN-W3-AlphaNum-02.otf}% 表示させると，アルファベットが不自然になる。HiraginoSerif.ttcもHiraMinProN-W3-AlphaNum-02.otfも不可。
+%%%%%%%%%%\setmediumgothicfont{HiraginoSans-W3.otf}% デフォルトはW3
+%%%%%%%%%%\setboldminchofont{HiraMinProN-W6.otf}%
+%%%%%%%%%%\setboldgothicfont{HiraginoSans-W6.otf}%
+%%%%%%%%%%\setxboldgothicfont{HiraginoSans-W8.ttc}%
+%%%%%%%%%%\setmarugothicfont{HiraginoSansR-W4.ttc}%
+\usepackage{fontawesome,awesomebox}
+\AtBeginDvi{\special{pdf:mapfile fontawesome.map}}
+\let\kantei\DFPKantei
+% 基本設定------------------------------------------------------------------------------------
+\番号付け変更[1]{\ajKaku}\番号付け変更[2]{\ajMaru}\番号付け変更[3]{\ajKakkoalph}%%
+\番号付き箇条書きの空白設定(0pt)<0zw>[1zw]{1.5zw}{1zw}%
+\選択肢番号付け変更{\Kaku}%
+\選択肢の空白設定(0pt)<0zw>[1zw]{1zw}%
+\renewcommand{\altの前の改行幅}{0}%
+\renewcommand{\altの後の改行幅}{0}%
+\配列区切り文字の変更{//}%
+\RUBYsetup{J}% pxrubrica.styをruby->RUBYに一斉変更
+\renewcommand{\kenten}{\KENTEN}%
+\renewcommand{\ruby}{\RUBY}%
+% 基本定義------------------------------------------------------------------------------------
+\newcommand{\basiccolor}{black}%
+\newcommand{\基調色}[1]{\renewcommand{\basiccolor}{#1}}%
+\newcommand{\段落下げ}{\parindent=1zw}%
+\newcommand{\ispace}{\inhibitglue\ignorespaces}%
+\AfterEndPreamble{\def\k#1{\inhibitglue（#1）\inhibitglue}}%
+\providecommand{\hantai}[1]{（↔︎\hspace{-.7zw}#1）}%
+\newcommand{\gyaku}{↔︎\hspace{-.7zw}}%
+\newcommand*{\rightalign}[1]%
+  {%
+    \hspace{\parfillskip}%
+    \mbox{}\linebreak[0]\mbox{}%
+    \nolinebreak[4]\hfill\mbox{#1}%
+  }%
+\let\ralign\rightalign%
+\newcommand{\source}[1]{\ralign{\,〔#1〕}}%
+\renewcommand{\出典}[1]{\ralign{\,（#1）}}%
+\newcommand{\Hline}{\hlineb}%
+
+\changecolumnseprule{\cleaders\hbox{\rule{0pt}{4pt}.}\vfil}%
+
+% ↑必ず1行空ける
+\def\tensenfill{\cleaders\hbox{\rule{0pt}{5pt}.}\vfil}
+\newbox\tensenbox
+\NewDocumentEnvironment{choubun}{ O{true} D<>{} }{\br0\modulolinenumbers[5]\ifthenelse{\equal{#2}{}}{}{\begin{spacing}{#2}}\parindent=2zw}{\ifthenelse{\equal{#2}{}}{}{\end{spacing}}\br0\段落下げ}%
+\def\dash{\ \rule[.35zw]{1.75zw}{.5pt}\ \nolinebreak}%
+\newcommand{\kinto}[2][3]{\kintou{#1zw}{#2}}%
+\newcommand{\Sone}{$\text{S}_{\text{1}}$}%
+\newcommand{\Stwo}{$\text{S}_{\text{2}}$}%
+\newcommand{\Vone}{$\text{V}_{\text{1}}$}%
+\newcommand{\Vtwo}{$\text{V}_{\text{2}}$}%
+\newcommand{\Oone}{$\text{O}_{\text{1}}$}%
+\newcommand{\Otwo}{$\text{O}_{\text{2}}$}%
+\newcommand{\Cone}{$\text{C}_{\text{1}}$}%
+\newcommand{\Ctwo}{$\text{C}_{\text{2}}$}%
+\renewcommand{\u}[3][gray]{\sub{\textcolor{gray}{\sf{#2}}}\下線[color=#1]{#3}}
+\def\解答{\br1\br{-1}\noindent\gt{【解答】}\tetsuhrulefill[2pt]{1pt}\br0}%
+\def\別解{\br1\br{-1}\noindent\gt{【別解】}\tetsuhrulefill[2pt]{1pt}\br0}%
+\def\解説{\br1\br{-1}\noindent\gt{【解説】}\tetsuhrulefill[2pt]{1pt}\br0}%
+\def\全訳{\br1\br{-1}\noindent\gt{【全訳】}\tetsuhrulefill[2pt]{1pt}\br0}%
+\def\単語{\br1\br{-1}\noindent\gt{【単語】}\tetsuhrulefill[2pt]{1pt}\br0}%
+\def\出典{\br1\br{-1}\noindent\gt{【出典】}\tetsuhrulefill[2pt]{1pt}\br0}%
+\def\講評{\br1\br{-1}\noindent\gt{【講評】}\tetsuhrulefill[2pt]{1pt}\br0}%
+\newenvironment{pt}[1]{\begin{組カラーボックス}{POINT}{#1}\mgfamily}{\end{組カラーボックス}}
+\newenvironment{tessokubox}[1]{\begin{組カラーボックス}{鉄則}{#1}\mgfamily}{\end{組カラーボックス}}
+\newenvironment{tessokubox*}[1]{\begin{長い組カラーボックス}{鉄則}{#1}\mgfamily}{\end{長い組カラーボックス}}
+\newcommand{\pdf挿入}[2][]{\includepdf[pagecommand={},#1]{#2}}%
+\newcommand{\subkenten}[1]{\ruby[S]{#1}{$\bullet$}}
+\providecommand{\小見出し}[1]{\br{.3}\見出しぶら下げ*{\▲}{\bf{#1}}\br{.3}}
+% 下線系--------------------------------------------------------------------------------------
+\let\ul\下線%
+\newcommand{\imp}[1]{\下線{\gt{#1}}}%
+\def\x#1{\下線{\gt{\textcolor{orange!90!red}{#1}}}}%
+\def\ll#1#2{\Sub{#1}\下線{#2}}%
+\def\abcline#1{\下線{position=3.3zw}{#1}}%
+\DeclareDocumentCommand\uu{ O{\下線} D<>{\scriptsize} m m  }%
+  {%
+    {\renewcommand{\arraystretch}{0.6}%
+    \hspace{.1zw}\begin{tabular}[t]{@{}c@{}}%
+      #1{#3}\\%
+      #2#4\\%
+    \end{tabular}\hspace{.1zw}}%
+    %\renewcommand{\arraystretch}{r}%
+  }%
+% 数式----------------------------------------------------------------------------------------
+\newcommand{\kinji}{{\rm\ensuremath{\ \risingdotseq\ }}}%
+\let\近似\kinji%
+\newcommand{\douchi}{\mc{\ensuremath{\Leftrightarrow}}}%
+
+% 「ノット○○」が\not未定義のためエラーを吐く。emath.styから定義を借用し，かつバックスラッシュバージョンの\emNotも定義しておく。
+\def\neqsub#1#2{\m@th\ooalign{\hfil{%
+    \ifthenelse{\equal{#1}{\scriptstyle}\or\equal{#1}{\scriptscriptstyle}}{%
+    \raise.1ex\hbox{$\scriptscriptstyle\backslash$}}{%
+    \raise.16ex\hbox{$\scriptstyle\slash$}}}\hfil\crcr$\hfil #1#2\hfil$}}%
+\def\neqqsub#1#2{\m@th\ooalign{\hfil{%
+    \ifthenelse{\equal{#1}{\scriptstyle}\or\equal{#1}{\scriptscriptstyle}}{%
+    \raise.1ex\hbox{$\scriptscriptstyle\backslash$}}{%
+    \raise.16ex\hbox{$\scriptstyle\backslash$}}}\hfil\crcr$\hfil #1#2\hfil$}}%
+\let\notclass\mathrel
+\DeclareRobustCommand\not[1]{\notclass{\mathpalette\neqsub#1}}
+\DeclareRobustCommand\emNot[1]{\notclass{\mathpalette\neqqsub#1}}\DeclareRobustCommand\neqq{\notclass{\mathpalette\neqqsub=}}
+
+\newcommand{\ap}[1]{\ensuremath{\left(\text{#1}\right)}}%
+\newcommand{\alp}[1]{\ensuremath{\lp{\text{#1}}}}%
+\newcommand{\arp}[1]{\ensuremath{\rp{\text{#1}}}}%
+\newcommand{\ab}[1]{\ensuremath{\left\{\text{#1}\right\}}}%
+\newcommand{\alb}[1]{\ensuremath{\lB{\text{#1}}}}%
+\newcommand{\arb}[1]{\ensuremath{\rB{\text{#1}}}}%
+\newcommand{\ah}[1]{\ensuremath{\left[\text{#1}\right]}}%
+\newcommand{\alh}[1]{\ensuremath{\lG{\text{#1}}}}%
+\newcommand{\arh}[1]{\ensuremath{\rG{\text{#1}}}}%
+\newcommand{\az}[1]{\ensuremath{\left|\text{#1}\right|}}%
+\newcommand{\alz}[1]{\ensuremath{\labs{\text{#1}}}}%
+\newcommand{\arz}[1]{\ensuremath{\rabs{\text{#1}}}}%
+\newcommand{\ay}[1]{\ensuremath{\left\langle\text{#1}\right\rangle}}%
+\newcommand{\aly}[1]{\ensuremath{\lt{\text{#1}}}}%
+\newcommand{\ary}[1]{\ensuremath{\rt{\text{#1}}}}%
+\def\rt{%
+\@ifnextchar<{\@rt}{\@@rt}}
+\def\@rt<#1,#2>#3{%
+  \setbox0=\hbox{$#3$}%
+  \settoheight{\dimen0}{$\mathstrut #3$}%
+  \settodepth{\dimen1}{$\mathstrut #3$}%
+\hbox{\vrule width0pt height\dimen0 depth\dimen1}
+\hbox{\vrule width0pt height\uma depth\sika}
+  \ht0=#1 pt
+  \dimen2=#1 pt \advance\dimen2\spacert
+  \dp0=#2 pt
+ \hbox{$\left.%
+\box0\hspace{\spacepi}\right\rangle$%
+  }\hspace{\spacepo}%
+\hbox{\vrule width0pt height\dimen2 depth#2 pt}}
+
+\def\@@rt#1{%
+  \settoheight{\dimen2}{$\mathstrut #1$}%
+  \advance\dimen2 \spaceph% $B3g8L1&2#2x?M(B
+  \settoheight{\dimen0}{$\mathstrut #1$}%
+  \settodepth{\dimen1}{$#1$}%
+  \hspace{\spacepo}\hbox{$\left.%
+  \hspace{\spacepi}\hbox{\hbox{\vrule width0pt height\uma depth\sika}%
+  $#1$}\hspace{\spacepi}\right\rangle$%
+  }\hspace{\spacepo}%
+\hbox{\vrule width0pt height\dimen2 depth\dimen1}}
+
+\newcommand{\@pen}[2][3]{\mline[color=\ifcase#1\or pink \or orange!70 \or yellow!50 \or green!60!yellow!40!white \or cyan!70!blue!50!white \or blue \or purple \or gray\fi,width=12pt,background]{#2}}
+\newcommand{\@@pen}[3][1]{\textcolor{\ifcase#1\or red\or blue\or green\fi}{\uu[\波線]{\textcolor{black}{#2}}{#3}}}% \orの前に空白を挟むとエラーが出るため削除が必須
+\newcommand{\pen}{\@ifstar{\@@pen}{\@pen}}
+\def\redgt#1{\textcolor{red!80!black}{\bgt{#1}}}%
+\let\Rgt\redgt
+\def\bluegt#1{\textcolor{blue!80!black}{\bgt{#1}}}%
+\let\Bgt\bluegt
+\def\greengt#1{\textcolor{green!80!black}{\bgt{#1}}}%
+\let\Ggt\greengt
+\def\redwave#1{\波線[color=red!80!black,width=.7pt,position=-1.5pt]{#1}}%
+\let\Rwave\redwave
+\def\bluewave#1{\波線[color=blue!80!black,width=.7pt,position=-1.5pt]{#1}}%
+\let\Bwave\bluewave
+\def\greenwave#1{\波線[color=green!80!black,width=.7pt,position=-1.5pt]{#1}}%
+\let\Gwave\greenwave
+% otf関連-------------------------------------------------------------------------------------
+\renewcommand{\番号付け変更}[2][1]{%
+\def\番号付け変更@引数{#2}%
+%%%%%%%%%%%%
+\def\番号付け@temp{\tetsuarabic}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\arabic}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zarabic}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\twodigitsnumber}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Daen}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\grayDaen}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\kuroDaen}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\roman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Roman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\alph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Alph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zalph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Hira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hIrohaKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaKakkoHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaKakkoKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Maru}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaru}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kaku}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKaku}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKaku}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKaku}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakko}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakko}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuKakko}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuKakko}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoalph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoroman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuroman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoRoman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuRoman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hIrohaKakkoKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hIrohaKakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zRoman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zroman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Period}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoRoman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakkoroman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakkoalph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoKansuji}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kansuji}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kanji}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Marualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMarualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakuAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakuHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakuAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakuHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakuAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakuHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\void}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+%%%%%%%%
+\def\番号付け@temp{\tetsuarabicp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\arabicp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zarabicp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\twodigitsnumberp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Daenp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\grayDaenp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\kuroDaenp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\romanp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Romanp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\alphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Alphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zalphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zAlphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Hirap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Katap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaHirap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hIrohaKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaKakkoHirap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaKakkoKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Marup}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMarup}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakup}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakup}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakup}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakup}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakkop}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkop}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuKakkop}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuKakkop}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoalphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakualphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoAlphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuAlphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoromanp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuromanp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoRomanp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuRomanp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hIrohaKakkoKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hIrohaKakuKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zRomanp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zromanp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Periodp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoRomanp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakkoromanp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoAlphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakkoalphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoHirap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoKansujip}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kansujip}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kanjip}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruAlphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Marualphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruHirap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruAlphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMarualphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruHirap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuAlphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakualphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuHirap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakuAlphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakualphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakuHirap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakuKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakuAlphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakualphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakuHirap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakuKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakuAlphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakualphp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakuHirap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakuKatap}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\voidp}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+%%%%%%%%
+\def\番号付け@temp{\tetsuarabick}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\arabick}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zarabick}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\twodigitsnumberk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Daenk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\grayDaenk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\kuroDaenk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\romank}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Romank}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\alphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Alphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zalphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zAlphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Hirak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Katak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaHirak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hIrohaKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaKakkoHirak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\IrohaKakkoKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Maruk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakuk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakuk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakuk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakuk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakkok}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkok}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuKakkok}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuKakkok}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoalphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakualphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoAlphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuAlphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoromank}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuromank}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoRomank}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuRomank}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakkoKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hKakuKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hIrohaKakkoKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\hIrohaKakuKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zRomank}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\zromank}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Periodk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoRomank}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakkoromank}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoAlphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakkoalphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoHirak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakkoKansujik}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kansujik}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kanjik}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruAlphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Marualphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruHirak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruAlphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMarualphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruHirak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuAlphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\Kakualphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuHirak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KakuKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakuAlphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakualphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakuHirak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroKakuKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakuAlphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakualphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakuHirak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\MaruKakuKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakuAlphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakualphk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakuHirak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\KuroMaruKakuKatak}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+\def\番号付け@temp{\voidk}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\protect}\else
+%%%%% \aj 系の自動型ラベル
+\def\番号付け@temp{\ajMaru}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroMaru}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKaku}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroKaku}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajMaruKaku}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroMaruKaku}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakko}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajRoman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajroman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajPeriod}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakkoRoman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakkoroman}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakkoAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakkoalph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakkoHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakkoKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakkoKansuji}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajMaruAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajMarualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajMaruHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajMaruKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroMaruAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroMarualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroMaruHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroMaruKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakuAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakuHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroKakuAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroKakualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroKakuHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroKakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajMaruKakuAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajMaruKakualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajMaruKakuHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajMaruKakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroMaruKakuAlph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroMaruKakualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroMaruKakuHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajKuroMaruKakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\shikakukakko}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\shikaku}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\shikakub}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\shikakuB}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\shikakuBm}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\bignum}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+%%%%%%%%%% その他の出力指定が来た場合（手動型ラベル）
+\ifthenelse{\equal{#1}{1}}{%
+  \def\@enumerateの手動指定型ラベルi{#2}%
+}{% beginning of else 1
+  \ifthenelse{\equal{#1}{2}}{%
+    \def\@enumerateの手動指定型ラベルii{#2}%
+  }{% beginning of else 2
+    \ifthenelse{\equal{#1}{3}}{%
+      \def\@enumerateの手動指定型ラベルiii{#2}%
+    }{% beginning of else 3
+      \ifthenelse{\equal{#1}{4}}{%
+        \def\@enumerateの手動指定型ラベルiv{#2}%
+      }{}%
+    }% end of else 3
+  }% end of else 2
+}% end of else 1
+\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
+}% end of \newcommand
+
+\newcommand{\ajStar}[1]{＊}%
+\newcommand{\Star}[1]{\ajStar{\arabic{#1}}}%
+\let\@ajStar\ajStar%
+\DeclareRobustCommand{\ajStar}[1]{\@newajMacro{\@ajStar}{#1}}%
+\解答選択肢の見出し強調対応{\Star}{\gbfamily\Star}%
+%---
+\newcommand{\shikakukakko}[1]{\mbox{□\ajKakko{#1}}}%
+\newcommand{\Shikakukakko}[1]{\shikakukakko{\arabic{#1}}}%
+\let\@shikakukakko\shikakukakko%
+\DeclareRobustCommand{\shikakukakko}[1]{\@newajMacro{\@shikakukakko}{#1}}%
+\解答選択肢の見出し強調対応{\Shikakukakko}{\gbfamily\Shikakukakko}%
+\newenvironment{shikakukakkoenu}{\begin{enumerate}\全番号付け変更{\shikakukakko}}{\end{enumerate}}%
+%---
+\def\Shikaku#1{\shikaku{\arabic{#1}}}%
+\let\@shikaku\shikaku%
+\DeclareRobustCommand{\shikaku}[1]{\@newajMacro{\@shikaku}{#1}}%
+\newenvironment{shikakuenu}{\begin{enumerate}\全番号付け変更{\shikaku}}{\end{enumerate}}%
+%---
+\def\Shikakub#1{\shikakub{\arabic{#1}}}%
+\let\@shikakub\shikakub%
+\DeclareRobustCommand{\shikakub}[1]{\@newajMacro{\@shikakub}{#1}}%
+\newenvironment{shikakubenu}{\begin{enumerate}\全番号付け変更{\shikakub}}{\end{enumerate}}%
+%---
+\newcommand{\ShikakuB}[1]{\shikakuB{\arabic{#1}}}%
+\let\@shikakuB\shikakuB%
+\DeclareRobustCommand{\shikakuB}[1]{\@newajMacro{\@shikakuB}{#1}}%
+\newenvironment{shikakuBenu}{\begin{enumerate}\全番号付け変更{\shikakuB}}{\end{enumerate}}%
+%---
+\newcommand{\ShikakuBm}[1]{\shikakuBm{\arabic{#1}}}%
+\let\@shikakuBm\shikakuBm%
+\DeclareRobustCommand{\shikakuBm}[1]{\@newajMacro{\@shikakuBm}{#1}}%
+\newenvironment{shikakuBmenu}{\begin{enumerate}\全番号付け変更{\shikakuBm}}{\end{enumerate}}%
+%---
+\newcommand{\Bignum}[1]{\bignum{\arabic{#1}}}%
+\let\@bignum\bignum%
+\DeclareRobustCommand{\bignum}[1]{\@newajMacro{\@bignum}{#1}}%
+\newenvironment{bignumenu}{\begin{enumerate}\全番号付け変更{\bignum}}{\end{enumerate}}%
+\解答選択肢の見出し強調対応{\Bignum}{\gbfamily\Star}%
+%---
+\newcommand{\全番号付け変更}[1]{\番号付け変更[1]{#1}\番号付け変更[2]{#1}\番号付け変更[3]{#1}}%
+\def\maru{\ajMaru}%
+\newenvironment{maruenu}{\begin{enumerate}\全番号付け変更{\ajMaru}}{\end{enumerate}}%
+\def\marub{\ajKuroMaru}%
+\newenvironment{marubenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaru}}{\end{enumerate}}%
+\def\kaku{\ajKaku}%
+\newenvironment{kakuenu}{\begin{enumerate}\全番号付け変更{\ajKaku}}{\end{enumerate}}%
+\let\kakub\ajKuroKaku%
+\newenvironment{kakubenu}{\begin{enumerate}\全番号付け変更{\ajKuroKaku}}{\end{enumerate}}%
+\let\marukaku\ajMaruKaku%
+\newenvironment{marukakuenu}{\begin{enumerate}\全番号付け変更{\ajMaruKaku}}{\end{enumerate}}%
+\def\kakko{\ajKakko}%
+\newenvironment{kakkoenu}{\begin{enumerate}\全番号付け変更{\ajKakko}}{\end{enumerate}}%
+\let\marukakub\ajKuroMaruKaku%
+\newenvironment{marukakubenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruKaku}}{\end{enumerate}}%
+\let\kakkoRoman\ajKakkoRoman%
+\newenvironment{kakkoRomanenu}{\begin{enumerate}\全番号付け変更{\ajKakkoRoman}}{\end{enumerate}}%
+\let\kakkoroman\ajKakkoroman%
+\newenvironment{kakkoromanenu}{\begin{enumerate}\全番号付け変更{\ajKakkoroman}}{\end{enumerate}}%
+\let\kakkoAlph\ajKakkoAlph%
+\newenvironment{kakkoAlphenu}{\begin{enumerate}\全番号付け変更{\ajKakkoAlph}}{\end{enumerate}}%
+\let\kakkoalph\ajKakkoalph%
+\newenvironment{kakkoalphenu}{\begin{enumerate}\全番号付け変更{\ajKakkoalph}}{\end{enumerate}}%
+\let\kakkohira\ajKakkoHira%
+\newenvironment{kakkohiraenu}{\begin{enumerate}\全番号付け変更{\ajKakkoHira}}{\end{enumerate}}%
+\let\kakkokata\ajKakkoKata%
+\newenvironment{kakkokataenu}{\begin{enumerate}\全番号付け変更{\ajKakkoKata}}{\end{enumerate}}%
+\let\kakkokansuji\ajKakkoKansuji%
+\newenvironment{kakkokansujienu}{\begin{enumerate}\全番号付け変更{\ajKakkoKansuji}}{\end{enumerate}}%
+\let\marukansuji\ajMaruKansuji%
+\newenvironment{marukansujienu}{\begin{enumerate}\全番号付け変更{\ajMaruKansuji}}{\end{enumerate}}%
+\let\maruAlph\ajMaruAlph%
+\newenvironment{maruAlphenu}{\begin{enumerate}\全番号付け変更{\ajMaruAlph}}{\end{enumerate}}%
+\let\marualph\ajMarualph%
+\newenvironment{marualphenu}{\begin{enumerate}\全番号付け変更{\ajMarualph}}{\end{enumerate}}%
+\let\maruhira\ajMaruHira%
+\newenvironment{maruhiraenu}{\begin{enumerate}\全番号付け変更{\ajMaruHira}}{\end{enumerate}}%
+\let\marukata\ajMaruKata%
+\newenvironment{marukataenu}{\begin{enumerate}\全番号付け変更{\ajMaruKata}}{\end{enumerate}}%
+\let\maruAlphb\ajKuroMaruAlph%
+\newenvironment{maruAlphbenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruAlph}}{\end{enumerate}}%
+\let\marualphb\ajKuroMarualph%
+\newenvironment{marualphbenu}{\begin{enumerate}\全番号付け変更{\ajKuroMarualph}}{\end{enumerate}}%
+\let\maruhirab\ajKuroMaruHira%
+\newenvironment{maruhirabenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruHira}}{\end{enumerate}}%
+\let\marukatab\ajKuroMaruKata%
+\newenvironment{marukatabenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruKata}}{\end{enumerate}}%
+\let\kakuAlph\ajKakuAlph%
+\newenvironment{kakuAlphenu}{\begin{enumerate}\全番号付け変更{\ajKakuAlph}}{\end{enumerate}}%
+\let\kakualph\ajKakualph%
+\newenvironment{kakualphenu}{\begin{enumerate}\全番号付け変更{\ajKakualph}}{\end{enumerate}}%
+\let\kakuhira\ajKakuHira%
+\newenvironment{kakuhiraenu}{\begin{enumerate}\全番号付け変更{\ajKakuHira}}{\end{enumerate}}%
+\let\kakukata\ajKakuKata%
+\newenvironment{kakukataenu}{\begin{enumerate}\全番号付け変更{\ajKakuKata}}{\end{enumerate}}%
+\let\kakuAlphb\ajKuroKakuAlph%
+\newenvironment{kakuAlphbenu}{\begin{enumerate}\全番号付け変更{\ajKuroKakuAlph}}{\end{enumerate}}%
+\let\kakualphb\ajKuroKakualph%
+\newenvironment{kakualphbenu}{\begin{enumerate}\全番号付け変更{\ajKuroKakualph}}{\end{enumerate}}%
+\let\kakuhirab\ajKuroKakuHira%
+\newenvironment{kakuhirabenu}{\begin{enumerate}\全番号付け変更{\ajKuroKakuHira}}{\end{enumerate}}%
+\let\kakukatab\ajKuroKakuKata%
+\newenvironment{kakukatabenu}{\begin{enumerate}\全番号付け変更{\ajKuroKakuKata}}{\end{enumerate}}%
+\let\marukakuAlph\ajMaruKakuAlph%
+\newenvironment{marukakuAlphenu}{\begin{enumerate}\全番号付け変更{\ajMaruKakuAlph}}{\end{enumerate}}%
+\let\marukakualph\ajMaruKakualph%
+\newenvironment{marukakualphenu}{\begin{enumerate}\全番号付け変更{\ajMaruKakualph}}{\end{enumerate}}%
+\let\marukakuhira\ajMaruKakuHira%
+\newenvironment{marukakuhiraenu}{\begin{enumerate}\全番号付け変更{\ajMaruKakuHira}}{\end{enumerate}}%
+\let\marukakukata\ajMaruKakuKata%
+\newenvironment{marukakukataenu}{\begin{enumerate}\全番号付け変更{\ajMaruKakuKata}}{\end{enumerate}}%
+\let\marukakuAlphb\ajKuroMaruKakuAlph%
+\newenvironment{marukakuAlphbenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruKakuAlph}}{\end{enumerate}}%
+\let\marukakualphb\ajKuroMaruKakualph%
+\newenvironment{marukakualphbenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruKakualph}}{\end{enumerate}}%
+\let\marukakuhirab\ajKuroMaruKakuHira%
+\newenvironment{marukakuhirabenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruKakuHira}}{\end{enumerate}}%
+\let\marukakukatab\ajKuroMaruKakuKata%
+\newenvironment{marukakukatabenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruKakuKata}}{\end{enumerate}}%
+\newcounter{exenubangou}[subsection]%
+\newenvironment{exenu}{\begin{jquote}(3zw)[.3\baselineskip]\begin{enumerate}[\stepcounter{exenubangou}$Ex.$\MaruKaku{exenubangou}]}{\end{enumerate}\end{jquote}}%
+\newcounter{例文番号}
+\setcounter{例文番号}{1}
+\renewcommand{\ex}[2]{\見出しぶら下げ*{\quad\raisebox{-.2zw}{\tikz\node[fill=gray!60,ellipse,inner sep=0pt]{\zap{Ex.\the例文番号}};}}{#1\par#2}\stepcounter{例文番号}}
+
+\usepackage{改ceo}% ここで読み込む必要アリ
+
+\newcommand{\空行幅}{\br{.5}}
+\newcommand{\設問問題文}[2]{\空行幅\begin{＋２}\hspace{-3zw}\makebox[3zw][l]{\Large\bf{#1}}#2\par\end{＋２}\nopagebreak}
+\newcommand{\設問問題文Ａ}[3]{\空行幅\begin{＋３}\hspace{-4zw}\makebox[2zw][l]{\Large\bf{#1}}\makebox[2zw][l]{#2}#3\par\end{＋３}\nopagebreak}
+\newcommand{\設問問１}{\@ifstar{\@設問問１A}{\@設問問１B}}
+\newcommand{\@設問問１A}[2]{\begin{同ページに収める}\begin{２０}\hspace{-2zw}\makebox[3zw][l]{#1}#2\par\end{２０}\end{同ページに収める}} % * をつけると直前で改行しない
+\newcommand{\@設問問１B}[2]{\空行幅\begin{同ページに収める}\begin{２０}\hspace{-2zw}\makebox[3zw][l]{#1}#2\par\end{２０}\end{同ページに収める}} % * がないと直前で改行する
+\newcommand{\設問１}{\@ifstar{\@設問１A}{\@設問１B}}
+\newcommand{\@設問１A}[2]{\begin{同ページに収める}\begin{１０}\hspace{-1zw}\makebox[2zw][l]{#1}#2\par\end{１０}\end{同ページに収める}} % * をつけると直前で改行しない
+\newcommand{\@設問１B}[2]{\空行幅\begin{同ページに収める}\begin{１０}\hspace{-1zw}\makebox[2zw][l]{#1}#2\par\end{１０}\end{同ページに収める}} % * がないと直前で改行する
+\newcommand{\小問肢}[2]{\begin{１０}\hspace{-1zw}\makebox[2zw][l]{#1}#2\end{１０}}
+\newenvironment{英文}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{0zw}\addtolength{\linewidth}{0zw}}{\par}
+\newenvironment{英文＋１}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{\par}
+\newenvironment{英文＋２}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
+\newenvironment{英文＋３}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\newenvironment{英文＋４}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\newcommand{\４択}[4]{\par\makebox[9zw][l]{#1}\makebox[9zw][l]{#2}\makebox[9zw][l]{#3}\makebox[9zw][l]{#4}\par}
+\newcommand{\３択}[3]{\par\makebox[12zw][l]{#1}\makebox[12zw][l]{#2}\makebox[12zw][l]{#3}\par}
+\newcommand{\２択}[2]{\par\makebox[18zw][l]{#1}\makebox[18zw][l]{#2}\par}
+
+\newcommand{\@大問番号表示}{\ajKaku}
+\newcommand{\大問番号表示}[1]{\renewcommand{\@大問番号表示}{#1}}
+\newcommand{\大問番号}[1]{\setcounter{daimon@bangou}{#1}}
+\newcommand{\小問番号}[1]{\shoumon@bangou=#1 \advance\shoumon@bangou by -1}
+\newcommand{\英文中括弧}{\@ifstar{\英文中括弧A}{\英文中括弧B}}
+\newcommand{\英文中括弧A}[2][5]{\makebox[#1zw][c]{[\hfill #2\hfill ]}} % * がある場合
+\newcommand{\英文中括弧B}[2][5]{\makebox[#1zw][c]{(\hfill #2\hfill )}} % * がない場合
+% \英文中括弧{a}のように打つと「( a )」のように出力される。
+% \英文中括弧[10]{a}のように打つと「(　　a　　)」のように全角10文字分の幅で出力される。[]を省略すると全角5文字分の幅で出力。
+% \英文中括弧*{a}のように打つと「[ a ]」のように出力される。
+\newcommand{\英文中括弧左}{\@ifstar{\英文中括弧左A}{\英文中括弧左B}}
+\newcommand{\英文中括弧左A}[2][5]{\makebox[#1zw][c]{[ #2\hfill ]}} % * がある場合
+\newcommand{\英文中括弧左B}[2][5]{\makebox[#1zw][c]{( #2\hfill )}} % * がない場合
+%頭文字を示す空欄用。( a     ) のように出力される。
+\newcommand{\英文中下線}[2][5]{%
+\下線{\makebox[#1zw][l]{#2}}%
+}
+\newcommand{\英文中下線中}[2][5]{%
+\下線{\makebox[#1zw][c]{#2}}%
+}
+% 空白----------------------------------------------------------------------------------------
+\newcommand{\qqquad}{\qquad\quad}%
+\newcommand{\qqqquad}{\qqquad\quad}%
+\newcommand{\qqqqquad}{\qqqquad\quad}%
+\newcommand{\qqqqqquad}{\qqqqquad\quad}%
+\newcommand{\qqqqqqquad}{\qqqqqquad\quad}%
+\newcommand{\qqqqqqqquad}{\qqqqqqquad\quad}%
+\newcommand{\qqqqqqqqquad}{\qqqqqqqquad\quad}%
+\providecommand{\半}[2][l]{\makebox[.5zw][#1]{#2}}
+\providecommand{\１文字}[2][l]{\makebox[1zw][#1]{#2}}
+\providecommand{\１文字半}[2][l]{\makebox[1.5zw][#1]{#2}}
+\providecommand{\２文字}[2][l]{\makebox[2zw][#1]{#2}}
+\providecommand{\２文字半}[2][l]{\makebox[2.5zw][#1]{#2}}
+\providecommand{\３文字}[2][l]{\makebox[3zw][#1]{#2}}
+\providecommand{\３文字半}[2][l]{\makebox[3.5zw][#1]{#2}}
+\providecommand{\４文字}[2][l]{\makebox[4zw][#1]{#2}}
+\providecommand{\４文字半}[2][l]{\makebox[4.5zw][#1]{#2}}
+\providecommand{\５文字}[2][l]{\makebox[5zw][#1]{#2}}
+\providecommand{\５文字半}[2][l]{\makebox[5.5zw][#1]{#2}}
+\providecommand{\６文字}[2][l]{\makebox[6zw][#1]{#2}}
+\providecommand{\６文字半}[2][l]{\makebox[6.5zw][#1]{#2}}
+\providecommand{\７文字}[2][l]{\makebox[7zw][#1]{#2}}
+\providecommand{\７文字半}[2][l]{\makebox[7.5zw][#1]{#2}}
+\providecommand{\８文字}[2][l]{\makebox[8zw][#1]{#2}}
+\providecommand{\８文字半}[2][l]{\makebox[8.5zw][#1]{#2}}
+\providecommand{\９文字}[2][l]{\makebox[9zw][#1]{#2}}
+\providecommand{\９文字半}[2][l]{\makebox[9.5zw][#1]{#2}}
+\providecommand{\１０文字}[2][l]{\makebox[10zw][#1]{#2}}
+\providecommand{\１０文字半}[2][l]{\makebox[10.5zw][#1]{#2}}
+\providecommand{\１１文字}[2][l]{\makebox[11zw][#1]{#2}}
+\providecommand{\１１文字半}[2][l]{\makebox[11.5zw][#1]{#2}}
+\providecommand{\１２文字}[2][l]{\makebox[12zw][#1]{#2}}
+\providecommand{\１２文字半}[2][l]{\makebox[12.5zw][#1]{#2}}
+\providecommand{\１３文字}[2][l]{\makebox[13zw][#1]{#2}}
+\providecommand{\１３文字半}[2][l]{\makebox[13.5zw][#1]{#2}}
+\providecommand{\１４文字}[2][l]{\makebox[14zw][#1]{#2}}
+\providecommand{\１４文字半}[2][l]{\makebox[14.5zw][#1]{#2}}
+\providecommand{\１５文字}[2][l]{\makebox[15zw][#1]{#2}}
+\providecommand{\１５文字半}[2][l]{\makebox[15.5zw][#1]{#2}}
+\providecommand{\１６文字}[2][l]{\makebox[16zw][#1]{#2}}
+\providecommand{\１６文字半}[2][l]{\makebox[16.5zw][#1]{#2}}
+\providecommand{\１７文字}[2][l]{\makebox[17zw][#1]{#2}}
+\providecommand{\１７文字半}[2][l]{\makebox[17.5zw][#1]{#2}}
+\providecommand{\１８文字}[2][l]{\makebox[18zw][#1]{#2}}
+\providecommand{\１８文字半}[2][l]{\makebox[18.5zw][#1]{#2}}
+\providecommand{\１９文字}[2][l]{\makebox[19zw][#1]{#2}}
+\providecommand{\１９文字半}[2][l]{\makebox[19.5zw][#1]{#2}}
+\providecommand{\２０文字}[2][l]{\makebox[20zw][#1]{#2}}
+\providecommand{\２０文字半}[2][l]{\makebox[20.5zw][#1]{#2}}
+\providecommand{\２１文字}[2][l]{\makebox[21zw][#1]{#2}}
+\providecommand{\２１文字半}[2][l]{\makebox[21.5zw][#1]{#2}}
+\providecommand{\２２文字}[2][l]{\makebox[22zw][#1]{#2}}
+\providecommand{\２３文字}[2][l]{\makebox[23zw][#1]{#2}}
+\providecommand{\２４文字}[2][l]{\makebox[24zw][#1]{#2}}
+\providecommand{\２５文字}[2][l]{\makebox[25zw][#1]{#2}}
+\providecommand{\２６文字}[2][l]{\makebox[26zw][#1]{#2}}
+\providecommand{\２７文字}[2][l]{\makebox[27zw][#1]{#2}}
+\providecommand{\２８文字}[2][l]{\makebox[28zw][#1]{#2}}
+\providecommand{\２９文字}[2][l]{\makebox[29zw][#1]{#2}}
+\providecommand{\３０文字}[2][l]{\makebox[30zw][#1]{#2}}
+\providecommand{\３１文字}[2][l]{\makebox[31zw][#1]{#2}}
+\providecommand{\３２文字}[2][l]{\makebox[32zw][#1]{#2}}
+\providecommand{\３３文字}[2][l]{\makebox[33zw][#1]{#2}}
+\providecommand{\３４文字}[2][l]{\makebox[34zw][#1]{#2}}
+\providecommand{\３５文字}[2][l]{\makebox[35zw][#1]{#2}}
+\providecommand{\３６文字}[2][l]{\makebox[36zw][#1]{#2}}
+\providecommand{\３７文字}[2][l]{\makebox[37zw][#1]{#2}}
+\providecommand{\３８文字}[2][l]{\makebox[38zw][#1]{#2}}
+\providecommand{\３９文字}[2][l]{\makebox[39zw][#1]{#2}}
+\providecommand{\４０文字}[2][l]{\makebox[40zw][#1]{#2}}
+\providecommand{\４１文字}[2][l]{\makebox[41zw][#1]{#2}}
+\providecommand{\４２文字}[2][l]{\makebox[42zw][#1]{#2}}
+\providecommand{\４３文字}[2][l]{\makebox[43zw][#1]{#2}}
+\providecommand{\４４文字}[2][l]{\makebox[44zw][#1]{#2}}
+\providecommand{\４５文字}[2][l]{\makebox[45zw][#1]{#2}}
+
+\newenvironment{００}{\setlength{\parindent}{0zw}}{\par}
+\newenvironment{＋１}{\par\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{\par}
+\newenvironment{＋２}{\par\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
+\newenvironment{＋３}{\par\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\newenvironment{＋４}{\par\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\newenvironment{＋５}{\par\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\newenvironment{＋６}{\par\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\newenvironment{＋７}{\par\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\newenvironment{＋８}{\par\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\newenvironment{＋９}{\par\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
+\newenvironment{＋１０}{\par\addtolength{\leftskip}{10zw}\addtolength{\linewidth}{-10zw}}{\par}
+
+\newenvironment{０１}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{\par}
+\newenvironment{０２}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
+\newenvironment{０３}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\newenvironment{０４}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\newenvironment{０５}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\newenvironment{０６}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\newenvironment{０７}{\par\setlength{\parindent}{-7zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\newenvironment{０８}{\par\setlength{\parindent}{-8zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\newenvironment{１０}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{\par}
+\newenvironment{１１}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
+\newenvironment{１２}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\newenvironment{１３}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\newenvironment{１４}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\newenvironment{１５}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\newenvironment{１６}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\newenvironment{１７}{\par\setlength{\parindent}{-7zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\newenvironment{１８}{\par\setlength{\parindent}{-8zw}\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
+\newenvironment{１９}{\par\setlength{\parindent}{-9zw}\addtolength{\leftskip}{10zw}\addtolength{\linewidth}{-10zw}}{\par}
+\newenvironment{１・１０}{\par\setlength{\parindent}{-10zw}\addtolength{\leftskip}{11zw}\addtolength{\linewidth}{-11zw}}{\par}
+\newenvironment{２０}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
+\newenvironment{２１}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\newenvironment{２２}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\newenvironment{２３}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\newenvironment{２４}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\newenvironment{２５}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\newenvironment{２６}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\newenvironment{３０}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\newenvironment{３１}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\newenvironment{３２}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\newenvironment{３３}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\newenvironment{３４}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\newenvironment{３５}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\newenvironment{３６}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
+\newenvironment{４０}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\newenvironment{４１}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\newenvironment{４２}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\newenvironment{４３}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\newenvironment{４４}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\newenvironment{４５}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
+\newenvironment{４６}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{10zw}\addtolength{\linewidth}{-10zw}}{\par}
+
+\def\lphrases{\@ifnextchar<{\@lphrases}{\@lphrases<lr>}}
+\def\@lphrases<#1>{\@ifnextchar[{\@@lphrases<#1>}{\@@lphrases<#1>[l]}}
+\def\@@lphrases<#1>[#2]{\@ifnextchar({\@@@lphrases<#1>[#2]}{\@@@lphrases<#1>[#2](t)}}
+\def\@@@lphrases<#1>[#2](#3){\@ifnextchar|{\@@@@lphrases<#1>[#2](#3)}{\@@@lphrases<#1>[#2](#3)|0pt|}}
+\def\@@@@lphrases<#1>[#2](#3)|#4|#5{%
+  \savebox{\@tempboxd}{%
+    \支柱*[5pt]{%
+      \ensuremath{%
+        \ifthenelse{\equal{#1}{lr}\OR\equal{#1}{l}}{\left|}{\left.}%
+        \kern-.5ex%
+        \setbox8\hbox{\begin{tabular}{#2}#5\end{tabular}}%
+        \setlength{\@tempdimw}{\dp8+#4}%
+        \setbox9 \vtop to \@tempdimw {\leftskip0pt\rightskip0pt\hsize\wd8\noindent\smash{\usebox8}}%
+        \usebox9%
+        \kern-.5ex%
+        \ifthenelse{\equal{#1}{lr}\OR\equal{#1}{r}}{\right|\ }{\right.}%
+      }%
+    }%
+  }%
+  \if#3t%
+      \setlength{\@tempdimd}{-\ht\@tempboxd + \baselineskip}%
+  \else
+    \if#3b%
+      \setlength{\@tempdimd}{\ht\@tempboxd - \baselineskip + 1pt}%
+    \else
+      \setlength{\@tempdimd}{0pt}%
+    \fi
+  \fi
+  \raisebox{\@tempdimd}{\usebox{\@tempboxd}}%
+}
+
+\def\hphrases{\@ifnextchar<{\@hphrases}{\@hphrases<lr>}}
+\def\@hphrases<#1>{\@ifnextchar[{\@@hphrases<#1>}{\@@hphrases<#1>[l]}}
+\def\@@hphrases<#1>[#2]{\@ifnextchar({\@@@hphrases<#1>[#2]}{\@@@hphrases<#1>[#2](t)}}
+\def\@@@hphrases<#1>[#2](#3){\@ifnextchar|{\@@@@hphrases<#1>[#2](#3)}{\@@@hphrases<#1>[#2](#3)|0pt|}}
+\def\@@@@hphrases<#1>[#2](#3)|#4|#5{%
+  \savebox{\@tempboxd}{%
+    \支柱*[5pt]{%
+      \ensuremath{%
+        \ifthenelse{\equal{#1}{lr}\OR\equal{#1}{l}}{\ \left[}{\left.}%
+        \kern-.5ex%
+        \setbox8\hbox{\begin{tabular}{#2}#5\end{tabular}}%
+        \setlength{\@tempdimw}{\dp8+#4}%
+        \setbox9 \vtop to \@tempdimw {\leftskip0pt\rightskip0pt\hsize\wd8\noindent\smash{\usebox8}}%
+        \usebox9%
+        \kern-.5ex%
+        \ifthenelse{\equal{#1}{lr}\OR\equal{#1}{r}}{\right]\ }{\right.}%
+      }%
+    }%
+  }%
+  \if#3t%
+      %\setlength{\@tempdimd}{-\ht\@tempboxd + \baselineskip}%
+  \else
+    \if#3b%
+      \setlength{\@tempdimd}{\ht\@tempboxd - \baselineskip + 1pt}%
+    \else
+      \setlength{\@tempdimd}{0pt}%
+    \fi
+  \fi
+  \raisebox{\@tempdimd}{\usebox{\@tempboxd}}%
+}
+
+\def\tphrases{\@ifnextchar<{\@tphrases}{\@tphrases<lr>}}
+\def\@tphrases<#1>{\@ifnextchar[{\@@tphrases<#1>}{\@@tphrases<#1>[l]}}
+\def\@@tphrases<#1>[#2]{\@ifnextchar({\@@@tphrases<#1>[#2]}{\@@@tphrases<#1>[#2](t)}}
+\def\@@@tphrases<#1>[#2](#3){\@ifnextchar|{\@@@@tphrases<#1>[#2](#3)}{\@@@tphrases<#1>[#2](#3)|0pt|}}
+\def\@@@@tphrases<#1>[#2](#3)|#4|#5{%
+  \savebox{\@tempboxd}{%
+    \支柱*[5pt]{%
+      \ensuremath{%
+        \ifthenelse{\equal{#1}{lr}\OR\equal{#1}{l}}{\left\langle}{\left.}%
+        \kern-.5ex%
+        \setbox8\hbox{\begin{tabular}{#2}#5\end{tabular}}%
+        \setlength{\@tempdimw}{\dp8+#4}%
+        \setbox9 \vtop to \@tempdimw {\leftskip0pt\rightskip0pt\hsize\wd8\noindent\smash{\usebox8}}%
+        \usebox9%
+        \kern-.5ex%
+        \ifthenelse{\equal{#1}{lr}\OR\equal{#1}{r}}{\right\rangle\ }{\right.}%
+      }%
+    }%
+  }%
+  \if#3t%
+      %\setlength{\@tempdimd}{-\ht\@tempboxd + \baselineskip}%
+  \else
+    \if#3b%
+      \setlength{\@tempdimd}{\ht\@tempboxd - \baselineskip + 1pt}%
+    \else
+      \setlength{\@tempdimd}{0pt}%
+    \fi
+  \fi
+  \raisebox{\@tempdimd}{\usebox{\@tempboxd}}%
+}

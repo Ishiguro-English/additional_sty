@@ -1,0 +1,24 @@
+% multicols パッケージによる部分的段組
+\documentclass[uplatex,dvipdfmx]{jsarticle}
+\usepackage{lipsum}
+\pagestyle{empty}
+\usepackage{multicol}
+\usepackage{changecolumnseprule}
+
+\changecolumnseprule{\cleaders\hbox{\rule{0pt}{4pt}.}\vfil}% 点線
+
+\begin{document}
+\lipsum[1-2]
+
+\begin{multicols}{2}
+\lipsum[1-2]
+\end{multicols}
+
+\lipsum[1-2]
+
+\begin{multicols*}{2}
+\lipsum[1-10]
+\end{multicols*}
+\end{document}
+
+

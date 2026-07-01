@@ -1,0 +1,27 @@
+% multicol パッケージによる部分的段組
+\documentclass[uplatex,dvipdfmx]{jsarticle}
+\usepackage{lipsum}
+\pagestyle{empty}
+\usepackage{multicol}
+\usepackage{changecolumnseprule}
+
+\makeatletter
+\def\cdotsvrule{\cleaders\hbox{\rule{0pt}{5pt}.}\vfil}
+\changecolumnseprule{\cdotsvrule\hb@xt@\z@{\hspace{-.38zw}\mbox{\tate ~✂~キリトリセン~✂~}}\cdotsvrule}% 点線・文字入り
+\makeatother
+
+\begin{document}
+\lipsum[1-2]
+
+\begin{multicols}{2}
+\lipsum[1-2]
+\end{multicols}
+
+\lipsum[1-2]
+
+\begin{multicols*}{2}
+\lipsum[1-10]
+\end{multicols*}
+\end{document}
+
+

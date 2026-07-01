@@ -1,0 +1,85 @@
+\documentclass[b5j,10pt]{tetsujsarticle}%
+
+\usepackage{tetsuryoku,pxfonts,pronunciation}%
+
+\newtcolorbox{subcolorshadebox}[3]{enhanced,sharp corners,boxrule=.5pt,colback=#2,shadow={2mm}{-2mm}{0mm}{#1},#3}%
+\NewDocumentEnvironment{colorshadebox}{ O{black} D<>{white} D(){} }%
+  {\begin{subcolorshadebox}{#1}{#2}{#3}}{\end{subcolorshadebox}}%
+\newenvironment{定義}[1]%
+  {%
+    \VerbatimEnvironment\noindent%
+    \begin{minipage}{.48\linewidth}%
+      \begin{itembox}[c]{\gt{\texttt{#1}}}%
+  }%
+  {%
+      \end{itembox}%
+    \end{minipage}%
+  }%
+\definecolor{@lavender}{rgb}{0.90,0.90,0.98}%
+\newenvironment{結果}%
+  {%
+    \ \,\raisebox{-.2zw}{\白右矢印}\,\,%
+      \begin{minipage}{.48\linewidth}%
+        \begin{colorshadebox}[@lavender]%
+  }%
+  {%
+        \end{colorshadebox}%
+      \end{minipage}\br{.7}%
+  }%
+
+\title{\pl{pronunciation.sty\ (Ver1.0.2)}}%
+\author{\pl{Hugh}}%
+
+\begin{document}%
+
+\maketitle%
+
+\section{概要}
+
+このパッケージは，\LaTeX で英単語の発音記号を出力するためのパッケージです。
+
+プリアンブルで以下のように宣言することで，すべての機能が使用できます。
+
+\br{.5}\begin{itembox}[c]{\texttt{pronunciation.sty}}
+\begin{verbatim}
+\usepackage{pronunciation}
+\end{verbatim}
+\end{itembox}
+
+\notebox%
+  {%
+    \begin{enumerate}[・]
+      \item 収録単語数は全21082語であり，基本単語から上級単語までを幅広く網羅しています。
+      \item 引数も発音記号も，ともにアメリカ英語表記を想定しています。
+      \item 本パッケージで採用している発音記号は，ウィズダム英和辞典をベースに組んでいます。したがって辞書によっては，異なる発音記号が記載されていることがあります。
+      \item 省略されうる音声は，一律で表示していません。
+      \item 単音節の単語の母音部分には，強勢記号を付与していません。
+      \item 強勢は第一強勢及び第二強勢までを表示しています。
+    \end{enumerate}
+  }
+
+\section{基本的な使い方}
+
+登録されているすべての発音記号は，\verb|\pronunciation|によって引き出すことができます。
+
+\br{.5}\begin{定義}{\texttt{\textbackslash pronunciation}}
+\begin{verbatim}
+\pronunciation{pronunciation}
+/\pronunciation{rectangular shape}/
+[\pronunciation{TeX and LaTeX}]
+\end{verbatim}
+\end{定義}\begin{結果}
+\pronunciation{pronunciation}\\
+/\pronunciation{rectangular shape}/\par%
+[\pronunciation{TeX and LaTeX}]
+\end{結果}
+
+\warningbox%
+  {%
+    \begin{enumerate}[・]
+      \item 固有名詞以外で大文字から始まる単語や，カンマやピリオドなどを含めることはできません。
+      \item 名詞の複数形や動詞の活用形などは，原則登録していません。ただし，単複で形の異なる名詞，及び利用頻度の高い動詞の活用形についてはその限りではありません。
+    \end{enumerate}
+  }
+
+\end{document}%

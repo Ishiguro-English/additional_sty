@@ -1,0 +1,100 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{吹き出し}[2026/01/20, ver.1.0.0]
+
+\definecolor{bubblegreen}{RGB}{103,184,104}
+\definecolor{bubbleblue}{RGB}{70,70,255}
+\definecolor{bubblegray}{RGB}{241,240,240}
+
+\tcbset{
+  commonoptions/.style={
+    enhanced,
+    enhanced jigsaw,
+    %fonttitle=\bfseries,
+    %boxed title style={opacityback=0, opacityframe=0},
+    sharp corners,
+    arc=4mm,
+    opacityframe=0,
+    after skip=0mm,
+    },
+  }
+
+\newtcolorbox{rightbubbles}[4][]{
+    commonoptions,
+    %attach boxed title to top right={yshift=-7mm, xshift=-2mm},
+    top=2mm,%6mm,
+    right skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=7mm] at (frame.north east) {\roundperson{#4}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southwest,
+    colback=#2,
+    colupper=white,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{rightbubblesfinal}[2][]{
+    commonoptions,
+    right skip=1.5cm,
+    rounded corners=northwest,
+    rounded corners=south,
+    colback=#2,
+    colupper=white,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+\NewEnviron{rightbubbleslittle}[2]{\vspace{1mm}%
+\tcbox[commonoptions,
+    finish={\node[anchor=center, yshift=-7mm,xshift=7mm] at (frame.north east) {\roundperson{#2}};},
+    rounded corners,
+    colback=#1,
+    colupper=white,
+    before=\hfill,
+    after skip=1mm,
+    right skip=1.5cm,
+    varwidth upper]
+    {\BODY}
+}
+\newtcolorbox{leftbubbles}[4][]{
+    commonoptions,
+    %attach boxed title to top left={yshift=-7mm, xshift=2mm},
+    top=2mm,%6mm,
+    left skip=1.5cm,
+    finish={\node[anchor=center, yshift=-7mm,xshift=-7mm] at (frame.north west) {\roundperson{#4}};},
+    %title={#3:},
+    rounded corners=north,
+    rounded corners=southeast,
+    colback=#2,
+    colupper=black,
+    coltitle=black,
+    before skip=1mm,
+    #1}
+
+\newtcolorbox{leftbubblesfinal}[2][]{
+    commonoptions,
+    left skip=1.5cm,
+    rounded corners=northeast,
+    rounded corners=south,
+    colback=#2,
+    colupper=black,
+    before skip=0mm,
+    after skip=1mm,
+    #1}
+
+
+\NewEnviron{leftbubbleslittle}[2]{\vspace{1mm}%
+\tcbox[commonoptions,
+    rounded corners,
+   finish={\node[anchor=center, yshift=-7mm,xshift=-7mm] at (frame.north west) {\roundperson{#2}};},
+    colback=#1,
+    colupper=black,
+    after skip=1mm,
+    left skip=1.5cm,
+    varwidth upper]
+    {\BODY}
+}
+
+
+\newcommand{\roundperson}[1]{
+\begin{tikzpicture}\clip (0,0) circle (0.7cm) node {\includegraphics[width=1.4cm]{#1}};\end{tikzpicture}
+}

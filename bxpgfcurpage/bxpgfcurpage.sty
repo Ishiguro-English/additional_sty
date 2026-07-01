@@ -1,0 +1,363 @@
+%%
+%% This is file 'bxpgfcurpage.sty'.
+%%
+%% Copyright (c) 2019 Takayuki YATO (aka. "ZR")
+%%   GitHub:   https://github.com/zr-tex8r
+%%   Twitter:  @zr_tex8r
+%%
+%% This package is distributed under the MIT License.
+%%
+
+%% package declaration
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bxpgfcurpage}[2019/05/18 v0.2]
+\def\bxqpp@pkgname{bxpgfcurpage}
+\providecommand\bxDebug[1]{}
+
+%--------------------------------------- environment check
+
+%% packages
+\RequirePackage{pgf}[]
+\RequirePackage{everyshi}[]% loaded by pgf
+\RequirePackage{etoolbox}[2011/01/03]% v2.1
+\ifx\numdef\@undefined\endinput\fi
+\RequirePackage{pdftexcmds}[2011/11/11]% v0.11
+
+%% unique tokens
+\def\bxqpp@end{\bxqpp@end@}
+
+%% \bxqpp@driver
+%% The pgf driver type.
+\let\bxqpp@driver@@dvips=d
+\let\bxqpp@driver@@dvipdfmx=d
+\let\bxqpp@driver@@dvisvgm=d
+\let\bxqpp@driver@@xetex=x
+\let\bxqpp@driver@@pdftex=p
+\let\bxqpp@driver@@luatex=p
+\let\bxqpp@driver\relax
+\edef\bxqpp@tmpa{\csuse{pgfsysdriver}}
+\def\bxqpp@next#1-#2.#3\bxqpp@end{%
+  \PackageInfo\bxqpp@pkgname
+   {Pgf driver is '#2'\@gobble}%
+  \letcs\bxqpp@driver{bxqpp@driver@@#2}%
+  \ifundef\bxqpp@driver{%
+    \PackageError\bxqpp@pkgname
+     {The pgf driver (#2) is not supported}%
+     {Package loading is aborted}%
+    \endinput
+  }{}}
+\expandafter\bxqpp@next\bxqpp@tmpa\bxqpp@end
+
+%% switch 'bxqpp@dviish'
+\newbool{bxqpp@dviish}
+\ifx d\bxqpp@driver \bxqpp@dviishtrue
+\else\ifx x\bxqpp@driver \bxqpp@dviishtrue
+\fi\fi
+
+%% \bxqpp@width / \bxqpp@height / \bxqpp@savepos / etc.
+%% General primitives.
+\pdf@isprimitive\pdfvariable\pdfvariable{%
+  \edef\bxqpp@horigin{\pdfvariable horigin}%
+  \edef\bxqpp@vorigin{\pdfvariable vorigin}%
+}{}
+\def\bxqpp@next#1#2{\pdf@isprimitive#2#2{\let#1#2}{}}
+\bxqpp@next\bxqpp@pagewidth\pdfpagewidth
+\bxqpp@next\bxqpp@pagewidth\pagewidth
+\bxqpp@next\bxqpp@pageheight\pdfpageheight
+\bxqpp@next\bxqpp@pageheight\pageheight
+\bxqpp@next\bxqpp@horigin\pdfhorigin
+\bxqpp@next\bxqpp@vorigin\pdfvorigin
+\bxqpp@next\bxqpp@savepos\pdfsavepos
+\bxqpp@next\bxqpp@savepos\savepos
+\bxqpp@next\bxqpp@lastxpos\pdflastxpos
+\bxqpp@next\bxqpp@lastxpos\lastxpos
+\bxqpp@next\bxqpp@lastypos\pdflastypos
+\bxqpp@next\bxqpp@lastypos\lastypos
+\bxqpp@next\bxqpp@readpapersizespecial\readpapersizespecial
+\@tempswafalse
+\unless\ifnum \ifdef\bxqpp@savepos10%
+    \ifdef\bxqpp@pageheight10\ifdef\bxqpp@pagewidth10%
+    \ifdef\bxqpp@lastxpos10\ifdef\bxqpp@lastypos10=11111
+  \PackageError\bxqpp@pkgname
+   {The engine in use is not supported}%
+   {Package loading is aborted}%
+\expandafter\endinput\fi\relax
+
+%% switch 'bxqpp@eptex'
+\newbool{bxqpp@eptex}
+\pdf@isprimitive\kanjiskip\kanjiskip{\bxqpp@eptextrue}{}
+
+%% Always enable tracking when e-pTeX is used.
+% (Old versions of pgf fail to do it.)
+\ifbxqpp@eptex\ifx d\bxqpp@driver
+  \ifdef\pgfsyspdfmark{}{%else
+    \ifdef\pgf@sys@pdf@dvi@tracker{%
+      \pgf@sys@pdf@dvi@tracker
+      \PackageInfo\bxqpp@pkgname
+       {Position marking enabled\@gobble}%
+    }{}}
+\fi\fi
+
+%--------------------------------------- helpers
+
+%% variables
+\newbool{bxqpp@ok}
+\newbool{bxqpp@has@stocksize}
+
+%% \bxqpp@endpreamble@hook
+% It is executed before begin-document hooks.
+\@onlypreamble\bxqpp@endpreamble@hook
+\let\bxqpp@endpreamble@hook\@empty
+\AtEndPreamble{\bxqpp@endpreamble@hook}
+
+%% \bxqpp@begindoc@hook
+% The begin-document hook.
+\@onlypreamble\bxqpp@begindoc@hook
+\let\bxqpp@begindoc@hook\@empty
+\AtBeginDocument{\bxqpp@begindoc@hook}
+
+%--------------------------------------- papersize special
+
+% This package assumes that \bxqpp@pagewidth (\pdfpagewidth)
+% and \bxqpp@pageheight always have the correct information.
+
+%% \bxqpp@mag@value
+% The value of \mag/1000 as decimal. (expandable)
+\def\bxqpp@mag@value{%
+  \ifnum\mag<32768 \ifnum\mag>\z@
+    \expandafter\bxqpp@mag@value@a\the\numexpr\mag+100000;%
+  \fi\fi}
+\def\bxqpp@mag@value@a#1#2#3#4;{#2#3.#4}
+
+%% \bxqpp@papersize@special
+% Issues a "correct" papersize special; that is, lengths are
+% really in true-dimen.
+\def\bxqpp@papersize@special{%
+  \ifnum\mag=\@m
+    \bxqpp@papersize@special@dumb
+  \else
+    \def\bxqpp@tmpx{\bxqpp@mag@value}%
+    \special{papersize=%
+        \the\dimexpr\bxqpp@mag@value\bxqpp@pagewidth\relax,%
+        \the\dimexpr\bxqpp@mag@value\bxqpp@pageheight\relax}%
+  \fi}
+
+%% \bxqpp@papersize@special@dumb
+% Issues an "incorrect" papersize special, where lengths are
+% NOT in true-dimen; unfortunately, the buggy "read-papersize"
+% mechanism of the old e-pTeX requires this "incorrect" form.
+\def\bxqpp@papersize@special@dumb{%
+  \special{papersize=\the\bxqpp@pagewidth,\the\bxqpp@pageheight}}
+
+%% every-shipout hook
+% We put papersize specials at both the head and the bottom of
+% the output box to "win the race".
+\ifx d\bxqpp@driver
+  \EveryShipout{%
+    \setbox\@cclv\vbox{%
+      \bxqpp@papersize@special
+      \box\@cclv
+      \bxqpp@papersize@special}}
+\fi
+
+%--------------------------------------- countermeasure to geoemtry
+
+% The geometry package alters the values of \paperwidth and
+% \paperheight in its begin-document hook. This behavior
+% breaks the function of this package and thus we need some
+% fix for it.
+
+%% \bxqpp@paperwidth/\bxqpp@paperheight
+% There names are used instead of \paperwidth/height.
+% Initially, \bxqpp@paperXXX is an alias to \paperXXX.
+\let\bxqpp@paperwidth\paperwidth
+\let\bxqpp@paperheight\paperheight
+% Use the "end-preamble" hook, to surely go ahead of the
+% geometry's begin-document hook.
+\appto\bxqpp@endpreamble@hook{%
+  \unless\ifnum\mag=\@m
+    \@ifpackageloaded{geometry}{%
+      % Then geometry will alter the values later, so we
+      % freeze the values by declaring new variables.
+      \newdimen\bxqpp@paperwidth \bxqpp@paperwidth\paperwidth
+      \newdimen\bxqpp@paperheight \bxqpp@paperheight\paperheight
+      % Some pgf stuffs must be patched to use \bxqpp@paperXXX
+      % instead of \paperXXX.
+      \patchcmd\pgfsys@thepagewidth{%
+        \paperwidth}{\bxqpp@paperwidth}{}{}%
+      \patchcmd\pgfsys@thepageheight{%
+        \paperheight}{\bxqpp@paperheight}{}{}%
+    }{}%
+  \fi}
+
+%--------------------------------------- suppress "read papersize special"
+
+% We do not want \bxqpp@pagewidth/\bxqpp@pageheight to be altered
+% to wrong values through e-pTeX's "read papersize special"
+% meachanism. So this feature must be (somehow) disabled, at
+% least when wrong papersize specials could appear.
+
+%% variables
+\let\bxqpp@suppress\@empty % (for debug)
+
+%%<+> \SuppressReadPapersizeSpecial
+% Disables unconditionally e-pTeX's "read papersize special"
+% feature. It will be invoked by the author.
+\newrobustcmd*\SuppressReadPapersizeSpecial{%
+  \gdef\bxqpp@needs@suppress@read@papersize{%
+    \bxqpp@oktrue}}
+
+%% \bxqpp@init@suppress@read@papersize
+\@onlypreamble\bxqpp@init@suppress@read@papersize
+\def\bxqpp@init@suppress@read@papersize{%
+  \ifdefined\bxqpp@readpapersizespecial
+    \def\bxqpp@suppress{P}%
+    \appto\bxqpp@begindoc@hook{%
+      \bxqpp@needs@suppress@read@papersize\ifbxqpp@ok
+        \def\bxqpp@suppress{P+}%
+        \global\bxqpp@readpapersizespecial\z@
+      \fi}%
+  \else\ifbxqpp@eptex
+    % Hook into \pdfsavepos, to annihilate the effect
+    % of the read-papersize.
+    % NB. This hook should be activated whenever \pdfsavepos
+    % is invoked, thus is activated right now, not inside the
+    % begin-document hook.
+    \def\bxqpp@suppress{H}%
+    \let\bxqpp@org@savepos\pdfsavepos
+    \let\pdfsavepos\bxqpp@patched@savepos
+    \let\bxqpp@savepos\pdfsavepos
+    \appto\bxqpp@begindoc@hook{%
+      \bxqpp@needs@suppress@read@papersize\ifbxqpp@ok
+        \newdimen\bxqpp@pagewidth \bxqpp@pagewidth\pdfpagewidth
+        \newdimen\bxqpp@pageheight \bxqpp@pageheight\pdfpageheight
+      \else
+        \def\bxqpp@suppress{H-}%
+        \global\let\pdfsavepos\bxqpp@org@savepos
+        \global\let\bxqpp@savepos\pdfsavepos
+      \fi}%
+  \fi\fi}
+\AtEndOfPackage{% deferred
+  \bxqpp@init@suppress@read@papersize}
+
+%% \bxqpp@patched@savepos
+% NB. It assumes the buggy behavior of old e-pTeX.
+\@onlypreamble\bxqpp@patched@savepos
+\protected\def\bxqpp@patched@savepos{%
+  \bxqpp@papersize@special@dumb
+  \bxqpp@org@savepos
+  \unless\ifnum\mag=\@m
+    \bxqpp@papersize@special
+  \fi}
+
+%% \bxqpp@needs@suppress@read@papersize
+\def\bxqpp@needs@suppress@read@papersize{%
+  \ifbxqpp@has@stocksize \bxqpp@oktrue
+  \else\unless\ifnum\mag=\@m \bxqpp@oktrue
+  \else\bxqpp@okfalse
+  \fi\fi}
+
+%--------------------------------------- user-side TeX offsets
+
+%% variables
+\newbool{bxqpp@user@side@offsets}
+
+%%<+> \UserSideTeXOffsets
+\@onlypreamble\UserSideTeXOffsets
+\newrobustcmd*\UserSideTeXOffsets{%
+  \bxqpp@user@side@offsetstrue}
+%%<+> \SystemSideTeXOffsets
+\@onlypreamble\SystemSideTeXOffsets
+\newrobustcmd*\SystemSideTeXOffsets{%
+  \bxqpp@user@side@offsetsfalse}
+
+%--------------------------------------- set proper papersize
+
+%% variables
+\newdimen\OriginOffsetH
+\newdimen\OriginOffsetV
+
+% Tentative setting.
+\bxqpp@pagewidth\paperwidth
+\bxqpp@pageheight\paperheight
+\OriginOffsetH\hoffset
+\OriginOffsetV-\voffset
+
+%% redefine \pgf@sys@pdf@mark@pos@pgfpageorigin
+\def\pgf@sys@pdf@mark@pos@pgfpageorigin{%
+  \pgfqpoint{\OriginOffsetH}{\OriginOffsetV}}
+
+%% switch 'bxqpp@tombow'
+\newbool{bxqpp@tombow}
+\expandafter\ifx\csname iftombow\expandafter\endcsname
+    \csname iftrue\endcsname
+  \bxqpp@tombowtrue
+\fi
+
+%% \bxqpp@toc
+% The coefficient for TeX offsets.
+\def\bxqpp@toc{%
+  \ifbxqpp@user@side@offsets
+    \ifx x\bxqpp@driver 2\else 1\fi
+  \else
+    \ifx x\bxqpp@driver 1\else 0\fi
+  \fi}
+
+%% \bxqpp@mft
+% The mag-fix term.
+\def\bxqpp@mft#1{%
+  \ifbxqpp@dviish \unless\ifnum\mag=\@m #1\fi\fi}
+
+%% begin-document hook
+\appto\bxqpp@begindoc@hook{%
+  \bxqpp@pagewidth\bxqpp@paperwidth
+  \bxqpp@pageheight\bxqpp@paperheight
+  \bxqpp@has@stocksizefalse
+  % 'tombow' is on but \stockXXX is absent
+  \ifbxqpp@tombow
+    \bxqpp@pagewidth\dimexpr\bxqpp@paperwidth+2truein\relax
+    \bxqpp@pageheight\dimexpr\bxqpp@paperheight+2truein\relax
+    \bxqpp@has@stocksizetrue
+  \fi
+  % \stockXXX is present
+  \ifdim\ifundef\stockwidth{\z@}{\stockwidth}>\z@
+  \ifdim\ifundef\stockheight{\z@}{\stockheight}>\z@
+    \bxqpp@pagewidth\stockwidth
+    \bxqpp@pageheight\stockheight
+    \bxqpp@has@stocksizetrue
+  \fi\fi
+  \OriginOffsetH\dimexpr
+    (\bxqpp@pagewidth-\bxqpp@paperwidth)/2+\bxqpp@toc\hoffset
+    \bxqpp@mft{+1in-1truein}\relax
+  \OriginOffsetV\dimexpr
+    (\bxqpp@pageheight-\bxqpp@paperheight)/2-\bxqpp@toc\voffset
+    \bxqpp@mft{-1in+1truein}\relax}
+
+%--------------------------------------- debug information
+
+\@onlypreamble\bxqpp@driver@name
+\edef\bxqpp@driver@name{%
+  \ifx d\bxqpp@driver dvi%
+  \else\ifx x\bxqpp@driver xetex%
+  \else\ifx p\bxqpp@driver pdftex%
+  \else\ifx l\bxqpp@driver luatex%
+  \fi\fi\fi\fi}
+\AtEndOfPackage{\appto\bxqpp@begindoc@hook{%
+  \bxDebug{\bxqpp@pkgname\space info^^J%
+  >---------------------------------------<^^J%
+  driver = \bxqpp@driver@name^^J%
+  mag = \the\mag^^J%
+  papersize = \the\paperwidth*\the\paperheight^^J%
+  F-papersize = \the\bxqpp@paperwidth*\the\bxqpp@paperheight^^J%
+  pagesize = \the\bxqpp@pagewidth*\the\bxqpp@pageheight^^J%
+  origin-offset = \the\OriginOffsetH*\the\OriginOffsetV^^J%
+  TeX-offset = \the\hoffset*\the\voffset^^J%
+  suppress-RPS = \bxqpp@suppress^^J%
+  TO-coefficient = \the\numexpr\bxqpp@toc\relax^^J%
+  mag-fix-term = \the\dimexpr\z@\bxqpp@mft{+1in-1truein}\relax^^J%
+  >---------------------------------------<}%
+}}
+
+%--------------------------------------- done
+\endinput
+%% EOF

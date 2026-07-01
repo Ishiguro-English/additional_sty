@@ -1,0 +1,295 @@
+\NeedsTeXFormat{pLaTeX2e}%
+\ProvidesPackage{小道具}[2025/03/22, ver.1.0.0]%
+
+\newenvironment{基本事項注意}{%
+\par\br{.35}\begin{quotation}(2zw)(0zw)
+\small\hamidasi(-2.3zw,.6zw)[L]{\dbend}%
+\inhibitglue%
+}{\end{jquotation}\par}%*
+\def\コメントインデント{.3\Cvs}
+\def\グレー１{black!50!white}
+\colorlet{colexam}{\グレー１}
+\newtcolorbox{myexample}{%
+coltitle=colexam,
+fonttitle=\Large\bfseries,
+enhanced,
+breakable,
+before=\par\medskip,
+parbox=false,
+frame hidden,
+interior hidden,
+segmentation hidden,
+boxsep=0pt,
+left=\コメントインデント+.2zw,
+right=3mm-1zw,
+toptitle=2mm,
+pad at break=0mm,
+overlay unbroken={%
+    \node at ([xshift=\コメントインデント+.17\Cvs,yshift=-.55\Cvs]frame.north west) {\img<1.5>{/usr/local/tetex/share/texmf/ptex/platex/tetsutex/追加sty/画像/鉛筆.pdf}};
+    \draw[colexam,line width=1pt] ([xshift=\コメントインデント-.2\Cvs,yshift=-\Cvs]frame.north west)--([xshift=\コメントインデント-.2\Cvs]frame.south west)--([xshift=-1\Cvs]frame.south east);
+    \draw[colexam,line width=2pt]([xshift=0\Cvs,yshift=.5pt]frame.south east)--+(-4\Cvs,0pt);
+},
+overlay first={%
+    \node at ([xshift=\コメントインデント+.17\Cvs,yshift=-.55\Cvs]frame.north west) {\img<1.5>{/usr/local/tetex/share/texmf/ptex/platex/tetsutex/追加sty/画像/鉛筆.pdf}};
+    \draw[colexam,line width=1pt] ([xshift=\コメントインデント-.2\Cvs,yshift=-\Cvs]frame.north west)--([xshift=\コメントインデント-.2\Cvs]frame.south west);
+},
+overlay middle={%
+    \draw[colexam,line width=1pt] ([xshift=\コメントインデント-.2\Cvs]frame.north west)--([xshift=\コメントインデント-.2\Cvs]frame.south west);
+},
+overlay last={%
+    \draw[colexam,line width=1pt] ([xshift=\コメントインデント-.2\Cvs]frame.north west)--([xshift=\コメントインデント-.2\Cvs]frame.south west)--(frame.south east);
+    \draw[colexam,line width=2pt]([xshift=-1\Cvs,yshift=.5pt]frame.south east)--+(-4\Cvs,0pt);
+}%
+}
+\newenvironment{基本事項コメント}{%
+\bgroup\br{-.3}\small%
+\begin{myexample}\gtfamily%
+\raggedright\par%
+}{
+\end{myexample}
+\egroup
+}
+
+\newtcolorbox{asbox7}[2][]{enhanced, colback=white, colframe=white,
+attach boxed title to top center={xshift=0cm, yshift=-1.4cm}, fonttitle=\bfseries, varwidth boxed title=.7\linewidth, colbacktitle=black!45!white,coltitle=black,
+enlarge top by=0mm, enlarge bottom by=7mm,
+boxed title style={size=normal, colback=white},
+borderline={.75pt}{3pt}{white},
+overlay ={\filldraw[black!60!white,draw=black!60!white]
+       (frame.north east) -- +(0pt, -38pt) -- +(-50pt, -38pt) -- + (-50pt, 0pt) -- cycle;
+       \filldraw[fill=black!70!white, draw=black!70!white]
+       (frame.north west) -- + (0pt, -35pt) -- + (50pt, -35pt) -- + (50pt, 0pt) -- cycle;
+       \filldraw[fill=black!40!white, draw=black!40!white] 
+       ([xshift=32pt, yshift=-15pt]frame.north west) -- +(0pt, -25pt) -- +(25pt, -25pt) -- +(25pt, 0pt) -- cycle;
+       \draw[black!0!white, line width=1pt]
+       ([xshift=-35pt]frame.north east) 
+       arc [start angle=-20, end angle=-35, radius=150pt] ;
+       \draw[black!0!white, line width=1pt]
+       ([xshift=-25pt]frame.north east) 
+       arc [start angle=-20, end angle=-36, radius=160pt] ;
+       \draw[black!0!white, line width=1pt]
+       ([xshift=-15pt]frame.north east) 
+       arc [start angle=-20, end angle=-35, radius=170pt] ;
+
+       \draw[black,line width=1.5pt]
+       ([xshift=45pt, yshift=-35pt]frame.north west) -- +(140pt, 0pt);
+       \draw[black!40!white, line width=1pt]
+       ([xshift=-250pt, yshift=-5pt]frame.north east)--([yshift=-5pt]frame.north east);
+       \draw[black!40!white, line width=1pt]
+       ([xshift=-180pt, yshift=-11pt]frame.north east)--([yshift=-11pt]frame.north east);
+       \draw[black!40!white, line width=1pt]
+       ([xshift=-110pt, yshift=-17pt]frame.north east)--([yshift=-17pt]frame.north east);
+       \draw[black!40!white, line width=1pt]
+       ([xshift=0pt, yshift=-24pt]frame.north west)--([xshift=11pt,yshift=-35pt]frame.north west);
+       \draw[black!40!white, line width=1pt]
+       ([xshift=0pt, yshift=-4pt]frame.north west)--([xshift=31pt,yshift=-35pt]frame.north west);
+       \draw[black!40!white, line width=1pt]
+       ([xshift=0pt, yshift=-14pt]frame.north west)--([xshift=21pt,yshift=-35pt]frame.north west);
+       },
+title={\Large{\ #2}}, #1}
+
+\newtcolorbox{howtousebox}[1]{empty,height fill,attach boxed title to top left={yshift*=-1.3cm},
+underlay={\draw[thick,dotted] (frame.north west) -- (frame.north east);
+\draw[thick,dotted] ([yshift=-1mm]frame.north west) -- ([yshift=-1mm]frame.north east);
+\draw[thick,dotted] (frame.south west) -- (frame.south east);
+\draw[thick,dotted] ([yshift=-1mm]frame.south west) -- ([yshift=-1mm]frame.south east);
+},
+fonttitle={\Huge},title={\tsubasa{#1}},boxed title style={left=0mm},coltitle=black}
+
+\DeclareTColorBox{largetitle1}{ m }%
+{empty,attach boxed title to top left={yshift=-.8cm},halign=flush right,fontupper=\gtfamily\Large,top=0mm,bottom=.5mm,
+fonttitle={\Large},title={#1},coltitle=black,
+underlay={\draw[gray,line width=3pt] (title.north west) -- (title.north east) -- ([xshift=-13cm]frame.south east) -- (frame.south east);}}
+
+\DeclareTColorBox{middletitle1}{ m }%
+{empty,attach boxed title to top left={yshift=-\tcboxedtitleheight+.3mm},top=0mm,bottom=0mm,left=\tcboxedtitlewidth+3mm,title={#1},coltitle=black,fontupper={\large\gtfamily},fonttitle={\large\gtfamily},
+underlay={\draw[gray!80!black,line width=1.5pt] (title.north west) -- (title.north east) -- (title.south east);},
+boxed title style={top=0mm,right=0mm,left=0mm,bottom=0mm}}
+
+\newtcolorbox{columnbox1}[1]{empty,coltext=white,coltitle=black,left skip=5mm,
+attach boxed title to top left={xshift=-5mm,yshift*=-\tcboxedtitleheight/2},
+interior code={%
+\fill[gray](frame.north west) -- ([xshift=-2mm,yshift=-2.5mm]frame.north east) -- ([yshift=1mm]frame.south east) -- ([xshift=-2mm,yshift=-2mm]frame.south west) -- cycle;
+},boxed title style={%
+overlay={%
+\fill[gray!30!white]([xshift=-1mm,yshift=1mm]frame.north west) -- (frame.north east) -- ([xshift=-1mm,yshift=-.7mm]frame.south east) -- (frame.south west) -- cycle;
+}},fonttitle={\large\gtfamily},
+title={#1}}
+
+\newtcolorbox{columnbox2}[1]{empty,breakable,top=0mm,left=0mm,coltitle=black,left skip=2.5cm,right=0mm,
+attach boxed title to top left={xshift=-2.5cm,yshift=-\tcboxedtitleheight},boxed title style={colback=white,underlay={%
+\fill[black!70!white]([xshift=-1mm,yshift=1mm]frame.north west) -- ([xshift=2.3cm,yshift=1mm]frame.north west) -- ([xshift=2.3cm,yshift=-7mm]frame.south west) -- ([xshift=-1mm,yshift=-7mm]frame.south west) -- cycle;
+\fill[white](frame.north west) -- (frame.north east) -- (frame.south east) -- (frame.south west) -- cycle;
+}},
+title={#1}}
+
+\newtcolorbox{columnbox3}[1]{empty,breakable,left skip=7mm,left=0mm,top=6mm,coltitle=black,
+topsep at break={-5mm},
+underlay unbroken and first={%
+\fill[gray!50!white]([xshift=-7mm]frame.north west) node[anchor=west,xshift=1mm,yshift=-3mm,black]{\large\gt{#1}} -- ([xshift=-3mm]frame.north west) -- ([xshift=-3mm]frame.south west) -- ([xshift=-7mm]frame.south west) -- cycle;
+},
+underlay middle and last={%
+\fill[gray!50!white]([xshift=-7mm]frame.north west) -- ([xshift=-3mm]frame.north west) -- ([xshift=-3mm]frame.south west) -- ([xshift=-7mm]frame.south west) -- cycle;
+}}
+
+\newtcolorbox{columnbox4}[1]{empty,breakable,borderline={.75pt}{0pt}{black,dotted},sharp corners,before={\br{.5}\noindent},
+underlay unbroken and first={%
+\path (frame.north west) node[anchor=north,xshift=-1mm,yshift=1mm,fill=black!70!white,draw=white]{\rotatebox{90}{\color{white}\ \ #1\ \ }};}}
+
+\newtcolorbox{columnbox5}[1]{empty,breakable,top=0mm,left=0mm,coltitle=black,left skip=2.5cm,coltitle=white,before={\br1\noindent},
+attach boxed title to top left={xshift=-2.5cm,yshift=-\tcboxedtitleheight},boxed title style={colback=gray,underlay={%
+\fill[black!50!gray,rounded corners=7pt](frame.north west) -- (frame.north east) -- (frame.south east) -- (frame.south west) -- cycle;
+}},
+underlay unbroken={\draw[very thick]([yshift=2mm]title.north west) -- ([yshift=2mm]title.north east-|frame.east);
+\draw[very thick](frame.south west-|title.west) -- (frame.south east);},
+underlay first={\draw[very thick]([yshift=2mm]title.north west) -- ([yshift=2mm]title.north east-|frame.east);},
+underlay last={\draw[very thick](frame.south west-|title.west) -- (frame.south east);},
+title={#1}}
+
+\newtcolorbox{columnbox6}[1]{enhanced,breakable,attach boxed title to top left={xshift=1cm,yshift*=-\tcboxedtitleheight/2},colbacktitle=black!75!white,arc=7mm,boxed title style={%
+underlay={%
+\fill[black!75!white,rounded corners=15pt](frame.north west) -- (frame.north east) -- (frame.east) -- (frame.south east) -- (frame.south west) -- (frame.west) -- cycle;
+}},
+fonttitle={\gtfamily},title={#1}}
+
+\newtcbox{middletitleA}[1]{empty,coltitle=black,top=0mm,bottom=0mm,left=6mm,attach boxed title to top left={xshift=3mm},
+underlay={\draw[very thick,fill=gray!50!white,draw=black!85!white](frame.south west) -- (frame.south west|-title.north) -- ++ (3mm,0) -- ([xshift=3mm]frame.south west) -- cycle;
+\draw[very thick,gray]([xshift=-6mm]title.south west) -- ([xshift=30pt]title.south west-|frame.east);
+\draw[fill=black!70!white]([xshift=30pt,yshift=-1mm]title.south west-|frame.east) rectangle ++ (2mm,2mm);},
+title={#1},fonttitle={\footnotesize}}
+
+\newtcbox{smalltitleA}[1]{empty,left=7.5mm,bottom=.5mm,
+underlay={%
+\fill[black!70!white] (frame.south west) rectangle ++ (8.5mm,8.5mm);
+\fill[white] ([xshift=.5mm,yshift=.5mm]frame.south west) rectangle ++ (7.5mm,7.5mm);
+\fill[black!70!white] ([xshift=1mm,yshift=1mm]frame.south west) rectangle ++ (6.5mm,6.5mm);
+\path ([xshift=4.25mm,yshift=4.25mm]frame.south west) node[white]{\LARGE{#1}};
+\draw[black!70!white] ([xshift=8.5mm,yshift=1.5mm]frame.south west) -- ([xshift=30pt,yshift=1.5mm]frame.south east);
+}}
+
+\newtcbox{smalltitleB}[1]{empty,left=7.5mm,bottom=2mm,
+underlay={%
+\draw[very thick,black!80!white] (frame.south west) -- ++ (0mm,8.5mm) -- ++ (8.5mm,0mm) -- ++ (0mm,-8.5mm) -- cycle;
+\fill[black!80!white] (frame.south west) -- ++ (0mm,2.5mm) -- ++ (2.5mm,-2.5mm) -- cycle;
+\fill[black!80!white] ([yshift=8.5mm]frame.south west) -- ++ (2.5mm,0mm) -- ++ (-2.5mm,-2.5mm) -- cycle;
+\fill[black!80!white] ([xshift=8.5mm]frame.south west) -- ++ (-2.5mm,0mm) -- ++ (2.5mm,2.5mm) -- cycle;
+\fill[black!80!white] ([xshift=8.5mm,yshift=8.5mm]frame.south west) -- ++ (0mm,-2.5mm) -- ++ (-2.5mm,2.5mm) -- cycle;
+\draw[gray!50!white] ([xshift=.4mm,yshift=.4mm]frame.south west) -- ++ (0mm,7.7mm) -- ++ (7.7mm,0mm) -- ++ (0mm,-7.7mm) -- cycle;
+\path ([xshift=4.25mm,yshift=4.25mm]frame.south west) node[black!80!white]{\LARGE{#1}};
+\draw[very thick,black!70!white] ([xshift=8.5mm,yshift=2.5mm]frame.south west) -- ([xshift=30pt,yshift=2.5mm]frame.south east);
+\draw[black!70!white] ([xshift=8.5mm,yshift=1.8mm]frame.south west) -- ([xshift=30pt,yshift=1.8mm]frame.south east);
+}}
+
+\newenvironment{角網掛け}[1][1zw]{\begin{網掛けインデント段落}[.8]{#1}\raggedright\mathindent=2zw}{\end{網掛けインデント段落}}
+
+\newenvironment{角網掛け中央揃え}[1][1zw]{\begin{角網掛け}\centering}{\end{角網掛け}}
+
+\def\アンケート返信のフォント{kotori}
+
+\long\def\アンケート挿入句#1{\par\br{.3}{\@nameuse{\アンケート返信のフォント family}
+\一字ぶら下げ{★}{#1}
+}\par\br{.8}}
+
+\newcounter{質問番号}
+\long\def\質問と返信#1#2#3{\refstepcounter{質問番号}\label{#1}\begin{jquotation}(1zw)\parindent=1zw\gtfamily%
+\noindent\hspace{-1zw}\mg{\KuroKaku{質問番号}}\ihspace{1zw}%
+\nopagebreak
+\inhibitglue #2%
+\end{jquotation}\nopagebreak
+
+\begin{jquotation}(2zw)\@nameuse{\アンケート返信のフォント family}
+#3%
+\end{jquotation}
+\br{.5}
+}
+
+\newcommand{\ポイント}[1]{
+%\br{-.5}
+\begin{角丸網掛けインデント段落}[0.80]{1zw}
+\mgfamily #1
+\end{角丸網掛けインデント段落}
+%\br{-.5}
+}
+
+\newcommand{\ポイント中央揃え}[1]{
+%\br{-.5}
+\begin{角丸網掛けインデント段落}[0.80]{1zw}
+\begin{center}
+
+\br{-.3}
+
+\mgfamily #1
+
+\br{-.3}
+\end{center}
+\end{角丸網掛けインデント段落}
+%\br{-.5}
+}
+
+\def\三角見出し{\noindent\△\ihspace{1zw}}
+
+\newenvironment{カラーボックスポイント}[1]
+{%
+\br{.3}
+\begin{組カラーボックス}{\gbfamily Point!!}{#1}\mgfamily%
+\br{.3}
+}%
+{\br{.2}\end{組カラーボックス}\br{.3}}
+
+\newenvironment{カラーボックスポイント中央揃え}[1]
+{%
+\begin{カラーボックスポイント}{#1}\begin{center*}
+}{%
+\end{center*}\end{カラーボックスポイント}
+}
+
+\newenvironment{カラーボックスポイントタイトルなし}{%
+\par\br{.5}
+\mgfamily
+\begin{rectbox}[rectboxoval=2pt,backgroundcolor=gray!20,framecolor=black,framethickness=1pt,fboxsep=6pt]
+\parindent=1.5zw
+}{\end{rectbox}\par\br{.5}}
+
+\newenvironment{カラーボックスポイントタイトルなし中央揃え}%[1]%
+{%
+\begin{カラーボックスポイントタイトルなし}\begin{center*}
+}{%
+\end{center*}\end{カラーボックスポイントタイトルなし}
+}
+
+\def\レベル説明#1{%
+\単語カラーボックス[タイトル文字色=white,右タイトル背景色=black!20!white,fboxrule=1pt,fboxsep=3pt]{\makebox[0zw][c]{\フォントサイズ{5}{\bgtfamily\rotatebox{90}{\scalebox{.9}[1]{\!\!LEV.\!\!}}}}}{\makebox[.3zw][c]{\bgtfamily\単発tetsuarabic{#1}}}%
+}
+
+\def\レベル説明文{%
+\br{.5}%
+\begin{tabular}{l@{\hspace{.5zw}……\hspace{.5zw}}l}
+\hlineb
+\レベル説明{1}&全員が確実に理解・暗記しておくべき\\
+\レベル説明{2}&\parbox[t]{20zw}{必須の知識というわけではないが，知っておくと便利なことがある}\\
+\レベル説明{3}&ハイレベルな高校生なら知っているレベル\\
+\レベル説明{4}&細かい／難しい／知らなくてもよい\\
+\レベル説明{5}&興味がある人だけが読めばよい／大学範囲\\[1.5pt]\hlineb
+\end{tabular}
+\br{.5}%
+}
+
+\newtcolorbox{罫線見出し環境}{%
+empty,
+before=\par\noindent,parbox=false,boxsep=0pt,left=5pt,top=0pt,before skip = .5\baselineskip,
+breakable,pad at break*=0mm,bottom=2pt,
+overlay unbroken={%
+\filldraw[line width=5pt]([yshift=0pt]frame.north west)--(frame.south west);
+\filldraw[line width=1pt]([yshift=.5pt]frame.south west)--(frame.south east);
+},
+}
+
+\def\罫線見出しのフォント{\gt}
+
+\def\罫線見出し#1{%
+\begin{罫線見出し環境}
+\罫線見出しのフォント{#1}
+\end{罫線見出し環境}
+}
+
+\def\誤答kotae{\kotae\hamidasi(-2zw,0zw)[L]{\scalebox{3}[1]{\mg{×}}}}

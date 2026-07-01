@@ -1,0 +1,39 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{uuid}[2019/04/30 v0.1]
+
+\newif\ifuuid@lowercase
+\uuid@lowercasefalse
+
+\DeclareOption{lowercase}{\uuid@lowercasetrue}
+
+\ProcessOptions\relax
+
+\ifdefined\pdfuniformdeviate
+  \let\uuid@uniformdeviate\pdfuniformdeviate
+\else\ifdefined\uniformdeviate
+  \let\uuid@uniformdeviate\uniformdeviate
+\else
+  \PackageError{uuid}{\detokenize{This LaTeX engine does not support \pdfuniformdeviate or \uniformdeviate}}\@ehc
+\fi\fi
+
+\def\uuid@randomdigit@upper{\ifcase\uuid@uniformdeviate16\space\space0\or1\or2\or3\or4\or5\or6\or7\or8\or9\or A\or B\or C\or D\or E\else F\fi}
+\def\uuid@variantdigit@upper{\ifcase\uuid@uniformdeviate4\space\space8\or9\or A\or B\fi}
+
+\def\uuid@randomdigit@lower{\ifcase\uuid@uniformdeviate16\space\space0\or1\or2\or3\or4\or5\or6\or7\or8\or9\or a\or b\or c\or d\or e\else f\fi}
+\def\uuid@variantdigit@lower{\ifcase\uuid@uniformdeviate4\space\space8\or9\or a\or b\fi}
+
+\def\uuid@randomdigit{\ifuuid@lowercase\uuid@randomdigit@lower\else\uuid@randomdigit@upper\fi}
+\def\uuid@variantdigit{\ifuuid@lowercase\uuid@variantdigit@lower\else\uuid@variantdigit@upper\fi}
+
+\newcommand*\UUID{%
+  \uuid@randomdigit\uuid@randomdigit\uuid@randomdigit\uuid@randomdigit
+  \uuid@randomdigit\uuid@randomdigit\uuid@randomdigit\uuid@randomdigit-%
+  \uuid@randomdigit\uuid@randomdigit\uuid@randomdigit\uuid@randomdigit-%
+  4\uuid@randomdigit\uuid@randomdigit\uuid@randomdigit-%
+  \uuid@variantdigit\uuid@randomdigit\uuid@randomdigit\uuid@randomdigit-%
+  \uuid@randomdigit\uuid@randomdigit\uuid@randomdigit\uuid@randomdigit
+  \uuid@randomdigit\uuid@randomdigit\uuid@randomdigit\uuid@randomdigit
+  \uuid@randomdigit\uuid@randomdigit\uuid@randomdigit\uuid@randomdigit
+}
+
+\endinput

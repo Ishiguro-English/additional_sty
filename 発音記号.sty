@@ -1,0 +1,61 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{発音記号}[2025/03/02, ver.1.0.0]
+
+\newread\inputstream
+
+% ファイルの内容を読み込んで命令の内容にセットする \readfromfile{ファイル名}{命令名}
+\newcommand\readfromfile[2]{%
+  \def\readfromfile@result{}%
+  \openin\inputstream=#1\relax
+  \@readfromfile
+  \closein\inputstream
+  \removeTrailingSpaces\readfromfile@result
+  \let#2\readfromfile@result
+}
+
+\def\@readfromfile{%
+  \global\read\inputstream to \readfromfile@line\relax
+  \ifeof\inputstream
+    \let\readfromfile@next\relax
+  \else
+    \expandafter\expandafter\expandafter\def
+    \expandafter\expandafter\expandafter\readfromfile@result
+    \expandafter\expandafter\expandafter{%
+    \expandafter\readfromfile@result\readfromfile@line}%
+    \let\readfromfile@next\@readfromfile
+  \fi
+  \readfromfile@next
+}
+
+\long\def\removeTrailingSpaces#1{%
+  \def\@removeTrailingSpaces@a{}%
+  \def\@removeTrailingSpaces@b{#1}%
+  \expandafter\@removeTrailingSpaces#1 \relax
+  \expandafter\let\@removeTrailingSpaces@b\@removeTrailingSpaces@a
+}
+
+\long\def\@removeTrailingSpaces#1 #2\relax{%
+  \def\@tempa{#1}%
+  \def\@tempb{#2\relax}%
+  \def\@tempc{\relax}%
+  \ifx\@removeTrailingSpaces@a\@empty
+    \def\@removeTrailingSpaces@a{#1}%
+  \else
+    \ifnum0\ifx\@tempb\@tempc\else1\fi\ifx\@tempa\@empty\else1\fi>0\relax
+      \expandafter\expandafter\expandafter\def
+      \expandafter\expandafter\expandafter\@removeTrailingSpaces@a
+      \expandafter\expandafter\expandafter{%
+      \expandafter\@removeTrailingSpaces@a\space#1}%
+    \fi
+  \fi
+  \ifx\@tempb\@tempc\else
+    \@removeTrailingSpaces#2\relax
+  \fi
+}
+
+% 外部コマンドの標準出力を読み込んで命令の内容にセットする \readfrompipe{コマンド}{命令名}
+\def\readfrompipe#1#2{\readfromfile{|"#1"}{#2}}
+
+\newcommand\wordToTipa[2][]{\readfrompipe{./word2tipa #1 #2}{\@tempa}\@tempa}
+
+\newcommand{\発音記号}[1]{\wordToTipa[--removeParen --stressMonosyllabicWord]{#1}}%

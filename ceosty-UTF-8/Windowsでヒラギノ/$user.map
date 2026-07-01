@@ -1,0 +1,59 @@
+%
+% (1) using Hiragino basic 6 fonts
+%
+otf-ujmr-h      "ƒqƒ‰ƒMƒm–¾’© Pro W3"   unicode
+otf-ujmr-v      "@ƒqƒ‰ƒMƒm–¾’© Pro W3"  unicode
+otf-cjmr-h      "ƒqƒ‰ƒMƒm–¾’© Pro W3"   cid2uni
+otf-cjmr-v      "@ƒqƒ‰ƒMƒm–¾’© Pro W3"  cid2uni
+hminr-h         "ƒqƒ‰ƒMƒm–¾’© Pro W3"
+hminr-v         "@ƒqƒ‰ƒMƒm–¾’© Pro W3"
+
+otf-ujgr-h      "ƒqƒ‰ƒMƒmŠpƒS Pro W3"   unicode
+otf-ujgr-v      "@ƒqƒ‰ƒMƒmŠpƒS Pro W3"  unicode
+otf-cjgr-h      "ƒqƒ‰ƒMƒmŠpƒS Pro W3"   cid2uni
+otf-cjgr-v      "@ƒqƒ‰ƒMƒmŠpƒS Pro W3"  cid2uni
+hgothr-h        "ƒqƒ‰ƒMƒmŠpƒS Pro W3"
+hgothr-v        "@ƒqƒ‰ƒMƒmŠpƒS Pro W3"
+
+otf-ujmb-h      "ƒqƒ‰ƒMƒm–¾’© Pro W6"   unicode
+otf-ujmb-v      "@ƒqƒ‰ƒMƒm–¾’© Pro W6"  unicode
+otf-cjmb-h      "ƒqƒ‰ƒMƒm–¾’© Pro W6"   cid2uni
+otf-cjmb-v      "@ƒqƒ‰ƒMƒm–¾’© Pro W6"  cid2uni
+hminb-h         "ƒqƒ‰ƒMƒm–¾’© Pro W6"
+hminb-v         "@ƒqƒ‰ƒMƒm–¾’© Pro W6"
+
+otf-ujgb-h      "ƒqƒ‰ƒMƒmŠpƒS Pro W6"   unicode
+otf-ujgb-v      "@ƒqƒ‰ƒMƒmŠpƒS Pro W6"  unicode
+otf-cjgb-h      "ƒqƒ‰ƒMƒmŠpƒS Pro W6"   cid2uni
+otf-cjgb-v      "@ƒqƒ‰ƒMƒmŠpƒS Pro W6"  cid2uni
+hgothb-h        "ƒqƒ‰ƒMƒmŠpƒS Pro W6"
+hgothb-v        "@ƒqƒ‰ƒMƒmŠpƒS Pro W6"
+
+otf-ujmgr-h     "ƒqƒ‰ƒMƒmŠÛƒS Pro W4"   unicode
+otf-ujmgr-v     "@ƒqƒ‰ƒMƒmŠÛƒS Pro W4"  unicode
+otf-cjmgr-h     "ƒqƒ‰ƒMƒmŠÛƒS Pro W4"   cid2uni
+otf-cjmgr-v     "@ƒqƒ‰ƒMƒmŠÛƒS Pro W4"  cid2uni
+hmgothr-h       "ƒqƒ‰ƒMƒmŠÛƒS Pro W4"
+hmgothr-v       "@ƒqƒ‰ƒMƒmŠÛƒS Pro W4"
+
+%hgotheb-h       "FOT-ƒAƒjƒg Std M"
+%hgotheb-v       "@FOT-ƒAƒjƒg Std M"
+hgotheb-h       "ƒqƒ‰ƒMƒmŠpƒS Std W8"
+hgotheb-v       "@ƒqƒ‰ƒMƒmŠpƒS Std W8"
+otf-ujml-h      "ƒqƒ‰ƒMƒm–¾’© Pro W2"   unicode
+otf-ujml-v      "@ƒqƒ‰ƒMƒm–¾’© Pro W2"  unicode
+otf-cjml-h      "ƒqƒ‰ƒMƒm–¾’© Pro W2"   cid2uni
+otf-cjml-v      "@ƒqƒ‰ƒMƒm–¾’© Pro W2"  cid2uni
+hminl-h         "ƒqƒ‰ƒMƒm–¾’© Pro W2"
+hminl-v         "@ƒqƒ‰ƒMƒm–¾’© Pro W2"
+
+hiramin-w3-h    "ƒqƒ‰ƒMƒm–¾’© Pro W3"   cid2uni
+hiramin-w6-h    "ƒqƒ‰ƒMƒm–¾’© Pro W6"   cid2uni
+hirakaku-w3-h   "ƒqƒ‰ƒMƒmŠpƒS Pro W3"   cid2uni
+hirakaku-w6-h   "ƒqƒ‰ƒMƒmŠpƒS Pro W6"   cid2uni
+hiramaru-w4-h   "ƒqƒ‰ƒMƒmŠÛƒS Pro W4"   cid2uni
+hiramin-w3-v    "@ƒqƒ‰ƒMƒm–¾’© Pro W3"  cid2uni
+hiramin-w6-v    "@ƒqƒ‰ƒMƒm–¾’© Pro W6"  cid2uni
+hirakaku-w3-v   "@ƒqƒ‰ƒMƒmŠpƒS Pro W3"  cid2uni
+hirakaku-w6-v   "@ƒqƒ‰ƒMƒmŠpƒS Pro W6"  cid2uni
+hiramaru-w4-v   "@ƒqƒ‰ƒMƒmŠÛƒS Pro W4"  cid2uni

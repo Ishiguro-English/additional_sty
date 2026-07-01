@@ -1,0 +1,60 @@
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{chuushaku}[2024/12/30,Ver1.0.1]%
+
+%\RequirePackage{tikz,amsmath,framed,calc}%
+\usetikzlibrary{%positioning,
+quotes}%
+
+%\newcommand{\段落下げ}{\parindent=1zw}%
+%\def\zw{\dimexpr1zw\relax}%
+
+\newcounter{chuubangou}%
+\setcounter{chuubangou}{0}%
+\newcommand{\chuukigouprintA}{$\dag$}%
+\newcommand{\chuukigouprintB}{▶\ignorespaces}%
+\newcommand{\chuuhabaprint}{.68}%
+\newcommand{\chuuakiprint}{.7}%
+\newcommand{\chuukigou}[2]{\renewcommand{\chuukigouprintA}{#1}\renewcommand{\chuukigouprintB}{#2}}%
+\newcommand{\chuuhaba}[1]{\renewcommand{\chuuhabaprint}{#1}}%
+\newcommand{\chuuaki}[1]{\renewcommand{\chuuakiprint}{#1}}%
+\newcommand{\chuu}[1]%
+  {%
+    \stepcounter{chuubangou}%
+    \nolinebreak$\!^{\text{\chuukigouprintA}}$%
+    \tikz[remember picture]{\coordinate (A\thechuubangou);}%
+    \expandafter\gdef\csname chuunote\thechuubangou\endcsname{#1}%
+  }%
+\newcommand{\chuuprint}%
+  {%
+    \begin{tikzpicture}[overlay, remember picture]
+      \foreach \n in {1,...,\thechuubangou}%
+        {%
+          \node[sidenote] at (A\n -| B) {\csname chuunote\n\endcsname};%
+         \node[pointer] at (A\n -| B) {\footnotesize\chuukigouprintB};%
+        }%
+    \end{tikzpicture}%
+  }%
+\NewDocumentEnvironment{chuushaku}{ O{\chuuhabaprint} D<>{\chuuakiprint} }%
+  {%
+    %TikZのスタイル定義
+    \tikzset{sidenote/.style={anchor=north west, inner sep=0pt, text width={\linewidth-#1\linewidth-#2\zw-1\zw}, font=\footnotesize, yshift=.8em}}%
+    \tikzset{pointer/.style={left, inner sep=3pt, yshift=.3em}}
+    \begin{minipage}[t]{#1\linewidth}\begin{右辺点線囲み}%
+  }%
+  {%
+      \end{右辺点線囲み}%
+    \end{minipage}\begin{minipage}[t]{#2zw+1zw}%
+      ~%
+    \end{minipage}\begin{minipage}[t]{\linewidth-#1\linewidth-#2\zw}%
+      \tikz[remember picture]{\coordinate (B);}%
+    \end{minipage}%
+    \chuuprint\setcounter{chuubangou}{0}%
+  }%
+
+\newenvironment{右辺点線囲み}%
+  {%
+   \def\FrameCommand##1{##1\hspace{10pt}\vrule width .3pt}%
+   \MakeFramed {\advance\hsize-\width \FrameRestore}%
+   \段落下げ%
+  }%
+  {\endMakeFramed}

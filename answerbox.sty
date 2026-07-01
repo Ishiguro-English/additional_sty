@@ -1,0 +1,936 @@
+%%
+%% This is file `answerbox.sty',
+%% Copyright (C) 2017-2024 by hohei.
+%%
+%% This program is distributed in the hope that it will be useful,
+%% but WITHOUT ANY WARRANTY; without even the implied warranty of
+%% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+%%
+
+\ProvidesPackage{answerbox}[2024/03/28, v1.7.0]
+\RequirePackage{tikz}
+\usetikzlibrary{calc,positioning}
+\RequirePackage{etoolbox,xkeyval}
+\RequirePackage{xcolor}
+
+% pLaTeX の場合
+% \RequirePackage[deluxe]{otf}
+% upLaTeX の場合
+% \RequirePackage[uplatex,deluxe]{otf}
+% LuaLaTeX の場合
+%\RequirePackage[deluxe]{luatexja-preset}
+%\RequirePackage{luatexja-otf}
+
+\newdimen\zero\relax
+\zero=0pt
+\begingroup
+  \catcode`P=12
+  \catcode`T=12
+  \lowercase{%
+    \def\x{\def\rempt##1.##2PT{##1\ifnum##2>\zero.##2\fi}}}
+  \expandafter\endgroup\x
+
+\def\strippt{\expandafter\rempt\the}
+
+\newcommand{\shoumon@num}[1]{%
+  \ifcase#1 \or \ajKakko{1}\or \ajKakko{2}\or \ajKakko{3}\or \ajKakko{4}\or \ajKakko{5}\or \ajKakko{6}\or \ajKakko{7}\or%
+    \ajKakko{8}\or \ajKakko{9}\or \ajKakko{10}\or \ajKakko{11}\or \ajKakko{12}\or \ajKakko{13}\or \ajKakko{14}\or \ajKakko{15}\or%
+    \ajKakko{16}\or \ajKakko{17}\or \ajKakko{18}\or \ajKakko{19}\or \ajKakko{20}\or%
+    \ajKakko{21}\or \ajKakko{22}\or \ajKakko{23}\or \ajKakko{24}\or \ajKakko{25}\or%
+    \ajKakko{26}\or \ajKakko{27}\or \ajKakko{28}\or \ajKakko{29}\or \ajKakko{30}\or%
+    \ajKakko{31}\or \ajKakko{32}\or \ajKakko{33}\or \ajKakko{34}\or \ajKakko{35}\or%
+    \ajKakko{36}\or \ajKakko{37}\or \ajKakko{38}\or \ajKakko{39}\or \ajKakko{40}\or%
+    \ajKakko{41}\or \ajKakko{42}\or \ajKakko{43}\or \ajKakko{44}\or \ajKakko{45}\or%
+    \ajKakko{46}\or \ajKakko{47}\or \ajKakko{48}\or \ajKakko{49}\or \ajKakko{50}\or%
+    \ajKakko{51}\or \ajKakko{52}\or \ajKakko{53}\or \ajKakko{54}\or \ajKakko{55}\or%
+    \ajKakko{56}\or \ajKakko{57}\or \ajKakko{58}\or \ajKakko{59}\or \ajKakko{60}\or%
+    \ajKakko{61}\or \ajKakko{62}\or \ajKakko{63}\or \ajKakko{64}\or \ajKakko{65}\or%
+    \ajKakko{66}\or \ajKakko{67}\or \ajKakko{68}\or \ajKakko{69}\or \ajKakko{70}\or%
+    \ajKakko{71}\or \ajKakko{72}\or \ajKakko{73}\or \ajKakko{74}\or \ajKakko{75}\or%
+    \ajKakko{76}\or \ajKakko{77}\or \ajKakko{78}\or \ajKakko{79}\or \ajKakko{80}\or%
+    \ajKakko{81}\or \ajKakko{82}\or \ajKakko{83}\or \ajKakko{84}\or \ajKakko{85}\or%
+    \ajKakko{86}\or \ajKakko{87}\or \ajKakko{88}\or \ajKakko{89}\or \ajKakko{90}\or%
+    \ajKakko{91}\or \ajKakko{92}\or \ajKakko{93}\or \ajKakko{94}\or \ajKakko{95}\or%
+    \ajKakko{96}\or \ajKakko{97}\or \ajKakko{98}\or \ajKakko{99}\or \ajKakko{100}\fi}
+
+\newcommand{\shoumon@plainnum}[1]{%
+  \ifcase#1 \or 1\or 2\or 3\or 4\or 5\or 6\or 7\or%
+    8\or 9\or 10\or 11\or 12\or 13\or 14\or 15\or%
+    16\or 17\or 18\or 19\or 20\or%
+    21\or 22\or 23\or 24\or 25\or%
+    26\or 27\or 28\or 29\or 30\or%
+    31\or 32\or 33\or 34\or 35\or%
+    36\or 37\or 38\or 39\or 40\or%
+    41\or 42\or 43\or 44\or 45\or%
+    46\or 47\or 48\or 49\or 50\or%
+    51\or 52\or 53\or 54\or 55\or%
+    56\or 57\or 58\or 59\or 60\or%
+    61\or 62\or 63\or 64\or 65\or%
+    66\or 67\or 68\or 69\or 70\or%
+    71\or 72\or 73\or 74\or 75\or%
+    76\or 77\or 78\or 79\or 80\or%
+    81\or 82\or 83\or 84\or 85\or%
+    86\or 87\or 88\or 89\or 90\or%
+    91\or 92\or 93\or 94\or 95\or%
+    96\or 97\or 98\or 99\or 100\fi}
+
+\newcommand{\shoumon@kana}[1]{%
+  \textgt{\ifcase#1 \or あ\or い\or う\or え\or お\or
+                        か\or き\or く\or け\or こ\or
+                        さ\or し\or す\or せ\or そ\or
+                        た\or ち\or つ\or て\or と\or
+                        な\or に\or ぬ\or ね\or の\or
+                        は\or ひ\or ふ\or へ\or ほ\or
+                        ま\or み\or む\or め\or も\or
+                        や\or ゆ\or よ\or
+                        ら\or り\or る\or れ\or ろ\or
+                        わ\or を\or ん\fi}}
+
+\newcommand{\shoumon@KANA}[1]{%
+  \textgt{\ifcase#1 \or ア\or イ\or ウ\or エ\or オ\or
+                        カ\or キ\or ク\or ケ\or コ\or
+                        サ\or シ\or ス\or セ\or ソ\or
+                        タ\or チ\or ツ\or テ\or ト\or
+                        ナ\or ニ\or ヌ\or ネ\or ノ\or
+                        ハ\or ヒ\or フ\or ヘ\or ホ\or
+                        マ\or ミ\or ム\or メ\or モ\or
+                        ヤ\or ユ\or ヨ\or
+                        ラ\or リ\or ル\or レ\or ロ\or
+                        ワ\or ヲ\or ン\fi}}
+
+\newcommand{\shoumon@iroha}[1]{%
+  \textgt{\ifcase#1 \or い\or ろ\or は\or に\or ほ\or
+                        へ\or と\or ち\or り\or ぬ\or
+                        る\or を\or わ\or か\or よ\or
+                        た\or れ\or そ\or つ\or ね\or
+                        な\or ら\or む\or う\or ゐ\or
+                        の\or お\or く\or や\or ま\or
+                        け\or ふ\or こ\or え\or て\or
+                        あ\or さ\or き\or ゆ\or め\or
+                        み\or し\or ゑ\or ひ\or も\or
+                        せ\or す\or ん\fi}}
+
+\newcommand{\shoumon@IROHA}[1]{%
+  \textmc{\ifcase#1 \or イ\or ロ\or ハ\or ニ\or ホ\or
+                        ヘ\or ト\or チ\or リ\or ヌ\or
+                        ル\or ヲ\or ワ\or カ\or ヨ\or
+                        タ\or レ\or ソ\or ツ\or ネ\or
+                        ナ\or ラ\or ム\or ウ\or ヰ\or
+                        ノ\or オ\or ク\or ヤ\or マ\or
+                        ケ\or フ\or コ\or エ\or テ\or
+                        ア\or サ\or キ\or ユ\or メ\or
+                        ミ\or シ\or ヱ\or ヒ\or モ\or
+                        セ\or ス\or ン\fi}}
+
+\newcommand{\shoumon@alphabet}[1]{%
+  \textmc{\ifcase#1 \or a\or b\or c\or d\or e\or
+                        f\or g\or h\or i\or j\or
+                        k\or l\or m\or n\or o\or
+                        p\or q\or r\or s\or t\or
+                        u\or v\or w\or x\or y\or
+                        z\fi}}
+
+\newcommand{\shoumon@ALPHABET}[1]{%
+  \textmc{\ifcase#1 \or A\or B\or C\or D\or E\or
+                        F\or G\or H\or I\or J\or
+                        K\or L\or M\or N\or O\or
+                        P\or Q\or R\or S\or T\or
+                        U\or V\or W\or X\or Y\or
+                        Z\fi}}
+
+\newcounter{ROMAN@counter}
+\newcommand{\Roman@num}[1]{\setcounter{ROMAN@counter}{#1}%
+                           \Roman{ROMAN@counter}}
+\newcommand{\roman@num}[1]{\setcounter{ROMAN@counter}{#1}%
+                           \roman{ROMAN@counter}}
+
+\newcommand{\shoumon@ROMAN}[1]{%
+          \ifcase#1 \or \ajRoman{1}\or \ajRoman{2}\or \ajRoman{3}\or \ajRoman{4}\or \ajRoman{5}\or
+                        \ajRoman{6}\or \ajRoman{7}\or \ajRoman{8}\or \ajRoman{9}\or \ajRoman{10}\or
+                        \ajRoman{11}\or \ajRoman{12}\or \ajRoman{13}\or \ajRoman{14}\or \ajRoman{15}\or
+                        \Roman@num{16}\or \Roman@num{17}\or \Roman@num{18}\or \Roman@num{19}\or \Roman@num{20}\or
+                        \Roman@num{21}\or \Roman@num{22}\or \Roman@num{23}\or \Roman@num{24}\or \Roman@num{25}\or
+                        \Roman@num{26}\or \Roman@num{27}\or \Roman@num{28}\or \Roman@num{29}\or \Roman@num{30}\or
+                        \Roman@num{31}\or \Roman@num{32}\or \Roman@num{33}\or \Roman@num{34}\or \Roman@num{35}\or
+                        \Roman@num{36}\or \Roman@num{37}\or \Roman@num{38}\or \Roman@num{39}\or \Roman@num{40}\or%
+                        \Roman@num{41}\or \Roman@num{42}\or \Roman@num{43}\or \Roman@num{44}\or \Roman@num{45}\or%
+                        \Roman@num{46}\or \Roman@num{47}\or \Roman@num{48}\or \Roman@num{49}\or \Roman@num{50}%
+          \fi}
+
+\newcommand{\shoumon@roman}[1]{%
+          \ifcase#1 \or \ajroman{1}\or \ajroman{2}\or \ajroman{3}\or \ajroman{4}\or \ajroman{5}\or
+                        \ajroman{6}\or \ajroman{7}\or \ajroman{8}\or \ajroman{9}\or \ajroman{10}\or
+                        \ajroman{11}\or \ajroman{12}\or \ajroman{13}\or \ajroman{14}\or \ajroman{15}\or
+                        \roman@num{16}\or \roman@num{17}\or \roman@num{18}\or \roman@num{19}\or \roman@num{20}\or
+                        \roman@num{21}\or \roman@num{22}\or \roman@num{23}\or \roman@num{24}\or \roman@num{25}\or
+                        \roman@num{26}\or \roman@num{27}\or \roman@num{28}\or \roman@num{29}\or \roman@num{30}\or
+                        \roman@num{31}\or \roman@num{32}\or \roman@num{33}\or \roman@num{34}\or \roman@num{35}\or
+                        \roman@num{36}\or \roman@num{37}\or \roman@num{38}\or \roman@num{39}\or \roman@num{40}\or%
+                        \roman@num{41}\or \roman@num{42}\or \roman@num{43}\or \roman@num{44}\or \roman@num{45}\or%
+                        \roman@num{46}\or \roman@num{47}\or \roman@num{48}\or \roman@num{49}\or \roman@num{50}%
+          \fi}
+
+\newcommand{\shoumon@kansuji}[1]{%
+  \textbf{\ifcase#1 \or \kansuji1\or \kansuji2\or \kansuji3\or \kansuji4\or \kansuji5\or%
+    \kansuji6\or  \kansuji7\or  \kansuji8\or  \kansuji9\or  \kansuji10\or%
+    \kansuji11\or \kansuji12\or \kansuji13\or \kansuji14\or \kansuji15\or%
+    \kansuji16\or \kansuji17\or \kansuji18\or \kansuji19\or \kansuji20\or%
+    \kansuji21\or \kansuji22\or \kansuji23\or \kansuji24\or \kansuji25\or%
+    \kansuji26\or \kansuji27\or \kansuji28\or \kansuji29\or \kansuji30\or%
+    \kansuji31\or \kansuji32\or \kansuji33\or \kansuji34\or \kansuji35\or%
+    \kansuji36\or \kansuji37\or \kansuji38\or \kansuji39\or \kansuji40\or%
+    \kansuji41\or \kansuji42\or \kansuji43\or \kansuji44\or \kansuji45\or%
+    \kansuji46\or \kansuji47\or \kansuji48\or \kansuji49\or \kansuji50\fi}}
+
+\newcommand{\@kuMARU}[1]{{%
+  \ooalign{\hfil
+    \@ifundefined{scalebox}{%
+      #1\/\hfil\crcr\raise.167ex}{\raise.1zw\hbox{\scalebox{0.8}{#1\/}}\hfil\crcr\raise.1zw}%
+    \hbox{\fontencoding{OMS}\fontfamily{cmsy}\fontseries{m}\fontshape{n}\selectfont
+      \char"0D}}}}
+
+\newcommand{\shoumon@MARUnum}[1]{%
+  \textbf{\ifcase#1 \or \@kuMARU{1}\or \@kuMARU{2}\or \@kuMARU{3}\or \@kuMARU{4}\or \@kuMARU{5}\or%
+    \@kuMARU{6}\or  \@kuMARU{7}\or  \@kuMARU{8}\or  \@kuMARU{9}\or  \@kuMARU{10}\or%
+    \@kuMARU{11}\or \@kuMARU{12}\or \@kuMARU{13}\or \@kuMARU{14}\or \@kuMARU{15}\or%
+    \@kuMARU{16}\or \@kuMARU{17}\or \@kuMARU{18}\or \@kuMARU{19}\or \@kuMARU{20}\or%
+    \@kuMARU{21}\or \@kuMARU{22}\or \@kuMARU{23}\or \@kuMARU{24}\or \@kuMARU{25}\or%
+    \@kuMARU{26}\or \@kuMARU{27}\or \@kuMARU{28}\or \@kuMARU{29}\or \@kuMARU{30}\or%
+    \@kuMARU{31}\or \@kuMARU{32}\or \@kuMARU{33}\or \@kuMARU{34}\or \@kuMARU{35}\or%
+    \@kuMARU{36}\or \@kuMARU{37}\or \@kuMARU{38}\or \@kuMARU{39}\or \@kuMARU{40}\or%
+    \@kuMARU{41}\or \@kuMARU{42}\or \@kuMARU{43}\or \@kuMARU{44}\or \@kuMARU{45}\or%
+    \@kuMARU{46}\or \@kuMARU{47}\or \@kuMARU{48}\or \@kuMARU{49}\or \@kuMARU{50}\fi%
+  }}
+
+\let\@shoumon@kigou=\shoumon@num
+\let\tempX@shoumon@kigou=\shoumon@num
+\let\tempY@shoumon@kigou=\shoumon@num
+
+\newcommand{\M@JIRETSU}{(1)}%
+\newcommand{\S@chgnum}{(1)}
+\newcommand{\S@chgflatnum}{1}
+\newcommand{\S@chgMARUnum}{①}
+\newcommand{\S@chgkana}{あ}
+\newcommand{\S@chgKANA}{ア}
+\newcommand{\S@chgalpha}{a}
+\newcommand{\S@chgALPHA}{A}
+\newcommand{\S@chgiroha}{い}
+\newcommand{\S@chgIROHA}{イ}
+\newcommand{\S@chgROMAN}{I}
+\newcommand{\S@chgroman}{i}
+\newcommand{\S@chgkansuji}{一}
+
+\makeatletter
+\newcommand{\schg}[1]{
+  \renewcommand{\M@JIRETSU}{#1}
+\ifx \M@JIRETSU\S@chgnum
+  \let\@shoumon@kigou=\shoumon@num
+\else
+  \ifx \M@JIRETSU\S@chgflatnum
+    \let\@shoumon@kigou=\shoumon@plainnum
+  \else
+    \ifx \M@JIRETSU\S@chgMARUnum
+      \let\@shoumon@kigou=\shoumon@MARUnum
+    \else
+      \ifx \M@JIRETSU\S@chgkana
+        \let\@shoumon@kigou=\shoumon@kana
+      \else
+        \ifx \M@JIRETSU\S@chgKANA
+          \let\@shoumon@kigou=\shoumon@KANA
+        \else
+          \ifx \M@JIRETSU\S@chgiroha
+            \let\@shoumon@kigou=\shoumon@iroha
+          \else
+            \ifx \M@JIRETSU\S@chgIROHA
+              \let\@shoumon@kigou=\shoumon@IROHA
+          \else
+            \ifx \M@JIRETSU\S@chgalpha
+              \let\@shoumon@kigou=\shoumon@alphabet
+          \else
+            \ifx \M@JIRETSU\S@chgALPHA
+              \let\@shoumon@kigou=\shoumon@ALPHABET
+            \else
+              \let\@shoumon@kigou=\shoumon@num
+            \fi
+            \fi
+            \fi
+          \fi
+        \fi
+      \fi
+    \fi
+  \fi
+\fi
+}
+\makeatother
+
+
+\makeatletter
+\def\S@charSET{%
+  \ifx \M@JIRETSU\S@chgnum
+    \let\@shoumon@kigou=\shoumon@num
+  \else
+    \ifx \M@JIRETSU\S@chgflatnum
+      \let\@shoumon@kigou=\shoumon@plainnum
+    \else
+      \ifx \M@JIRETSU\S@chgMARUnum
+        \let\@shoumon@kigou=\shoumon@MARUnum
+      \else
+        \ifx \M@JIRETSU\S@chgkana
+          \let\@shoumon@kigou=\shoumon@kana
+        \else
+          \ifx \M@JIRETSU\S@chgKANA
+            \let\@shoumon@kigou=\shoumon@KANA
+          \else
+            \ifx \M@JIRETSU\S@chgiroha
+              \let\@shoumon@kigou=\shoumon@iroha
+            \else
+              \ifx \M@JIRETSU\S@chgIROHA
+                \let\@shoumon@kigou=\shoumon@IROHA
+            \else
+              \ifx \M@JIRETSU\S@chgalpha
+                \let\@shoumon@kigou=\shoumon@alphabet
+            \else
+              \ifx \M@JIRETSU\S@chgALPHA
+                \let\@shoumon@kigou=\shoumon@ALPHABET
+            \else
+              \ifx \M@JIRETSU\S@chgROMAN
+                \let\@shoumon@kigou=\shoumon@ROMAN
+            \else
+              \ifx \M@JIRETSU\S@chgroman
+                \let\@shoumon@kigou=\shoumon@roman
+            \else
+              \ifx \M@JIRETSU\S@chgkansuji
+                \let\@shoumon@kigou=\shoumon@kansuji
+              \else
+                \let\@shoumon@kigou=\shoumon@num
+              \fi
+              \fi
+              \fi
+              \fi
+              \fi
+              \fi
+            \fi
+          \fi
+        \fi
+      \fi
+    \fi
+  \fi
+}
+\newcount\S@charBUNKI
+\S@charBUNKI=0
+\makeatother
+
+\makeatletter
+\newcommand{\Sxch}[2]{%
+  \patchcmd{\@shoumon@kigou}{#1}{#2}{\message{success}}{\message{failure}};
+}
+\let\sxchg=\Sxch
+\makeatother
+
+\newcounter{daimon@bangou}
+\setcounter{daimon@bangou}{0}
+
+\makeatletter
+\def\@FUTOSA#1{%
+  \ifcase#1 \or 0.1\p@\or 0.2\p@\or 0.4\p@\or 0.6\p@\or 0.8\p@
+            \or 1.2\p@\or 1.6\p@\or 2.0\p@\or 2.4\p@\or 2.8\p@\fi}
+\makeatother
+
+\makeatletter
+\newcommand{\box@thickness}[1]{%
+\@cotA=0
+\@cotB=0
+  \@futosa=\@FUTOSA{#1}
+  \@cotA=#1
+  \advance\@cotA by 1
+  \ifnum\@cotA>10
+    \@Dfutosa=\@FUTOSA{10}
+  \else
+    \@Dfutosa=\@FUTOSA{\@cotA}%
+  \fi
+  \@cotB=#1
+  \advance\@cotB by -1
+  \ifnum\@cotB<1
+    \@Hfutosa=\@FUTOSA{1}
+  \else
+    \@Hfutosa=\@FUTOSA{\@cotB}%
+  \fi
+}%
+\makeatother
+
+\makeatletter
+  \newcount\@cotA
+  \newcount\@cotB
+  \newcount\@cotC
+  \newcount\@cotD
+
+  \newcount\@cotX
+  \newcount\@cotY
+
+  \newdimen\@dimA
+  \newdimen\@dimB
+  \newdimen\@dimX
+
+  \newdimen\haba@shoumon
+
+  \newcount\shoumon@bangou
+  \shoumon@bangou=0
+  \newcount\bangouA
+  \bangouA=1
+  \newcount\@bangouB
+  \@bangouB=0
+  \newdimen\@choutenA
+  \newdimen\@choutenB
+  \@choutenA=0mm
+  \@choutenB=0mm
+  \newdimen\@DchoutenA
+  \@DchoutenA=0mm
+  \newdimen\@haba
+  \newdimen\@habaA
+  \newdimen\@SDspace%
+  \newdimen\@Dwidth%
+  \newdimen\@Swidth%
+  \newdimen\temp@Swidth%
+  \newdimen\tempX@Swidth%
+  \newdimen\tempY@Swidth%
+  \newdimen\@futosa
+  \newdimen\@Dfutosa%
+  \newdimen\@Hfutosa%
+\makeatother
+
+
+\makeatletter
+  \newdimen\@takasa%
+  \newdimen\temp@takasa%
+  \newdimen\tempX@takasa%
+  \newdimen\tempY@takasa%
+  \newcount\@BUNKI
+  \@BUNKI=0
+  \newcount\box@thickness@value%
+  \newcount\temp@box@thickness@value%
+  \newcount\tempX@box@thickness@value
+  \newcount\tempY@box@thickness@value
+  \newdimen\box@scale
+  \newdimen\temp@box@scale
+  \newdimen\tempX@box@scale
+  \newdimen\tempY@box@scale
+  \newdimen\@boxspace%
+  \def\@BOXSPACE{\@boxspace plus 0.2\@boxspace minus 0.2\@boxspace}
+  \newdimen\temp@boxspace%
+\makeatother
+
+\makeatletter
+  \@takasa=12mm
+  \box@scale=1.0\p@
+  \box@thickness@value=5
+  \box@thickness{\box@thickness@value}
+  \@boxspace=5.0mm
+  \@SDspace=0mm
+  \@Dwidth=6.0mm
+  \@Swidth=6.0mm
+\makeatother
+
+\makeatletter
+  \define@key{box}{height}{\@takasa=#1}
+  \define@key{box}{scale}{\box@scale=#1\p@}
+  \setkeys{box}{scale=1.0}
+  \define@key{box}{thickness}{%
+          \box@thickness@value=#1
+          \box@thickness{\box@thickness@value}
+  }
+  \define@key{box}{space}{\@boxspace=#1}
+  \define@key{box}{SDspace}{\@SDspace=#1}
+  \define@key{box}{Dwidth}{\@Dwidth=#1}
+  \define@key{box}{Swidth}{\@Swidth=#1}
+  \define@key{box}{Dnum}{
+      \setcounter{daimon@bangou}{#1}
+      \addtocounter{daimon@bangou}{-1}
+  }
+  \define@key{box}{Schar}{%
+      \renewcommand{\M@JIRETSU}{#1}
+      \S@charSET
+  }
+\makeatother
+
+\newcommand{\answerbox}[1]{\setkeys{box}{#1}}
+
+
+\makeatletter
+  \def\ptxt{\@ifstar{\put@textbox}{\put@text}}
+\makeatother
+
+
+\makeatletter
+  \newcount\ptxt@BUNKI
+  \ptxt@BUNKI=1
+\makeatother
+
+\makeatletter
+\newcommand{\put@text}[4][]{%
+\ifnum\ptxt@BUNKI=1
+  \draw (P#2) node[#1] {\makebox[\haba@shoumon][#3]{#4}};
+\fi%
+}
+\makeatother
+
+\makeatletter
+\newcommand{\ptxttoggle}{%
+\ifnum\ptxt@BUNKI=1
+  \ptxt@BUNKI=0
+\else
+  \ptxt@BUNKI=1
+\fi%
+}
+\makeatother
+
+
+\makeatletter
+\newcommand{\zeroFCOLORBOX}[1]{%
+  \newdimen\zerofb@xsep
+  \newdimen\zerofb@xrule
+  \zerofb@xsep=\fboxsep
+  \zerofb@xrule=\fboxrule
+  \fboxsep=0\p@
+  \fboxrule=4\fboxrule
+  \fcolorbox{red}{yellow}{#1}
+  \fboxsep=\zerofb@xsep
+  \fboxrule=\zerofb@xrule
+}
+\makeatother
+
+\makeatletter
+\newcommand{\put@textbox}[4][]{%
+\ifnum\ptxt@BUNKI=1
+  \draw (P#2) node[#1] {\zeroFCOLORBOX{\makebox[\haba@shoumon][#3]{#4}}};
+\fi
+}
+\makeatother
+
+
+\makeatletter
+\newcommand{\@gg}[1]{\raisebox{-3pt}{%
+    \begin{tikzpicture}[x=1pt,y=1pt,line width=0.5pt]
+      \draw[densely dotted,cap=round] (0,0) ellipse (4.5 and 6);
+      \draw[black!50] (0,0) node {\fontfamily{phv}\fontsize{9pt}{0}\selectfont #1\/};
+    \end{tikzpicture}
+  }}
+\makeatother
+
+
+\makeatletter
+\newcommand{\markeggs}[0]{%
+  \ \@gg{$-$}\hfil \@gg{0}\hfil \@gg{1}\hfil \@gg{2}\hfil%
+    \@gg{3}\hfil   \@gg{4}\hfil \@gg{5}\hfil \@gg{6}\hfil%
+    \@gg{7}\hfil   \@gg{8}\hfil \@gg{9}\hfil \@gg{a}\hfil%
+    \@gg{b}\hfil   \@gg{c}\hfil \@gg{d}\hfil%
+}
+\makeatother
+
+\makeatletter
+  \define@key{envbox}{height}{\@takasa=#1}
+  \define@key{envbox}{space}{\@boxspace=#1}
+  \define@key{envbox}{SDspace}{\@SDspace=#1}
+  \define@key{envbox}{Dwidth}{\@Dwidth=#1}
+  \define@key{envbox}{Swidth}{\@Swidth=#1}
+  \define@key{envbox}{Dnum}{
+      \setcounter{daimon@bangou}{#1}
+      \addtocounter{daimon@bangou}{-1}
+  }
+  \define@key{envbox}{Snum}{
+      \shoumon@bangou=#1
+      \advance\shoumon@bangou by -1
+  }
+  \define@key{envbox}{scale}{\box@scale=#1\box@scale}
+  \define@key{envbox}{thickness}{%
+    \box@thickness@value=#1%
+    \box@thickness{\box@thickness@value}
+  }
+  \define@key{envbox}{Schar}{%
+      \renewcommand{\M@JIRETSU}{#1}
+      \S@charSET
+      \let\tempY@shoumon@kigou=\@shoumon@kigou
+      \S@charBUNKI=1
+}
+\makeatother
+
+\makeatletter
+\newenvironment{ansbox}[1][%
+     scale=1.0
+]{%
+\temp@box@scale=\box@scale
+\temp@takasa=\@takasa
+\temp@Swidth=\@Swidth
+\temp@box@thickness@value=\box@thickness@value
+\box@thickness{\temp@box@thickness@value}
+\temp@boxspace=\@boxspace
+
+\setkeys{envbox}{#1}
+  \@habaA=\the\columnwidth\relax
+  \@habaA=0.98\@habaA\relax%
+  \advance\@habaA by -\@SDspace
+  \advance\@habaA by -\@Dwidth
+  \noindent
+  \begin{tikzpicture}%
+}%
+{%
+  \stepcounter{daimon@bangou};
+  \draw[line width=\@Dfutosa] ({-\@Dwidth-\@SDspace},-\@DchoutenA) rectangle (-\@SDspace,-\@choutenB);
+  \draw ({-0.5*\@Dwidth-\@SDspace},{0.5*(-\@DchoutenA-\@choutenB)}) node[] {\@大問番号表示{\arabic{daimon@bangou}}};
+  \end{tikzpicture}%
+\vskip\@BOXSPACE\relax
+\@boxspace=\temp@boxspace
+\@takasa=\temp@takasa
+\@Swidth=\temp@Swidth
+\box@thickness@value=\temp@box@thickness@value
+\box@thickness{\box@thickness@value}
+
+\box@scale=\temp@box@scale
+
+\let\@shoumon@kigou=\tempY@shoumon@kigou
+}
+\makeatother
+
+
+\makeatletter
+\newenvironment{ansbox*}[1][%
+     scale=1.0
+]{%
+\temp@box@scale=\box@scale
+\temp@takasa=\@takasa
+\temp@Swidth=\@Swidth
+\temp@box@thickness@value=\box@thickness@value
+\box@thickness{\temp@box@thickness@value}
+\temp@boxspace=\@boxspace
+
+\setkeys{envbox}{#1}
+  \@habaA=\the\columnwidth\relax
+  \@habaA=0.98\@habaA\relax%
+  \noindent
+  \begin{tikzpicture}%
+}%
+{%
+  \end{tikzpicture}%
+  \vskip\@BOXSPACE\relax
+\@boxspace=\temp@boxspace
+\@takasa=\temp@takasa
+\@Swidth=\temp@Swidth
+\box@thickness@value=\temp@box@thickness@value
+\box@thickness{\box@thickness@value}
+
+\box@scale=\temp@box@scale
+
+\let\@shoumon@kigou=\tempY@shoumon@kigou
+}
+\makeatother
+
+\makeatletter
+  \def\pbox{\@ifstar{\@putboxstar}{\@putbox}}
+
+  \def\@putboxstar{\@ifnextchar[{\@funcX}{\@funcY}}
+  \def\@funcX[#1]#2{\@ifnextchar[{\@funcW[#1]#2}{\@PUTBOXESstar{#2}{#1}}}%
+  \def\@funcW[#1]#2[#3]{\@PUTBOXESstar[#3]{#2}{#1}}%
+  \def\@funcY#1{\@ifnextchar[{\@funcZ#1}{\@PUTBOXstar{#1}}}
+  \def\@funcZ#1[#2]{\@PUTBOXstar[#2]{#1}}
+
+  \def\@putbox{\@ifnextchar[{\@funcA}{\@funcB}}
+  \def\@funcA[#1]#2{\@ifnextchar[{\@funcD[#1]#2}{\@PUTBOXES{#2}{#1}}}%
+  \def\@funcD[#1]#2[#3]{\@PUTBOXES[#3]{#2}{#1}}%
+  \def\@funcB#1{\@ifnextchar[{\@funcC#1}{\@PUTBOX{#1}}}
+  \def\@funcC#1[#2]{\@PUTBOX[#2]{#1}}%
+\makeatother
+
+\makeatletter
+  \define@key{putboxes}{height}{\@takasa=#1}
+  \define@key{putboxes}{thickness}{\temp@box@thickness@value=#1 \box@thickness{#1}}
+  \define@key{putboxes}{Snum}{
+      \shoumon@bangou=#1
+      \advance\shoumon@bangou by -1
+  }
+  \define@key{putboxes}{scale}{\tempX@box@scale=#1\temp@box@scale}
+  \define@key{putboxes}{Swidth}{\@Swidth=#1}
+
+  \define@key{putboxes}{Schar}{%
+      \let\tempX@shoumon@kigou=\@shoumon@kigou
+      \renewcommand{\M@JIRETSU}{#1}
+      \S@charSET
+      \S@charBUNKI=2
+  }
+\makeatother
+
+\makeatletter
+\newcommand{\@PUTBOXES}[3][%
+    scale=1.0
+]{%
+\@cotA=0
+\@cotB=0
+\@cotC=0
+\@cotD=0
+\@dimX=0\p@
+\@BUNKI=1
+
+\tempX@box@scale=\temp@box@scale
+\tempX@takasa=\@takasa
+\tempX@Swidth=\@Swidth
+\tempX@box@thickness@value=\box@thickness@value
+\box@thickness{\tempX@box@thickness@value}
+
+\ifnum\S@charBUNKI=2;
+  \let\@shoumon@kigou=\tempY@shoumon@kigou%
+\fi
+
+\setkeys{putboxes}{#1}
+
+  \@cotA=#2;%
+  \@cotB=#3;%
+  \ifnum\@cotA>\@cotB;%
+    \@cotC=\@cotA;%
+    \@cotD=\@cotB;%
+    \divide\@cotC by \@cotB;%
+    \multiply\@cotD by \@cotC;%
+    \advance\@cotA by -\@cotD;%
+    \newcount\@foo;
+    \@foo=\@cotC;%
+    \loop;
+      \@putbox{\@cotB}[scale=\strippt\tempX@box@scale]%
+      \advance\@foo -1;%
+    \ifnum\@foo>0;%
+    \repeat;
+  \fi;
+  \ifnum\@cotA>0;
+    \@dimX=\tempX@box@scale;%
+    \multiply\@dimX by \@cotA;%
+    \divide\@dimX by \@cotB;%
+    \@putbox{\@cotA}[scale=\strippt\@dimX]%
+  \fi;
+  \@takasa=\tempX@takasa
+  \@Swidth=\tempX@Swidth
+  \box@thickness@value=\tempX@box@thickness@value
+  \box@thickness{\box@thickness@value}
+
+  \@BUNKI=0
+
+\let\@shoumon@kigou=\tempY@shoumon@kigou
+}
+\makeatother
+
+
+\makeatletter
+\newcommand{\@PUTBOXESstar}[3][%
+    scale=1.0
+]{%
+\@cotA=0
+\@cotB=0
+\@cotC=0
+\@cotD=0
+\@dimX=0\p@
+\@BUNKI=1
+
+\tempX@box@scale=\temp@box@scale
+\tempX@takasa=\@takasa
+\tempX@box@thickness@value=\box@thickness@value
+\box@thickness{\tempX@box@thickness@value}
+
+\ifnum\S@charBUNKI=2;
+  \let\@shoumon@kigou=\tempY@shoumon@kigou%
+\fi
+
+\setkeys{putboxes}{#1}
+
+  \@cotA=#2;
+  \@cotB=#3;
+  \ifnum\@cotA>\@cotB;%
+    \@cotC=\@cotA;%
+    \@cotD=\@cotB;%
+    \divide\@cotC by \@cotB;%
+    \multiply\@cotD by \@cotC;%
+    \advance\@cotA by -\@cotD;%
+    \newcount\@foo;
+    \@foo=\@cotC;%
+    \loop;
+      \@putboxstar{\@cotB}[scale=\strippt\tempX@box@scale]%
+      \advance\@foo -1;
+    \ifnum\@foo>0;
+    \repeat;
+  \fi;
+  \ifnum\@cotA>0;
+    \@dimX=\tempX@box@scale;%
+    \multiply\@dimX by \@cotA;%
+    \divide\@dimX by \@cotB;%
+    \@putboxstar{\@cotA}[scale=\strippt\@dimX]%
+  \fi;
+  \@takasa=\tempX@takasa
+  \box@thickness@value=\tempX@box@thickness@value
+  \box@thickness{\box@thickness@value}
+
+  \@BUNKI=0
+
+\let\@shoumon@kigou=\tempY@shoumon@kigou
+}
+\makeatother
+
+
+\makeatletter
+  \define@key{putbox}{height}{\@takasa=#1}
+  \define@key{putbox}{thickness}{\temp@box@thickness@value=#1 \box@thickness{#1}}
+  \define@key{putbox}{Snum}{
+      \shoumon@bangou=#1
+      \advance\shoumon@bangou by -1
+}
+  \define@key{putbox}{scale}{\tempY@box@scale=#1\box@scale}
+  \define@key{putbox}{Swidth}{\@Swidth=#1}
+
+  \define@key{putbox}{Schar}{%
+      \renewcommand{\M@JIRETSU}{#1}
+      \S@charSET
+      \S@charBUNKI=1
+  }
+\makeatother
+
+\makeatletter
+\newcommand{\@PUTBOX}[2][%
+    scale=1.0
+]{%
+\@cotX=0
+\@cotY=0
+\@dimA=0\p@
+\@dimB=0\p@
+\haba@shoumon=0\p@
+
+\ifnum\@BUNKI=0;
+  \tempY@takasa=\@takasa
+  \tempY@Swidth=\@Swidth
+  \tempY@box@thickness@value=\box@thickness@value
+  \box@thickness{\tempY@box@thickness@value}
+\fi;
+
+\tempY@box@scale=\box@scale%
+
+\setkeys{putbox}{#1}
+
+  \bangouA=#2;
+  \advance\@bangouB by \bangouA;
+  \@cotX=\bangouA;
+  \advance\@cotX by -1;
+  \advance\@choutenB by \@takasa;
+  \@haba=\strippt\tempY@box@scale\@habaA;
+  \draw[line width=\@futosa] (0,-\@choutenA) rectangle (\@haba,-\@choutenB);
+
+\@dimB=\@Swidth;
+\@dimA=\@haba;%
+
+\ifnum\@cotX=0;
+  \advance \@dimA by -\@dimB;%
+\else
+  \multiply \@dimB by \bangouA;%
+  \advance \@dimA by -\@dimB;%
+  \divide \@dimA by \bangouA;%
+\fi
+
+\haba@shoumon=0.98\@dimA%
+
+\ifnum\@cotX=0;
+  \draw[line width=\@Hfutosa,densely dotted] (\@Swidth,-\@choutenA)--(\@Swidth,-\@choutenB);%
+\else
+\foreach ~ in{1,...,\@cotX}{%
+  \draw[line width=\@futosa] (\@haba/\bangouA*~,-\@choutenA)--(\@haba/\bangouA*~,-\@choutenB);%
+}
+\foreach ~ in{0,1,...,\@cotX}{%
+  \draw[line width=\@Hfutosa,densely dotted] (\@haba/\bangouA*~+\@Swidth,-\@choutenA)--(\@haba/\bangouA*~+\@Swidth,-\@choutenB);%
+}
+\fi
+\foreach ~ in{1,...,\bangouA}{%
+  \@cotY=\shoumon@bangou;%
+  \advance\@cotY by ~;%
+  \coordinate (NO\the\@cotY) at ({\@haba/\bangouA*(~ - 1) +\@Swidth/2},-0.5*\@choutenA-0.5*\@choutenB);
+  \coordinate (P\the\@cotY) at ({\@haba/\bangouA*(~ - 1) +\@Swidth +0.5*(\@haba/\bangouA-\@Swidth)},-0.5*\@choutenA-0.5*\@choutenB);
+}
+\foreach ~ in{1,...,\bangouA}{%
+  \@cotY=\shoumon@bangou;%
+  \advance\@cotY by ~;
+  \draw (NO\the\@cotY) node[] {\@shoumon@kigou{\@cotY}};
+}
+\advance\@choutenA by \@takasa;
+\advance\shoumon@bangou by \bangouA;
+\advance\@bangouB by \bangouA;
+
+\ifnum\@BUNKI=0;
+  \@takasa=\tempY@takasa
+  \@Swidth=\tempY@Swidth
+  \box@thickness@value=\tempY@box@thickness@value
+  \box@thickness{\box@thickness@value}
+\fi
+
+\ifnum\S@charBUNKI=1;
+  \let\@shoumon@kigou=\tempY@shoumon@kigou%
+\fi
+}
+\makeatother
+
+
+\makeatletter
+\newcommand{\@PUTBOXstar}[2][%
+    scale=1.0
+]{%
+\@cotX=0
+\@cotY=0
+\@dimA=0\p@
+\haba@shoumon=0\p@
+
+\ifnum\@BUNKI=0;
+  \tempY@takasa=\@takasa
+  \tempY@box@thickness@value=\box@thickness@value
+  \box@thickness{\tempY@box@thickness@value}
+\fi;
+
+\tempY@box@scale=\box@scale%
+\setkeys{putbox}{#1}%
+
+  \bangouA=#2;
+  \advance\@bangouB by \bangouA;
+  \@cotX=\bangouA;
+  \advance\@cotX by -1;
+  \advance\@choutenB by \@takasa;
+  \@haba=\strippt\tempY@box@scale\@habaA;%
+  \draw[line width=\@futosa] (0,-\@choutenA) rectangle (\@haba,-\@choutenB);
+
+\@dimA=\@haba;%
+
+\ifnum\@cotX=0;
+  \advance \@dimA by -0\p@;%
+\else
+  \divide \@dimA by \bangouA;%
+\fi
+
+\haba@shoumon=0.98\@dimA%
+
+\ifnum\@cotX=0;
+\else
+\foreach ~ in{1,...,\@cotX}{%
+  \draw[line width=\@futosa] (\@haba/\bangouA*~,-\@choutenA)--(\@haba/\bangouA*~,-\@choutenB);%
+}
+\fi
+\foreach ~ in{1,...,\bangouA}{%
+  \@cotY=\shoumon@bangou;%
+  \advance\@cotY by ~;%
+  \coordinate (NO\the\@cotY) at ({\@haba/\bangouA*(~ - 1) +\@Swidth/2},-0.5*\@choutenA-0.5*\@choutenB);%
+  \coordinate (P\the\@cotY) at ({\@haba/\bangouA*(~ - 1) +0.5*\@haba/\bangouA},-0.5*\@choutenA-0.5*\@choutenB);
+}
+\advance\@choutenA by \@takasa;
+\advance\shoumon@bangou by \bangouA;
+\advance\@bangouB by \bangouA;
+
+\ifnum\@BUNKI=0;
+  \@takasa=\tempY@takasa
+  \box@thickness@value=\tempY@box@thickness@value
+  \box@thickness{\box@thickness@value}
+\fi
+
+\ifnum\S@charBUNKI=1;
+  \let\@shoumon@kigou=\tempY@shoumon@kigou%
+\fi
+}
+\makeatother
+
+
+%-------------------- all done
+\endinput

@@ -1,0 +1,6 @@
+PWD /usr/local/tetex/share/texmf/ptex/platex/tetsutex/追加sty
+INPUT /usr/local/teTeX/share/texmf/web2c/texmf.cnf
+INPUT /usr/local/teTeX/share/texmf/web2c/texmf.cnf
+INPUT /usr/local/teTeX/share/texmf-var/web2c/uplatex.fmt
+INPUT デザイン.sty
+OUTPUT デザイン.log

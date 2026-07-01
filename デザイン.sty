@@ -1,0 +1,673 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{デザイン}[2025/03/14, ver.1.0.0]
+
+% デザイン------------------------------------------------------------------------------------
+% 点線囲み---------------------------------------------
+%\newenvironment{点線囲み}{%
+%\par\br{-.5}
+%\begin{長い点線枠囲み}\raggedright\br{-.2}
+%}{\br{-.2}\end{長い点線枠囲み}\br{-.5}}
+\newtcolorbox{点線囲み}%
+  {%
+    empty,breakable,sharp corners,%
+    left=.3zw,right=.3zw,
+    top=.2zw,bottom=.2zw,
+    before skip=8pt,%
+    borderline={0.4pt}{0pt}{black,dashed,dash pattern={on 1.5pt off 1.5pt}},%
+    before upper=\段落下げ%
+  }%
+\NewEnviron{Checkbox}[1][red]{\一行カラーボックス[タイトル文字色=white,右タイトル文字色=black,右タイトル背景色=white,枠の色=#1!75!white,fboxsep=5pt,角丸半径=0pt,fboxrule=1pt]{\sf{Check!}}{\hspace{5pt}\begin{minipage}{\linewidth-10pt}\sffamily\BODY\end{minipage}}}%
+%\newcommand{\出典表示}[1]{\一行カラーボックス[タイトル文字色=white,右タイトル文字色=black,右タイトル背景色=white,枠の色=black!75!white,fboxsep=5pt,角丸半径=0pt,fboxrule=1pt]{\gt{出典}}{\hspace{5pt}\begin{minipage}{\linewidth-10pt}\mcfamily#1\end{minipage}}}%
+%\newcommand{\出典表示}[1]{\begin{鉄壁カラーボックス}{\!\!#1\!\!}\noindent\mcfamily#2\end{鉄壁カラーボックス}}%
+% keybox-----------------------------------------------
+\newtcolorbox{keybox}[1][gray]{enhanced,
+  before skip=1.2zw,after skip=1.2zw,fontupper=\gtfamily,
+  boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,
+  colback=white,
+  colframe=#1!20!black,
+  sharp corners,rounded corners=southeast,arc is angular,arc=3mm,
+  underlay={%
+    \path[fill=#1!80!black] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[draw=tcbcolframe,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[fill=#1!50!black,draw=none] (interior.south west) rectangle node[white]{\huge\bgt{!}} ([xshift=4mm]interior.north west);
+    },
+  drop fuzzy shadow}
+% \numtitle[]{}----------------------------------------
+\newcounter{numtitlebangou}
+\setcounter{numtitlebangou}{1}
+\newcommand{\numtitle}[2][black]%
+  {%
+    \一行カラーボックス[角丸半径=0pt,fboxrule=0pt,枠の色=#1!85!white,右タイトル背景色=#1!30!white]{\large\２文字半[c]{\scalebox{.8}[1]{\bignum{\thenumtitlebangou}}}}{\vphantom{\raisebox{.2zw}{\Large あ}\raisebox{-.2zw}{\Large あ}}\bgtfamily\Large\:#2}%
+    \stepcounter{numtitlebangou}
+  }%
+% \colorfreashtitle[]{}{}{}----------------------------
+ \NewDocumentCommand\colorfreshtitle{ O{black} m m m }%
+   {%
+     \smallskip%
+     \hspace{-5mm}%
+     \begin{scaletikzpicturetowidth}{\linewidth}%
+       \begin{tikzpicture}[scale=\tikzscale]%
+         \fill[#4!60!white](0,0)--(0,0.95)--(0.4,1.8)--(0.4,0.65)--cycle;%
+         \fill[left color=#1!50!white,right color=white](0.1,0)--(16,0)--(16,0.65)--(0.5,0.65)--cycle;%
+         \fill[left color=#1!10!white, right color=white](0.5,0.75)--(16,0.75)--(16,1.8)--(0.5,1.8)--cycle;%
+         \draw(0.5,0.65)node[right]{\textbf{\Huge 第#2講\scalebox{0.7}[1.2]{\hspace{6mm}$\triangleright\triangleright\triangleright$\hspace{4mm}}#4}};%
+         \draw(0.6,1.5)node[right]{\underline{\gt{\large \scalebox{0.7}[1.2]{\scalebox{1.4}[1.4]{\raisebox{-1pt}[0pt][0pt]{$\blacktriangleright$}}\scalebox{1.5}[0.85]{#3}}}}};%
+       \end{tikzpicture}%
+     \end{scaletikzpicturetowidth}
+     %\smallskip%
+   }%
+% \gridline{}------------------------------------------
+\newcommand{\gridline}[1]%
+  {%
+    \centerline%
+      {%
+        \tikz\draw[step=1mm](-.05,.05)grid(4.05,.35);%
+        {\large\ \:#1\ \:}\tikz\draw[step=1mm](-.05,.05)grid(4.05,.35);%
+      }%
+  }%
+% \step<>[]{}-------------------------------------------
+\newcounter{stepbangou}
+\setcounter{stepbangou}{1}%
+\newcommand{\restep}{\setcounter{stepbangou}{1}}%
+\NewDocumentCommand\@step{ D<>{black} O{\thestepbangou\stepcounter{stepbangou}} m }
+  {%
+    \見出しぶら下げ%
+      {%
+        \begin{tikzpicture}[baseline=.24em]%
+          \fill[#1](2.3em,1.1em)--(3.4em,1.1em)--(3.4em,0em)--(2.3em,0em)--(2.55em,.55em)--cycle;%
+          \draw[thick,black](0em,0em)rectangle(3.4em,1.1em);
+          \node at(1.7em,.55em){\scalebox{.8}[.85]{\bgt{STEP\ \:\textcolor{white}{#2}}}};%
+          \draw[thick,black](2.3em,1.1em)--(2.55em,.55em)--(2.3em,0em);%
+        \end{tikzpicture}\ %
+      }%
+      {\gtfamily#3}
+  }%
+\NewDocumentCommand\@@step{ D<>{black} O{\thestepbangou\stepcounter{stepbangou}} m }
+  {%
+    \見出しぶら下げ%
+      {%
+        \begin{tikzpicture}[baseline=.24em]%
+          \fill[#1!55!white](2.3em,1.1em)--(3.4em,1.1em)--(3.4em,0em)--(2.3em,0em)--(2.55em,.55em)--cycle;%
+          \draw[thick,black](0em,0em)rectangle(3.4em,1.1em);
+          \node at(1.7em,.55em){\scalebox{.8}[.85]{\bgt{STEP\ \:\textcolor{white}{#2}}}};%
+          \draw[thick,black](2.3em,1.1em)--(2.55em,.55em)--(2.3em,0em);%
+        \end{tikzpicture}\ %
+      }%
+      {\gtfamily#3}
+  }%
+\newcommand{\step}{\@ifstar{\@@step}{\@step}}%
+% \標識[]{}--------------------------------------------
+\newcommand{\標識}[2][black]%
+  {%
+    \br{.5}\begin{tikzpicture}[baseline=0pt]%
+      \filldraw[#1!30](.1em,-.1em)rectangle(1.1em,.9em);
+      \filldraw[#1](-.1em,.1em)rectangle(.9em,1.1em);%
+      \draw(1em,.5em)node[right]{\textmg{\udotline[position=0zw,color=#1!30,width=.5pt]{\udotline[position=.3zw,color=#1!30,width=.5pt]{\udotline[position=.6zw,color=#1!30,width=.5pt]{\quad\hphantom{#2}\ \,\,}}}}};
+      \draw(1em,.5em)node[right]{\textmg{\quad#2\ \,\,\ \textcolor{#1!20}{\rule[-.15zw]{.3zw}{1.1zw}}\,\textcolor{#1!40}{\rule[-.15zw]{.3zw}{1.1zw}}\,\textcolor{#1}{\rule[-.15zw]{.3zw}{1.1zw}}}};
+    \end{tikzpicture}\br0\nopagebreak%
+  }%
+% columnbox--------------------------------------------
+\newsavebox\コラムbox
+\setbox\コラムbox=\hbox{%
+\begin{tikzpicture}[x=2.1mm,y=2.1mm,>=stealth,baseline=(A.base)]
+\fill[black!50!black!70!white] (0,0) arc (90:270:1) -- ++ (3.5\Cwd,0) arc (-90:90:1) -- cycle;
+\node[fill=white,circle,inner sep=0pt,outer sep=0pt] at (0,-1) {\textmg{\fsize{7.5pt}！}};
+\node (A) at (2.2\Cwd,-1) {\bgt{\small\color{white}コラム}};
+\end{tikzpicture}%
+}
+\DeclareTColorBox{コラムcolorbox}{ o m O{} m }%
+{enhanced,frame empty,
+  colback=white,
+  colframe=white,
+  colbacktitle=white,
+  fonttitle=\gtfamily\small,
+  enlarge top by=2mm,
+  breakable,
+  borderline={0.5mm}{0mm}{#4!15!white},
+  borderline={0.5mm}{0mm}{#4!50!white,dashed},
+  attach boxed title to top left={xshift=3mm, yshift=-4.5mm},
+%  boxed title style={boxrule=0.4pt},
+  varwidth boxed title, 
+  title={\usebox\コラムbox\hspace{.9zw}\textgt{\color{black}\inhibitglue\ignorespaces#2\hspace{-1zw}\inhibitglue}},#3}
+\newenvironment{columnbox}[2][black]{%
+\begin{jquotation}(1zw)(1zw)[0pt]%
+\begin{コラムcolorbox}{#2}{#1}%
+\small\段落下げ\par
+\vspace{1pt}
+\begin{jquotation}(-.5zw)(-.5zw)[2pt]%
+}{%
+\end{jquotation}%
+\vspace{-1pt}
+\end{コラムcolorbox}%
+\end{jquotation}
+\vspace{2pt}
+}
+% shikibetubox-----------------------------------------
+\newcounter{shikibetubangou}%
+\setcounter{shikibetubangou}{1}%
+\newtcolorbox{shikibetubox}[1]% 
+  {%
+    enhanced jigsaw,top=1pt,bottom=1pt,%
+    interior style={bottom color=gray!50,top color=gray!10},frame hidden,%
+    attach boxed title to top left={yshift=-4mm},boxed title style={size=small,opacityframe=0,opacityback=0},%
+    title={\textcolor{black!100}{\LARGE●}\hspace{-1.34zw}\raisebox{.3zw}{\bgt{識}}\hspace{.1zw}\textcolor{black!70}{\LARGE●}\hspace{-1.34zw}\raisebox{.3zw}{\bgt{別}}\hspace{.1zw}\textcolor{black!60}{\LARGE●}\hspace{-1.34zw}\raisebox{.3zw}{\bgt{法}}\hspace{.1zw}\textcolor{black!40}{\LARGE●}\hspace{-1.34zw}\raisebox{.3zw}{\bgt{\ajTsumesuji*{\theshikibetubangou}}}\textcolor{black}{\raisebox{.25zw}{\gt{\ 〈#1〉}}}\stepcounter{shikibetubangou}},fonttitle=\gtfamily,before upper=\段落下げ%
+  }%
+% \fukidashi[]{}---------------------------------------
+\NewDocumentCommand\@fukidashi{ O{\relax} m }%
+  {%
+    \ifthenelse{\equal{#1}{\relax}}%
+      {\hukidashi[hankei=1pt,hukidasihaba=3pt,hukidasitakasa=3pt,hukidasiiti=B]{#2}}%
+      {\hukidashi[hankei=1pt,hukidasihaba=3pt,hukidasitakasa=3pt]{#2}}%
+  }%
+\NewDocumentCommand\@@fukidashi{ O{\relax} m }%
+  {%
+    \ifthenelse{\equal{#1}{\relax}}%
+      {\hukidashi[hukidasihaba=3pt,hukidasitakasa=3pt,hukidasiiti=B]{#2}}%
+      {\hukidashi[hukidasihaba=3pt,hukidasitakasa=3pt]{#2}}%
+  }%
+\newcommand{\fukidashi}{\@ifnextchar{\@fukidashi}{\@@fukidashi}}%"
+% \網掛け見出し{}--------------------------------------
+\newcommand\網掛け見出し[2][black]{
+%\bgroup%
+%\setlength{\fboxsep}{1pt}%
+%\definecolor{shadecolor}{gray}{.7}%
+%\begin{shaded}\begin{center*}\br{.1}\bgtfamily \large #1\br{.1}\end{center*}\end{shaded}%
+%\mybox{\hfill #1\hfill}
+%\br{1.5}
+\下n行からは始めない{4}
+\noindent\begin{tcolorbox}[arc=2mm,colback=#1!20!white!90!black,colframe=#1!90!black,right=-.08zw,left=-.08zw,bottom=-.1zh,top=-.1zh]
+\begin{tcolorbox}[colback=#1!50!white!90!black,coltext=white,colframe=#1!90!black,bottom=.1zh,top=.1zh]
+\centering\bgtfamily\Large#2\kanjiskip=.3zw
+\end{tcolorbox}
+\end{tcolorbox}
+\nopagebreak
+%\egroup%
+}
+% scaletikzpicturetowidth------------------------------
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+  \def\tikz@width{#1}%
+  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+  \BODY
+  \end{lrbox}%
+  \pgfmathparse{#1/\wd\measure@tikzpicture}%
+  \edef\tikzscale{\pgfmathresult}%
+  \BODY
+}
+% \circlestitle[]{}------------------------------------
+\newcounter{circlestitlebangou}%
+\newcommand{\@circlestitle@font}{\textmc}%
+\newcommand{\@circlestitle@@font}{\tsubasa}%
+\newcommand{\circlestitlefonts}[2]%
+  {%
+    \renewcommand{\@circlestitle@font}{#1}%
+    \renewcommand{\@circlestitle@@font}{#2}%
+  }%
+\NewDocumentCommand\circlestitle{ O{\basiccolor} m }%
+  {%
+    \stepcounter{circlestitlebangou}%
+    \noindent%
+    \begin{scaletikzpicturetowidth}{\linewidth}%
+      \begin{tikzpicture}[scale=\tikzscale]%
+        \fill[#1!10!white](0,0)circle(.8);% section名の左の円1
+        \fill[#1!20!white](-1,1)circle(.5);% section名の左の円2
+        \fill[#1!30!white](-.8,2)circle(.35);% section名の左の円3
+        \fill[#1!40!white](-.5,2.8)circle(.15);% section名の左の円4
+        \fill[#1!10!white](7.5,.3)circle(.6);% section名の右の円1
+        \fill[#1!20!white](8.8,.9)circle(.45);% section名の右の円2
+        \fill[#1!30!white](10,1.28)circle(.3);% section名の右の円3
+        \fill[#1!40!white](11.1,1.4)circle(.25);% section名の右の円4
+        \fill[#1!50!white](12.15,1.38)circle(.225);% section名の右の円5
+        \fill[#1!50!white](12.8,.8)circle(.2125);% section名の右の円6
+        \fill[#1!50!white](12.5,0)circle(.15);% section名の右の円7
+        \draw(0,.2)node[right]{\Huge\@circlestitle@@font{\uline[width=.5pt]{\thecirclestitlebangou.\ \uline[-4.5pt,width=.5pt]{#2}}\uline[-4.5pt,width=.5pt]{\qquad\qquad\quad}}};% section名
+        \draw(-.5,1.2)node[right]{\Large\textcolor{#1!75!white}{\@circlestitle@font{Chapter}}};% Chapterの文字
+      \end{tikzpicture}%
+    \end{scaletikzpicturetowidth}%
+  }%
+% \dangotitle[][][]{}[]<>------------------------------
+\newcounter{dangotitlebangou}%
+\setcounter{dangotitlebangou}{1}%
+\NewDocumentCommand\@dangotitle{ O{第} O{１} O{回} m O{} D<>{\kyokasho} D<>{\kyokasho} }%
+  {%
+    \def\@dangotitle@font{#6}%
+    \def\@dangotitle@@font{#7}%
+    %\vspace*{-\@上余白-\headsep-\headheight-\topskip}%
+    \vspace*{-\topskip+\topmargin-\headheight}%
+    \noindent\hspace*{-.5\paperwidth+.5\linewidth}%
+    \begin{scaletikzpicturetowidth}{\paperwidth}%
+      \begin{tikzpicture}[scale=\tikzscale]%
+        \draw[draw=orange!50!pink!50!white,fill=orange!50!pink!50!white](-10,0)rectangle(10,2);% 上の長方形
+        \draw[draw=pink!10!white,fill=pink!10!white](-10,-1.5)rectangle(10,0);% 下の長方形
+        \draw[ultra thick,brown!50!yellow](-8.3,0)--(10,0);% 境界線
+        \draw[draw=white,fill=white](-9,1)circle(.7);% 1つ目の外円
+        \draw[draw=pink!10!white,fill=pink!10!white](-9,1)circle(.6);% 1つ目の内円
+        \draw[draw=white,fill=white](-8.3,.2)circle(.7);% 2つ目の外円
+        \draw[draw=orange!50!pink!70!white,fill=orange!50!pink!70!white](-8.3,.2)circle(.6);% 2つ目の内円
+        \draw[draw=white,fill=white](-7.6,-.6)circle(.7);% 3つ目の外円
+        \draw[draw=brown!50!white,fill=brown!50!white](-7.6,-.6)circle(.6);% 3つ目の内円
+        \draw[draw=black,fill=black](8.5,1)circle(.02);% 中央の中黒
+        \draw[draw=black,fill=black](7.835,1.2)circle(.02);% 最左端の中黒
+        \draw[draw=black,fill=black](8.64,.3)circle(.02);% 右から2番目の中黒
+        \draw[draw=black,fill=black](9.08,1.47)circle(.02);% 最右端の中黒
+        \draw(8.5,1)circle[x radius=.3,y radius=.8];% 縦の楕円
+        \draw(8.5,1)circle[x radius=.3,y radius=.8,rotate=60];% 右上の楕円
+        \draw(8.5,1)circle[x radius=.3,y radius=.8,rotate=120];% 右下の楕円
+        \draw(0,.7)node{\Huge\@dangotitle@font{#4}};% タイトル
+        \draw(-9,1)node{\Huge\@dangotitle@font{#1}};% 1つ目の円の文字
+        \draw(-8.3,.2)node{\Huge\@dangotitle@font{#2}};% 2つ目の円の文字
+        \draw(-7.6,-.6)node{\Huge\@dangotitle@font{#3}};% 3つ目の円の文字
+        \draw(1,-.8)node%
+          {%
+            \renewcommand{\arraystretch}{.8}\color{gray}%
+            \@dangotitle@@font{#5}%
+          };%
+      \end{tikzpicture}%
+    \end{scaletikzpicturetowidth}\stepcounter{dangotitlebangou}\smallskip%
+  }%
+\NewDocumentCommand\@@dangotitle{ O{第} O{１} O{回} m O{} D<>{\kyokasho} D<>{\kyokasho} }%
+  {%
+    \def\@dangotitle@font{#6}%
+    \def\@dangotitle@@font{#7}%
+    %\vspace*{-\@上余白-\headsep-\headheight-\topskip}%
+    \vspace*{-\topskip+\topmargin-\headheight}%
+    \noindent\hspace*{-.5\paperwidth+.5\linewidth}%
+    \begin{scaletikzpicturetowidth}{\paperwidth}%
+      \begin{tikzpicture}[scale=\tikzscale]%
+        \draw[draw=black!30!white,fill=black!30!white](-10,0)rectangle(10,2);% 上の長方形
+        \draw[draw=black!10!white,fill=black!10!white](-10,-1.5)rectangle(10,0);% 下の長方形
+        \draw[ultra thick,black!40!white](-8.3,0)--(10,0);% 境界線
+        \draw[draw=white,fill=white](-9,1)circle(.7);% 1つ目の外円
+        \draw[draw=black!10!white,fill=black!10!white](-9,1)circle(.6);% 1つ目の内円
+        \draw[draw=white,fill=white](-8.3,.2)circle(.7);% 2つ目の外円
+        \draw[draw=black!20!white,fill=black!20!white](-8.3,.2)circle(.6);% 2つ目の内円
+        \draw[draw=white,fill=white](-7.6,-.6)circle(.7);% 3つ目の外円
+        \draw[draw=black!30!white,fill=black!30!white](-7.6,-.6)circle(.6);% 3つ目の内円
+        \draw[draw=black,fill=black](8.5,1)circle(.02);% 中央の中黒
+        \draw[draw=black,fill=black](7.835,1.2)circle(.02);% 最左端の中黒
+        \draw[draw=black,fill=black](8.64,.3)circle(.02);% 右から2番目の中黒
+        \draw[draw=black,fill=black](9.08,1.47)circle(.02);% 最右端の中黒
+        \draw(8.5,1)circle[x radius=.3,y radius=.8];% 縦の楕円
+        \draw(8.5,1)circle[x radius=.3,y radius=.8,rotate=60];% 右上の楕円
+        \draw(8.5,1)circle[x radius=.3,y radius=.8,rotate=120];% 右下の楕円
+        \draw(0,.7)node{\Huge\@dangotitle@font{#4}};% タイトル
+        \draw(-9,1)node{\HUGE\@dangotitle@font{#1}};% 1つ目の円の文字
+        \draw(-8.3,.2)node{\HUGE\@dangotitle@font{#2}};% 2つ目の円の文字
+        \draw(-7.6,-.6)node{\HUGE\@dangotitle@font{#3}};% 3つ目の円の文字
+        \draw(1,-.8)node{\@dangotitle@@font{#5}};%
+      \end{tikzpicture}%
+    \end{scaletikzpicturetowidth}\smallskip\stepcounter{dangotitlebangou}%
+  }%
+\newcommand{\dangotitle}{\@ifstar{\@dangotitle}{\@@dangotitle}}%
+% \hatotitle*[][][]{}[]<>------------------------------
+\newcounter{hatotitlebangou}%
+\setcounter{hatotitlebangou}{1}%
+\NewDocumentCommand\@@hatotitle{ O{鳩} O{\today} m O{} O{} O{} O{} D<>{\kyokasho} D<>{\kyokasho} }%
+{%
+\def\@hatotitle@font{#8}%
+\def\@hatotitle@@font{#9}%
+\vspace*{-\@上余白-\headsep-\headheight-\topskip}%
+\vspace*{-\topskip+\topmargin-\headheight+7.9zw}%
+\noindent\hspace*{-.5\paperwidth+.5\linewidth}%
+\begin{scaletikzpicturetowidth}{\paperwidth}%
+\begin{tikzpicture}[scale=\tikzscale]%
+\draw[draw=black!10!white, fill=white!80!black](-10,-1.3)rectangle(10,0);% 下の長方形
+\draw[fill=black!30!white, draw=black!30!white](-10,-1)rectangle(10,2);% 奥長方形
+\draw[fill=black!35!white,
+rounded corners=2pt, draw=black!45!white](7.3,1)rectangle(9.5,1.95);% 右のインデント
+\draw[fill=black!15!white,
+rounded corners=2pt, draw=black!45!white](4.8,1)rectangle(7,1.95);% 右から 2 のインデント
+\draw[fill=black!35!white,
+rounded corners=2pt, draw=black!45!white](2.3,1)rectangle(4.5,1.95);% 右から 3 のインデント
+\draw[fill=black!50!white,
+rounded corners=2pt, draw=black!50!white](-0.2,1)rectangle(2,1.95);% 右から 4 のインデント
+\draw[fill=black!50!white, draw=black!50!white](-9.9,-0.9)rectangle(9.9,1.4);% 手前の長方形
+               \draw[fill=black!5!white,
+                 draw=black!5!white,
+                 rounded corners=3pt](-9.9,-0.7)--(-9.9,1.2)--(6.8,1.2)arc(180:360:0.75)
+--(9.9,1.2)--(9.9,-0.7)--cycle;%1 番手前の長方形 \draw[draw=black!85!white,
+rotate around={30:(-7,1.3)},scale=1.2, yshift=10pt,thick](-7,1.4)--(-7,0.6)arc(360:180:0.2) --(-7.4,1.4)arc(180:0:0.16)--(-7.08,1.4) --(-7.08,0.6)arc(360:180:0.11)--(-7.3,1.4);% クリップ
+\draw[ultra thick,dashed,draw=black!85!white](-10,-0.5)--(8.5,-0.5);% ダッシュ
+\draw(0,0.35)node{\Huge{\@hatotitle@font{#3}}};% タイトル
+\draw(8.5,-0.2)node[left,fill=black,text=white]{\@hatotitle@font{#2}};% 黒箱
+             \draw(8.4,1.65)node{{\renewcommand{\arraystretch}{.8}%
+           {\@hatotitle@@font{#7}}%
+}};% 右の文字
+\draw(5.9,1.65)node{{\renewcommand{\arraystretch}{.8}%
+{\@hatotitle@@font{#6}}%
+}};% 右から 2 の文字
+            \draw(3.4,1.65)node{{\renewcommand{\arraystretch}{.8}%
+           {\@hatotitle@@font{#5}}%
+}};% 右から 3 の文字
+\draw(0.9,1.65)node{{\renewcommand{\arraystretch}{.8}%
+{\@hatotitle@@font{#4}}%
+}};% 右から 4 の文字
+            \draw(-6,0.35)node[draw=black!90!white, rectangle, rounded corners=2.5pt,
+          text=black!90!white,
+          line width=1.5pt, inner sep=1pt, outer sep=0pt,
+          rotate around={8:(-6,0.35)},yshift=-15pt
+          ] {\scalebox{6}{\@hatotitle@font{#1}}};
+      \end{tikzpicture}%
+   \end{scaletikzpicturetowidth}\stepcounter{hatotitlebangou}\smallskip%
+  }%
+\NewDocumentCommand\@hatotitle{ O{鳩} O{\today} m O{} O{} O{} O{} D<>{\kyokasho} D<>{\kyokasho} }%
+{%
+    \def\@hatotitle@font{#8}%
+    \def\@hatotitle@@font{#9}%
+    \vspace*{\topmargin-\headheight-\headsep+7.9zw}%
+    \noindent\hspace*{-.5\paperwidth+.5\linewidth}%
+    \begin{scaletikzpicturetowidth}{\paperwidth}%
+    \begin{tikzpicture}[scale=\tikzscale]%
+\draw[draw=pink!30!white, fill=pink!80!yellow!20!white](-10,-1.3)rectangle(10,0);% 下の長方形
+\draw[fill=yellow!50!white, draw=yellow!30!white](-10,-1)rectangle(10,2);% 奥長方形
+\draw[fill=yellow!30!brown!30!white,
+rounded corners=2pt, draw=yellow!30!brown!70!white](7.3,1)rectangle(9.5,1.95);% 右のインデント
+\draw[fill=yellow!30!orange!20!white,
+rounded corners=2pt, draw=yellow!30!brown!70!white](4.8,1)rectangle(7,1.95);% 右から 2 のインデント
+\draw[fill=yellow!30!brown!30!white,
+rounded corners=2pt, draw=yellow!30!brown!70!white](2.3,1)rectangle(4.5,1.95);% 右から 3 のインデント
+\draw[fill=pink!40!orange!40!white,
+rounded corners=2pt, draw=pink!40!orange!40!white](-0.2,1)rectangle(2,1.95);% 右から 4 のインデント
+\draw[fill=pink!40!orange!40!white, draw=pink!40!orange!40!white](-9.9,-0.9)rectangle(9.9,1.4);% 手前の長方形
+\draw[fill=gray!5!orange!8!white,
+draw=pink!10!orange!20!white,
+rounded corners=3pt](-9.9,-0.7)--(-9.9,1.2)--(6.8,1.2)arc(180:360:0.75) --(9.9,1.2)--(9.9,-0.7)--cycle;%1 番手前の長方形
+\draw[draw=brown!80!black,
+rotate around={30:(-7,1.3)},scale=1.2, yshift=10pt,thick](-7,1.4)--(-7,0.6)arc(360:180:0.2)-- (-7.4,1.4)arc(180:0:0.16)--(-7.08,1.4)-- (-7.08,0.6)arc(360:180:0.11)--(-7.3,1.4);% クリップ
+\draw[ultra thick,dashed,draw=brown!30!yellow!20!black](-10,-0.5)--(8.5,-0.5);% ダッシュ
+\draw(0,0.35)node{\Huge\@hatotitle@font{#3}};% タイトル
+\draw(8.5,-0.2)node[left,fill=red!60!black,text=white]{\@hatotitle@font{#2}};% 黒箱
+\draw(8.4,1.65)node{{\renewcommand{\arraystretch}{.8}%
+{\@hatotitle@@font{#7}}%
+}};% 右の文字
+\draw(5.9,1.65)node{{\renewcommand{\arraystretch}{.8}%
+{\@hatotitle@@font{#6}}%
+}};% 右から 2 の文字
+\draw(3.4,1.65)node{{\renewcommand{\arraystretch}{.8}%
+{\@hatotitle@@font{#5}}%
+}};% 右から 3 の文字
+\draw(0.9,1.65)node{{\renewcommand{\arraystretch}{.8}%
+{\@hatotitle@@font{#4}}%
+}};% 右から 4 の文字
+\draw(-6,0.35)node[draw=red!80!black, rectangle, rounded corners=2.5pt, text=red!80!black,
+line width=1.5pt, inner sep=1pt, outer sep=0pt,
+rotate around={8:(-6,0.35)},yshift=-15pt
+] {\scalebox{4}{\@hatotitle@font{#1}}};
+      \end{tikzpicture}%
+    \end{scaletikzpicturetowidth}\smallskip\stepcounter{hatotitlebangou}%
+  }%
+\newcommand{\hatotitle}{\@ifstar{\@hatotitle}{\@@hatotitle}}%
+% \beetitle[]{}{}--------------------------------------
+\NewDocumentCommand\beetitle{ O{black} m m }%
+  {%
+    \noindent\begin{scaletikzpicturetowidth}{\linewidth}%
+      \begin{tikzpicture}[scale=\tikzscale]%
+        \fill[#1!15!white,scale=.6,shift={(4.4,-2.6)}](0,0)--(2,0)--(3,{sqrt(3)})--(2,{sqrt(12)})--(0,{sqrt(12)})--(-1,{sqrt(3)})--cycle;%
+        \fill[#1!20!white,scale=.7,shift={(2.5,1)}](0,0)--(2,0)--(3,{sqrt(3)})--(2,{sqrt(12)})--(0,{sqrt(12)})--(-1,{sqrt(3)})--cycle;%
+        \fill[#1!40!white,scale=.75,shift={(-1,-2)}](0,0)--(2,0)--(3,{sqrt(3)})--(2,{sqrt(12)})--(0,{sqrt(12)})--(-1,{sqrt(3)})--cycle;%
+        \draw[ultra thick,#1!30!white](0,0)--(2,0)--(3,{sqrt(3)})--(2,{sqrt(12)})--(0,{sqrt(12)})--(-1,{sqrt(3)})--cycle;%
+        \draw[ultra thick,white,scale=1.1,shift={(1,-2)}](0,0)--(2,0)--(3,{sqrt(3)})--(2,{sqrt(12)})--(0,{sqrt(12)})--(-1,{sqrt(3)})--cycle;%
+        \draw[ultra thick,#1!40!white](3,3.4)--(20,3.4);% 直線1
+        \draw[ultra thick,#1!30!white](5,3.0)--(20,3.0);% 直線2
+        \draw[ultra thick,#1!20!white](6,2.6)--(20,2.6);% 直線3
+        \draw[ultra thick,#1!10!white](7,2.2)--(20,2.2);% 直線4
+        \draw(10,1.5)node{\fontsize{25pt}{25pt}\selectfont\mg{#2}};% 主題
+        \draw(10,-.5)node{\LARGE\mg{#3}};% 副題
+      \end{tikzpicture}%
+    \end{scaletikzpicturetowidth}\br{-1.3}%
+  }%
+% \pinetitle[]{}[]-------------------------------------
+\newcounter{pinetitlebangou}%
+\newtcbox{\@pinetitle@box}[1]%
+  {%
+    tcbox raise base,%
+    on line,%
+    boxrule=0.4pt,boxsep=1pt,%
+    top=0.17mm,bottom=0.17mm,right=0.35mm,left=0mm,%
+    sharp corners=east,arc=7pt,%
+    colframe=#1,coltext=white,colback=#1%
+  }%
+\newcommand{\@pinetitle@@box}[2]{\@pinetitle@box{#1}{#2}}%
+\NewDocumentCommand\@pinetitle{ O{black} m O{} }%
+  {%
+    \noindent\begin{scaletikzpicturetowidth}{\linewidth}%
+      \begin{tikzpicture}[scale=\tikzscale]%
+        \fill[left color=#1!50!white,right color=white](0,0)--(20,0)--(20,1)--(0,1)--cycle;% 背景
+        \draw[thick,color=#1!80!white!80!red!80!brown!80!black](0,.95)--(9,.95);% 直線1
+        \draw[thick,color=#1!80!white!50!yellow!50!red!80!brown!90!black!80!white](0,.85)--(6,.85);% 直線2
+        \draw[thick,color=#1!80!white!50!yellow!50!red!80!brown!90!black!60!white](0,.75)--(3,.75);% 直線3
+        \draw[thick,color=#1!80!white!80!red!80!brown!80!black](11,.05)--(20,.05);% 直線4
+        \draw[thick,color=#1!80!white!50!yellow!50!red!80!brown!90!black!80!white](14,.15)--(20,.15);% 直線5
+        \draw[thick,color=#1!80!white!50!yellow!50!red!80!brown!90!black!60!white](17,.25)--(20,.25);% 直線6
+        \draw(0,.2)node[above]{\LARGE\scalebox{1.1}[1]{\@pinetitle@@box{#1!75!white}{\vphantom{１}\単発tetsuarabic{#3}}}};% 番号；元々(0,.067)
+        \draw(.7,.45)node[right]{\Large\mgfamily#2};% title名
+      \end{tikzpicture}%
+    \end{scaletikzpicturetowidth}%
+  }%
+\NewDocumentCommand\pinetitle{ O{black} m O{\thepinetitlebangou} }%
+  {\stepcounter{pinetitlebangou}\@pinetitle[#1]{#2}[#3]}%
+% \二色柱[]{}------------------------------------------
+\NewDocumentCommand\二色柱{ O{black} m }
+  {%
+    \br0\noindent\begin{tikzpicture}%
+      \filldraw[draw=#1!70!black,fill=#1!40!white](0em,0em)rectangle(2.1em,2.3em);%
+      \filldraw[draw=#1!70!black,fill=#1!40!white](\linewidth-2.1em,0em)rectangle(\linewidth,2.3em);%
+      \filldraw[draw=#1!70!black,fill=#1!25!white](2.1em,.65em)rectangle(\linewidth-2.1em,1.65em);%
+      \draw(.5\linewidth,1.15em)node[fill=white]{\scalebox{1.2}{\gt{\,\textcolor{#1!70!black}{#2}\,}}};%
+    \end{tikzpicture}\br0%
+  }%
+% sankoubox--------------------------------------------
+\NewDocumentEnvironment{sankoubox}{ O{\relax} }{\begin{答案段落}[#1]{参考}}{\end{答案段落}}%
+% \linecircle[]----------------------------------------
+\newcommand{\フッタのデザイン}[1]%
+  {%
+    \ifthenelse{\equal{#1}{有効}}%
+      {\linecircle}{}%
+  }%
+\NewDocumentCommand\linecircle{ O{\basiccolor!25!white} }
+  {%
+    \AtBeginShipout%
+      {%
+        \AtBeginShipoutAddToBox%
+          {%
+            \begin{tikzpicture}[remember picture,overlay,shift=(current page.south west)]%
+              %\begin{scope}[x={(current page.south east)}]%
+                \draw[draw=#1,fill=#1](0,1)rectangle(current page.south east)++(0,1.5);%
+                \ifthenelse{\isodd{\value{page}}}%
+                  {\draw[draw=#1!50,fill=#1!50](current page.south west)++(1,1)circle(.6)node{p.\arabic{page}};}%
+                  {\draw[draw=#1!50,fill=#1!50](current page.south east)++(-1,1)circle(.6)node{p.\arabic{page}};}%
+              %\end{scope}%
+            \end{tikzpicture}%
+          }%
+      }%
+  }%
+% sankoubox--------------------------------------------
+% カラーボックス類-------------------------------------
+\newcommand{\coloraftertext}[2]%
+  {%
+    \tcbox%
+      [%
+        enhanced,on line,%
+        boxsep=0pt,boxrule=0pt,%
+        top=0mm,bottom=0mm,%
+        tcbox width=forced left,%
+        width=\linewidth-\the\@組カラーボックス@length,%
+        #1%
+      ]%
+      {#2\relax\strut}%
+  }%
+\newlength{\@組カラーボックス@length}%
+%\NewDocumentCommand{\長いカラーボックス}{ m m O{black} }%
+%  {%
+%    \settowidth{\@組カラーボックス@length}{\gtfamily\,\,#1\,\,}
+%    \begin{tcolorbox}%
+%      [%
+%        enhanced,%
+%        breakable,%
+%        grow sidewards by=0.8em,%
+%        colback=#3,%
+%        colframe=#3!90!white,%
+%        left=0mm,right=0mm,top=0mm,bottom=0mm,%
+%        boxsep=0mm,%
+%        arc=0.2em%
+%      ]%
+%        \textcolor{white}{\gtfamily\,\,#1\,\,}%
+%        \coloraftertext{colback=#3!30!white,arc=0.2em,}{\hspace{-2mm}\gtfamily\textcolor{black}{#2}}%
+%    \end{tcolorbox}%
+%  }%
+%\newlength{\@@組カラーボックス@length}
+%\NewDocumentEnvironment{組カラーボックス}{ m m O{black} O{lightgray!55!white} D<>{.2em} }%
+%  {%
+%    \settowidth{\@組カラーボックス@length}{\hspace{.9999em}\gtfamily#1}
+%    \ifthenelse{\equal{#5}{0zw}\OR\equal{#5}{0pt}\OR\equal{#5}{0mm}\OR\equal{#5}{0em}\OR\equal{#5}{0cm}}
+%      {%
+%        \begin{tcolorbox}%
+%        [%
+%          enhanced,%
+%          left=0mm,right=0mm,top=0mm,bottom=0mm,boxsep=0mm,sharp corners,%
+%          colback=#3,colframe=#3!90!white,%
+%          after skip=0mm%
+%        ]%
+%      }%
+%      {%
+%        \begin{tcolorbox}%
+%        [%
+%          enhanced,%
+%          left=0mm,right=0mm,top=0mm,bottom=0mm,boxsep=0mm,sharp corners=south,%
+%          colback=#3,colframe=#3!90!white,%
+%          after skip=0mm%
+%        ]%
+%      }%
+%        \textcolor{white}{\gtfamily\,\,\,#1\,\,\,}%
+%        \coloraftertext{sharp corners=south,arc=#5,colback=#3!30!white}{\hspace{-2mm}\gtfamily\textcolor{black}{#2}}%
+%    \end{tcolorbox}%
+%    \nopagebreak\vspace{-2pt}\nopagebreak%
+%    \ifthenelse{\equal{#5}{0zw}\OR\equal{#5}{0pt}\OR\equal{#5}{0mm}\OR\equal{#5}{0em}\OR\equal{#5}{0cm}}
+%      {%
+%        \begin{tcolorbox}%
+%        [%
+%          enhanced,breakable,%
+%          sharp corners=north,%
+%          colback=#4,colbacktitle=#3!90!white,colframe=#3!90!white,%
+%          %drop fuzzy shadow,%
+%          before skip=0mm,before upper=\段落下げ,%
+%          sharp corners%
+%        ]%\renewcommand{\baselinestretch}{1}%
+%      }%
+%      {%
+%        \begin{tcolorbox}%
+%        [%
+%          enhanced,breakable,%
+%          sharp corners=north,%
+%          colback=#4,colbacktitle=#3!90!white,colframe=#3!90!white,%
+%          %drop fuzzy shadow,%
+%          before skip=0mm,before upper=\段落下げ,%
+%          arc=#5%
+%        ]%\renewcommand{\baselinestretch}{1}%
+%      }%
+%  }%
+%  { \end{tcolorbox}}%
+\newcounter{juuyoureidaibangou}%
+\DeclareTColorBox{shishinbox}{ O{指針} D<>{gray} }%
+  {%
+    enhanced,%
+    boxrule=0pt,leftrule=12pt,top=8pt,left=15pt,right=4pt,bottom=2pt,arc=0mm,grow to left by=-4mm,before skip=-3pt,%
+    colback=white,colframe=#2,%
+    frame style={top color=#2,bottom color=white},%
+    underlay=%
+      {%
+        boxed title style={empty,arc=0pt,outer arc=0pt,boxrule=0pt},%
+        underlay boxed title=%
+          {%
+            \fill[#2!45!white!50!black]([yshift=-0.3mm]frame.north west)%
+            --+(-0.4,0)--+(0,-0.3)--cycle;}%
+            \node[inner sep=1pt,white,fill=black!50!gray]at([xshift=3pt,yshift=-15pt]interior.north west){\stepcounter{juuyoureidaibangou}\bfseries#1%
+          };%
+      },%
+    segmentation code=%
+      {%
+        \draw[dashed](segmentation.west)--(segmentation.east);%
+        \node[inner sep=1pt,blue!50!black,fill=blue!10!white]at([xshift=22pt,yshift=-8pt]segmentation.south west){\bfseries 解};%
+      },%
+    before upper={\段落下げ},%
+    before lower={\段落下げ}%
+  }%
+%\NewDocumentCommand{\一行カラーボックス}{ m m O{gray} O{white} }
+%  {%	
+%    \tcbsidebyside%
+%      [%
+%        enhanced,%
+%        sidebyside adapt=left,sidebyside gap=5mm,%
+%        bicolor,colback=#3,colbacklower=#4,%
+%        colframe=#3!90!white,%
+%        boxrule=1pt,%
+%        boxsep=0mm,left=3mm,right=3mm,top=2mm,bottom=2mm,%
+%        sharp corners,%
+%        before upper={\段落下げ}%
+%      ]%
+%      {\gtfamily\textcolor{white}{#1}}%
+%      {\gtfamily#2}%
+%  }%
+%%% 組カラーボックス・改
+%%% {#1}：maintitle
+%%% {#2}：subtitle
+%%% [#3]：main color
+%%% [#4]：back color #3!30!white
+%%% <#5>：right color of subtitle
+%%% <#6>：right color of back
+%%% (#7)：arc
+\NewDocumentEnvironment{再組カラーボックス}{ m m O{black} O{lightgray!55!white} D<>{#3!30!white} D<>{#4} D(){.2em} D(){} }%
+  {%
+    \settowidth{\@組カラーボックス@length}{\hspace{1zw}\gtfamily#1}
+    \ifthenelse{\equal{#7}{0zw}\OR\equal{#7}{0pt}\OR\equal{#7}{0mm}\OR\equal{#7}{0em}\OR\equal{#7}{0cm}}
+      {%
+        \begin{tcolorbox}%
+        [%
+          enhanced,%
+          left=0mm,right=0mm,top=0mm,bottom=0mm,boxsep=0mm,sharp corners,%
+          colback=#3,colframe=#3!90!white,%
+          after skip=0mm,#8%
+        ]%
+      }%
+      {%
+        \begin{tcolorbox}%
+        [%
+          enhanced,%
+          left=0mm,right=0mm,top=0mm,bottom=0mm,boxsep=0mm,sharp corners=south,%
+          colback=#3,colframe=#3!90!white,%
+          after skip=0mm,#8%
+        ]%
+      }%
+    \textcolor{white}{\gtfamily\,\,\,#1\,\,\,}%
+    \coloraftertext{sharp corners=south,arc=#7,interior style={left color=#3!30!white,right color=#5}}{\hspace{-2mm}\gtfamily\textcolor{black}{#2}}%
+    \end{tcolorbox}%
+    \nopagebreak\vspace{-2pt}\nopagebreak%
+    \ifthenelse{\equal{#7}{0zw}\OR\equal{#7}{0pt}\OR\equal{#7}{0mm}\OR\equal{#7}{0em}\OR\equal{#7}{0cm}}
+      {%
+        \begin{tcolorbox}%
+        [%
+          enhanced,breakable,%
+          sharp corners=north,%
+          %colback=#4,
+          colbacktitle=#3!90!white,colframe=#3!90!white,%
+          interior style={left color=#4,right color=#6},%
+          %drop fuzzy shadow,%
+          before skip=0mm,before upper=\段落下げ,%
+          sharp corners,#8%
+        ]%\renewcommand{\baselinestretch}{1}%
+      }%
+      {%
+        \begin{tcolorbox}%
+        [%
+          enhanced,breakable,%
+          sharp corners=north,%
+          %colback=#4,
+          colbacktitle=#3!90!white,colframe=#3!90!white,%
+          interior style={left color=#4,right color=#6},%
+          %drop fuzzy shadow,%
+          before skip=0mm,before upper=\段落下げ,%
+          arc=#7,#8%
+        ]%\renewcommand{\baselinestretch}{1}%
+      }%
+  }%
+  { \end{tcolorbox}}%

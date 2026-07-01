@@ -1,0 +1,132 @@
+\documentclass[dvipdfmx,b5j,10pt]{jsarticle}%
+
+\usepackage{mypackage,chuushaku}%
+
+\title{\pl{chuushaku.sty}}%
+\author{\pl{Hugh}}%
+
+\begin{document}%
+
+\maketitle%
+
+\section{概要}
+
+このパッケージは，基本的な\TeX / \LaTeX の機能のみを頼って，傍注領域ではなく本文領域に自由度の高い注釈環境を実現するための成果物です。
+
+プリアンブルで以下のように宣言することで，すべての機能が使用できます。
+
+\br{.5}\begin{itembox}[c]{\texttt{chuushaku.sty}}
+\begin{verbatim}
+\usepackage{chuushaku}
+\end{verbatim}
+\end{itembox}
+
+\section{基本的な使い方}
+
+注釈環境の基本的な使い方は，以下の通りです。
+
+\begin{itembox}[c]{\texttt{chuushaku環境}}
+\begin{verbatim}
+\begin{chuushaku}
+  $\sqrt{2}$が無理数であることを背理法\chuu{\br{-.8}\begin{枠囲み}{鉄則}否定的命題$\Rightarrow$背理法\end{枠囲み}}で証明する。\par
+  $\sqrt{2}$が有理数であると仮定すると，$\sqrt{2}=\bun{a}{b}$となる整数$a,\,b$ ($b\neq0$)が存在する。ただし，$a,\,b$は互いに素\chuu{$\bun{a}{b}$が既約分数ということ}であるとする。
+\end{chuushaku}
+\end{verbatim}
+\end{itembox}
+\begin{結果}
+\begin{chuushaku}
+  $\sqrt{2}$が無理数であることを背理法\chuu{\br{-.8}\begin{枠囲み}{鉄則}否定的命題$\Rightarrow$背理法\end{枠囲み}}で証明する。\par
+  $\sqrt{2}$が有理数であると仮定すると，$\sqrt{2}=\bun{a}{b}$となる整数$a,\,b$ ($b\neq0$)が存在する。ただし，$a,\,b$は互いに素\chuu{$\bun{a}{b}$が既約分数ということ}であるとする。
+\end{chuushaku}
+\end{結果}
+
+上では枠囲みを用いていますが，他にも\texttt{enumerate環境}など，様々なコマンドと併用して使用可能です。
+
+\section{カスタマイズ}
+\subsection{注釈記号}
+
+本文中の注釈記号と傍注領域の注釈記号は，以下のように自由にカスタマイズ可能です。
+\br{.5}\begin{itembox}[c]{\texttt{注釈記号の変更\maru1}}
+\begin{verbatim}
+\chuukigou{$*$}{←}
+\end{verbatim}
+\end{itembox}
+\begin{結果}\chuukigou{$*$}{←}
+\begin{chuushaku}
+  $\sqrt{2}$が無理数であることを背理法\chuu{\br{-.8}\begin{枠囲み}{鉄則}否定的命題$\Rightarrow$背理法\end{枠囲み}}で証明する。\par
+  $\sqrt{2}$が有理数であると仮定すると，$\sqrt{2}=\bun{a}{b}$となる整数$a,\,b$ ($b\neq0$)が存在する。ただし，$a,\,b$は互いに素\chuu{$\bun{a}{b}$が既約分数ということ}であるとする。
+\end{chuushaku}
+\end{結果}
+
+また，各注釈環境ごとにカウンタ（\texttt{chuubangou}に保存）を用いることもできます。ただしこの場合，環境を中断するごとに値は1にリセットされます。
+
+\br{.5}\begin{itembox}[c]{\texttt{注釈記号の変更\maru2}}
+\begin{verbatim}
+\chuukigou{\thechuubangou）\ispace}{\,\n）\ispace}
+\end{verbatim}
+\end{itembox}
+\begin{結果}\chuukigou{\thechuubangou）\ispace}{\,\n）\ispace}
+\begin{chuushaku}
+  $\sqrt{2}$が無理数であることを背理法\chuu{\br{-.8}\begin{枠囲み}{鉄則}否定的命題$\Rightarrow$背理法\end{枠囲み}}で証明する。\par
+  $\sqrt{2}$が有理数であると仮定すると，$\sqrt{2}=\bun{a}{b}$となる整数$a,\,b$ ($b\neq0$)が存在する。ただし，$a,\,b$は互いに素\chuu{$\bun{a}{b}$が既約分数ということ}であるとする。
+\end{chuushaku}
+\end{結果}
+
+\subsection{スペース}%
+
+\begin{itembox}[c]{\texttt{スペースの一時的変更}}
+\begin{verbatim}
+\begin{chuushaku}[.5]
+  [...]
+\end{verbatim}
+\end{itembox}
+\begin{結果}
+\begin{chuushaku}[.5]<1>
+  $\sqrt{2}$が無理数であることを背理法\chuu{\br{-.8}\begin{枠囲み}{鉄則}否定的命題$\Rightarrow$背理法\end{枠囲み}}で証明する。\par
+  $\sqrt{2}$が有理数であると仮定すると，$\sqrt{2}=\bun{a}{b}$となる整数$a,\,b$ ($b\neq0$)が存在する。ただし，$a,\,b$は互いに素\chuu{$\bun{a}{b}$が既約分数ということ}であるとする。
+\end{chuushaku}
+\end{結果}
+
+上例において，最初の\texttt{[.5]}は，ページ横幅に対する本文の長さの比率を表します。もう一方の\texttt{<1>}は，本文と傍注領域のスペースの全角幅を表します。いずれもデフォルトの状態は，\br{.5}
+
+\qqquad\verb|\begin{chuushaku}[.68]<.7>|\br{.5}
+
+\noindent です。しかしいちいち手動で設定するのは，いささか面倒です。そこで，プリアンブルにて一括変更する手段を設けました。
+
+\br{.5}\begin{itembox}[c]{\texttt{スペースの一括変更}}
+\begin{verbatim}
+\chuuhaba{.68}
+\chuuaki{.7}
+\end{verbatim}
+\end{itembox}
+
+\section{注意点}
+
+このパッケージを用いて作成した文書は，最後に必ず2回続けてコンパイルし直してください。
+
+また，傍注領域では必ず1つ以上の\verb|\chuu|を用いてください。
+
+本環境は，ページまたぎ非対応です。
+
+\newpage
+
+\section{使用例}\plfamily
+
+\chuukigou{}{\rotatebox[origin=c]{180}{\textcolor{gray}{\▲}}}
+\begin{ascolorbox4}{問題}\parindent=2zw
+I have a good memory, except for names and faces, and I do not forget what I have read. The disadvantage of this is that having read all the great novels of the world two or three times I can no longer read them with relish. There are few modern novels that excite my interest, and I do not know what I should do for relaxation were it not for the innumerable detective stories that so engagingly pass the time and once read pass straight out of one's mind.\source{Somerset Maugham, \it{A Writer's Notebook}}
+\end{ascolorbox4}\br{-.5}%
+\begin{chuushaku}[.7]<.5>
+\begin{鉄壁カラーボックス}{\!\!表現型\!\!}\noindent\mc{随筆文逸話文体}\end{鉄壁カラーボックス}%
+\br0~\chuu{私は記憶力が良い}\br{-1}\sankakuline*{I have a good memory}%
+SVOを直訳してもよいが，\point{名詞構文の訳し方}\noindent に従って，I memorize (things) well「物を上手に記憶する；記憶力がよい」と言い換えてもよい。%
+\br0~\chuu{人の名前や顔は別として}\br{-1}\sankakuline*{except for names and faces}%
+「名前と顔以外は」でよいが，作者の意図としては「人の名前と顔を覚えるのは\kenten{苦手}だ」という含蓄がある。%
+\br0~\chuu{一度読んだ本は忘れることがありません}\br{-1}\sankakuline*{I do not forget what I have read.}%
+\point{wh-節内の現在完了の訳し方}\point{関係詞の訳し方}\noindent を踏まえ，「\kenten{一度}読み終えた\kenten{本}」とすると自然。%
+\br0~\chuu{そのため不都合なことに／\\そのため不便な点は}\br{-1}\sankakuline*{The disadvantage of this is that}%
+\point{同格名詞節の訳し方}%
+\noindent に則ると，「不都合なことに」と訳せる。もちろん「不便な点は」でも問題ない。%
+\end{chuushaku}
+
+\end{document}％

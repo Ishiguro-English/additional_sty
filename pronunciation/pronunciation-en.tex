@@ -1,0 +1,85 @@
+\documentclass[b5j,10pt]{tetsujsarticle}%
+
+\usepackage{tetsuryoku,pxfonts,pronunciation}%
+
+\newtcolorbox{subcolorshadebox}[3]{enhanced,sharp corners,boxrule=.5pt,colback=#2,shadow={2mm}{-2mm}{0mm}{#1},#3}%
+\NewDocumentEnvironment{colorshadebox}{ O{black} D<>{white} D(){} }%
+  {\begin{subcolorshadebox}{#1}{#2}{#3}}{\end{subcolorshadebox}}%
+\newenvironment{Definition}[1]%
+  {%
+    \VerbatimEnvironment\noindent%
+    \begin{minipage}{.48\linewidth}%
+      \begin{itembox}[c]{\gt{\texttt{#1}}}%
+  }%
+  {%
+      \end{itembox}%
+    \end{minipage}%
+  }%
+\definecolor{@lavender}{rgb}{0.90,0.90,0.98}%
+\newenvironment{Result}%
+  {%
+    \ \,\raisebox{-.2zw}{\白右矢印}\,\,%
+      \begin{minipage}{.48\linewidth}%
+        \begin{colorshadebox}[@lavender]%
+  }%
+  {%
+        \end{colorshadebox}%
+      \end{minipage}\br{.7}%
+  }%
+
+\title{\pl{pronunciation.sty (Ver1.0.2)}}%
+\author{\pl{Hugh}}%
+
+\begin{document}%
+
+\maketitle%
+
+\section{Introduction}
+
+This package is a \LaTeX\ package for outputting phonetic symbols for English words.
+
+By declaring the following in the preamble, all features of this package can be used.
+
+\br{.5}\begin{itembox}[c]{\texttt{pronunciation.sty}}
+\begin{verbatim}
+\usepackage{pronunciation}
+\end{verbatim}
+\end{itembox}
+
+\notebox%
+  {%
+    \begin{enumerate}[・]
+      \item The package contains a total of 21,082 words, covering a wide range from basic to advanced vocabulary.
+      \item Both arguments and phonetic transcriptions assume American English notation.
+      \item The phonetic symbols adopted in this package are based on the Wisdom English-Japanese Dictionary. Therefore, different dictionaries may provide different phonetic transcriptions.
+      \item Optionally omitted sounds are uniformly not displayed.
+      \item Stress marks are not provided for the vowel part of monosyllabic words.
+      \item The package displays both primary and secondary stress.
+    \end{enumerate}
+  }
+
+\section{Basic Usage}
+
+All registered phonetic transcriptions can be retrieved using \verb|\pronunciation|.
+
+\br{.5}\begin{Definition}{\texttt{\textbackslash pronunciation}}
+\begin{verbatim}
+\pronunciation{pronunciation}
+/\pronunciation{rectangular shape}/
+[\pronunciation{TeX and LaTeX}]
+\end{verbatim}
+\end{Definition}\begin{Result}
+\pronunciation{pronunciation}\\
+/\pronunciation{rectangular shape}/\par%
+[\pronunciation{TeX and LaTeX}]
+\end{Result}
+
+\warningbox%
+  {%
+    \begin{enumerate}[・]
+      \item It is not allowed to include words starting with a capital letter other than proper nouns, or punctuation marks such as commas or periods.
+      \item Plural forms of nouns and inflected verb forms are not registered in principle. However, exceptions are made for nouns with distinct singular and plural forms and frequently used verb inflections.
+    \end{enumerate}
+  }
+
+\end{document}%

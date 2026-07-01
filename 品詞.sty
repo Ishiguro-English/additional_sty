@@ -1,0 +1,76 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{品詞}[2025/03/02, ver.1.0.0]
+
+\usepackage{bxghost}
+
+\makeatletter
+\define@cmdkeys{品詞}{draw,text,fill}
+
+%% デフォルト値
+\def\cmdKV@品詞@draw{black}
+\def\cmdKV@品詞@fill{white}
+\def\cmdKV@品詞@text{black}
+
+\newcommand{\品詞１}[2][]{%
+  \jghostguarded{% 前後に和文ゴースト挿入
+  \begingroup
+  \setkeys{品詞}{#1}%
+  \pgfmathparse{0.9*\f@size}\edef\品詞@fontsize{\pgfmathresult}%
+  \pgfmathparse{0.15*\f@size}\edef\品詞@roundedcorners{\pgfmathresult}%
+  \pgfmathparse{0.04*\f@size}\edef\品詞@linewidth{\pgfmathresult}%
+  \pgfmathparse{0.1*\f@size}\edef\品詞@innersep{\pgfmathresult}%
+  \pgfmathparse{1.1*\f@size}\edef\品詞@minimumwidth{\pgfmathresult}%
+  \ifydir
+    \def\品詞@node{\vphantom{あ}#2}%
+  \else
+    \def\品詞@node{\mbox{\tate\vphantom{あ}#2}}%
+  \fi
+  \mbox{\yoko
+  \begin{tikzpicture}[baseline=(A.base),font=\sffamily\fontsize{\品詞@fontsize pt}{\baselineskip}\selectfont]
+    \node[draw=\cmdKV@品詞@draw, rectangle, rounded corners=\品詞@roundedcorners pt,
+          text=\cmdKV@品詞@text,
+          %fill=\cmdKV@品詞@fill,
+          fill opacity=1,%
+          line width=\品詞@linewidth pt,
+          inner sep=\品詞@innersep pt, outer sep=0pt,
+          minimum width=\品詞@minimumwidth pt,
+          ] (A) {\品詞@node};
+  \end{tikzpicture}}%
+  \endgroup
+  }%
+}
+
+\newcommand{\品詞２}[2][]{%
+  \jghostguarded{% 前後に和文ゴースト挿入
+  \begingroup
+  \setkeys{品詞}{#1}%
+  \pgfmathparse{0.9*\f@size}\edef\品詞@fontsize{\pgfmathresult}%
+  \pgfmathparse{0.15*\f@size}\edef\品詞@roundedcorners{\pgfmathresult}%
+  \pgfmathparse{0.04*\f@size}\edef\品詞@linewidth{\pgfmathresult}%
+  \pgfmathparse{0.1*\f@size}\edef\品詞@innersep{\pgfmathresult}%
+  \pgfmathparse{1.1*\f@size}\edef\品詞@minimumwidth{\pgfmathresult}%
+  \ifydir
+    \def\品詞@node{\vphantom{あ}#2}%
+  \else
+    \def\品詞@node{\mbox{\tate\vphantom{あ}#2}}%
+  \fi
+  \mbox{\yoko
+  \begin{tikzpicture}[baseline=(A.base),font=\sffamily\fontsize{\品詞@fontsize pt}{\baselineskip}\selectfont]
+    \node[draw=\cmdKV@品詞@draw, rectangle, rounded corners=\品詞@roundedcorners pt,
+          text=\cmdKV@品詞@text,
+          fill=\cmdKV@品詞@fill,
+          fill opacity=1,%
+          line width=\品詞@linewidth pt,
+          inner sep=\品詞@innersep pt, outer sep=0pt,
+          minimum width=\品詞@minimumwidth pt,
+          ] (A) {\品詞@node};
+  \end{tikzpicture}}%
+  \endgroup
+  }%
+}
+
+\newcommand{\品詞}{\@ifstar{\sub品詞１２}{\sub品詞}}
+\newcommand{\sub品詞１２}{\@ifstar{\sub品詞２}{\sub品詞１}}
+\newcommand{\sub品詞}[2][]{\ifthenelse{\equal{#1}{}}{\品詞１[#1]{#2}}{\品詞２[#1]{#2}}}
+\newcommand{\sub品詞１}[2][]{\品詞２[fill=black,text=white]{#2}}
+\newcommand{\sub品詞２}[2][]{\品詞２[fill=black!60,text=white]{#2}}

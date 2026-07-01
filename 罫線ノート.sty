@@ -1,0 +1,147 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{罫線ノート}[2025/03/04, ver.1.0.0]
+
+%%%依存するパッケージの読込
+%\usepackage{tikz}
+%\usepackage{zref}
+%\usepackage{zref-savepos}
+%\usepackage{fp}
+
+%%%ユーザーが指定できるパラメーター
+\newdimen\NOTELineWidth
+\newdimen\dotsRadius
+\newdimen\NOTELineDistance
+
+\NOTELineWidth.5truept\relax%    <- 罫線の太さ
+\dotsRadius.8truept\relax%       <- ドットの半径
+\NOTELineDistance=6truemm\relax% <- 罫線間隔（A罫 : 7truemm，B罫 : 6truemm） 
+
+
+%%%必要な内部レジスタの用意
+\newdimen\VDNT@currentXPos
+\newdimen\VDNT@currentYPos
+\newdimen\VDNT@Xinterval
+\newdimen\VDNT@Yinterval
+\newdimen\VDNT@notegoal
+
+
+%%% \NOTEfillで用いる座標管理用カウンタの準備
+\def\VDNT@pkgname{vodnote}
+\global\newcount\VDNT@uniqe
+
+
+%%% \NOTEfill の定義
+\newcommand{\NOTEfill}{\par\bgroup
+  \parindent\z@
+  %%罫線間隔の算出
+  \@tempcnta\linewidth
+  \@tempcntb\NOTELineDistance
+  \FPeval\VDNT@dotsNum{round(round(((\the)\@tempcnta/(\the)\@tempcntb)/2:0)*2:0)}%
+  \VDNT@Xinterval\dimexpr(\linewidth)/\VDNT@dotsNum\relax
+  \VDNT@Yinterval\VDNT@Xinterval
+  %%上端の座標取得
+  \zsaveposy{\VDNT@pkgname.\the\VDNT@uniqe.TopPos}%
+  %%下端の座標取得
+  \leavevmode\vfill\leavevmode
+  \zsaveposy{\VDNT@pkgname.\the\VDNT@uniqe.BottomPos}%
+  %%ノート罫線描画幅の決定
+  \VDNT@notegoal=\dimexpr
+    \zposy{\VDNT@pkgname.\the\VDNT@uniqe.TopPos}sp
+    -\zposy{\VDNT@pkgname.\the\VDNT@uniqe.BottomPos}sp
+  \relax
+  %%ノート罫線描画
+  \noindent\smash{%
+    \begin{tikzpicture}
+      \VDNT@currentYPos\z@
+      \fill[white!70!black] (\VDNT@Xinterval*\VDNT@dotsNum/2,\VDNT@currentYPos+\inv@mag*4pt) -- ++(\inv@mag*3pt,-\inv@mag*4pt) -- ++(-\inv@mag*6pt,0) -- cycle;
+      \@whiledim\VDNT@currentYPos<\VDNT@notegoal\do{
+        \VDNT@currentXPos\z@
+        \draw[white!70!black,line width=\NOTELineWidth] (0,\VDNT@currentYPos) -- (\linewidth,\VDNT@currentYPos);
+        \foreach \k in{0,1,...,\VDNT@dotsNum}{%
+          \VDNT@currentXPos=\dimexpr\VDNT@Xinterval*\k\relax
+          \fill[white!70!black] (\VDNT@currentXPos,\VDNT@currentYPos) circle [radius=\dotsRadius];
+        }
+        \advance\VDNT@currentYPos\VDNT@Yinterval\relax
+      }
+      \fill[white!70!black] (\VDNT@Xinterval*\VDNT@dotsNum/2,\VDNT@currentYPos-\VDNT@Yinterval-\inv@mag*4pt) -- ++(\inv@mag*3pt,\inv@mag*4pt) -- ++(-\inv@mag*6pt,0) -- cycle;
+    \end{tikzpicture}%
+  }%
+  \egroup
+  %%座標管理用カウンタのインクリメント
+  \global\advance\VDNT@uniqe\@ne
+  \par
+}
+
+
+%%% \NOTE の定義
+\newcommand{\NOTE}[1]{\par\bgroup
+  %%罫線間隔の算出
+  \@tempcnta\linewidth
+  \@tempcntb\NOTELineDistance
+  \FPeval\VDNT@dotsNum{round(round(((\the)\@tempcnta/(\the)\@tempcntb)/2:0)*2:0)}%
+  \VDNT@Xinterval\dimexpr\linewidth/\VDNT@dotsNum\relax
+  \VDNT@Yinterval\VDNT@Xinterval
+  %%ノート罫線描画
+  \noindent
+    \begin{tikzpicture}
+      \VDNT@currentYPos\z@
+      \fill[white!70!black] (\VDNT@Xinterval*\VDNT@dotsNum/2,\VDNT@currentYPos+\VDNT@Yinterval+\inv@mag*4pt) -- ++(\inv@mag*3pt,-\inv@mag*4pt) -- ++(-\inv@mag*6pt,0) -- cycle;
+      \foreach \i in{1,2,...,#1}{
+        \VDNT@currentXPos\z@
+        \global\VDNT@currentYPos=\dimexpr\VDNT@Yinterval*\i\relax
+        \draw[white!70!black,line width=\NOTELineWidth] (0,\VDNT@currentYPos) -- (\linewidth,\VDNT@currentYPos);
+        \foreach \k in{0,1,...,\VDNT@dotsNum}{
+          \VDNT@currentXPos=\dimexpr\VDNT@Xinterval*\k\relax
+          \fill[white!70!black] (\VDNT@currentXPos,\VDNT@currentYPos) circle [radius=\dotsRadius];
+        }
+      }
+      \fill[white!70!black] (\VDNT@Xinterval*\VDNT@dotsNum/2,\VDNT@currentYPos-\inv@mag*4pt) -- ++(\inv@mag*3pt,\inv@mag*4pt) -- ++(-\inv@mag*6pt,0) -- cycle;
+    \end{tikzpicture}%
+  \egroup
+  \par
+}
+
+\NewDocumentCommand\ノート{ O{} }{\ifthenelse{\equal{#1}{}}{\NOTEfill}{\NOTE{#1}}}%
+
+\newcommand{\空行}[1][1]{\vspace{\NOTELineDistance*#1}}
+
+
+%リング色の定義
+\definecolor{lightyellowiii}{RGB}{205,205,180}
+
+%spiralスタンプの定義
+\pgfdeclaredecoration{spiral}{initial}
+{
+ \state{initial}[width=\pgfdecoratedpathlength/floor(\pgfdecoratedpathlength/13pt)] 
+  {
+      \draw[draw=black,fill=white,rotate=90] (-1,-0.2) circle (3pt);%
+      \draw[very thin,rotate=90,double=lightyellowiii,%
+          double distance=1.5pt]%
+          (-1,-0.2) arc (40:-250:10pt and 2pt);
+  }
+  \state{final}
+  {
+    \pgfpathmoveto{\pgfpointdecoratedpathlast}
+  }
+}
+
+%リングノート枠の定義（tcolorbox）
+\DeclareTColorBox{ringnote}{ O{} O{white} O{} }%Oはオプション引数（省略可能）であることを表す。#1,#3は省略したら何もしない、#2は省略したらwhiteになる
+{ enhanced,%必須
+  colback=#2,%枠内の背景色を#2にする
+  breakable,%ページまたぎ可能にする
+  sharp corners,%枠の角を尖らせる
+  left*=10mm,%枠の左辺から枠内のテキストまでの余白を調整
+  boxrule=0.4pt,%枠の囲み線の太さを0.4ptにする
+  %ここまでで枠を描く↑↑↑
+  %ここから枠にリングを書き足す↓↓↓（underlay…枠の上にTikZで描画する）
+  underlay unbroken={\draw[decorate,decoration={spiral}]  ($(interior.north west)+(1.375,0)$)--($(interior.south west)+(1.375,0)$);},%ページをまたがないときの枠のデザイン
+  underlay first={\draw[decorate,decoration={spiral}]  ($(interior.north west)+(1.375,0)$)--($(interior.south west)+(1.375,0)$);},%ページをまたぐときの最初のページの枠のデザイン
+  underlay middle={\draw[decorate,decoration={spiral}]  ($(interior.north west)+(1.375,0)$)--($(interior.south west)+(1.375,0)$);},%ページをまたぐときの途中のページの枠のデザイン
+  underlay last={\draw[decorate,decoration={spiral}]  ($(interior.north west)+(1.375,0)$)--($(interior.south west)+(1.375,0)$);},%ページをまたぐときの最後のページの枠のデザイン
+  %ここからはオプションの定義↓↓↓
+  IfValueTF={#1}%#1があるかないかによって次のように処理が異なる
+                {title=#1}%#1があるときは、#1をtitleとする（title枠が描かれる）
+                {},%#1がないときは、title枠なし
+  #3%#3があるときは、#3を枠のデザインとして追加する
+}

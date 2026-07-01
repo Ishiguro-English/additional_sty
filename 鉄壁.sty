@@ -1,0 +1,244 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{鉄壁}[2024/04/10 v0.1]
+
+%\setgothicfont{HiraginoSans-W2.otf}%
+%\enumerateの左側余白{-.5zw}%
+\番号付き箇条書きの空白設定[.5zw]{0zw}{0zw}%
+\setlength{\itemleftbarの線の太さ}{.4pt}%
+\setlength{\itemleftbarの線と文字との間隔}{7pt}%
+\let\gtfamily\sffamily%
+\let\textgt\textsf%
+
+\newcounter{大見出し番号}%
+\setcounter{大見出し番号}{1}%
+\newtcolorbox{大見出しbox}%
+  {%
+    enhanced,sharp corners,%
+    boxsep=0pt,boxrule=.5pt,top=2.5pt,bottom=2.5pt,%
+    colback=black!15!white,%
+    fontupper=\bgtfamily\large%
+  }%
+\newcommand{\大見出し}[1]{\newpage\begin{大見出しbox}SECTION\ ＃\!\the大見出し番号\ 「#1」\end{大見出しbox}\refstepcounter{大見出し番号}\addtocounter{単語番号}{-1}}%
+
+%\newcommand{\説明}[1]{\baselineskip=13pt\見出しぶら下げ{●\,}{\sf{#1}}\br{.5}\baselineskip=15pt}%
+\newcommand{\説明}[1]{\baselineskip=13pt\noindent●\,\sf{#1}\br{.5}\baselineskip=15pt}%
+
+\newtcbox{\小見出しbox}%
+  {%
+    enhanced,sharp corners,%
+    boxsep=0pt,boxrule=0pt,left=6pt,right=6pt,top=2.5pt,bottom=2.5pt,%
+    colback=black!70!white,coltext=white,%
+    fontupper=\bgtfamily\large%
+  }%
+\newcommand{\小見出し}[1]%
+  {%
+    \renewcommand{\単語番号表示}{ON}%
+    \refstepcounter{単語番号}%
+    \小見出しbox{#1}\nopagebreak%
+  }%
+
+\newtcbox{\hinshi}%
+  {%
+    standard jigsaw,sharp corners,on line,%
+    boxsep=0pt,boxrule=.5pt,left=.5pt,right=.5pt,top=.5pt,bottom=.5pt,%
+    colback=white,opacityback=0,%
+    fontupper=\bgtfamily\scriptsize%
+  }%
+
+\def\x#1{\bgt{\textcolor{red!70!white}{#1}}}%
+
+\newcommand{\blackcomma}[1]{\gt{\pl{\bf{\bgroup\@blackcomma#1
+\@empty\relax\egroup}}}
+}% 改行の具合などは絶対いじらない
+\def\@blackcomma#1 #2%
+  {%
+    \@tfor\@@@blackcomma:=#1\do{\@@blackcomma{\@@@blackcomma}}%
+    \ifx#2\@empty\else\@表現@空白\expandafter\@blackcomma\fi#2%
+  }%
+\newcommand{\@@blackcomma}[1]%
+  {%
+    \ifthenelse{%\equal{#1}{A}\OR
+    \equal{#1}{B}\OR%\equal{#1}{C}\OR
+    \equal{#1}{D}\OR%\equal{#1}{E}\OR
+    \equal{#1}{F}\OR\equal{#1}{G}\OR%\equal{#1}{H}\OR\equal{#1}{I}\OR
+    \equal{#1}{J}\OR%\equal{#1}{K}\OR
+    \equal{#1}{L}\OR%\equal{#1}{M}\OR\equal{#1}{N}\OR
+    \equal{#1}{O}\OR%\equal{#1}{P}\OR
+    %\equal{#1}{Q}\OR\equal{#1}{R}\OR\equal{#1}{S}\OR\equal{#1}{T}\OR
+    \equal{#1}{U}\OR%\equal{#1}{V}\OR
+    \equal{#1}{W}\OR\equal{#1}{X}\OR\equal{#1}{Y}\OR%\equal{#1}{Z}\OR
+    \equal{#1}{a}\OR\equal{#1}{b}\OR\equal{#1}{c}\OR\equal{#1}{d}\OR\equal{#1}{e}\OR\equal{#1}{f}\OR\equal{#1}{g}\OR\equal{#1}{h}\OR\equal{#1}{i}\OR\equal{#1}{j}\OR\equal{#1}{k}\OR\equal{#1}{l}\OR\equal{#1}{m}\OR\equal{#1}{n}\OR\equal{#1}{o}\OR\equal{#1}{p}\OR\equal{#1}{q}\OR\equal{#1}{r}\OR\equal{#1}{s}\OR\equal{#1}{t}\OR\equal{#1}{u}\OR\equal{#1}{v}\OR\equal{#1}{w}\OR\equal{#1}{x}\OR\equal{#1}{y}\OR\equal{#1}{z}\OR\equal{#1}{／}\OR\equal{#1}{（}\OR\equal{#1}{）}\OR\equal{#1}{)}\OR\equal{#1}{[}\OR\equal{#1}{]}\OR\equal{#1}{=}}%
+      {\mc{\color{black}\scalebox{.91}{#1}}}%
+      {%
+        \ifthenelse{\equal{#1}{N}}{\raisebox{.13zw}{\hinshi{名}}\,}{%
+        \ifthenelse{\equal{#1}{A}}{\raisebox{.13zw}{\hinshi{形}}\,}{%
+        \ifthenelse{\equal{#1}{M}}{\raisebox{.13zw}{\hinshi{副}}\,}{%
+        \ifthenelse{\equal{#1}{I}}{\raisebox{.13zw}{\hinshi{自}}\,}{%
+        \ifthenelse{\equal{#1}{T}}{\raisebox{.13zw}{\hinshi{他}}\,}{%
+        \ifthenelse{\equal{#1}{V}}{\raisebox{.13zw}{\hinshi{動}}\,}{%
+        \ifthenelse{\equal{#1}{K}}{\raisebox{.13zw}{\hinshi{句}}\,}{%
+        \ifthenelse{\equal{#1}{C}}{\raisebox{.13zw}{\hinshi{接}}\,}{%
+        \ifthenelse{\equal{#1}{P}}{\raisebox{.13zw}{\hinshi{前}}\,}{%
+        \ifthenelse{\equal{#1}{R}}{\raisebox{.13zw}{\hinshi{論}}\,}{%
+        \ifthenelse{\equal{#1}{E}}{\raisebox{.13zw}{\hinshi{説}}\,}{%
+        \ifthenelse{\equal{#1}{S}}{\raisebox{.13zw}{\hinshi{小}}\,}{%
+        \ifthenelse{\equal{#1}{Z}}{\raisebox{.13zw}{\hinshi{随}}\,}{%
+        \ifthenelse{\equal{#1}{H}}{\raisebox{.13zw}{\hinshi{他}}\,}{%
+        \ifthenelse{\equal{#1}{敎}}{\raisebox{.13zw}{\hinshi{教}}\,}{%
+        \ifthenelse{\equal{#1}{社}}{\raisebox{.13zw}{\hinshi{社}}\,}{%
+        \ifthenelse{\equal{#1}{斗}}{\raisebox{.13zw}{\hinshi{科}}\,}{%
+        \ifthenelse{\equal{#1}{數}}{\raisebox{.13zw}{\hinshi{数}}\,}{%
+        \ifthenelse{\equal{#1}{勿}}{\raisebox{.13zw}{\hinshi{物}}\,}{%
+        \ifthenelse{\equal{#1}{圃}}{\raisebox{.13zw}{\hinshi{農}}\,}{%
+        \ifthenelse{\equal{#1}{㣉}}{\raisebox{.13zw}{\hinshi{工}}\,}{%
+        \ifthenelse{\equal{#1}{也}}{\raisebox{.13zw}{\hinshi{地}}\,}{%
+        \ifthenelse{\equal{#1}{醫}}{\raisebox{.13zw}{\hinshi{医}}\,}{%
+        \ifthenelse{\equal{#1}{军}}{\raisebox{.13zw}{\hinshi{軍}}\,}{%
+        \ifthenelse{\equal{#1}{釒}}{\raisebox{.13zw}{\hinshi{金}}\,}{%
+        \ifthenelse{\equal{#1}{车}}{\raisebox{.13zw}{\hinshi{交}}\,}{%
+        \ifthenelse{\equal{#1}{①}}{\mc{\color{black}①}\,}{%
+        \ifthenelse{\equal{#1}{②}\OR\equal{#1}{③}\OR\equal{#1}{④}\OR\equal{#1}{⑤}\OR\equal{#1}{⑥}\OR\equal{#1}{⑦}}{\,\,\mc{\color{black}#1}\,}{%
+        \ifthenelse{\equal{#1}{(}}{\,\mc{\color{black}\scalebox{.91}{(}}}{%
+        \ifthenelse{\equal{#1}{：}}{}{%
+        \ifthenelse{\equal{#1}{，}}{\mc{\color{black}\scalebox{.91}{，\hspace{-2pt}}}}{\scalebox{1.1}{#1}}}%
+    }}}}}}}}}}}}}}}}}}}}}}}}}}}}}}%
+  }%
+\newcommand{\@star}{\scalebox{.5}{$^{\text{\x{\bgt{＊}}}}$}}%
+\newcommand{\@@star}{\scalebox{.5}{\rotatebox{90}{\hspace{-1pt}$^{\text{\rotatebox{90}{\x{\bgt{＊}}}}}$\hspace{-1pt}$^{\text{\rotatebox{90}{\x{\bgt{＊}}}}}$}}}%
+\newcounter{単語番号}%
+\setcounter{単語番号}{1}%
+\newcommand{\単語番号表示}{ON}%
+\NewDocumentCommand\単語{ s s m m m m O{\br{1.3}} }%
+  {%
+    \begin{breakitemleftbar}%
+      {%
+        \begin{minipage}[t]{10zw}%
+          \pl%
+            {%
+              \bf%
+                {%
+                  \ifthenelse{\equal{\単語番号表示}{ON}}{{\tiny\hspace{-1zw}\raisebox{.4zw}{\１文字{\the単語番号}}}}{}%
+                  □\,#3\IfBooleanTF{#2}{\@@star}{\IfBooleanT{#1}{\@star}}\\[-3pt]\quad\,\small\mc{[\textipa{#4}]}%
+                }%
+            }%
+        \end{minipage}%
+      }%
+      \noindent\scalebox{1.1}{\raisebox{-.13zw}{\bgtfamily\color{red!70!white}\blackcomma{#5}}}%
+      \ifthenelse{\equal{#6}{}}{}{\\\scalebox{1.1}{\raisebox{-.13zw}{\bgtfamily\color{red!70!white}\blackcomma{#6}}}}%
+      #7%\ifthenelse{\equal{#6}{}}{\br1}{#6}%
+      \br{.3}%
+    \end{breakitemleftbar}\br{-.05}%
+    \renewcommand{\単語番号表示}{OFF}%
+  }%
+
+\NewDocumentCommand\自由記述単語{ s s m m m m O{\br{1.3}} }%
+  {%
+    \begin{breakitemleftbar}%
+      {%
+        \begin{minipage}[t]{10zw}%
+          \pl%
+            {%
+              \bf%
+                {%
+                  \ifthenelse{\equal{\単語番号表示}{ON}}{{\tiny\hspace{-1zw}\raisebox{.4zw}{\１文字{\the単語番号}}}}{}%
+                  □\,#3\IfBooleanTF{#2}{\@@star}{\IfBooleanT{#1}{\@star}}\\[-3pt]\quad\,\small\mc{[\textipa{#4}]}%
+                }%
+            }%
+        \end{minipage}%
+      }%
+      \noindent\scalebox{1.1}{\raisebox{-.13zw}{#5}}%
+      \ifthenelse{\equal{#6}{}}{}{\\\scalebox{1.1}{\raisebox{-.13zw}{#6}}}%
+      #7%\ifthenelse{\equal{#6}{}}{\br1}{#6}%
+      \br{.3}%
+    \end{breakitemleftbar}\br{-.05}%
+    \renewcommand{\単語番号表示}{OFF}%
+  }%
+
+\newcommand{\表現}[1]{\gt{\pl{\bf{\見出しぶら下げ{◆\,}{\bgroup\@表現#1
+\@empty\relax\egroup}}}}
+}% 改行の具合などは絶対いじらない
+\def\@表現#1 #2%
+  {%
+    \@tfor\@@@表現:=#1\do{\@@表現{\@@@表現}}%
+    \ifx#2\@empty\else\@表現@空白\expandafter\@表現\fi#2%
+  }%
+\newcommand{\@表現@空白}{ }%
+\newcommand{\@@表現}[1]%
+  {%
+    \ifthenelse{\equal{#1}{「}}%
+      {\mc{「}\color{red!70!white}}%
+      {%
+        \ifthenelse{\equal{#1}{」}}%
+          {\color{black}\mc{」}}%
+          {%
+            \ifthenelse{\equal{#1}{，}}%
+              {\mc{\color{black}\scalebox{.91}{，\hspace{-2pt}}}}%
+              {%
+                \ifthenelse{\equal{#1}{S}}%
+                  {\raisebox{.13zw}{\textcolor{black}{\hinshi{小}}}\,}%
+                  {%
+                    \ifthenelse{\equal{#1}{R}}%
+                      {\raisebox{.13zw}{\textcolor{black}{\hinshi{論}}}\,}%
+                      {%
+                        \ifthenelse{\equal{#1}{E}}%
+                          {\raisebox{.13zw}{\textcolor{black}{\hinshi{説}}}\,}%
+                          {%
+                            \ifthenelse{\equal{#1}{Z}}%
+                              {\raisebox{.13zw}{\textcolor{black}{\hinshi{随}}}\,}%
+                              {\ifthenelse{\equal{#1}{：}}{}{#1}}%
+                          }%
+                      }%
+                  }%
+              }%
+          }%
+      }%
+  }%
+\newcommand{\補足}[1]{\見出しぶら下げ{★\,}{#1}}%
+\NewDocumentCommand\例文{ m m O{} }%
+  {%
+    \br{.2}\baselineskip=12pt%
+    \見出しぶら下げ{\▲\,}{\sf{#1}}\br{.1}%
+    \ifthenelse{\equal{#2}{}}%
+      {}%
+      {%
+        \見出しぶら下げ%
+          {\quad\ispace「}%
+          {%
+            #2」%
+            \ifthenelse{\equal{#3}{}}{}{\source{#3}}%
+          }%
+      }%
+    \baselineskip=15pt%
+  }%
+
+\newcommand{\境界線}%
+  {%
+    \br{-1}\begin{itemleftbar}{\１０文字{\９文字半{\mc{\vphantom{bp}\cdotsfill}}}}%
+      \hspace{-1.3zw}\cdotsfill%
+    \end{itemleftbar}\br{-.8}%
+    \refstepcounter{単語番号}%
+    \renewcommand{\単語番号表示}{ON}%
+  }%
+
+%\newenvironment{checkbox}%
+%  {\鉄壁カラーボックス@env{\small\sf{\bf{Check!}}}{red!70!white}{white}\bgtfamily\small}%
+%  {\end鉄壁カラーボックス@env}%
+\def\qs#1#2{●\,#1\rightalign{\x{\sf{#2}}}\br0}%
+
+\newenvironment{reviewbox}{\begin{再組カラーボックス}{\bgt{Review Test}}{以下の英文に対応する和訳の空欄を埋めよ。}[orange][white]<white><white>(0pt)(drop fuzzy shadow)\begin{kakkoenu}}{\end{kakkoenu}\end{再組カラーボックス}}%
+\renewcommand{\ll}[2]{\sub{\maru{#1}}\ul{#2}}%
+\renewcommand{\blank}[2]{\sub{\maru{#1}}\ul{\x{#2}}}%
+\newcommand{\subblank}[2]{\sub{\maru{#1}}\点線{\x{#2}}}%
+\let\originalsource\source%
+\renewcommand{\source}[1]{{\small\originalsource{#1}}}%
+
+\newcounter{tipsbangou}%
+\setcounter{tipsbangou}{1}%
+\newtcolorbox{@tipsbox}%
+  {%
+    enhanced,sharp corners,%
+    boxsep=0pt,boxrule=0pt,left=5pt,top=2.5pt,bottom=2.5pt,%
+    colback=red!70!white!90!orange!85!white,coltext=white,%
+    fontupper=\bgtfamily%
+  }%
+\newenvironment{tipsbox}[1]{\newpage\strongvfill\begin{同ページに収める}\begin{@tipsbox}\scalebox{1.1}{Tips for Learning\quad 学習のポイント・\thetipsbangou}\end{@tipsbox}\noindent\scalebox{1.1}{\bgt{「#1」}}\par\gtfamily}{\end{同ページに収める}\normalfont\refstepcounter{tipsbangou}}%

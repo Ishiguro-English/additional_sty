@@ -1,0 +1,17 @@
+% ドキュメントクラスオプションの twocolumn オプション
+\documentclass[uplatex,dvipdfmx,twocolumn]{jsarticle}
+\usepackage{lipsum}
+\pagestyle{empty}
+\usepackage{scsnowman}
+\usepackage{changecolumnseprule}
+
+\makeatletter
+\def\snowmanvrule{\cleaders\hbox{\makebox[1zw][c]{\scsnowman[arms,muffler,hat,adjustbaseline,scale=1.3]}}\vfil}
+\changecolumnseprule{\snowmanvrule\hbox{\mbox{\tate ~✂~キリトリセン~✂~}}\snowmanvrule}% ☃・文字入り
+\makeatother
+
+\begin{document}
+\lipsum[1-10]
+\end{document}
+
+

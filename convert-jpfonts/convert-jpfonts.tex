@@ -1,0 +1,203 @@
+\documentclass[dvipdfmx,b5j,10pt]{jsarticle}
+
+\usepackage{mypackage,convert-jpfonts}
+
+\title{\pl{convert-jpfonts.sty}}
+\author{\pl{Hugh}}
+
+\begin{document}
+
+\maketitle
+
+\section{概要}
+
+本パッケージは，日本語文書において「日本語の追加フォントのうち，半角アルファベットが使用できない」という特殊な状況に対処するための成果物です。
+
+プリアンブルで以下のように宣言することで，すべての機能が使用できます。
+
+\br{.5}\begin{itembox}[c]{\texttt{convert-jpfonts.sty}}
+\begin{verbatim}
+\usepackage{convert-jpfonts}
+\end{verbatim}
+\end{itembox}
+
+\warningbox{これはあくまで簡易的かつ一時的な措置を提供するパッケージであり，細かい文書規則や複雑な禁則処理などには対応しきれていません。したがって特殊な環境下での利用以外はあまりおすすめできません。}
+
+\section{基本的な使い方}
+
+\verb|\fonts|の基本的な使い方は，以下の通りです。
+
+\br{.5}\begin{itembox}[c]{\texttt{\textbackslash fonts}}
+\begin{verbatim}
+\fonts{History begins when [...]}
+\end{verbatim}
+\end{itembox}
+\begin{結果}
+\fonts{History begins when men begin to think of the passage of time in terms not of natural processes — the cycle of the seasons, the human life-span — but of a series of specific events in which men are consciously involved and which they can consciously influence. History, says *Burckhardt, is “the break with nature caused by the awakening of consciousness”. History is the long struggle of man, by the exercise of his reason, to understand his environment and to act upon it. But the modern period has broadened the struggle in a revolutionary way. Man now seeks to understand, and to act on, not only his environment but himself; and this has added, so to speak, a new dimension to reason, and a new dimension to history.}
+\end{結果}
+
+\notebox{上例では引数に含まれる半角文字を1文字ずつ個別に取り出し，全角文字に置き換えたのち，空白調整をかけて再びつなぎ合わせています。}
+
+\warningbox%
+  {%
+    \begin{enumerate}[・]
+      \item 二重引用符は「“〜”」のように，全角文字を直打ちする必要があります。
+      \item ダッシュ線「---」は長音記号「ー」でカバーするしかありません。
+      \item 引数に用いることのできるコマンドは，\texttt{\textbackslash quad}や\texttt{\textbackslash }などの空白記号のみです。
+    \end{enumerate}
+  }
+
+しかし明朝体やゴシック体などの基本フォントに対しては，文字間スペースが不自然に空いてしまいます。そこで本パッケージは主に，ゆるい雰囲気の追加フォントの使用を想定しています。
+
+\section{カスタマイズ}
+\subsection{フォント変更}
+
+デフォルトで変更されるゴシック体は，以下のように自由にカスタマイズ可能です。ただし以下の\verb|\fuiji|などは，\verb|\textgt|などと同じ関数型のコマンドであり，自身の環境で定義しておく必要があります。
+
+\br{.5}\begin{itembox}[c]{\texttt{フォントの変更\maru1}}
+\begin{verbatim}
+\fonts[\fuiji]{History begins when [...]}
+\end{verbatim}
+\end{itembox}
+\begin{結果}\chuukigou{$*$}{←}
+\fonts[\fuiji]{History begins when men begin to think of the passage of time in terms not of natural processes ー the cycle of the seasons, the human life-span ー but of a series of specific events in which men are consciously involved and which they can consciously influence. History, says *Burckhardt, is “the break with nature caused by the awakening of consciousness”. History is the long struggle of man, by the exercise of his reason, to understand his environment and to act upon it. But the modern period has broadened the struggle in a revolutionary way. Man now seeks to understand, and to act on, not only his environment but himself; and this has added, so to speak, a new dimension to reason, and a new dimension to history.}
+\end{結果}
+
+\subsection{デフォルトのフォント変更}
+
+フォントを指定せずとも，初めから特定のフォントを適用したい場合は，プリアンブルなどで以下のように宣言しましょう。
+
+\br{.5}\begin{itembox}[c]{\texttt{フォントの変更\maru2}}
+\begin{verbatim}
+\デフォルトフォント{\fuiji}
+\end{verbatim}
+\end{itembox}
+
+\subsection{スペース}%
+
+ふい字以外のフォントを用いると，文字が詰まりすぎたり反対に空きすぎる可能性があります。
+
+取り出した各全角文字間のスペースを変更するには，以下のようにします。
+
+\br{.5}\begin{itembox}[c]{\texttt{スペースの変更}}
+\begin{verbatim}
+\fonts[\kanteiryu]{There is something wrong with my car.}
+\空白調整{.1zw}
+\fonts[\kanteiryu]{There is something wrong with my car.}
+\end{verbatim}
+\end{itembox}
+\begin{結果}
+\fonts[\koin]{There is something wrong with my car.}
+\空白調整{.1zw}
+
+\fonts[\koin]{There is something wrong with my car.}
+\end{結果}
+
+\notebox{上例では，「デフォルトの状態」から「さらに」文字間スペースを全角0.1文字分離すという操作を施しています。}
+
+\newpage
+
+\空白調整{-.1zw}
+
+\section{使用例}
+\subsection{各フォントとの対応一覧}
+
+以下は，デフォルトの空白調整における各フォントとの対応づけ一覧です。
+
+\parindent=0zw
+\begin{multicols}{2}
+\fonts[\mika]{これはmika fontです。}\par%
+\fonts[\fuiji]{これはfuiji fontです。}\par%
+\fonts[\kotori]{これはkotori fontです。}\par%
+\fonts[\makiba]{これはmakiba fontです。}\par%
+\fonts[\sea]{これはsea fontです。}\par%
+\fonts[\himaji]{これはhimaji fontです。}\par%
+\fonts[\seto]{これはseto fontです。}\par%
+\fonts[\aqua]{これはaqua fontです。}\par%
+\fonts[\tare]{これはtare fontです。}\par%
+\fonts[\utsukushi]{これはutsukushi fontです。}\par%
+\fonts[\uzura]{これはuzura fontです。}\par%
+\fonts[\yutapon]{これはyutapon fontです。}\par%
+\fonts[\reiko]{これはreiko fontです。}\par%
+\fonts[\ohisama]{これはohisama fontです。}\par%
+\fonts[\anzu]{これはanzu fontです。}\par%
+\fonts[\azuki]{これはazuki fontです。}\par%
+\fonts[\azukiBold]{これはazuki Bold fontです。}\par%
+\fonts[\yasashisa]{これはyasashisa fontです。}\par%
+\fonts[\yasashisaBold]{これはyasashisa Bold fontです。}\par%
+\fonts[\yasashisaAntique]{これはyasashisa Antique fontです。}\par%
+\fonts[\bokutachi]{これはbokutachi fontです。}\par%
+\fonts[\flopDesign]{これはflopDesign fontです。}\par%
+\fonts[\fontpo]{これはfontpo fontです。}\par%
+\fonts[\FGLovelyGothic]{これはFG Lovely Gothic fontです。}\par%
+\fonts[\FGModernGothic]{これはFG Modern Gothic fontです。}\par%
+\fonts[\FGPopGothic]{これはFG Pop Gothic fontです。}\par%
+\fonts[\FGRetroGothic]{これはFG Retro Gothic fontです。}\par%
+\fonts[\FGZeroGothic]{これはFG Zero Gothic fontです。}\par%
+\fonts[\gyateKizu]{これはgyateKizu fontです。}\par%
+\fonts[\gyateLumi]{これはgyateLumi fontです。}\par%
+\fonts[\hanazome]{これはhanazome fontです。}\par%
+\fonts[\hannari]{これはhannari fontです。}\par%
+\fonts[\jiyucho]{これはjiyucho fontです。}\par%
+\fonts[\kiloji]{これはkiloji fontです。}\par%
+\fonts[\kilojiBold]{これはkiloji Bold fontです。}\par%
+\fonts[\kilojiLight]{これはkiloji Light fontです。}\par%
+\fonts[\kinemaru]{これはkinemaru fontです。}\par%
+\fonts[\pixelMplus]{これはpixel Mplus fontです。}\par%
+\fonts[\riiPop]{これはrii Pop fontです。}\par%
+\fonts[\riiTegaki]{これはrii Tegaki fontです。}\par%
+\fonts[\ruri]{これはruri fontです。}\par%
+\fonts[\shunka]{これはshunka fontです。}\par%
+\fonts[\shunkaB]{これはshunka B fontです。}\par%
+\fonts[\shunkaBB]{これはshunka BB fontです。}\par%
+\fonts[\kachou]{これはkachou fontです。}\par%
+\fonts[\kachouB]{これはkachou B fontです。}\par%
+\fonts[\kachouBB]{これはkachou BB fontです。}\par%
+\fonts[\tsubasa]{これはtsubasa fontです。}\par%
+\fonts[\onryou]{これはonryou fontです。}\par%
+\fonts[\hakidame]{これはhakidame fontです。}\par%
+\fonts[\wadaHosoMaru]{これはwada Hoso Maru fontです。}\par%
+\fonts[\wadaChuMaru]{これはwada Chu Maru fontです。}\par%
+\fonts[\meiryo]{これはmeiryo fontです。}\par%
+\fonts[\meiryoBold]{これはmeiryo Bold fontです。}\par%
+\fonts[\msgothic]{これはmsgothic fontです。}\par%
+\fonts[\YOzStandardKana]{これはYOz Standard Kana fontです。}\par%
+\fonts[\YOzStandardKanaBold]{これはYOz Standard Kana Bold fontです。}\par%
+\fonts[\YOzNewKana]{これはYOz New Kana fontです。}\par%
+\fonts[\YOzNewKanaBold]{これはYOz New Kana Bold fontです。}\par%
+\fonts[\YOzEducationKana]{これはYOz Education Kana fontです。}\par%
+\fonts[\YOzEducationKanaBold]{これはYOz Education Kana Bold fontです。}\par%
+\fonts[\YOzCuteKana]{これはYOz Cute Kana fontです。}\par%
+\fonts[\YOzCuteKanaBold]{これはYOz Cute Kana Bold fontです。}\par%
+\fonts[\YOzAntiqueKana]{これはYOz Antique Kana fontです。}\par%
+\fonts[\YOzAntiqueKanaBold]{これはYOz Antique Kana Bold fontです。}\par%
+\fonts[\YOzMouhitsuKaisho]{これはYOz Mouhitsu Kaisho fontです。}\par%
+\fonts[\YOzMouhitsuKaishoBold]{これはYOz Mouhitsu Kaisho Bold fontです。}\par%
+\fonts[\YOzMouhitsuGyousho]{これはYOz Mouhitsu Gyousho fontです。}\par%
+\fonts[\YOzMouhitsuGyoushoBold]{これはYOz Mouhitsu Gyousho Bold fontです。}\par%
+\fonts[\YOzMouhitsuGyoushoAntique]{これはYOz Mouhitsu Gyousho Antique fontです。}\par%
+\fonts[\YOzMouhitsuGyoushoAntiqueBold]{これはYOz Mouhitsu Gyousho Antique Bold fontです。}\par%
+\fonts[\AoyagiSoseki]{これはAoyagi Soseki fontです。}\par%
+\fonts[\AoyagiKouzanMouhitsu]{これはAoyagi Kouzan Mouhitsu fontです。}\par%
+\fonts[\AoyagiKouzanT]{これはAoyagi KouzanT fontです。}\par%
+\fonts[\AoyagiKouzanGyousho]{これはAoyagi Kouzan Gyousho fontです。}\par%
+\fonts[\AoyagiKouzanSousho]{これはAoyagi Kouzan Sousho fontです。}\par%
+\fonts[\AoyagiKouzanReisho]{これはAoyagi Kouzan Reisho fontです。}%
+\end{multicols}
+
+\subsection{使用例イメージ}
+
+\parindent=1zw
+
+\begin{ascolorbox1}{\fonts[\YOzCuteKanaBold]{Coffee Break}}
+\fonts[\YOzEducationKana]{drownは元々，「溺れさせる」という意味の他動詞として用いられていました。これは}\par\quad\fonts[\YOzEducationKana]{God drowned the girl.→The girl was drowned( by God ).}\\\fonts[\YOzEducationKana]{のように，本来神が主語だったからです。しかしルネサンス期に人が神を殺したために，主体者が人間へと移り変わり，結果自動詞のみが用いられるようになったのです。}\par\fonts[\YOzEducationKana]{そうするとA drowning man will catch at a straw.は，ルネサンス期（14〜16世紀）以降に普及した諺だとわかります。}
+\end{ascolorbox1}
+
+\質問と返信{質問と返信}{\fonts[\hanazome]{「エレベーター」は解答ではliftになっていますが，elevatorではダメなんですか？}}{\fonts[\kotori]{いい質問ですね。liftはイギリスで使われる一方，elevatorはアメリカで用いられる表現なんです。（なのでどちらもOK!）他にも，「ナス」はアメリカ英語でeggplantですが，イギリス英語だとaubergineになります！}}
+
+\begin{基本事項コメント}
+\tsubasa{質問や近況報告など}
+\end{基本事項コメント}
+\fonts[\fuiji]{来週はParisにgirlfriendと旅行に行くので，代講になります！すみません！}\par\fonts[\fuiji]{欲しいお土産とかあったら，ぜひ書いといてください〜!!}
+
+\end{document}%

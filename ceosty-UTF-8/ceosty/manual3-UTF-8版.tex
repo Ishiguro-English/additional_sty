@@ -1,0 +1,2385 @@
+\documentclass [10pt,fleqn,b5paper]{jsarticlek}
+\usepackage[dvipdfmx]{graphicx,color}
+\usepackage{amsmath,amstext,amssymb}
+\usepackage{zogeny,ceo}
+
+\begin{document}
+\sectionl{copyright and Install}
+ ceo.sty（CenturyOldStyle）の許諾事項\\
+（copyright@toru yasuda）\\
+このスタイルceo.styの不具合，質問など連絡は安田亨（やすだとおる）\\
+dokusha@hocsom.com\\
+へお願い致します．
+
+以下，いろいろ関係がないことも書いてありますが，無視してください．スタッフのために書いたものを編集していますので，スタッフ向けのこともあります．このスタイルはスタッフに渡しているフルバージョンではありません．従って，フルバージョンに比べ，使えない記号があります．このマニュアルには，フルバージョン用の記述もあるためです．
+
+【{\gt 文字コードの問題}】\\
+TeXLive2013ではUTF-8を推奨しています．UTF-8で作成したファイルは，トラブルを起こしやすい（らしい）ので，Shift-JISの方にしたかったのですが，設定がうまくいかないという人が大変多く，かつ，データを販売したときに，販売先に仕様の変更を頼むのも難しいので，UTF-8にすることにしました．設定をShift-JISに変更してくださった方には申し訳ないのですが（ここが意味不明な人は無視してください），エディタの「エンコーディング」をUTF-8にしてください．特に，Shift-JISで作ったファイルからコピーペーストして，UTF-8でファイルを作ったり，この逆をしたり，混在させると，トラブルになります．これが，現在，最大の心配事です．\\
+
+\vspace{2mm} 
+
+\kagil 1\kagir  ceo.styのインストール方法\\
+【Macでのインストール】TeXはインストールしてあるものとします．\\
+MacTeXLive2013での設定です．それよりバージョンが前の場合には，適宜読み替えてください．\\
+http://oku.edu.mie-u.ac.jp/~okumura/texwiki/?Mac
+の文字コードの自動判別，hiraginoの埋め込みの設定をします．操作は以下です．
+
+自動判別については，nkfが入っていないなら，「nkfが入っています」内のnkfを\\
+/usr/local/bin
+
+に入れます．ターミナルで
+
+chmod 755 /usr/local/bin/nkf
+
+と入れて（コピー，ペーストして）リターンを押します．\\
+hiraginoの埋め込みは，\\
+sudo mkdir -p /usr/local/texlive/texmf-local/fonts/opentype/hiragino/
+
+リターンキーを押す．以下，続けます．1回1回，リターンキーを押してください．\\
+cd /usr/local/texlive/texmf-local/fonts/opentype/hiragino/
+
+sudo ln -fs "/Library/Fonts/ヒラギノ明朝 Pro W3.otf" ./HiraMinPro-W3.otf
+
+sudo ln -fs "/Library/Fonts/ヒラギノ明朝 Pro W6.otf" ./HiraMinPro-W6.otf
+
+sudo ln -fs "/Library/Fonts/ヒラギノ丸ゴ Pro W4.otf" ./HiraMaruPro-W4.otf
+
+sudo ln -fs "/Library/Fonts/ヒラギノ角ゴ Pro W3.otf" ./HiraKakuPro-W3.otf
+
+sudo ln -fs "/Library/Fonts/ヒラギノ角ゴ Pro W6.otf" ./HiraKakuPro-W6.otf
+
+sudo ln -fs "/Library/Fonts/ヒラギノ角ゴ Std W8.otf" ./HiraKakuStd-W8.otf
+
+sudo mktexlsr
+
+リターンキーを押す．
+
+
+階層の移動はFinder（普通の状態）で，メニューの移動〜フォルダへの移動\\
+/usr\\
+でカラム表示（表示の左から3番目）にするなどして移動します．\\
+【1：クラスファイルと4つのフォルダ(Install 4 ceo folders)】
+texlive〜texmf-local〜dvips〜localの中に"into map"の中のceoフォルダを入れる．\\
+texlive〜texmf-local〜fonts〜tfm〜localの中に"into tfm"の中のceoフォルダを入れる．\\
+texlive〜texmf-local〜fonts〜type1〜localの中に"into type1"の中のceoフォルダを入れる．\\
+texlive〜texmf-local〜tex〜latex〜localの中に"into latex"の中のceoフォルダを入れる．\\
+
+
+texlive〜2013〜texmf-dist〜tex〜platex〜jsclassesの中にclsの中の\\
+jsarticlek.clsおよびyasuda-book0.clsからyasuda-book5.clsを入れる．ターミナルで
+
+sudo mktexlsr\\
+をする．\\
+【Windowsでのインストール】TeXはインストールしてあるものとします．\\
+Windowsでヒラギノを使う場合は次の設定をする．最初にceostyフォルダ内の「{\gt Windowsでヒラギノ}」というフォルダを開いて，その「WindowsTeX otf でヒラギノ」を読んでhiraginoの埋め込みの設定をしてください．何を言っているか不明な人は無視してください．
+
+私のWindowsXP，7では
+Cドライブの下に\yy w32tex\yy share\yy texmf-dist
+となります．texmf-dist以下を書きます．\\
+texmf-distが存在しない人は、texmfを見てください．以下に記してあるtexmf-distは全てtexmfと読み替えてください．\\
+【0：削除(delete pk fonts of old version)】
+{\gt 以前のバージョンのceoパッケージを使っていた場合}は
+\yy texmf-dist\yy fonts\yy pk\yy ceo
+の中のceor.300pkなどのpk fontを削除してください．削除しないとエラーがおきます．初めての場合は無視し，何もしなくてかまいません。次に進んでください．\\
+【1：クラスファイルと4つのフォルダ(Install 4 ceo folders)】\\
+このパッケージのceostyというフォルダの中には４つのフォルダがあります．この４つのフォルダの中にはそれぞれceoという名前のフォルダが入っています．そのceoというフォルダを以下の階層にいれてください．またclsというフォルダの中のjsarticlek.clsを次の階層に入れます．これは上記倍率を変えたものです．
+\\
+\kakkoichi\;jsarticlek.cls\\
+\yy texmf-dist\yy tex\yy platex\yy jsに
+cls
+jsarticlek.clsおよびyasuda-book0.clsからyasuda-book5.clsを入れる．\\
+\kakkoni\;4 ceo folders\\
+\yy texmf-dist以下\\
+\yy fonts\yy tfm\\
+の中に"into tfm"の中のceoフォルダを入れる．\\
+\yy fonts\yy type1\\
+の中に"into type1"の中のceoフォルダを入れる．\\
+\yy fonts\yy map\yy dvipsの中に"into map"の中のceoフォルダを入れる．\\
+\yy tex\yy latex\\
+の中に"into latex"の中のceoフォルダを入れる．\\
+\\
+【{\gt Shift-JISへの変更について}】\\
+以下はWindowsでShift-JISでタイプセットできるようにするための覚え書きです．もはや不要となりましたが，学生君が苦労して見つけてくれたものですから，覚え書きとして残しておきます．
+WindowsTeXLive2013は内部がUTF-8で，TeXWorksもそのままではShift-JISを受け付けてくれません．\\
+1.http://tug.org/texworks/で最新版のTeXworksをダウンロード、インストールする．\\
+2.TeXworksを起動し、編集→設定→タイプセット→タイプセットの方法の「＋」ボタンを押す．\\
+3.名前を「pdfpLaTeX」、プログラムを「pdfplatex.bat」、引数を「\verb|$|basename」とする．\\
+4.「pdfplatex.bat」を編集する。適当なテキストエディタで開き、中身を以下のようにする．\\
+---ここから---
+\begin{Verbatim}
+@echo off
+platex -synctex=1 -kanji=sjis %1
+dvipdfmx "%~n1"
+\end{Verbatim}
+---ここまで---\\
+「pdfplatex.bat」は\\
+C:/texlive/2013/bin/win32/pdfplatex.bat\\
+C:/texlive/2013/bin/win64/pdfplatex.bat\\
+C:/w32tex/bin/pdfplatex.bat\\
+C:/w32tex/bin64/pdfplatex.bat\\
+のどこかに（普通は）あります。もしなければ新規に作る（エディタで作れます）．\\
+5.編集→設定→エディタ→エンコーディングを「Shift-JIS」にする。\\
+6.pdfpLaTeXでShift-JISで作ったファイル（たとえばkokoromi.tex）が正しくタイプセットされるのを確認する。\\
+
+【{\gt Shift-JISへの変更についてはここまで}】
+\vspace{2mm}
+
+以上を行ったら，最後に，コマンドプロンプトを立ち上げ\\
+mktexlsrを実行します．\\
+
+【実験】さて，終了してkokoromi.texを実行しましょう．
+そしてpdfを作り，記号部分を大きく拡大し，ギザギザが出ないかを見てください．
+
+
+\kakkoshi\;コマンドプロンプトとターミナル\\
+以前は階層を移動する必要がありましたが，今は階層を移動しなくても，いきなり「sudo mktexlsr」）マックの場合），mktexlsr（Windowsの場合）を掛ければいいので，以下は不要です．筆者の覚え書きのようなものです．\\
+階層を手で移動するとき．
+MacOSXの場合：カラム表示にします．上の方にある3つ並んだ表示形式の一番右を押す．
+WindowsXPの場合：スタートから右クリックでエクスプローラーを立ち上げて，メニューのツール〜フォルダオプション〜表示をすべてのファイルとフォルダを表示，詳細表示にして，すべてのフォルダに適用をおします．\\
+terminal：
+MacOSXのterminalはアプリケーションのユーティリティフォルダの中にあり,
+WindowsXPのコマンドプロンプトスタートからアクセサリーの中にあります．
+
+
+
+【Macで，TeXの数式をIllustrator(Adobe)で図版に利用してする場合（多くの人には関係ない）】\\
+ /Library/"Application Support"/Adobe/Fonts/ 
+にも，上の"into type1"の中のceoフォルダを入れます．これで，イラストレータでフォントが出てきて表示，キーボードから入力できるようになります．ただし，キーボードから入力できるものは，キーにマップされているものに限ります．ただしすべて表示できるわけではないようです．\\
+
+【Windowsで，TeXの数式をIllustrator(Adobe)で図版に利用してする場合（多くの人には関係ない）】\\
+C:\yy Program Files\yy Common Files\yy Adobe\yy Fonts\\
+にも，上の"into type1"の中のceoフォルダを入れます．これで，イラストレータでフォントが出てきて表示，キーボードから入力できるようになります．ただし，キーボードから入力できるものは，キーにマップされているものに限ります．\\
+
+
+
+\newpage
+\sectionl{根号と積分と\protect{$\bd{\mathit{x,y}}$}の変更}
+ 基本的に，普通に打てばできます．ただし，2つ3つ，特別なことをしています．\\
+\kakkoichi \, displaystyleの排除\\
+ いちいちdisplaystyleを入れるのが嫌なので，積分，シグマ，積（prod）は，displaystyleを入れなくてもできるようにしてあります．もちろん，入れても同じです．\\
+ 分数罫線とその上下の空きはぴっちりつまるようにしてあります．これはceosyのtfmで設定です．よく，移動して分数罫線との空きを調節するマクロを見かけますが，そうした分数を，指数や下付に入れると，ここでも，ずれて文字が重なる場合があります．そうしたマクロの解説で「くずれの可能性」に対する記述がないのは，どうしたものでしょう？　数式を組む場合には，移動によるマクロは，できる限り避けるのが安全です．\\
+\kakkoni \, 根号の設定\\
+ 根号は自動で多段化（18段）しました．sqrtで多段根号です．通常使用の範囲では十分のはずで，垂直ルートにいかない仕様です．垂直ルートが必要になったら，vsqrtにしてください．以前は大きさ固定の根号を使っていましたが，不要です．\\
+$\sqrt{\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}+\sqrt{\dfrac{\dfrac{\dfrac{a}{b}}{b}}{\dfrac{\dfrac{a}{b}}{d}}}$\\
+のようなものは以前は垂直ルートになっていましたが，今はそこまでいきません．\\
+なお，少し問題があります．TeXは文字位置の記述をtfmファイルで行っていますが，上下位置は1つのフォントでベースラインの下に15段階，ベースラインの上に15段階しか位置情報をもてません．多段根号は18段作ってしまったので，17段目と18段目は正しい位置情報を持たせていません．そのため，もし，最17，18段目のルートを分数の分子に入れると（こんな，上下に大きな式を分子に入れる人はいないと思うけど）分数罫線と重なります．その場合は\yy aki\{38\}\{38\},\yy aki\{40\}\{40\}とかをルートの中に入れて空白をもたせてください．\\
+
+
+\kakkosan \, 積分記号\\
+$\int_{0}^{\sfrac{\pi}{2}}\sin xdx=\tint{-\cos x}{0}{\sfrac{\pi}{2}} $です．上下に乗せる小さい分数はsfracで出します．
+\[
+\int_{0}^{\sfrac{\sqrt{3}}{2}}e^{-x} xdx=\tint{-e^{-x}}{0}{\sfrac{\sqrt{3}}{2}}
+\]
+
+\sectionl{キャラクタコードで記号を呼び出したいとき}
+\yy ceosy\kigouc{QT}char\kigouc{P}DF\br とすると
+\ceosy{\char"DF}になり，省略の3点リーダー記号をキャラクタコードで呼び出すことができます．キーボードの普通のキーにマップされている記号は
+\yy kigouc\bl 1\br 
+という形でも呼び出せて，\kigouc{1}が出ます．キーマップ表は最後の方にあります．\\
+引数1個の形のものが\\
+\yy kigoua\bl \br \\
+\yy kigoub\bl \br \\
+\yy kigouc\bl \br \\
+\yy kigouk\bl \br \\
+\yy maruaa\bl \br \\
+\yy maraa\bl \br \\
+\yy marubb\bl \br \\
+\yy marucc\bl \br \\
+\yy muparen\bl \br \\
+\yy nmar\bl \br \\
+\yy sikakua\bl \br \\
+\yy sikakub\bl \br \\
+\yy ceoi\bl \br \\
+\yy ceor\bl \br \\
+\yy ceosy\bl \br \\
+\yy ceoex\bl \br \\
+\yy girisya\bl \br \\
+\yy syugoronri\bl \br \\
+で周囲と同じ大きさの記号を呼び出します．\\
+　引数2個の形のものが\\
+\yy skakua\bl \br \bl \br \\
+\yy skakub\bl \br \bl \br\\ 
+\yy syugo\bl \br \bl \br \\
+です．この2番目の引数はフォントサイズです．引数２個のものを作ったのは，四角番号は少し大きめにして使う可能性があるからです．\\
+　名前からどのフォントかを見て判断してください．フォント名と少し違う形で呼び出すものがありますのでご注意ください．\\
+　もちろん，普段使う記号はこうした形式でなく呼び出せるようにしてあります．それは後に掲げたマクロ表を見てください．それにしても名前の決め方に統一がなかったですね．困ったもんだ（自分）．こんな呼び出し，そう使うわけでもないため覚えることもないでしょう．必要になったら，このファイルを見てください．\\
+\\
+\sectionl{多段括弧}
+標準の括弧（は，最初は弧で，大きくなるに従って途中から合成括弧（上から，弧，縦の線，弧の順で組み合わせる）になります．TeXの合成括弧はMathTypeなどの数式エディタに比べ，大変できがよいので，そのままでも十分使えますが，それでも合成括弧でない弧の括弧がいいという人もいるので，多段括弧を作りました（muparen）．
+　多段括弧は最初，上下位置を正しくとれなかったので，自動で大きくする機構（NextLager機構）とは別の括弧にしていましたが，原因がわかりました．1つのフォントで上下位置の認識は，ベースラインの上15段，ベースラインの下15段しかできないので，その制限をこえたものは勝手に書き換わってしまうからです．それを考慮して，現在はNextLager機構に組み込みました．ただし15段制限があるので，muparenに合成括弧を取り入れるとそこで3段削られ効率が悪いので合成括弧にいかないようにしてあります．合成括弧が必要な人は\\
+lparen,rparen,lbra,rbra，lbrac,rbrac\\
+でやってください．使い方は\\
+\dd \yy left\yy lbrac \yy left\yy lbra\yy left\yy lparen 式\yy right\yy rparen\yy right\yy rbra right\yy rbrac\dd\\
+$\left\lbrac \left\lbra \left\lparen \dfrac{\dfrac{\dfrac{a}{b}}{c}}{\dfrac{d}{\dfrac{e}{f}}} \right\rparen \right\rbra \right\rbrac$\\
+です．合成括弧にいかない場合は\\
+\dd\yy left\Kl \yy left\yy\{\yy left( 式 \yy right) \yy right\yy \} \yy right\yy \Kr\dd\\
+$\left[ \left\{ \left( \dfrac{\dfrac{\dfrac{a}{b}}{c}}{\dfrac{d}{\dfrac{e}{f}}} \right) \right\} \right]$\\
+\\
+ただし，こうした大きな括弧や，大きなルートは，使わなくてもよいような原稿を書くのが，プロです．中には「僕，アルバイトだもん」と思う人がいるかもしれませんが，どんなときでも，何をやるにしても「そのときは，その道のプロを目指す」のが正しい姿勢です．
+\\
+
+\sectionl{記号のマクロ・1}
+%%%%%%%%%%%%%%%%%%%%%%%
+%kigoua
+%%%%%%%%%%%%%%%%%%%%%%%
+以下，数字の打ち方はichi,ni,san,shi,go,roku,shichi,hachi,kyu,jyuで，太字は最後にbをつけます．2桁はjyu，nijyu，sanjyu，yonjyu，gojyu，rokujyu，nanajyu，hachijyu，kyujyuです．気分でつけたので統一感がないですね．\\
+横2倍文字の大きさの\yy kakkoichi から\yy kakkokyu\\
+\kakkoichi
+\kakkoni
+\kakkosan
+\kakkoshi
+\kakkogo
+\kakkoroku
+\kakkoshichi
+\kakkohachi
+\kakkokyu\\
+\yy kakkoichib から\yy kakkokyub\\
+\kakkoichib
+\kakkonib
+\kakkosanb
+\kakkoshib
+\kakkogob
+\kakkorokub
+\kakkoshichib
+\kakkohachib
+\kakkokyub\\
+\yy kadaiichi から\yy kadaikyu\\
+\kadaiichi
+\kadaini
+\kadaisan
+\kadaishi
+\kadaigo
+\kadairoku
+\kadaishichi
+\kadaihachi
+\kadaikyu\\
+\yy kadaiichib から\yy kadaikyub\\
+\kadaiichib
+\kadainib
+\kadaisanb
+\kadaishib
+\kadaigob
+\kadairokub
+\kadaishichib
+\kadaihachib
+\kadaikyub\\
+kagiichiからkagikyu\\
+\kagiichi
+\kagini
+\kagisan
+\kagishi
+\kagigo
+\kagiroku
+\kagishichi
+\kagihachi
+\kagikyu\\
+kagiichibからkagikyub\\
+\kagiichib
+\kaginib
+\kagisanb
+\kagishib
+\kagigob
+\kagirokub
+\kagishichib
+\kagihachib
+\kagikyub\\
+dozero,doichiからdokyu\\
+\dozero
+\doichi
+\doni
+\dosan
+\doshi
+\dogo
+\doroku
+\doshichi
+\dohachi
+\dokyu\\
+例題用の番号reibanrei,reibanichiからreibannijyu\\
+\reibanrei
+\reibanichi
+\reibanni
+\reibansan
+\reibanshi
+\reibango
+\reibanroku
+\reibanshichi
+\reibanhachi
+\reibankyu
+\reibanjyu
+\reibanjyuichi
+\reibanjyuni
+\reibanjyusan
+\reibanjyushi
+\reibanjyugo
+\reibanjyuroku
+\reibanjyushichi
+\reibanjyuhachi
+\reibanjyukyu
+\reibannijyu\\
+%%%%%%%%%%%%%%%%%%%%%%%
+%kigoub
+%%%%%%%%%%%%%%%%%%%%%%%
+ローマ数字を括弧に入れたものです．早稲田大学理工学部の入試問題ではこれが使われる年があります．\\
+\yy tokeiichiから\yy tokeijyu\\
+\tokeiichi
+\tokeini
+\tokeisan
+\tokeishi
+\tokeigo
+\tokeiroku
+\tokeishichi
+\tokeihachi
+\tokeikyu
+\tokeijyu\\
+\yy tokeiichibから\yy tokeijyub\\
+\tokeiichib
+\tokeinib
+\tokeisanb
+\tokeishib
+\tokeigob
+\tokeirokub
+\tokeishichib
+\tokeihachib
+\tokeikyub
+\tokeijyub\\
+黒い丸数字で，受験雑誌「大学への数学」の入試特集のときの問題番号に使われます．\\
+\yy kuromaruichiから\yy kuromarukyuです．\\
+\kuromaruichi
+\kuromaruni
+\kuromarusan
+\kuromarushi
+\kuromarugo
+\kuromaruroku
+\kuromarushichi
+\kuromaruhachi
+\kuromarukyu\\
+全角括弧数字\yy zenkakuichiから\yy zenkakukyu\\
+\zenkakuichi
+\zenkakuni
+\zenkakusan
+\zenkakushi
+\zenkakugo
+\zenkakuroku
+\zenkakushichi
+\zenkakuhachi
+\zenkakukyu
+
+受験雑誌「大学への数学」で問題番号に使う\yy futosujizeroから\yy futosujijyu\\
+\futosujizero
+\futosujiichi
+\futosujini
+\futosujisan
+\futosujishi
+\futosujigo
+\futosujiroku
+\futosujishichi
+\futosujihachi
+\futosujikyu  \ba{.,}\\
+ただしこれは\yy ba\{0123456789.,\}でも呼び出せます．
+\\
+後はリクエストに応じて作ったものです．\\
+\yy tokeichiから\yy tokejyu\\
+\tokeichi
+\tokeni
+\tokesan
+\tokeshi
+\tokego
+\tokeroku
+\tokeshichi
+\tokehachi
+\tokekyu
+\tokejyu\\
+\yy tokeichibから\yy tokejyub\\
+\tokeichib
+\tokenib
+\tokesanb
+\tokeshib
+\tokegob
+\tokerokub
+\tokeshichib
+\tokehachib
+\tokekyub
+\tokejyub\\
+\yy toaichiから\yy toajyu\\
+\toaichi
+\toani
+\toasan
+\toashi
+\toago
+\toaroku
+\toashichi
+\toahachi
+\toakyu
+\toajyu\\
+\yy tobichiから\yy tobjyu\\
+\tobichi
+\tobni
+\tobsan
+\tobshi
+\tobgo
+\tobroku
+\tobshichi
+\tobhachi
+\tobkyu
+\tobjyu\\
+\yy tocichiから\yy tocjyu\\
+\tocichi
+\tocni
+\tocsan
+\tocshi
+\tocgo
+\tocroku
+\tocshichi
+\tochachi
+\tockyu
+\tocjyu\\
+\yy todichiから\yy todjyu\\
+\todichi
+\todni
+\todsan
+\todshi
+\todgo
+\todroku
+\todshichi
+\todhachi
+\todkyu
+\todjyu\\
+\yy toeichiから\yy toejyu\\
+\toeichi
+\toeni
+\toesan
+\toeshi
+\toego
+\toeroku
+\toeshichi
+\toehachi
+\toekyu
+\toejyu\\
+%%%%%%%%%%%%%%%%%%%%%%%
+%kigouk
+%%%%%%%%%%%%%%%%%%%%%%%
+横2倍文字の大きさの括弧アから括弧ンです．\yy kakkoaから\yy kakkon，ただしニだけは\yy kakkonniにしてください．\\
+\kakkoa
+\kakkoi
+\kakkou
+\kakkoe
+\kakkoo
+\kakkoka
+\kakkoki
+\kakkoku
+\kakkoke
+\kakkoko\\
+\kakkosa
+\kakkosi
+\kakkosu
+\kakkose
+\kakkoso
+\kakkota
+\kakkoti
+\kakkotu
+\kakkote
+\kakkoto\\
+\kakkona
+\kakkonni
+\kakkonu
+\kakkone
+\kakkono
+\kakkoha
+\kakkohi
+\kakkohu
+\kakkohe
+\kakkoho\\
+\kakkoma
+\kakkomi
+\kakkomu
+\kakkome
+\kakkomo
+\kakkoya
+\kakkoyu
+\kakkoyo\\
+\kakkora
+\kakkori
+\kakkoru
+\kakkore
+\kakkoro
+\kakkowa
+\kakkowo
+\kakkon\\
+全角括弧アから全角括弧ンです．\yy zenkakkoaなどとします．\\
+\zenkakkoa
+\zenkakkoi
+\zenkakkou
+\zenkakkoe
+\zenkakkoo
+\zenkakkoka
+\zenkakkoki
+\zenkakkoku
+\zenkakkoke
+\zenkakkoko
+\zenkakkosa
+\zenkakkosi
+\zenkakkosu
+\zenkakkose
+\zenkakkoso
+\zenkakkota
+\zenkakkoti
+\zenkakkotu
+\zenkakkote
+\zenkakkoto\\
+\zenkakkona
+\zenkakkoni
+\zenkakkonu
+\zenkakkone
+\zenkakkono
+\zenkakkoha
+\zenkakkohi
+\zenkakkohu
+\zenkakkohe
+\zenkakkoho
+\zenkakkoma
+\zenkakkomi
+\zenkakkomu
+\zenkakkome
+\zenkakkomo
+\zenkakkoya
+\zenkakkoyu
+\zenkakkoyo
+\zenkakkora
+\zenkakkori
+\zenkakkoru
+\zenkakkore
+\zenkakkoro
+\zenkakkowa
+\zenkakkowo
+\zenkakkon\\
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%maruaa
+%%%%%%%%%%%%%%%%%%%%%%%
+数式に入れる仕様の丸つき数字です．\dd \yy maruichi\dd から\yy marunijyuで，これは数式仕様ですから，ドルマークで囲みます．\\
+$\maruichi$
+$\maruni$
+$\marusan$
+$\marushi$
+$\marugo$
+$\maruroku$
+$\marushichi$
+$\maruhachi$
+$\marukyu$
+$\marujyu$
+$\marujyuichi$
+$\marujyuni$
+$\marujyusan$
+$\marujyushi$
+$\marujyugo$
+$\marujyuroku$
+$\marujyushichi$
+$\marujyuhachi$
+$\marujyukyu$
+$\marunijyu$\\
+数式に入れる仕様の丸つきアルファベットです．\yy maruAから\yy maruZで，これもドルマークで囲みます．\\
+$\maruA$
+$\maruB$
+$\maruC$
+$\maruD$
+$\maruE$
+$\maruF$
+$\maruG$
+$\maruH$
+$\maruI$
+$\maruJ$
+$\maruK$
+$\maruL$
+$\maruM$
+$\maruN$
+$\maruO$
+$\maruP$
+$\maruQ$
+$\maruR$
+$\maruS$
+$\maruT$
+$\maruU$
+$\maruV$
+$\maruW$
+$\maruX$
+$\maruY$
+$\maruZ$\\
+数式に入れる仕様の丸つきアルファベットです．\yy maruaから\yy maruzで，これはドルマークで囲みます．\\
+$\marua$
+$\marub$
+$\maruc$
+$\marud$
+$\marue$
+$\maruf$
+$\marug$
+$\maruh$
+$\marui$
+$\maruj$
+$\maruk$
+$\marul$
+$\marum$
+$\marun$
+$\maruo$
+$\marup$
+$\maruq$
+$\marur$
+$\marus$
+$\marut$
+$\maruu$
+$\maruv$
+$\maruw$
+$\marux$
+$\maruy$
+$\maruz$\\
+
+普通の文書の中で入れる丸つきで，これはドルマークで囲まなくても出ます．上とは名前を変えています．\\
+\yy mruichiから\yy mrunijyu\\
+\mruichi
+\mruni
+\mrusan
+\mrushi
+\mrugo
+\mruroku
+\mrushichi
+\mruhachi
+\mrukyu
+\mrujyu
+\mrujyuichi
+\mrujyuni
+\mrujyusan
+\mrujyushi
+\mrujyugo
+\mrujyuroku
+\mrujyushichi
+\mrujyuhachi
+\mrujyuku
+\mrunijyu\\
+普通の文書の中で入れる丸つきで，これはドルマークで囲む必要はありません．\\
+\yy mruAから\yy mruZ\\
+\mruA
+\mruB
+\mruC
+\mruD
+\mruE
+\mruF
+\mruG
+\mruH
+\mruI
+\mruJ
+\mruK
+\mruL
+\mruM
+\mruN
+\mruO
+\mruP
+\mruQ
+\mruR
+\mruS
+\mruT
+\mruU
+\mruV
+\mruW
+\mruX
+\mruY
+\mruZ\\
+普通の文書の中で入れる丸つきで，これはドルマークで囲む必要はありません．\\
+\yy mruaから\yy mruz\\
+\mrua
+\mrub
+\mruc
+\mrud
+\mrue
+\mruf
+\mrug
+\mruh
+\mrui
+\mruj
+\mruk
+\mrul
+\mrum
+\mrun
+\mruo
+\mrup
+\mruq
+\mrur
+\mrus
+\mrut
+\mruu
+\mruv
+\mruw
+\mrux
+\mruy
+\mruz
+\\
+\\
+%%%%%%%%%%%%%%%%%%%%%%%
+%multiparen&brace
+%%%%%%%%%%%%%%%%%%%%%%%
+大きな括弧です．NextLager機構にも組み込んでありますが，1つずつ呼び出せます．ドルマークで囲みます．\\
+1倍サイズのものは普通に(\;)で出ます．\\
+\yy mulpaから\yy mulpq\\
+$\mulpa$
+$\mulpb$
+$\mulpc$
+$\mulpd$
+$\mulpe$
+$\mulpf$
+$\mulpg$
+$\mulph$
+$\mulpi$
+$\mulpj$
+$\mulpk$
+$\mulpl$
+$\mulpm$
+$\mulpn$
+$\mulpo$
+$\mulpp$
+$\mulpq$\\
+\yy murpaから\yy murpq\\
+$\murpa$
+$\murpb$
+$\murpc$
+$\murpd$
+$\murpe$
+$\murpf$
+$\murpg$
+$\murph$
+$\murpi$
+$\murpj$
+$\murpk$
+$\murpl$
+$\murpm$
+$\murpn$
+$\murpo$
+$\murpp$
+$\murpq$\\
+1倍サイズの中括弧は\yy \{ですが大きいサイズの多段中括弧を作りました．
+\yy mulbaから\yy mulbq\\
+$\mulba$
+$\mulbb$
+$\mulbc$
+$\mulbd$
+$\mulbe$
+$\mulbf$
+$\mulbg$
+$\mulbh$
+$\mulbi$
+$\mulbj$
+$\mulbk$
+$\mulbl$
+$\mulbm$
+$\mulbn$
+$\mulbo$
+$\mulbp$
+$\mulbq$\\
+\yy murbaから\yy murbq\\
+$\murba$
+$\murbb$
+$\murbc$
+$\murbd$
+$\murbe$
+$\murbf$
+$\murbg$
+$\murbh$
+$\murbi$
+$\murbj$
+$\murbk$
+$\murbl$
+$\murbm$
+$\murbn$
+$\murbo$
+$\murbp$
+$\murbq$\\
+\yy mulbcaから\yy mulbcq\\
+$\mulbca$
+$\mulbcb$
+$\mulbcc$
+$\mulbcd$
+$\mulbce$
+$\mulbcf$
+$\mulbcg$
+$\mulbch$
+$\mulbci$
+$\mulbcj$
+$\mulbck$
+$\mulbcl$
+$\mulbcm$
+$\mulbcn$
+$\mulbco$
+$\mulbcp$
+$\mulbcq$\\
+\yy murbcaから\yy murbcq\\
+$\murbca$
+$\murbcb$
+$\murbcc$
+$\murbcd$
+$\murbce$
+$\murbcf$
+$\murbcg$
+$\murbch$
+$\murbci$
+$\murbcj$
+$\murbck$
+$\murbcl$
+$\murbcm$
+$\murbcn$
+$\murbco$
+$\murbcp$
+$\murbcq$\\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% nagamarusuji %
+%%%%%%%%%%%%%%%%%%%%%%%
+センター試験の長い丸数字\yy nagamarurei，\yy nagamaruichiから\yy nagamarukyu\\
+\nagamarurei
+\nagamaruichi
+\nagamaruni
+\nagamarusan
+\nagamarushi
+\nagamarugo
+\nagamaruroku
+\nagamarushichi
+\nagamaruhachi
+\nagamarukyu\\
+太字\yy nagamarureib，\yy nagamaruichibから\yy nagamarukyub\\
+\nagamarureib
+\nagamaruichib
+\nagamarunib
+\nagamarusanb
+\nagamarushib
+\nagamarugob
+\nagamarurokub
+\nagamarushichib
+\nagamaruhachib
+\nagamarukyub\\
+選択肢で使われる\yy nagamaruAから\yy nagamaruZ\\
+\nagamaruA
+\nagamaruB
+\nagamaruC
+\nagamaruD
+\nagamaruE
+\nagamaruF
+\nagamaruG
+\nagamaruH
+\nagamaruI
+\nagamaruJ
+\nagamaruK
+\nagamaruL
+\nagamaruM
+\nagamaruN
+\nagamaruO
+\nagamaruP
+\nagamaruQ
+\nagamaruR
+\nagamaruS
+\nagamaruT
+\nagamaruU
+\nagamaruV
+\nagamaruW
+\nagamaruX
+\nagamaruW
+\nagamaruZ\\
+選択肢の答えのときに使う太字\yy nagamaruAbから\yy nagamaruZb\\
+\nagamaruAb
+\nagamaruBb
+\nagamaruCb
+\nagamaruDb
+\nagamaruEb
+\nagamaruFb
+\nagamaruGb
+\nagamaruHb
+\nagamaruIb
+\nagamaruJb
+\nagamaruKb
+\nagamaruLb
+\nagamaruMb
+\nagamaruNb
+\nagamaruOb
+\nagamaruPb
+\nagamaruQb
+\nagamaruRb
+\nagamaruSb
+\nagamaruTb
+\nagamaruUb
+\nagamaruVb
+\nagamaruWb
+\nagamaruXb
+\nagamaruWb
+\nagamaruZb
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% shikakuasuji %
+%%%%%%%%%%%%%%%%%%%%%%%
+項目などで使う四角数字\yy shikakuichiとかです．\\
+\shikakuichi
+\shikakuni
+\shikakusan
+\shikakushi
+\shikakugo
+\shikakuroku
+\shikakushichi
+\shikakuhachi
+\shikakukyu
+\shikakujyu
+\shikakujyuichi
+\shikakujyuni
+\shikakujyusan
+\shikakujyushi
+\shikakujyugo
+\shikakujyuroku
+\shikakujyushichi
+\shikakujyuhachi
+\shikakujyukyu
+\shikakunijyu\\
+\shikakunijyuichi
+\shikakunijyuni
+\shikakunijyusan
+\shikakunijyushi
+\shikakunijyugo
+\shikakunijyuroku
+\shikakunijyushichi
+\shikakunijyuhachi
+\shikakunijyuku
+\shikakusanjyu
+\shikakusanjyuichi
+\shikakusanjyuni
+\shikakusanjyusan
+\shikakusanjyushi
+\shikakusanjyugo
+\shikakusanjyuroku
+\shikakusanjyushichi
+\shikakusanjyuhachi
+\shikakusanjyukyu
+\shikakuyonjyu\\
+\shikakuyonjyuichi
+\shikakuyonjyuni
+\shikakuyonjyusan
+\shikakuyonjyushi
+\shikakuyonjyugo
+\shikakuyonjyuroku
+\shikakuyonjyushichi
+\shikakuyonjyuhachi
+\shikakuyonjyukyu
+\shikakugojyu
+\shikakugojyuichi
+\shikakugojyuni
+\shikakugojyusan
+\shikakugojyushi
+\shikakugojyugo
+\shikakugojyuroku
+\shikakugojyushichi
+\shikakugojyuhachi
+\shikakugojyukyu
+\shikakurokujyu\\
+\shikakurokujyuichi
+\shikakurokujyuni
+\shikakurokujyusan
+\shikakurokujyushi
+\shikakurokujyugo
+\shikakurokujyuroku
+\shikakurokujyushichi
+\shikakurokujyuhachi
+\shikakurokujyukyu
+\shikakunanajyu
+\shikakunanajyuichi
+\shikakunanajyuni
+\shikakunanajyusan
+\shikakunanajyushi
+\shikakunanajyugo
+\shikakunanajyuroku
+\shikakunanajyushichi
+\shikakunanajyuhachi
+\shikakunanajyukyu
+\shikakuhachijyu\\
+\shikakuhachijyuichi
+\shikakuhachijyuni
+\shikakuhachijyusan
+\shikakuhachijyushi
+\shikakuhachijyugo
+\shikakuhachijyuroku
+\shikakuhachijyushichi
+\shikakuhachijyuhachi
+\shikakuhachijyukyu
+\shikakukyujyu
+\shikakukyujyuichi
+\shikakukyujyuni
+\shikakukyujyusan
+\shikakukyujyushi
+\shikakukyujyugo
+\shikakukyujyuroku
+\shikakukyujyushichi
+\shikakukyujyuhachi
+\shikakukyujyukyu\\
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% shikakubsuji %
+%%%%%%%%%%%%%%%%%%%%%%%
+項目などで使う四角数字shikakuichibなどで，120まであります．\yy shikakuichibとかです．\\
+\shikakuichib
+\shikakunib
+\shikakusanb
+\shikakushib
+\shikakugob
+\shikakurokub
+\shikakushichib
+\shikakuhachib
+\shikakukyub
+\shikakujyub
+\shikakujyuichib
+\shikakujyunib
+\shikakujyusanb
+\shikakujyushib
+\shikakujyugob
+\shikakujyurokub
+\shikakujyushichib
+\shikakujyuhachib
+\shikakujyukyub
+\shikakunijyub\\
+\shikakunijyuichib
+\shikakunijyunib
+\shikakunijyusanb
+\shikakunijyushib
+\shikakunijyugob
+\shikakunijyurokub
+\shikakunijyushichib
+\shikakunijyuhachib
+\shikakunijyukub
+\shikakusanjyub
+\shikakusanjyuichib
+\shikakusanjyunib
+\shikakusanjyusanb
+\shikakusanjyushib
+\shikakusanjyugob
+\shikakusanjyurokub
+\shikakusanjyushichib
+\shikakusanjyuhachib
+\shikakusanjyukyub
+\shikakuyonjyub\\
+\shikakuyonjyuichib
+\shikakuyonjyunib
+\shikakuyonjyusanb
+\shikakuyonjyushib
+\shikakuyonjyugob
+\shikakuyonjyurokub
+\shikakuyonjyushichib
+\shikakuyonjyuhachib
+\shikakuyonjyukyub
+\shikakugojyub
+\shikakugojyuichib
+\shikakugojyunib
+\shikakugojyusanb
+\shikakugojyushib
+\shikakugojyugob
+\shikakugojyurokub
+\shikakugojyushichib
+\shikakugojyuhachib
+\shikakugojyukyub
+\shikakurokujyub\\
+\shikakurokujyuichib
+\shikakurokujyunib
+\shikakurokujyusanb
+\shikakurokujyushib
+\shikakurokujyugob
+\shikakurokujyurokub
+\shikakurokujyushichib
+\shikakurokujyuhachib
+\shikakurokujyukyub
+\shikakunanajyub\\
+\\
+\\
+\sectionl{記号のマクロ・2}
+このスタイルを使う場合，このスタイルにしかない記号があります．
+ですから，\textgt{他のスタイルと切り替えてシームレスに使いたいのであれば，他のスタイルと共通なものだけに限定して使うように}，その点をよくお考えになってください．\\
+\;\;\textgt{このスタイル独特のもの}は以下になります．\\
+\;\;boldmathの省略形\\
+\dd \yy bd\bl \br \dd \\
+が用意してあります．\\
+\;\;ベクトル$\vec{a},\Vec{AB}$が\\
+\dd \yy vec\bl \br \dd \\
+\dd \yy Vec\bl \br \dd \\
+\;\;弧ABという$\koa{AB}$を作るコマンドが\\
+\dd \yy koa\bl \br \dd \\
+です．\\
+Vecとすると，文字が立体になります．
+
+$\Vec{AB}$です．ところが，$\Avec{{\text P}_{n}{\text P}_{n+1}}$
+というのもあるんですね．Avec，Bvecで対応します．
+\begin{Verbatim}
+$\Avec{{\text P}_{n}{\text P}_{n+1}}$
+
+$\Bvec{P_{\it n} P_{\it n+1}}$
+
+\vspace{2mm} 
+
+\end{Verbatim}
+
+{\gt 空欄補充用の枠}
+\begin{Verbatim}
+\Ba{ア }
+\Ba{ア }
+\Bb{ア }
+\Bc{ア }
+\Bd{3.3zw}{アイ }
+\Be{3.3zw}{アイ }
+\end{Verbatim}
+\Ba{ア}
+\Ba{ア}
+\Bb{ア}
+\Bc{ア}
+\Bd{3.3zw}{アイ}
+\Be{3.3zw}{アイ}
+
+Ba，Bb，Bcは1.5zw（全角1.5文字幅），2.2文字幅，3.3文字幅で，BdとBeは幅を指定することによる可変サイズです．Bdは太字，Beは細字になります．\\
+
+\vspace{2mm} 
+
+{\gt 弧の大きさ}\\
+弧の大きさはkoa,kob,kocの3種類です．これ以上大きくする必要は経験上ありません．長くなる場合には言葉で，弧${\text P}_{n+1}{\text P}_{n+2}$のほうがよいでしょう．\\
+組み合わせの数で，\\
+\dd \yy \text{comb} \bl \br \bl \br \dd が$\comb{n}{k}$\\
+\dd \yy \text{perm} \bl \br \bl \br \dd が$\perm{n}{k}$\\
+\dd \yy \text{ppi} \bl \br \bl \br \dd が$\ppi{n}{k}$\\
+\;\;分数は最初displaystyleをつけなくてもdisplaystyleになるようにしていましたがまずいことがわかって，標準に戻しました．鉛の活字を手で組んでいた活版の時代では，分数は，行中央に鉛の板を挟み，ずらして活字の間に詰め物をしながらやるため大変な手間がかかり，組がくずれやすいものでした．「先生，分数ばっかり入れるなよ．小さくして$a \over b$と一行に入れたら簡単だからそれでいいか？」としたものです．TeXはこの小さいものが標準，大きいものはdfracとかします（amsmathの場合）\\
+\quad 分数に日本語を入れるときには，問題があります．通常はdfracでやってください．\\
+$\dfrac{\fbox{ア}}{\fbox{イ}}$\\
+ただし，上付，下付にしたいときは，dfracでは大きいです．その場合にはfracでやるとコンパイル中に止まります．
+現時点では会心の回避策がありません．「上付，下付で，日本語を入れるとき」にはsfracでやってください．これはdfracを
+70％縮小したものです．\\
+
+
+\;\;$\sum_{k=0}^{n}$，prod，intはdisplaystyleが標準です．\\
+\;\;modは\dd \yy mod\dd 
+で立体になるようにしてあります．標準のmodの記号の決め方はなんかなあ\ndots．括弧をくっつけた形のkmod$\lb \rb$も用意しました．これが標準でめざしている形でしょうが\ndots\\
+$\doru \rm{a}\;\yy \rm{equiv}\;b\;\yy kmod \left\{ p\right\}\doru$
+で$a \equiv b \kmod{p}$となります．
+\\
+　通常の引き出し線の３点リーダーはピリオドをまばらにして上にシフトした形です．これはcdotsですが，今はこのコマンドで全角（日本語1文字幅）に３点リーダーが出るようにしてあります．またその位置取りで1点のものがmdotです．さらにudotsでベースライン上に並んだ３点リーダーになります．30年前，原稿を書き始めた頃，「リーダーの点の数を2つにしてくれ（場所の関係でそれしか入らなかった）」と言ったら職人の親父に「そんなことできねえんだ，リーダーは３つでひとかたまりだ」と鼻で笑われました．ならば作ればいい．作ってみました．\\
+\\
+\textgt{ドルマーク\;\dd で囲まなくてよいリーダーと省略の点}\\
+\begin{tabular}{|l|l|l|}
+\hline
+\yy sdots\;\;\;\sdots
+&\yy sdot\;\;\;\sdot
+&\yy ndots\;\;\;\ndots\\
+\hline
+\end{tabular}\\
+\textgt{ドルマーク\;\dd で囲むリーダーと省略の点・cdotsは標準}\\
+\begin{tabular}{|l|l|l|}
+\hline
+\yy mdots\;\;\;$\mdots$
+&\yy mdot\;\;\;$\mdot$
+&\yy udots\;\;\;$\udots$\\
+\hline
+\yy cdots\;\;\;$\cdots$
+&
+&\\
+\hline
+\end{tabular}\\
+覚えられないね．まあ，使う人もそんなにいないから\ndots 自己満足!\baki\\
+なお，これは積のcdot(つまり$\cdot$)とは大きさが違います．\\
+\textgt{ドルマーク\;\dd で囲まなくてよい記号・すべてこのスタイル独特}\\
+\begin{tabular}{|l|l|l|}
+\hline
+\yy kai\;\;\;\kai
+&\yy kaia\;\;\;\kaia
+&\yy kaib\;\;\;\kaib\\
+\hline
+\yy kaic\;\;\;\kaic
+&\yy kaid\;\;\;\kaid
+&\yy kaie\;\;\;\kaie\\
+\hline
+\yy bekkai\;\;\;\bekkai
+&\yy bekkaia\;\;\;\bekkaia
+&\yy bekkaib\;\;\;\bekkaib\\
+\hline
+\yy reidaid\;\;\;\reidaid
+&\yy reidaia\;\;\;\reidaia
+&\yy reidaib\;\;\;\reidaib\\
+\hline
+\yy reidaic\;\;\;\reidaic
+&\yy mondaia\;\;\;\mondaia
+&\yy ensyu\;\;\;\ensyu\\
+\hline
+\yy kangaekata\;\;\;\kangaekata
+&\yy kangaekataa\;\;\;\kangaekataa
+&\yy setumei\;\;\;\setumei\\
+\hline
+\yy sankou\;\;\;\sankou
+&\yy sankoua\;\;\;\sankoua
+&\yy hinsyutu\;\;\;\hinsyutu\\
+\hline
+\yy kihon\;\;\;\kihon
+&\yy hyoujyun\;\;\;\hyoujyun
+&\yy yayanan\;\;\;\yayanan\\
+\hline
+\yy nan\;\;\;\nan
+&\yy koushiki\;\;\;\koushiki
+&\yy koushikia\;\;\;\koushikia\\
+\hline
+\yy chu\;\;\;\chu
+&\yy chua\;\;\;\chua
+&\yy chub\;\;\;\chub\\
+\hline
+\yy chuc\;\;\;\chuc
+&\yy chud\;\;\;\chud
+&\yy kaisetu\;\;\;\kaisetu\\
+\hline
+\yy suA\;\;\;\suA
+&\yy suB\;\;\;\suB
+&\yy suC\;\;\;\suC\\
+\hline
+\yy suI\;\;\;\suI
+&\yy suII\;\;\;\suII
+&\yy suIII\;\;\;\suIII\\
+\hline
+\yy temarku\;\;\;\temarku
+&\yy temarkua\;\;\;\temarkua
+&\yy enpitu\;\;\;\enpitu\\
+\hline
+\yy entar\;\;\;\entar
+&\yy ritan\;\;\;\ritan
+&\yy tabu\;\;\;\tabu\\
+\hline
+\yy asta\;\;\;\asta
+&\yy astab\;\;\;\astab
+&\\
+\hline
+\yy kagil\;\;\;\kagil
+&\yy kagir\;\;\;\kagir
+&\yy kurosankakua\;\;\;\kurosankakua\\
+\hline
+\yy kurosankakub\;\;\;\kurosankakub
+&\yy kurosankakuc\;\;\;\kurosankakuc
+&\yy kurosankakud\;\;\;\kurosankakud\\
+\hline
+\end{tabular}
+\newpage
+
+\textgt{以下ドルマークで囲む記号}\\
+\textgt{図形・英語名のものは標準の記号}\\
+\begin{tabular}{|l|l|l|}
+\hline
+\yy kakukal\;\;$\kakukal$
+&\yy kakukar\;\;$\kakukar$
+&\\
+\hline
+\yy sikaku\;\;$\sikaku$
+&\yy sankaku\;\;$\sankaku$
+&\yy seihoukei\;\;$\seihoukei$\\
+\hline
+\yy maru\;\;$\maru$
+&\yy daikei\;\;$\daikei$
+&\yy heikoushihenkei\;\;$\heikoushihenkei$\\
+\hline
+\yy chouhoukei\;\;$\chouhoukei$
+&\yy soji\;\;$\soji$
+&\yy gyakusoji\;\;$\gyakusoji$\\
+\hline
+\yy heikou\;\;$\heikou$
+&\yy parallel\;\;$\parallel$
+&\yy neheikou\;\;$\neheikou$\\
+\hline
+\yy neparallel\;\;$\neparallel$
+&\yy notparallel\;\;$\notparallel$
+&\yy triangle\,\,\,$\triangle$\\
+\hline
+\yy heikoua\;\;$\heikoua$
+&\yy neheikoua\;\;$\neheikoua$
+&\yy perp\,\,\,$\perp$\\
+\hline
+\yy kaku\,\,\,$\kaku$
+&\yy angle\,\,\,$\angle$
+&\\
+\hline
+\end{tabular}\\
+逆相似なんて，なんのためにあるんだって？　こんな風に書いたらあかんよという説明のためで，原稿を書くとき，私には必要な記号です．\\
+\noindent
+\textgt{矢印類・日本語名のものはすべてこのスタイル独特のもの}\\
+koyaaでは覚えられないという人がいました．逆に私はnearrowなんて覚えられない．ノースイーストなんて，どこ指しているのかわからない．だから私の意図としては，とりあえずkoyaaとかタイプしておいて，b,c,dと変えて意図するものを探せばいいと思うのです．TeXでは一発で決まるわけではないんだから．yaa,yab,yac,yadも同じです．覚えたい人もいるようなので，yamigiue,yahidarisita,yaouzou（凹で増加）など，覚えやすいものも追加しました．\\
+\begin{tabular}{|l|l|l|}
+\hline
+\yy yamigiue\;\;$\yamigiue$
+&\yy yamigisita\;\;$\yamigisita$
+&\yy yahidariue\;\;$\yahidariue$\\
+\hline
+\yy yahidarisita\;\;$\yahidarisita$
+&\yy yaouzou\;\;$\yaouzou$
+&\yy yaougen\;\;$\yaougen$\\
+\hline
+\yy yatotuzou\;\;$\yatotuzou$
+&\yy yatotugen\;\;$\yatotugen$
+&\\
+\hline
+\yy koyaa\;\;$\koyaa$
+&\yy koyab\;\;$\koyab$
+&\yy koyac\;\;$\koyac$\\
+\hline
+\yy koyad\;\;$\koyad$
+&
+&\\
+\hline
+\yy nearrow\;\;$\nearrow$
+&\yy searrow\;\;$\searrow$
+&\yy nwarrow\;\;$\nwarrow$\\
+\hline
+\yy swarrow\;\;$\swarrow$
+&
+&\\
+\hline
+\yy yaa\;\;$\yaa$
+&\yy yab\;\;$\yab$
+&\yy yac\;\;$\yac$\\
+\hline
+\yy yad\;\;$\yad$
+&\yy ya\;\;$\ya$
+&\yy to\;\;$\to$\\
+\hline
+\yy Leftrightarrow\;\;$\Leftrightarrow$
+&\yy Leftarrow\;\;$\Leftarrow$
+&\yy Rightarrow\;\;$\Rightarrow$\\
+\hline
+\yy leftrightarrow\;\;$\leftrightarrow$
+&\yy leftarrow\;\;$\leftarrow$
+&\yy rightarrow\;\;$\rightarrow$\\
+\hline
+\yy leftharpoonup\;\;$\leftharpoonup$
+&\yy leftharpoondown\;\;$\leftharpoondown$
+&\yy rightharpoonup\;\;$\rightharpoonup$\\
+\hline
+\yy rightharpoondown\;\;$\rightharpoondown$
+&
+&\yy naraba\;\;$\naraba$\\
+\hline
+\yy doti\;\;$\doti$
+&\yy narabaa\;\;$\narabaa$
+&\yy narabab\;\;$\narabab$\\
+\hline
+\end{tabular}
+\\
+\\
+\newpage
+\textgt{ギリシャ文字・標準で記号を持ちながらマクロがないものも登録しました}\\
+\begin{tabular}{|l|l|l|}
+\hline
+\yy alpha\,\,\,$\alpha$
+&\yy beta\,\,\,$\beta$
+&\yy gamma\,\,\,$\gamma$\\
+\hline
+\yy delta\,\,\,$\delta$
+&\yy epsilon\,\,\,$\epsilon$
+&\yy zeta\,\,\,$\zeta$\\
+\hline
+\yy theta\,\,\,$\theta$
+&\yy iota\,\,\,$\iota$
+&\yy kappa\,\,\,$\kappa$\\
+\hline
+\yy lambda\,\,\,$\lambda$
+&\yy mu\,\,\,$\mu$
+&\yy nu\,\,\,$\nu$\\
+\hline
+\yy xi\,\,\,$\xi$
+&\yy pi\,\,\,$\pi$
+&\yy rho\,\,\,$\rho$\\
+\hline
+\yy sigma\,\,\,$\sigma$
+&\yy tau\,\,\,$\tau$
+&\yy upsilon\,\,\,$\upsilon$\\
+\hline
+\yy phi\,\,\,$\phi$
+&\yy chi\,\,\,$\chi$
+&\yy psi\,\,\,$\psi$\\
+\hline
+\yy omega\,\,\,$\omega$
+&\yy varepsilon\,\,\,$\varepsilon$
+&\yy vartheta\,\,\,$\vartheta$\\
+\hline
+\yy varpi\,\,\,$\varpi$
+&\yy varrho\,\,\,$\varrho$
+&\yy varsigma\,\,\,$\varsigma$\\
+\hline
+\yy varphi\,\,\,$\varphi$
+&\yy Gamma\,\,\,$\Gamma$
+&\yy varGamma\,\,\,$\varGamma$\\
+\hline
+\yy Delta\,\,\,$\Delta$
+&\yy varDelta\,\,\,$\varDelta$
+&\yy vardelta\,\,\,$\vardelta$\\
+\hline
+\yy doru\,\,\,$\doru$
+&\yy kane\,\,\,$\kane$
+&\yy baku\,\,\,$\baku$\\
+\hline
+\yy Theta\,\,\,$\Theta$
+&\yy varTheta\,\,\,$\varTheta$
+&\yy Lambda\,\,\,$\Lambda$\\
+\hline
+\yy varLambda\,\,\,$\varLambda$
+&\yy Xi\,\,\,$\Xi$
+&\yy Pi\,\,\,$\Pi$\\
+\hline
+\yy Sigma\,\,\,$\Sigma$
+&\yy Upsilon\,\,\,$\Upsilon$
+&\yy Phi\,\,\,$\Phi$\\
+\hline
+\yy varPhi\,\,\,$\varPhi$
+&\yy Psi\,\,\,$\Psi$
+&\yy varPsi\,\,\,$\varPsi$\\
+\hline
+\yy Omega\,\,\,$\Omega$
+&\yy varOmega\,\,\,$\varOmega$
+&\yy aleph\,\,\,$\aleph$\\
+\hline
+\end{tabular}
+\newpage\noindent
+\textgt{不等号類・yaku,godo名のものはこのスタイル独特のもの}\\
+\begin{tabular}{|l|l|l|}
+\hline
+\yy neq\,\,\,$\neq$
+&\yy neequal\,\,\,$\neequal$
+&\yy yaku\,\,\,$\yaku$\\
+\hline
+\yy leq\,\,\,$\leq$
+&\yy geq\,\,\,$\geq$
+&\\
+\hline
+\yy ll\,\,\,$\ll$
+&\yy gg\,\,\,$\gg$
+&\\
+\hline
+\yy godo\,\,\,$\godo$
+&\yy equiv\,\,\,$\equiv$
+&\\
+\hline
+\yy negodo\,\,\,$\negodo$
+&\yy neequiv\,\,\,$\neequiv$
+&\yy notequiv\,\,\,$\notequiv$\\
+\hline
+\yy neeqb\,\,\,$\neeqb$
+&\yy negodob\,\,\,$\negodob$
+&\\
+\hline
+\end{tabular}\\
+\\
+\\
+\textgt{論理・集合類・yoso名のものはこのスタイル独特のもの}\\
+\begin{tabular}{|l|l|l|}
+\hline
+\yy wedge\,\,\,$\wedge$
+&\yy vee\,\,\,$\vee$
+&\\
+\hline
+\yy forall\,\,\,$\forall$
+&\yy exists\,\,\,$\exists$
+&\\
+\hline
+\yy cap\,\,\,$\cap$
+&\yy cup\,\,\,$\cup$
+&\yy supset\,\,\,$\supset$\\
+\hline
+\yy subset\,\,\,$\subset$
+&\yy supseteq\,\,\,$\supseteq$
+&\yy subseteq\,\,\,$\subseteq$\\
+\hline
+\yy in\,\,\,$\in$
+&\yy ni\,\,\,$\ni$
+&\yy nein\,\,\,$\nein$\\
+\hline
+\yy neni\,\,\,$\neni$
+&\yy yosoa\,\,\,$\yosoa$
+&\yy yosob\,\,\,$\yosob$\\
+\hline
+\yy neyosoa\,\,\,$\neyosoa$
+&\yy neyosob\,\,\,$\neyosob$
+&\yy emptyset\,\,\,$\emptyset$\\
+\hline
+\end{tabular}\\
+\\
+\\
+\textgt{使いそうな記号}\\
+\begin{tabular}{|l|l|l|}
+\hline
+\yy times\,\,\,$\times$
+&\yy div\,\,\,$\div$
+&\yy cdot\,\,\,$\cdot$\\
+\hline
+\yy propto\,\,\,$\propto$
+&\yy ell\,\,\,$\ell$
+&\yy partial\,\,\,$\partial$\\
+\hline
+\yy infty\,\,\,$\infty$
+&\yy prime\,\,\,$\prime$
+&\\
+\hline
+\yy yueni\,\,\,$\yueni$
+&\yy nazenara\,\,\,$\nazenara$
+&\\
+\hline
+\yy mp\,\,\,$\mp$
+&\yy pm\,\,\,$\pm$
+&\yy ddo\,\,\,$\ddo$\\
+\hline
+\end{tabular}\\
+\\
+\newpage
+\noindent
+\textgt{あまり使わないその他記号・intopa〜cはこのスタイル独特のもの}\\
+\begin{tabular}{|l|l|l|}
+\hline
+\yy imath\,\,\,$\imath$
+&\yy jmath\,\,\,$\jmath$
+&\\
+\hline
+\yy wp\,\,\,$\wp$
+&\yy Re\,\,\,$\Re$
+&\yy Im\,\,\,$\Im$\\
+\hline
+\yy nabla\,\,\,$\nabla$
+&\yy surd\,\,\,$\surd$
+&\\
+\hline
+\yy hebia\,\,\,$\hebia$
+&\yy hebib\,\,\,$\hebib$
+&\yy neg\,\,\,$\neg$\\
+\hline
+\yy flat\,\,\,$\flat$
+&\yy natural\,\,\,$\natural$
+&\yy sharp\,\,\,$\sharp$\\
+\hline
+\yy clubsuit\,\,\,$\clubsuit$
+&\yy diamondsuit\,\,\,$\diamondsuit$
+&\yy heartsuit\,\,\,$\heartsuit$\\
+\hline
+\yy spadesuit\,\,\,$\spadesuit$
+&
+&\\
+\hline
+\yy coprod\,\,\,$\coprod$
+&\yy bigvee\,\,\,$\bigvee$
+&\yy bigwedge\,\,\,$\bigwedge$\\
+\hline
+\yy biguplus\,\,\,$\biguplus$
+&\yy bigcap\,\,\,$\bigcap$
+&\yy bigcup\,\,\,$\bigcup$\\
+\hline
+\yy intop\,\,\,$\intop$
+&\yy intopa\,\,\,$\intopa$
+&\yy intopb\,\,\,$\intopb$\\
+\hline
+\yy intopc\,\,\,$\intopc$
+&\yy prodop\,\,\,$\prodop$
+&\yy sumop\,\,\,$\sumop$\\
+\hline
+\yy bigotimes\,\,\,$\bigotimes$
+&\yy bigoplus\,\,\,$\bigoplus$
+&\yy bigodot\,\,\,$\bigodot$\\
+\hline
+\yy ointop\,\,\,$\ointop$
+&\yy bigsqcup\,\,\,$\bigsqcup$
+&\yy smallint\,\,\,$\smallint$\\
+\hline
+\yy triangleleft\,\,\,$\triangleleft$
+&\yy triangleright\,\,\,$\triangleright$
+&\yy bigtriangleup\,\,\,$\bigtriangleup$\\
+\hline
+\yy bigtriangledown\,\,\,$\bigtriangledown$
+&\yy dagger\,\,\,$\dagger$
+&\yy ddagger\,\,\,$\ddagger$\\
+\hline
+\yy sqcap\,\,\,$\sqcap$
+&\yy sqcup\,\,\,$\sqcup$
+&\yy wr\,\,\,$\wr$\\
+\hline
+\yy uplus\,\,\,$\uplus$
+&\yy amalg\,\,\,$\amalg$
+&\yy diamond\,\,\,$\diamond$\\
+\hline
+\yy odot\,\,\,$\odot$
+&\yy oslash\,\,\,$\oslash$
+&\yy otimes\,\,\,$\otimes$\\
+\hline
+\yy ominus\,\,\,$\ominus$
+&\yy oplus\,\,\,$\oplus$
+&\yy bullet\,\,\,$\bullet$\\
+\hline
+\yy circ\,\,\,$\circ$
+&\yy bigcirc\,\,\,$\bigcirc$
+&\\
+\hline
+\yy setminus\,\,\,$\setminus$
+&\yy ast\,\,\,$\ast$
+&\yy star\,\,\,$\star$\\
+\hline
+\yy sqsubseteq\,\,\,$\sqsubseteq$
+&\yy sqsupseteq\,\,\,$\sqsupseteq$
+&\yy mid\,\,\,$\mid$\\
+\hline
+\yy dashv\,\,\,$\dashv$
+&\yy vdash\,\,\,$\vdash$
+&\yy succ\,\,\,$\succ$\\
+\hline
+\yy prec\,\,\,$\prec$
+&\yy approx\,\,\,$\approx$
+&\yy succeq\,\,\,$\succeq$\\
+\hline
+\yy preceq\,\,\,$\preceq$
+&\yy top\,\,\,$\top$
+&\yy bot\,\,\,$\bot$\\
+\hline
+\yy not\,\,\,$\not$
+&\yy mapstochar\,\,\,$\mapstochar$
+&\yy sim\,\,\,$\sim$\\
+\hline
+\yy simeq\,\,\,$\simeq$
+&\yy asymp\,\,\,$\asymp$
+&\\
+\hline
+\yy smile\,\,\,$\smile$
+&\yy frown\,\,\,$\frown$
+&\\
+\hline
+\end{tabular}
+\\
+\newpage
+\noindent
+\textgt{使いそうもない顔文字の記号}\\
+\begin{tabular}{|l|l|l|}
+\hline
+\yy egaoa\,\,\,\egaoa
+&\yy egaob\,\,\,\egaob
+&\yy egaoc\,\,\,\egaoc\\
+\hline
+\yy ase\,\,\,\ase
+&\yy asea\,\,\,\asea
+&\yy aseb\,\,\,\aseb\\
+\hline
+\yy nakia\,\,\,\nakia
+&\yy nakib\,\,\,\nakib
+&\yy nakic\,\,\,\nakic\\
+\hline
+\yy nakid\,\,\,\nakid
+&\yy baki\,\,\,\baki
+&\\
+\hline
+\yy bikkuri\,\,\,\bikkuri
+&\yy poka\,\,\,\poka
+&\\
+\hline
+\end{tabular}
+\\
+\\
+日常化している原稿の遅れでよく使うのが
+{\yy}hiraayamari
+\Kigoc{A}{20}（誰も使わないって\baki）\\
+また，kigoucには顔文字だけでなく，その他特殊記号を普通のキーにマップしてあります．\kigouc{addcb}は{\yy}kigouc{\bl}addcb{\br}で出ます．顔文字じゃん．\\
+\textgt{解説用のコマンド表示記号}\;\;下段は標準のコマンド\\
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\yy dd\,\,\,\dd
+&\yy yy\,\,\,\yy
+&\yy aa\,\,\,\aa
+&\yy kk\,\,\,\,\kk
+&\yy Kl\,\,\,\,\Kl
+&\yy Kr\,\,\,\,\Kr\\
+\hline
+\yy \$\,\,\,\,\$
+&\yy \aa\,\,\,\&
+&\yy \{\,\,\,\,\{
+&\yy \}\,\,\,\,\}
+&
+&\\
+\hline
+\end{tabular}
+\newpage
+\noindent
+\;\;集合，論理で出てくる記号です．「なんじゃこりゃ，こんなもの使うのか？」と思われるでしょう．子供の落書きのような原稿を書く私には必要な記号で，\\
+ $p=\syugoronri{\char"46}+\syugoronri{\char"47}+\syugoronri{\char"48}$
+とか，必要性十分性の考察で
+\rm{P}\syugoronri{\char"70}\rm{Q}
+と書いたり，確率で「流れを読む（拙著「ハッとめざめる確率」参照）」ときに
+3人\syugoronri{\char"98}3人とするのです．キーにマップされていない記号はsyugoronri.dviでコードを調べて指定してください．誰も使わんって\baki\\
+と思っていたら，使うから名前をつけてくれと言われてしまいました．\\
+$\bd{syugoronri}$\textgt{集合・論理}\\
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\yy marubatu  \;\;\;\;\marubatu
+&\yy batumaru  \;\;\;\;\batumaru
+&\yy batubatu  \;\;\;\;\batubatu
+&\yy marumaru  \;\;\;\;\marumaru
+&\\
+\hline
+\yy venzua  \;\;\;\;\venzua
+&venzua  \;\;\;\;\venzua
+&venzub  \;\;\;\;\venzub
+&venzuc  \;\;\;\;\venzuc
+&venzue  \;\;\;\;\venzue\\
+\hline
+\yy venzuf  \;\;\;\;\venzuf
+&\yy venzug  \;\;\;\;\venzug
+&\yy venzuh  \;\;\;\;\venzuh
+&\yy venzui  \;\;\;\;\venzui
+&\yy venzuj  \;\;\;\;\venzuj\\
+\hline
+\yy venzuk  \;\;\;\;\venzuk
+&\yy venzul  \;\;\;\;\venzul
+&\yy venzum  \;\;\;\;\venzum
+&\yy venzun  \;\;\;\;\venzun
+&\yy venzuo  \;\;\;\;\venzuo\\
+\hline
+\yy venzup  \;\;\;\;\venzup
+&\yy venzuq  \;\;\;\;\venzuq
+&\yy venzur  \;\;\;\;\venzur
+&\yy venzus  \;\;\;\;\venzus
+&\yy venzut  \;\;\;\;\venzut\\
+\hline
+\yy venzuv  \;\;\;\;\venzuv
+&\yy venzuw  \;\;\;\;\venzuw
+&\yy venzux  \;\;\;\;\venzux
+&\yy venzuy  \;\;\;\;\venzuy
+&\yy venzuz  \;\;\;\;\venzuz\\
+\hline
+\yy venza  \;\;\;\;\venza
+&\yy venzb  \;\;\;\;\venzb
+&\yy venzc  \;\;\;\;\venzc
+&\yy venzd  \;\;\;\;\venzd
+&\yy venze  \;\;\;\;\venze\\
+\hline
+\yy venzf  \;\;\;\;\venzf
+&\yy venzg  \;\;\;\;\venzg
+&\yy venzh  \;\;\;\;\venzh
+&\yy venzj  \;\;\;\;\venzj
+&\yy venzk  \;\;\;\;\venzk\\
+\hline
+\yy venzl  \;\;\;\;\venzl
+&\yy venzm  \;\;\;\;\venzm
+&\yy venzn  \;\;\;\;\venzn
+&
+&\\
+\hline
+\end{tabular}
+\newpage
+\noindent
+$\bd{\rm keymap\;\;kigouc}$\textgt{顔文字}\\
+s-はシフトキーを表す\\
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+key\;1 \;\;\;\;\kigouc{1}
+&key\;2  \;\;\;\;\kigouc{2}
+&key\;3  \;\;\;\;\kigouc{3}
+&key\;4  \;\;\;\;\kigouc{4}
+&key\;5 \;\;\;\;\kigouc{5}\\
+\hline
+key\;6  \;\;\;\;\kigouc{6}
+&key\;7  \;\;\;\;\kigouc{7}
+&key\;8  \;\;\;\;\kigouc{8}
+&key\;9  \;\;\;\;\kigouc{9}
+&key\;0  \;\;\;\;\kigouc{0}\\
+\hline
+key\;a  \;\;\;\;\kigouc{a}
+&key\;b  \;\;\;\;\kigouc{b}
+&key\;c  \;\;\;\;\kigouc{c}
+&key\;d  \;\;\;\;\kigouc{d}
+&key\;e  \;\;\;\;\kigouc{e}\\
+\hline
+key\;f  \;\;\;\;\kigouc{f}
+&key\;g  \;\;\;\;\kigouc{g}
+&key\;h  \;\;\;\;\kigouc{h}
+&key\;i  \;\;\;\;\kigouc{i}
+&key\;j  \;\;\;\;\kigouc{j}\\
+\hline
+key\;k  \;\;\;\;\kigouc{k}
+&key\;l  \;\;\;\;\kigouc{l}
+&key\;m  \;\;\;\;\kigouc{m}
+&key\;n  \;\;\;\;\kigouc{n}
+&key\;o  \;\;\;\;\kigouc{o}\\
+\hline
+key\;p  \;\;\;\;\kigouc{p}
+&key\;q  \;\;\;\;\kigouc{q}
+&key\;r  \;\;\;\;\kigouc{r}
+&key\;s  \;\;\;\;\kigouc{s}
+&key\;t  \;\;\;\;\kigouc{t}\\
+\hline
+key\;u  \;\;\;\;\kigouc{u}
+&key\;v  \;\;\;\;\kigouc{v}
+&key\;w  \;\;\;\;\kigouc{w}
+&key\;x  \;\;\;\;\kigouc{x}
+&key\;y  \;\;\;\;\kigouc{y}\\
+\hline
+key\;z  \;\;\;\;\kigouc{z}
+&
+&
+&
+&\\
+\hline
+key\;s-1 \;\;\;\;\kigouc{!}
+&key\;s-2  \;\;\;\;\kigouc{"}
+&key\;s-7  \;\;\;\;\kigouc{'}
+&key\;s-8  \;\;\;\;\kigouc{(}
+&key\;s-9  \;\;\;\;\kigouc{)}\\
+\hline
+key\;s-a  \;\;\;\;\kigouc{A}
+&key\;s-b  \;\;\;\;\kigouc{B}
+&key\;s-c  \;\;\;\;\kigouc{C}
+&key\;s-d  \;\;\;\;\kigouc{D}
+&key\;s-e  \;\;\;\;\kigouc{E}\\
+\hline
+key\;s-f  \;\;\;\;\kigouc{F}
+&key\;s-g  \;\;\;\;\kigouc{G}
+&key\;s-h  \;\;\;\;\kigouc{H}
+&key\;s-i  \;\;\;\;\kigouc{I}
+&key\;s-j  \;\;\;\;\kigouc{J}\\
+\hline
+key\;s-k  \;\;\;\;\kigouc{K}
+&key\;s-l  \;\;\;\;\kigouc{L}
+&key\;s-m  \;\;\;\;\kigouc{M}
+&
+&\\
+\hline
+key\;s-p  \;\;\;\;\kigouc{P}
+&key\;s-q  \;\;\;\;\kigouc{Q}
+&key\;s-r  \;\;\;\;\kigouc{R}
+&key\;s-s  \;\;\;\;\kigouc{S}
+&key\;s-t  \;\;\;\;\kigouc{T}\\
+\hline
+key\;s-u  \;\;\;\;\kigouc{U}
+&key\;s-v  \;\;\;\;\kigouc{V}
+&key\;s-w  \;\;\;\;\kigouc{W}
+&key\;s-x  \;\;\;\;\kigouc{X}
+&key\;s-y  \;\;\;\;\kigouc{Y}\\
+\hline
+key\;s-z  \;\;\;\;\kigouc{Z}
+&
+&
+&
+&\\
+\hline
+key\;=  \;\;\;\;\kigouc{=}
+&key\;-  \;\;\;\;\kigouc{-}
+&
+&
+&key\;|  \;\;\;\;\kigouc{|}\\
+\hline
+key\;`  \;\;\;\;\kigouc{`}
+&key\;@  \;\;\;\;\kigouc{@}
+&
+&key\;[  \;\;\;\;\kigouc{[}
+&key\;+  \;\;\;\;\kigouc{+}\\
+\hline
+key\;;  \;\;\;\;\kigouc{;}
+&key\;*  \;\;\;\;\kigouc{*}
+&key\;:  \;\;\;\;\kigouc{:}
+&
+&key\;]  \;\;\;\;\kigouc{]}\\
+\hline
+key\;s-,  \;\;\;\;\kigouc{<}
+&key\;,  \;\;\;\;\kigouc{,}
+&key\;s-.  \;\;\;\;\kigouc{>}
+&key\;.  \;\;\;\;\kigouc{.}
+&key\;?  \;\;\;\;\kigouc{?}\\
+\hline
+\end{tabular}
+\newpage
+\sectionl{式に番号をふる}
+enumurateなどのlist系環境にしなくても自動連番するように設定してあります．もちろん，list系環境でも連番にできます．\\
+丸付き番号$\mruichi$などを式に振り，参照できます．\\
+タイプするコマンド\\
+「\dd 2x+3y=10\yy eqnum\{E1\},ax+4y=-1\yy eqnum\{ a\},\yy eqnum\{E2\}\dd を連立させる．\\
+\yy eqref\{E1\}，\yy eqref\{E1\}を直線と見れば，2直線が平行のときは交点をもたない」\\\setcounter{bango}{0}
+\noindent とすると，組版の結果は次のようになります．\\
+「$2x+3y=10\eqnum{E1},ax+4y=0,\\
+ax+4y=-1\eqnum{E2}$を連立させる．\\
+この\eqref{E1},\eqref{E2}を直線と見れば，2直線が平行のときは交点をもたない」\\
+\noindent 自動で丸つき数字番号$\mruichi,\mruni$をふり，そこに参照するための識別子を書いておいて，eqrefで参照します．この中括弧の中はなんでもよく，
+\yy eqref\{ほげ\}でもよい．本当に，日本語の「ほげ」でかまいません．\\
+なお，eqnumをつけても後で参照しない場合にはその式番号は振られないように変更しました．奥村先生の掲示板で北見氏が出されたアイデアを取り入れました．マクロの変更は村本氏が行いました．\\
+問題が変わって式の番号を最初からリセットしたい場合は，\\
+\yy setcounter\{bango\}\{0\}\\
+とします．0をそれ以外の正の整数にすると，その次から番号が始まります．\\
+この仕様で式に振ることができるのは\\
+丸付き数字：\yy eqnum\{\ \},その参照は\yy eqref\{\ \},カウンターはbango\\
+丸付き英字Aなど：\yy eqnumA\{\ \},その参照は\yy eqrefA\{\ \},カウンターはbangoA\\
+丸付き英字aなど：\yy eqnuma\{\ \},その参照は\yy eqrefa\{\ \},カウンターはbangoa\\
+です．丸付き数字は20番までしか連番には組み込んでいません．経験的に15番を越えることはないからです．それ以上式に番号が必要になる場合，書き方が悪いか，大学受験に不似合いな問題です．そんなに式番号が多い解答は生徒が嫌になるのでやめましょう．\\
+ただし，参照することができるためにはTeXで3回処理する必要があり，1回目ではクエスチョンマークになり，3回目で参照が反映されます．統合的なソフトでは自動で数回処理するものもあります．
+\\
+\\
+\sectionl{問題に番号をふる}
+自動で連番を振っていくだけであまり参照しないものが\\
+太い問題用の番号：\yy Mondai,そのカウンターはmondaibango\\
+小問の括弧つき細字番号：\yy Shomon，カウンターはshomonbango\\
+小問の括弧つき太字番号：：\yy Shomonb，カウンターはshomonbbango\\
+場合分け用の括弧つきカタカナ：\yy Katakana，カウンターはkatakanabango\\
+四角数字：\yy Shikaku,そのカウンターはshibango\\
+黒い四角数字：\yy Shikakub,そのカウンターはshibbango\\
+黒い丸数字：\yy Kuro,そのカウンターはkurobango\\
+時計数字（全角小文字ローマ数字）：\yy Tokeiko,そのカウンターはtokeikobango\\
+時計数字（全角大文字ローマ数字）：\yy Tokeidai,そのカウンターはtokeidaibango\\
+角括弧数字：\yy Kakukakko,そのカウンターはkakubango\\
+角括弧太数字：\yy Kakukakkob,そのカウンターはkakubbango\\
+現時点では，この仕様は私が受験雑誌「大学への数学」の原稿を書くことを第一の目標としていますので，それに合わせています．\\
+太い問題用の番号と小問の括弧つき細字番号は特別な関係にあり，問題番号の次に小問がくるので，これは親子関係になっています．したがって\\
+\yy Mondai ああ\yy\yy\\
+\yy Shomon あ\yy\yy\\
+\yy Shomon あ\yy\yy\\
+\yy Mondai ああ\yy\yy\\
+\yy Shomon あ\yy\yy\\
+\yy Shomon あ\yy\yy\\
+\yy Shomon あ\yy\yy\\
+とタイプした場合，小問のカウンターは自動でリセットされ，\\
+\Mondai ああ\\
+\Shomon あ\\
+\Shomon あ\\
+\Mondai ああ\\
+\Shomon あ\\
+\Shomon あ\\
+\Shomon あ\\
+となります．
+太い問題用の番号と小問の括弧つき太字番号も同様です．ただし，Mondaiを使わず単独でShomonを使うこともできます．なお，現在ではMondaiは20番まで，小問も\kakkonijyu までなど，限りがありますから注意してください．必要なら適宜増やしてください．ああ，増やせないものもあるか．．．\\
+\yy Mondai ああ\yy\yy\\
+\yy Shomon あ\yy\yy\\
+\yy Shomon あ\yy\yy\\
+\yy Mondai ああ\yy\yy\\
+\yy Shomonb あ\yy\yy\\
+\yy Shomonb あ\yy\yy\\
+\yy Shomonb あ\yy\yy\\
+\yy Mondai ああ\yy\yy\\
+\yy Katakana あ\yy\yy\\
+\yy Katakana あ\yy\yy\\
+\yy Shikaku あ\yy\yy\\
+\yy Shikakub あ\yy\yy\\
+\yy Kuro あ\yy\yy\\
+\yy Tokeiko あ\yy\yy\\
+\yy Tokeidai あ\yy\yy\\
+\yy Kakukakko あ\yy\yy\\
+\yy Kakukakkob あ\yy\yy\\
+とタイプすると組版は\\
+\noindent
+\Mondai ああ\\
+\Shomon あ\\
+\Shomon あ\\
+\Mondai ああ\\
+\Shomonb あ\\
+\Shomonb あ\\
+\Shomonb あ\\
+\Mondai ああ\\
+\Katakana あ\\
+\Katakana あ\\
+\Shikaku あ\\
+\Shikakub あ\\
+\Kuro あ\\
+\Tokeiko あ\\
+\Tokeidai あ\\
+\Kakukakko あ\\
+\Kakukakkob あ\\
+になります．\\
+ここでは式番号と違って参照する頻度は少ないでしょうが，そうしたいこともあるでしょう．問題番号，小問番号を参照する場合は次のようにします．\\
+\yy Mondai\Kl \yy label\{hou1\}\Kr\\
+とlabelをつけて，それを\yy ref\{hou1\}するのです．
+問題は\Mondai[\label{hou1}]で，その参照は\ref{hou1}になります．\\
+
+問題文のような字下げが必要なものはenumerate環境を手直しして使う必要があります．そうでなく，解答編やだらだらと項目を書いていく場合には，enumerate環境は不向きです．そこで，とりあえず上のようにしました．
+\\
+\\
+\sectionl{簡易見出し}
+section見出しの仕様を変えるのが，不勉強のためよくわかりません．なかなかそこまで手が回らないのです．右寄せに変更しようとしても，hfillが効かないし，全体が複雑で，私のような低学力の者にはマクロは難しいです．そこで\\
+sectionl\{ \}（左寄せ）,sectionr\{ \}（右寄せ）\\
+をつくりました．行間変更はしてありませんが，変更は容易でしょう．ピリオドを取りたければceo.styをあけてsecNoの後の.を\yy quadに変えてください．他の変更もご自由に．
+\\
+\\
+\sectionl{ベクトル行列スタイル}
+ 
+標準状態で，arrayでベクトルを作ると{\fboxsep=0pt\fbox{$\tvec<0,1>[x,y]$}
+と括弧が大きめになります．その理由は，ベクトル本体部分に，上下に大きめな余裕をもたせ
+そこに分数などが入ってきてもよいようにしているのです．はっきり言ってよけいな仕様です．
+なぜなら，このようにしていても，成分が上下に大きいとくっついてしまうからです．いいかげんに大きめに無駄な隙間をつけ，くっつくときにはユーザーに調整を任せるのなら，最初から何もしないでおいて調整を任せればいい．
+
+この問題を解決する要素は2つあります．行間を必要以上に大きく，上下に余裕をもたせているのは
+arraystretch
+という要素です．これを0にするだけで{\fboxsep=0pt\fbox{$\tvec<0,0>[x,y]$}とコンパクトになります．
+
+さらに，本体部分を小さく偽装することによって括弧を小さくするという手法も考えられます．
+\yy tvec\fa 5,1\fb [a,b]とすると，$\tvec<5,1>[a,b]$になります．
+\fa 5,1\fb において5の部分はベクトル本体を小さめにして，括弧を小さくする数字です．
+上下5ポイントずつベクトル本体を小さめに偽装しています．本体そのものが小さくなるわけでは
+ありません．後の1は上下の成分の距離を広げ，上下に余裕をもたせている因子（arraystretch）が元のままというものです．
+
+ \yy tvec[a,b]だと，偽装なし，arraystretch=0の$\tvec[a,b]$です．\yy tvec\fa 0,0\fb [a,b]と同じです．
+ 
+ 以下いろいろ例を挙げました．ご自分で好みのものを探してください．標準状態を変えたかったら，
+gyoretuvec.styの ifnextcharにある0,0を変えてください．
+
+なお，同様の形式で，\yy Detで2行2列の行列式，\yy DETで3行3列の行列式になります．
+\\
+\begin{Verbatim}
+$\tvec<0,1>[\dfrac{a}{b},\dfrac{a}{b}]$
+$\Tvec<0,1>[\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b}]$
+$\Tvec[a,b,c]$
+$\Tvec<0,1>[a,b,c]$
+$\mat<0,1>[\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b}]$
+$\mat[a,b,c,d]$
+$\Mat[\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b}]%
+[\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b}]%
+[\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b}]$
+$\Det<0,1>[a,b,c,d]$
+$\DET[a,b,c][d,e,f][g,h,i]$
+\end{Verbatim}
+\aki
+$\tvec<0,1>[\dfrac{a}{b},\dfrac{a}{b}]$
+$\Tvec<0,1>[\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b}]$
+$\Tvec[a,b,c]$
+$\Tvec<0,1>[a,b,c]$
+$\mat<0,1>[\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b}]$
+$\mat[a,b,c,d]$
+$\Mat[\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b}]%
+[\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b}]%
+[\dfrac{a}{b},\dfrac{a}{b},\dfrac{a}{b}]$
+$\Det<0,1>[a,b,c,d]$
+$\DET[a,b,c][d,e,f][g,h,i]$
+
+\bigskip
+\sectionl{場合分け関数}
+場合分け関数を作りました．2つと3つだけです．他のサイズもほしければご自分でどうぞ．
+\aki\\
+\aki
+\begin{Verbatim}
+$f(x)=\baai[x,(x<0)][x^2,(x\geq 0)]$
+$f(x)=\Baai[x,(x<0)][0,(x=0)][x^2+1,(x>0)]$
+$f(x)=\Baai<1,0>[x,(x<0)][1,(x=0)][x^2,(x>0)]$
+\end{Verbatim}
+\bigskip
+$f(x)=\baai[x,(x<0)][x^2,(x\geq 0)]$
+$f(x)=\Baai[x,(x<0)][0,(x=0)][x^2+1,(x>0)]$
+$f(x)=\Baai<1,0>[x,(x<0)][1,(x=0)][x^2,(x>0)]$
+\aki\\
+\aki
+2つの場合を併記（heiki）する関数を作りました．左端揃えですから，併記した式の長さが違うときには左端が揃います．
+\aki\\
+\aki
+\begin{Verbatim}
+$\heiki{a_{n+1}-\alpha a_n=\beta (a_n-\alpha a_{n-1})}
+{a_{n+1}-\beta a_n=\alpha (a_n-\beta a_{n-1})}$
+\end{Verbatim}
+\bigskip
+$\heiki{a_{n+1}-\alpha a_n=\beta (a_n-\alpha a_{n-1})}
+{a_{n+1}-\beta a_n=\alpha (a_n-\beta a_{n-1})}$
+\\
+この場合のベクトル・行列の括弧は普通の括弧を想定しています．カギ括弧などの形を使いたい人はご自分で設定してください．私はそうした行列は使わないので．
+\\
+
+\sectionl{増減表のつくりかた}
+増減表は普通はarrayを用いて\& で区切って書いていきます．しかし，表が長くなると
+自分が今どこの欄に書いているのか（私は）わからなくなります．そこで，通常使用の範囲内，
+2〜4行1〜10列（確率分布だけは11列）の範囲内で，キーで設定する増減表を作りました．
+
+入力欄は以下のようになっています．
+\RESETKEYA
+\setkeys{zogen}{%
+hensu=\mathrm{hensu},kansub=\mathrm{kansub},kansuc=\mathrm{kansuc},kansud=\mathrm{kansud},
+ranaa=\mathrm{ranaa},ranab=\mathrm{ranab},ranac=\mathrm{ranac},ranad=\mathrm{ranad},ranae=\mathrm{ranae},ranaf=\mathrm{ranaf},ranag=\mathrm{ranag},ranah=\mathrm{ranah},ranai=\mathrm{ranai},ranaj=\mathrm{ranaj},
+ranba=\mathrm{ranba},ranbb=\mathrm{ranbb},ranbc=\mathrm{ranbc},ranbd=\mathrm{ranbd},ranbe=\mathrm{ranbe},ranbf=\mathrm{ranbf},ranbg=\mathrm{ranbg},ranbh=\mathrm{ranbh},ranbi=\mathrm{ranbi},ranbj=\mathrm{ranbj},
+ranca=\mathrm{ranca},rancb=\mathrm{rancb},rancc=\mathrm{rancc},rancd=\mathrm{rancd},rance=\mathrm{rance},rancf=\mathrm{rancf},rancg=\mathrm{rancg},ranch=\mathrm{ranch},ranci=\mathrm{ranci},rancj=\mathrm{rancj},
+randa=\mathrm{randa},randb=\mathrm{randb},randc=\mathrm{randc},randd=\mathrm{randd},rande=\mathrm{rande},randf=\mathrm{randf},randg=\mathrm{randg},randh=\mathrm{randh},randi=\mathrm{randi},randj=\mathrm{randj}}
+\zogen(4,10)
+デフォルトのキー状態は次のようになっています．kansuc=f(x),kansud=f(x)で同じなのは使用頻度の理由からです．2階の導関数はそれほどでてきません．
+\RESETKEYA
+\zogen(4,10)
+
+次のようにタイプします．最初にRESETKEYA〜RESETKEYDでキーをリセットします．
+
+RESETKEYAは普通の増減表のための初期設定です．一番多いのはこのタイプです．
+\aki\\
+\aki
+\begin{Verbatim}
+\RESETKEYA
+\setkeys{zogen}{%
+hensu=x,
+ranaa=-\sqrt{a},ranac=\dfrac{1}{2},ranae=1,
+ranbb=-,ranbc=0,ranbd=+,
+rancb=\searrow,rancd=\nearrow}
+\zogen(3,5)
+\end{Verbatim}
+
+\RESETKEYA
+\setkeys{zogen}{%
+hensu=x,kansuc=f(x),
+ranaa=-\sqrt{a},ranac=\dfrac{1}{2},ranae=1,
+ranbb=-,ranbc=0,ranbd=+,
+rancb=\searrow,rancd=\nearrow}
+\zogen(3,5)
+\\
+\\
+凹凸が入ってきたらkansucをf''(x)に変えてください．あらかじめf''(x)にしたものをRESETKEYEにしてあります．
+\aki\\
+\aki
+\begin{Verbatim}
+\RESETKEYA
+\setkeys{zogen}{kansuc=f''(x)}
+\zogen(4,7)
+\end{Verbatim}
+
+\RESETKEYA
+\setkeys{zogen}{kansuc=f''(x)}
+\zogen(4,7)
+
+RESETKEYBだとパラメータ表示です．
+\RESETKEYB
+\zogen(4,10)
+
+RESETKEYCだと確率分布表です．
+\RESETKEYC
+\zogen(2,11)
+
+RESETKEYDは置換積分です．この場合だけ左上はhensuaにしてください．
+
+初期状態は
+\RESETKEYD
+\chikan
+で，$x=\sin \theta$という置換を想定しています．文部科学省は置換積分とは
+$x=\sin \theta,ax+b=t$の程度のものを想定しており，これ以上の置換積分は本当は範囲外です．私の学んだ頃の某参考書には，入試に出もしない置換積分がわんさか載っておりました．信じて勉強した自分が馬鹿みたいです．
+\aki\\
+\aki
+\begin{Verbatim}
+\RESETKEYD
+\setkeys{zogen}{%
+hensua=u,
+ranaa=-1,ranac=\dfrac{1}{2},ranbc=\pi}
+\chikan
+\end{Verbatim}
+\RESETKEYD
+\setkeys{zogen}{%
+hensua=u,
+ranaa=-1,ranac=\dfrac{1}{2},ranbc=\pi}
+\chikan
+\aki\\
+\aki
+なお，上では各欄の上下サイズを線との間隔を2ポイントにしています．ここを変更したい人はご自由になさってください．雑誌の原稿を書く場合は表の縦サイズは小さいほどいいのでこうしてありますが，塾の教材などで余裕がある場合には縦幅を変えてください．それにはgyoretuvec.styをあけ，
+\aki\\
+\aki
+\begin{Verbatim}
+\def\TatehabaAki{\hbox{\vrule width0pt height17pt depth7pt}}\\
+\end{Verbatim}
+のように定義して，これを表の各行の最後（\yy \yy の前）に入れます．
+
+なお，もう，いろいろ盛りだくさんで覚えきれない，記憶が曖昧になったという人は，べつにこれらコマンドを使わなくてもいいんですよ．毎度自分でお作りになれば．使うだろうから準備しておいた（自分のために）だけのことですから\\
+同じものに名前をいくつか付けました．\\
+tikanはchikanと同じ\\
+RESETZOGENはRESETKEYEAと同じ\\
+RESETOHTOTUはRESETKEYEと同じ\\
+RESETOUTOTUはRESETKEYEと同じ\\
+RESETPARAはRESETKEYEBと同じ\\
+RESETBUNPUはRESETKEYECと同じ\\
+RESETKAKURITUBUNPUはRESETKEYECと同じ\\
+RESETTIKANはRESETKEYEDと同じ\\
+RESETCHIKANはRESETKEYEDと同じ\\
+\aki\\
+\aki
+\sectionl{括弧と絶対値などの微調整}
+以下とても短いコマンドが出てきます．こうした短いコマンドはTeXではアクセント記号などに使われている場合がありますが，大学入試数学ではアクセント記号は使いません．入力の手間（長さ）と便利さを考えて，こうしたアクセント記号には，場合によっては死んでもらうことなります（ただし極力さけてはいますがチェックしきれていない可能性があります）．それが気に入らない人は，以下で述べるコマンドを消すか，名前を付け替えてください．
+
+ここでは括弧と絶対値の，左右の記号で中の式を挟んでいるものを括弧類と呼ぶことにします．
+括弧類は中の式が大きくなるに従って外の記号も大きくなるのが原則です．例外は積分の際のカギ括弧ですがこれは後述します．\\
+なお，括弧類は中から小括弧，中括弧，大括弧と，外に行くに従って大きくせよと当然のように言う人がいますが，数学にはそんな決まりはどこにもありません．だいたい，小，中，大という訳語がいけない．パーレン，ブレース，ブラケットのどこにも大小という言葉は入っていません．研究社の英和辞典はパーレンに丸括弧，ブラケットにカギ括弧という訳語を与えています．整数比で表せない数を無理数というダジャレに見られるように非教育的な訳語が多すぎます．内積（dot product，直訳は点で表された積）は正射影に関わるから影積，外積（cross product）は垂線に関わるから垂積と訳せば名訳と言われただろうに，これも内外というダジャレ系です．誰か，こういうアホ訳をまとめてした張本人がいるんでしょうか．昔の数学者が理解不十分のまま訳しているからいけません．
+括弧に話を戻せば，海外の数学書を見てみれば，すべて（\ ）で書く人もいて，いろいろです．カギ括弧は高校数学では整数部分を表すガウスの記号や，定積分後の代入のときに使うなど，特別な意味を持ちますので，私は通常の式ではカギ括弧は使いません．\\
+\kakkoichi \quad 括弧類の標準と応用\\
+括弧類の標準は
+\yy left(,\yy left\yy \bl,left[,left$|$と，\yy right),\yy right\yy \bl,right[,right$|$
+\\で中の式を囲みます．左右の一方だけを使うときは\yy left(式\yy right.と対応する括弧類のかわりにピリオドにします．\\
+ささいなことを気にしなければ，この標準で全く問題がありません．ここに2乗をつけると，指数の位置が，組版機の式に比べて高い位置にきます．これが，組版機の指数を見慣れたものにはずいぶんと気になります．TeXは標準ではこれらをコントロールするパラメータをもっていません（たぶん）．これを下げるにはいくつかの方法がありますが，式の右に式より高さがやや低く幅が0の支柱を立て，そこに指数がくっつくようにするのです．その仕様が\\
+\yy p（普通の括弧）,\yy B（中括弧）,\yy G（カギ括弧）\yy abs（絶対値）です．\\
+中の式が横に長くなったとき，式を切らなければなりません．そのときには一方だけ使うことになりますが，その場合は\\
+左側が\yy lp（普通の括弧）,\yy lB（中括弧）,\yy lG（カギ括弧）\yy labs（絶対値）です．\\
+右側が\yy rp（普通の括弧）,\yy rB（中括弧）,\yy rG（カギ括弧）\yy rabs（絶対値）です．\\
+その場合，上下に大きな式が他方につき，分割された一方には大きな式がない，でも括弧類は大きくしたいというときがあります．この場合は\fa x,y\fb でサイズを指定します．xはベースラインから上の部分の大きさ，yはベースラインから下のサイズで，数値だけ入れます．ptは不要です．
+\aki\\
+\aki
+\begin{Verbatim}
+$\G{\B{\p{-1}^2-2}^2-3}^2$
+\end{Verbatim}
+あほ例です．$\G{\B{\p{-1}^2-2}^2-3}^2$なんてくだらない
+\aki\\
+\aki
+\begin{Verbatim}
+$\rp{\abs{-2}^2-3}^2$\\
+ $\rB<10,7>{+\abs{\abs{-1}^2-2}^2-3}^2$\\
+\end{Verbatim}
+
+$\rp{\abs{-2}^2-3}^2$\\
+\H$\rB<10,7>{+\abs{\abs{-1}^2-2}^2-3}^2$\\
+
+たとえば，長い式がある場合，どうしても式を途中で切って折り返さないといけません．そのとき，括弧類で囲んでいると，最初は左括弧（本当は開き括弧というようです）だけ，改行して，式だけ，式と右括弧（本当は閉じ括弧というようです）だけ，というような感じで式ができます．
+左括弧に続く式と右括弧の前の式が上下に同じサイズなら問題はありません．同じ大きさの左括弧と右括弧が選ばれるでしょう．ところが，このサイズが違ったとき，違う大きさの括弧が選ばれることになります．それは困りますね．その場合には前の式の大きさを掃き出し，それを後の式の大きさに反映させるということをやっています．たとえば
+\aki\\
+\aki
+\begin{Verbatim}
+$\lp{\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}$\\
+\ $\rp{+\dfrac{a}{b}}$
+\end{Verbatim}
+$\lp{\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}$\\
+\H$\rp{+\dfrac{a}{b}}$\\
+ただし，前の式が小さく後の式が大きいときには対応しておりません．その場合には\fa,\fb で大きさを指定するか，以下の方法によってください．
+
+【前の式が上下に大きく後の式が上下に小さく分割されたとき】
+\aki\\
+\aki
+\begin{Verbatim}
+$\lp{\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}$\\
+$\rp{+\dfrac{e}{f}}$
+\end{Verbatim}
+$\lp{\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}$\\
+\H$\rp{+\dfrac{e}{f}}$
+
+自動で括弧の大きさが対応します．
+
+【前の式が上下に小さく後の式が上下に大きく分割されたとき】\\
+$\lp{\dfrac{a}{b}}$\\
+\H$\rp{+\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}$
+
+そのままでは括弧の大きさが対応しません．後の情報を前に戻すのはプログラムが難しいからです．努力してプログラムしても，無限ループに落ち，努力が無に帰す可能性もあるので試みていません．その場合には上にあげた方法で前の方だけ大きさを数値指定するか（大きさが同じか前が大きめになれば，後の方は自動で反映されますから後を指定する必要はありません），次のように，前にダミーの大きさだけ戻すModosi\bl 後の式の大きな部分 \br を入れます．
+\aki\\
+\aki
+\begin{Verbatim}
+$\lp{\dfrac{a}{b}\Modosi{\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}}$\\
+$\rp{+\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}$
+\end{Verbatim}
+
+$\lp{\dfrac{a}{b}\Modosi{\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}}$\\
+\H$\rp{+\dfrac{\dfrac{a}{b}}{\dfrac{c}{d}}}$
+\\
+
+なお，前の式(lp内)の高さを\yy uma，深さを\yy sika で保持してマクロから外に吐き出し，後の式(rp内)に反映させています．(lB内)の高さは\yy umaa，深さは\yy sikaa，(lG内)の高さは\yy umab，深さは\yy sikabです．これらが有効なのはlからrの間です．ということはこれらが何個も連なるlp,lp,rp,rpのような同種のものを入れ子にする構造のときは内側がキャンセルされてしまいます．その場合は内側のものは
+\fa,\fb で大きさを指定してください．なんとまあ，凝りすぎですか？馬鹿でしょう．どう見ても偏執狂的オタクのプログラムなので，吐き出すパラメータがumaとsikaなんですね．あ，これは大きな式が2行以上に分かれるときの話ですよ．1行なら\yy p,\yy B,\yy Gですからね．え，もう，複雑でわから〜〜ん覚えられ〜んっていうじゃな〜いい．そういう人は，自分でleft rightで作ればいいのです．あんたの好きにしやぁ〜〜っていっとるぎゃぁ〜．
+さらにさらに（まだあるんか\poka \;\;\; 一度吐き出したuma,sikaを使ったら0ポイントにして消すようにしていたのですが，入れ子にしたとき，マクロが展開されて順序が変わるらしく，うまく反映されませんでした．そのため，使った後で0ポイントに戻すことをしていません．
+ですから，左，右の対応で使っていればいいのですが，左なし，右だけとかで使うと，ずっと前のuma,sikaが有効なので，それが反映されます．その場合には一度uma,sikaを0ポイントにしてください．\yy uma=0pt とかするだけです．
+
+\newpage
+\kakkoni \quad 積分について\\
+定積分の標準のコマンドは
+\aki\\
+\aki
+\begin{Verbatim}
+$\int_{a}^{b}$
+$\int \sin x dx$
+\end{Verbatim}
+積分は中の式を囲んではいますが，中の式が大きいからといって，外の積分記号も大きくなるわけではありません．ceo.styでは定積分は標準以外に\yy dint,\yy tintも用意してあります．
+\aki\\
+\aki
+\begin{Verbatim}
+$\dint{a}{b} \sin x dx$
+\end{Verbatim}
+$\dint{a}{b} \sin x dx$となります．この積分は，左右がペアになって囲んでいるわけではないので，式が横に長くなったときには適当に折り返せばよろしい．\\
+積分後の代入は
+\aki\\
+\aki
+\begin{Verbatim}
+$\tint{-\cos x}{a}{b}$
+\end{Verbatim}
+$\tint{-\cos x}{a}{b}$\\
+積分の代入の形式では，組版機においては，中の式の大きさによらず外のカギ括弧は大きさを変えないのが普通です．ところがTeXの本ではこの大きさがコロコロ変わるものが多く見られます．それはカギ括弧をleft[,right],で選んでいるためです．積分の代入では大きさを固定するほうが見栄えがよろしい．
+\aki\\
+\aki
+\begin{Verbatim}
+$\ltint{long1}$\\
+\H$\rtint{long2}{a}{b}$\\
+\end{Verbatim}
+\noindent とタイプするわけです．\\
+$\ltint{長い式}$\\
+\H$\rtint{長い式の続き}{a}{b}$\\
+となります．\yy Hは3字下げの記号です．\aki(15,20)\\
+\kakkosan \quad{\gt{式の上下に余白をつける}}\\
+式が上下に長くなると式がくっついてしまう場合があります．そのときには\yy F$\bl$ \ $\br$で囲むと{\gt{式の上下に2ポイントずつの余白}}がつきます．
+
+以上で繰り返し用いているのは「式の大きさを測って上下に伸ばした支柱を立てる」という手法です．これによって，行列も，増減表も，適度な空きが出るようになっているわけです．
+\\
+
+\sectionl{Verbatimとverb}
+入力のままにタイプされる環境\yy Verbatim が入っています．先頭は大文字ですから注意してください．通常のverbatimは太い文字になりますが，Verbatimは日本語は明朝，英語はceorで，文字は太くはなりません．しかし，デフォルトでは英語がceorという機能は切ってあります．復活するためには，ceo.styをあけてVerbatimの一行目verbatimfontをnormalfontにする行のコメントをはずしてください．
+デフォルトではceottというタイプライター書体が使われます．以前，文字のコードがずれていましたが補正しできていると思います．
+
+部分的に入力の仕方をしめすのは\yy verb で，これは先頭は小文字です．使い方は\yy verb/式/ などとします．
+\\
+\\
+\sectionl{overbraceとunderbrace}
+overbraceの仲間です．$<x,y>$はサイズ指定で，これがないと自動で選ばれます．left,rightで選ばれる縦に長い括弧を回転して使っているので，中央から左$x$（実際は深さ）と右$y$（実際は高さ）を指定します．でも中央揃えです．$x+y$が一定なら同じ大きさの括弧が選ばれるはずですが，指定の仕方で微妙に違います．これは閾値の問題です．
+\\
+\begin{Verbatim}
+$\overbrace<12,12>{○\cdots\cdots○}^{2n個}$
+$\overbrace{○\cdots\cdots○}^{2n個}$
+$\overbracket<12,12>{○\cdots\cdots○}^{2n個}$
+$\overbracket{○\cdots\cdots○}^{2n個}$
+$\overparen<12,12>{○\cdots\cdots○}^{2n個}$
+$\overparen{○\cdots\cdots○}^{2n個}$
+\end{Verbatim}
+\bigskip
+$\overbrace<12,12>{○\cdots\cdots○}^{2n個}$
+$\overbrace{○\cdots\cdots○}^{2n個}$
+$\overbracket<12,12>{○\cdots\cdots○}^{2n個}$
+$\overbracket{○\cdots\cdots○}^{2n個}$
+$\overparen<12,12>{○\cdots\cdots○}^{2n個}$
+$\overparen{○\cdots\cdots○}^{2n個}$
+\bigskip
+
+underbraceの仲間
+\\
+\begin{Verbatim}
+$\underbrace<12,12>{○\cdots\cdots○}_{2n個}$
+$\underbrace{○\cdots\cdots○}_{2n個}$
+$\underbracket<12,12>{○\cdots\cdots○}_{2n個}$
+$\underbracket{○\cdots\cdots○}_{2n個}$
+$\underparen<12,12>{○\cdots\cdots○}_{2n個}$
+$\underparen{○\cdots\cdots○}_{2n個}$
+\end{Verbatim}
+\bigskip
+$\underbrace<12,12>{○\cdots\cdots○}_{2n個}$
+$\underbrace{○\cdots\cdots○}_{2n個}$
+$\underbracket<12,12>{○\cdots\cdots○}_{2n個}$
+$\underbracket{○\cdots\cdots○}_{2n個}$
+$\underparen<12,12>{○\cdots\cdots○}_{2n個}$
+$\underparen{○\cdots\cdots○}_{2n個}$
+
+\bigskip
+以上は合成括弧ではなく，大きな括弧を選んでいるので，あまりにサイズが大きいと対処できません．その場合は標準の合成括弧のものがuebrace，sitabraceで残してありますので，それでやってください．
+\bigskip
+\begin{Verbatim}
+$\uebrace{○\cdots\cdots○}_{10n個}$
+$\sitabrace{○\cdots\cdots○}_{6n個}$
+\end{Verbatim}
+
+これはフニャ括弧だけです．
+\bigskip
+
+$\uebrace{○\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots\cdots○}^{10n個}$
+$\sitabrace{○\cdots\cdots\cdots\cdots\cdots\cdots○}_{6n個}$
+
+なおoverparenは$\koa{AB}$という弧の大きなものが必要な場合には使えます．
+
+$\overparen<10,10>{\mathrm{ABCD}}$
+とかですね．
+\bigskip
+
+\sectionl{原稿作成時のためのその他のコマンド}
+\yy Y は「2字あけてゆえにの記号」です．
+\bigskip
+\begin{Verbatim}
+$\Y x=2$
+\end{Verbatim}
+
+$\Y x=2$
+
+\yy kotae は「答えを太字にして点々をつけてさらに日本語の（答）の文字をつける」です．
+kotaeeだと「え」もつけます．
+\bigskip
+\begin{Verbatim}
+$\kotae{x=2}$と$\kotaee{x=2}$
+\end{Verbatim}
+
+$\kotae{x=2}$と$\kotaee{x=2}$
+
+\yy KOTAEは点々と(答)だけです．これはドルマークで囲む必要はありません．
+\bigskip
+\begin{Verbatim}
+\KOTAEと\KOTAEE
+\end{Verbatim}
+
+\KOTAE と\KOTAEE
+
+\end{document}

@@ -1,0 +1,44 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{索引}[2025/03/02, ver.1.0.0]
+
+\usepackage{needspace}
+\usepackage{makeidx}\makeindex
+\usepackage{multicol}
+\makeatletter
+\renewenvironment{theindex}{%
+   \columnsep2zw
+   \columnseprule\z@
+   \begin{multicols}{2}[\chapter*{\indexname}]%
+     \small
+     \@mkboth{\indexname}{\indexname}%
+     \parindent\z@
+     \parskip\z@
+     \lineskiplimit\z@
+     \lineskip\z@
+     \raggedbottom
+     \raggedcolumns
+     \raggedright
+     \let\item\@idxitem}
+  {\end{multicols}
+   \clearpage}
+
+\renewcommand{\@idxitem}{\par\leavevmode\hangindent1zw\inhibitglue}
+\renewcommand{\subitem}{\@idxitem\hangindent2zw\hspace*{1zw}\inhibitglue}
+\renewcommand{\subsubitem}{\@idxitem\hangindent3zw\hspace*{2zw}\inhibitglue}
+\renewcommand{\indexspace}{\par\vskip\baselineskip\relax}
+
+\newcommand\idxdelim{\nobreak{\reset@font\scriptsize\space
+  \leaders\hbox to .3333zw{\hss\hbox{.}\hss}\hfill\space}\nobreak}
+
+\newcommand*{\symbolindexname}{記号・数字}
+
+\def\makeidxhead#1{%
+  \needspace{2\baselineskip}%
+  \vspace{\baselineskip}%
+  \hbox to \columnwidth{\hfil
+    \normalsize\sffamily\bfseries
+    ■\hspace{.5zw}#1\hspace{.5zw}■\hfil}\par
+  \nopagebreak
+}
+
+\newcommand{\索引}{\printindex}%

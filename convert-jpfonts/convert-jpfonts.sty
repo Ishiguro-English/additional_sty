@@ -1,0 +1,115 @@
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{convert-jpfonts}[2025/1/19,Ver1.0.1]%
+
+%\RequirePackage{ifthen,xparse,calc}%
+
+\newcommand{\@空白調整}{\hspace{0pt}\nolinebreak[4]\hspace{-.35zw+\@@空白調整}}%
+\newcommand{\@@空白調整}{0zw}%
+\newcommand{\空白調整}[1]{\def\@@空白調整{#1}}%
+\newcommand{\@fonts}[1]{\bgroup\@fonts@zap@space#1 \@empty\relax\egroup}%
+\newcounter{全角文字数}%
+\setcounter{全角文字数}{0}%
+\newcounter{半角文字数}%
+\setcounter{半角文字数}{0}%
+\newcounter{全半角交代}%
+\setcounter{全半角交代}{0}%
+\newcommand{\文頭欧文判定}%
+  {%
+    \stepcounter{半角文字数}%
+    \ifthenelse{\the全角文字数=0\AND\the半角文字数=1}{\hspace{.35zw-\@@空白調整}}{}%
+    \ifthenelse{\the全角文字数>0\AND\the全半角交代=1}{\hspace{.35zw-\@@空白調整}}{}%
+    \setcounter{全半角交代}{0}%
+  }%
+\newcommand{\@fonts@han@zen}[1]%
+  {%
+    \if#1,{\文頭欧文判定\@空白調整\hspace{.12zw}，\hspace{-.25zw}}%
+    \else\if#1.{\文頭欧文判定\@空白調整\hspace{.1zw}．\hspace{-.25zw}}%
+    \else\if#1'{\文頭欧文判定\@空白調整\hspace{.08zw}’\ihspace{-1zw}}%
+    \else\if#1“{\文頭欧文判定\@空白調整“\hspace{.1zw}}%
+    \else\if#1”{\文頭欧文判定\@空白調整\hspace{.08zw}”\hspace{-.4zw}}%
+    \else\if#1*{\文頭欧文判定\@空白調整${}^{\text{＊}}$}%
+    \else\if#1;{\文頭欧文判定\@空白調整；\hspace{.1zw}}%
+    \else\if#1:{\文頭欧文判定\@空白調整：\hspace{.1zw}}%
+    \else\if#1?{\文頭欧文判定\@空白調整？\hspace{-.6zw}}%
+    \else\if#1!{\文頭欧文判定\@空白調整！\hspace{-.6zw}}%
+    \else\if#1-{\文頭欧文判定\@空白調整 ー}%
+    \else\if#1({\文頭欧文判定\@空白調整 （}%
+    \else\if#1){\文頭欧文判定\@空白調整 ）}%
+    \else\if#10{\文頭欧文判定\@空白調整 ０}%
+    \else\if#11{\文頭欧文判定\@空白調整 １}%
+    \else\if#12{\文頭欧文判定\@空白調整 ２}%
+    \else\if#13{\文頭欧文判定\@空白調整 ３}%
+    \else\if#14{\文頭欧文判定\@空白調整 ４}%
+    \else\if#15{\文頭欧文判定\@空白調整 ５}%
+    \else\if#16{\文頭欧文判定\@空白調整 ６}%
+    \else\if#17{\文頭欧文判定\@空白調整 ７}%
+    \else\if#18{\文頭欧文判定\@空白調整 ８}%
+    \else\if#19{\文頭欧文判定\@空白調整 ９}%
+    \else\if#1A{\文頭欧文判定\@空白調整 Ａ}%
+    \else\if#1B{\文頭欧文判定\@空白調整 Ｂ}%
+    \else\if#1C{\文頭欧文判定\@空白調整 Ｃ}%
+    \else\if#1D{\文頭欧文判定\@空白調整 Ｄ}%
+    \else\if#1E{\文頭欧文判定\@空白調整 Ｅ}%
+    \else\if#1F{\文頭欧文判定\@空白調整 Ｆ}%
+    \else\if#1G{\文頭欧文判定\@空白調整 Ｇ}%
+    \else\if#1H{\文頭欧文判定\@空白調整 Ｈ}%
+    \else\if#1I{\文頭欧文判定\@空白調整 Ｉ}%
+    \else\if#1J{\文頭欧文判定\@空白調整 Ｊ}%
+    \else\if#1K{\文頭欧文判定\@空白調整 Ｋ}%
+    \else\if#1L{\文頭欧文判定\@空白調整 Ｌ}%
+    \else\if#1M{\文頭欧文判定\@空白調整 Ｍ}%
+    \else\if#1N{\文頭欧文判定\@空白調整 Ｎ}%
+    \else\if#1O{\文頭欧文判定\@空白調整 Ｏ}%
+    \else\if#1P{\文頭欧文判定\@空白調整 Ｐ}%
+    \else\if#1Q{\文頭欧文判定\@空白調整 Ｑ}%
+    \else\if#1R{\文頭欧文判定\@空白調整 Ｒ}%
+    \else\if#1S{\文頭欧文判定\@空白調整 Ｓ}%
+    \else\if#1T{\文頭欧文判定\@空白調整 Ｔ}%
+    \else\if#1U{\文頭欧文判定\@空白調整 Ｕ}%
+    \else\if#1V{\文頭欧文判定\@空白調整 Ｖ}%
+    \else\if#1W{\文頭欧文判定\@空白調整 Ｗ}%
+    \else\if#1X{\文頭欧文判定\@空白調整 Ｘ}%
+    \else\if#1Y{\文頭欧文判定\@空白調整 Ｙ}%
+    \else\if#1Z{\文頭欧文判定\@空白調整 Ｚ}%
+    \else\if#1a{\文頭欧文判定\@空白調整 ａ}%
+    \else\if#1b{\文頭欧文判定\@空白調整 ｂ}%
+    \else\if#1c{\文頭欧文判定\@空白調整 ｃ}%
+    \else\if#1d{\文頭欧文判定\@空白調整 ｄ}%
+    \else\if#1e{\文頭欧文判定\@空白調整 ｅ}%
+    \else\if#1f{\文頭欧文判定\@空白調整 ｆ}%
+    \else\if#1g{\文頭欧文判定\@空白調整 ｇ}%
+    \else\if#1h{\文頭欧文判定\@空白調整 ｈ}%
+    \else\if#1i{\文頭欧文判定\@空白調整 ｉ}%
+    \else\if#1j{\文頭欧文判定\@空白調整 ｊ}%
+    \else\if#1k{\文頭欧文判定\@空白調整 ｋ}%
+    \else\if#1l{\文頭欧文判定\@空白調整 ｌ}%
+    \else\if#1m{\文頭欧文判定\@空白調整 ｍ}%
+    \else\if#1n{\文頭欧文判定\@空白調整 ｎ}%
+    \else\if#1o{\文頭欧文判定\@空白調整 ｏ}%
+    \else\if#1p{\文頭欧文判定\@空白調整 ｐ}%
+    \else\if#1q{\文頭欧文判定\@空白調整 ｑ}%
+    \else\if#1r{\文頭欧文判定\@空白調整 ｒ}%
+    \else\if#1s{\文頭欧文判定\@空白調整 ｓ}%
+    \else\if#1t{\文頭欧文判定\@空白調整 ｔ}%
+    \else\if#1u{\文頭欧文判定\@空白調整 ｕ}%
+    \else\if#1v{\文頭欧文判定\@空白調整 ｖ}%
+    \else\if#1w{\文頭欧文判定\@空白調整 ｗ}%
+    \else\if#1x{\文頭欧文判定\@空白調整 ｘ}%
+    \else\if#1y{\文頭欧文判定\@空白調整 ｙ}%
+    \else\if#1z{\文頭欧文判定\@空白調整 ｚ}%
+    \else{\stepcounter{全角文字数}\setcounter{全半角交代}{1}#1}\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi%
+  }%
+\def\@fonts@zap@space#1 #2%
+  {%
+    \@tfor\han:=#1\do{\@fonts@han@zen{\han}}%
+    \ifx#2\@empty\else\@fonts@fwspace\expandafter\@fonts@zap@space\fi#2%
+  }%
+\def\@fonts@fwspace{ }%
+\NewDocumentCommand\fonts{ O{\@デフォルトフォント} m }%
+  {%
+    #1{\@fonts{#2}}%
+    \setcounter{全角文字数}{0}%
+    \setcounter{半角文字数}{0}%
+  }%
+\newcommand{\@デフォルトフォント}{\textmc}%
+\newcommand{\デフォルトフォント}[1]{\def\@デフォルトフォント{#1}}%

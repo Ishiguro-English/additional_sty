@@ -1,0 +1,10 @@
+PWD /usr/local/tetex/share/texmf/ptex/platex/tetsutex/追加sty/l3packages
+INPUT /usr/local/teTeX/share/texmf/web2c/texmf.cnf
+INPUT /usr/local/teTeX/share/texmf/web2c/texmf.cnf
+INPUT /usr/local/teTeX/share/texmf-var/web2c/uplatex.fmt
+INPUT xparse.ins
+OUTPUT xparse.log
+INPUT /usr/local/teTeX/share/texmf-dist/tex/latex/base/docstrip.tex
+INPUT xparse.dtx
+OUTPUT ./xparse.sty
+OUTPUT ./xparse.ltx

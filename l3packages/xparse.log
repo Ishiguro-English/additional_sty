@@ -1,0 +1,79 @@
+This is e-upTeX, Version 3.14159265-p3.8.0-u1.23-180226-2.6 (utf8.uptex) (TeX Live 2018) (preloaded format=uplatex 2018.5.7)  5 JUN 2025 16:23
+entering extended mode
+ \write18 enabled.
+ file:line:error style messages enabled.
+**xparse.ins
+(./xparse.ins
+pLaTeX2e <2018-04-01u02>+1 (based on LaTeX2e <2018-04-01> patch level 4)
+Babel <3.20> and hyphenation patterns for 84 language(s) loaded.
+(/usr/local/teTeX/share/texmf-dist/tex/latex/base/docstrip.tex
+\blockLevel=\count83
+\emptyLines=\count84
+\processedLines=\count85
+\commentsRemoved=\count86
+\commentsPassed=\count87
+\codeLinesPassed=\count88
+\TotalprocessedLines=\count89
+\TotalcommentsRemoved=\count90
+\TotalcommentsPassed=\count91
+\TotalcodeLinesPassed=\count92
+\NumberOfFiles=\count93
+\inFile=\read1
+\inputcheck=\read2
+\off@0=\count94
+\off@1=\count95
+\off@2=\count96
+\off@3=\count97
+\off@4=\count98
+\off@5=\count99
+\off@6=\count100
+\off@7=\count101
+\off@8=\count102
+\off@9=\count103
+\off@10=\count104
+\off@11=\count105
+\off@12=\count106
+\off@13=\count107
+\off@14=\count108
+\off@15=\count109
+\@maxfiles=\count110
+\@maxoutfiles=\count111
+
+Utility: `docstrip' 2.5e <2014/09/29>
+English documentation    <2017/03/13>
+
+**********************************************************
+* This program converts documented macro-files into fast *
+* loadable files by stripping off (nearly) all comments! *
+**********************************************************
+
+********************************************************
+* No Configuration file found, using default settings. *
+********************************************************
+
+)
+
+Generating file(s) ./xparse.sty ./xparse.ltx 
+\openout0 = `./xparse.sty'.
+
+\openout1 = `./xparse.ltx'.
+
+
+Processing file xparse.dtx (package) -> xparse.sty
+                           (2ekernel) -> xparse.ltx
+Lines  processed: 1564
+Comments removed: 1252
+Comments  passed: 1
+Codelines passed: 286
+
+ ) 
+Here is how much of TeX's memory you used:
+ 326 strings out of 993270
+ 3226 string characters out of 39890872
+ 70323 words of memory out of 5009095
+ 4358 multiletter control sequences out of 15000+500000
+ 6281 words of font info for 32 fonts, out of 1200000 for 2000
+ 929 hyphenation exceptions out of 8191
+ 13i,0n,15p,157b,135s stack positions out of 30000i,4000n,32767p,200000b,80000s
+
+No pages of output.

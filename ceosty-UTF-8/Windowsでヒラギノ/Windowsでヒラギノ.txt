@@ -1,0 +1,56 @@
+WindowsTeX otf でヒラギノフォントを使うセット
+階層は適宜工夫してください．
+【otfでヒラギノフォントを使う設定】
+(1)dvipdfmxでフォントを埋め込む
+\w32tex\share\texmf-dist\fonts\map\dvipdfmx\base
+にある
+cid-x.map
+を入れ替える．
+(小塚をコメントアウトしてヒラギノを出した）
+これはotfを使わないときにもヒラギノを埋め込む設定にしてあります．
+
+\w32tex\share\texmf-dist\dvipdfmx\config
+に
+hiraginox.map
+があればいいが，なければ入れる．
+
+(2)dvips経由でpdfにフォントを埋め込む
+\w32tex\share\texmf-dist\fonts\map\dvips\base
+にある
+psfonts.map
+を入れ替える．なければ入れる．
+(小塚をコメントアウトしてヒラギノを出した）
+(3)dvioutでヒラギノを表示する．
+\dviout\map
+に
+$user.map
+を入れる．
+(ヒラギノを登録）
+\32tex\dvioutのなかのdviout.exeを実行してdvioutを立ち上げ，メニューのOptionのsetupparameterで
+Font2のfttを押して，
+^x\map\$user.map
+に書き換える．dvioutではSave，適用，define，など定義として押せそうなものを押す．
+単にOKだけでは次回に反映されない．
+
+既に自分でuser.mapを定義している場合には開いて書き加えてください．
+
+(4)opentypeのヒラギノを入れる．これはMac用を名前を以下のように変えたものを用意してある．hiragino_for Winというフォルダに入れてある．
+
+
+ヒラギノフォントの実際のフォントは
+
+フォント名　　　　　　サイズ
+本当の名前　　　　　　　TeXで使用するときの名前　ファイルサイズ
+ヒラギノ角ゴ Pro W3.otf　HiraKakuPro-W3.otf     9,367,476
+ヒラギノ角ゴ Pro W6.otf　HiraKakuPro-W6.otf     8,876,804
+ヒラギノ角ゴ Std W8.otf　HiraKakuStd-W8.otf     4,281,976
+ヒラギノ丸ゴ Pro W4.otf　HiraMaruPro-W4.otf    10,114,744
+ヒラギノ明朝 Pro W3.otf　HiraMinPro-W3.otf     11,585,924
+ヒラギノ明朝 Pro W6.otf　HiraMinPro-W6.otf     11,097,336
+
+のように名前を変えます．
+\w32tex\share\texmf-dist\fonts\opentype\hiragino
+というフォルダを作って，そこに入れます．
+
+
+以上です．

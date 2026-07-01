@@ -1,0 +1,34 @@
+%%
+%% This is file 'bxghost.sty'.
+%%
+%% Copyright 2019-2023 Takuto Asakura (wtsnjp)
+%%   GitHub:   https://github.com/wtsnjp
+%%   Twitter:  @wtsnjp
+%%
+%% This package is distributed under the MIT License.
+%%
+
+%% package declaration
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bxghost}[2023/02/26 v0.5.1]
+
+%% load the library
+\RequirePackage{bxghost-lib}
+
+%--------------------------------------- the verb option
+
+\newif\ifbxqgg@verb \bxqgg@verbfalse
+\DeclareOption{verb}{\bxqgg@verbtrue}
+\DeclareOption{noverb}{\bxqgg@verbfalse}
+\ProcessOptions\relax
+
+% patch \verb
+\ifbxqgg@verb
+  \edef\verb{\noexpand\bxqgg@eghost\unexpanded\expandafter{\verb}}
+  \edef\verb@egroup{%
+    \unexpanded\expandafter{\verb@egroup}\noexpand\bxqgg@eghost}
+\fi
+
+%--------------------------------------- all done
+\endinput
+%% EOF

@@ -1,0 +1,26 @@
+% pLaTeX/upLaTeX document
+\documentclass[autodetect-engine,dvipdfmx,a5paper,17pt,tombow]{jsarticle}
+\usepackage{tikz,bxpgfcurpage}
+\newcommand\TEST{%
+\begin{tikzpicture}[remember picture, overlay]
+\coordinate (NE) at (current page.north east);
+\coordinate (NW) at (current page.north west);
+\coordinate (SE) at (current page.south east);
+\coordinate (SW) at (current page.south west);
+\coordinate (C) at (current page.center);
+\draw[blue,line width=8pt] (SW) rectangle (NE);
+\draw[red,line width=4pt]
+  (NE) circle (1)
+  (NW) circle (1)
+  (SE) circle (1)
+  (SW) circle (1)
+  (C)  circle (1);
+\draw
+  (current page.south) -- (current page.north)
+  (current page.west) -- (current page.east);
+\end{tikzpicture}}
+\begin{document}
+TEST \TEST PAGE!
+\newpage
+TEST\par\vfill\TEST\par\vfill PAGE!
+\end{document}
