@@ -38,8 +38,8 @@ chmod +x $SCRIPT_PATH
 # 4. crontab への登録（毎週月曜 朝9時）
 # 既存の設定を取得（エラーは無視）し、重複登録を防ぎつつ新しい設定を追加
 echo "定期スケジュール（毎週月曜朝9時）を登録中..."
-CRON_JOB="0 9 * * 1 cd $TARGET_DIR && ./auto_update.sh > /dev/null 2>&1"
+CRON_JOB="0 9 * * * cd $TARGET_DIR && ./auto_update.sh > /dev/null 2>&1"
 (crontab -l 2>/dev/null | grep -v "$TARGET_DIR"; echo "$CRON_JOB") | crontab -
 
 echo "=== セットアップが完了しました！ ==="
-echo "毎週月曜日の朝9時に自動で最新版に更新されます（通知はありません）。"
+echo "毎日朝9時に自動で最新版に更新されます（通知はありません）。"
