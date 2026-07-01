@@ -43,3 +43,7 @@ CRON_JOB="0 9 * * * cd $TARGET_DIR && ./auto_update.sh > /dev/null 2>&1"
 
 echo "=== セットアップが完了しました！ ==="
 echo "毎日朝9時に自動で最新版に更新されます（通知はありません）。"
+
+# 手動アップデート用の超短縮コマンド（エイリアス）を登録
+echo "alias sty='if [ -d \"/usr/local/tetex/share/texmf/ptex/platex/tetsutex/additional_sty\" ]; then cd \"/usr/local/tetex/share/texmf/ptex/platex/tetsutex/additional_sty\" && git pull origin main; else cd \"/usr/local/tetex/share/texmf/ptex/platex/tetsutex/\" && git clone https://github.com/Ishiguro-English/additional_sty.git; fi'" >> ~/.zshrc
+source ~/.zshrc 2>/dev/null
