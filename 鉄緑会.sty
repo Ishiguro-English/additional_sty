@@ -36,6 +36,21 @@
 \RUBYsetup{J}% pxrubrica.styをruby->RUBYに一斉変更
 \renewcommand{\kenten}{\KENTEN}%
 \renewcommand{\ruby}{\RUBY}%
+% 最新の鉄TeXに対応---------------------------------------------------------------------------
+\providecommand{\注釈}[3][]{}
+\let\sub注釈\注釈
+\renewcommand{\注釈}[3][]{\sub注釈[#1]{\vphantom{bp}#2}{#3}}
+\let\note\注釈
+\providecommand{\注釈設定}[1]{}
+\注釈設定{%
+  文字サイズ=\footnotesize,
+  太さ=.4pt,
+  引出線開始位置=1.5mm,
+  前半引出線の最小長=2.3mm,
+  前半引出線の増加単位=3.5mm,
+  後半引出線の長さ=1.5mm,
+  衝突判定距離=.55em
+}
 % 基本定義------------------------------------------------------------------------------------
 \newcommand{\basiccolor}{black}%
 \newcommand{\基調色}[1]{\renewcommand{\basiccolor}{#1}}%
@@ -91,14 +106,14 @@
 \def\x#1{\下線{\gt{\textcolor{orange!90!red}{#1}}}}%
 \def\ll#1#2{\Sub{#1}\下線{#2}}%
 \def\abcline#1{\下線{position=3.3zw}{#1}}%
-\DeclareDocumentCommand\uu{ O{\下線} D<>{\scriptsize} m m  }%
+\DeclareDocumentCommand\uu{ O{\uline} D<>{\scriptsize} m m  }%
   {%
-    {\renewcommand{\arraystretch}{0.6}%
+    {\renewcommand{\arraystretch}{0.65}%
     \hspace{.1zw}\begin{tabular}[t]{@{}c@{}}%
       #1{#3}\\%
       #2#4\\%
     \end{tabular}\hspace{.1zw}}%
-    %\renewcommand{\arraystretch}{r}%
+    \renewcommand{\arraystretch}{r}%
   }%
 % 数式----------------------------------------------------------------------------------------
 \newcommand{\kinji}{{\rm\ensuremath{\ \risingdotseq\ }}}%
