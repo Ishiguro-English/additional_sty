@@ -1,0 +1,58 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{グラフ描画}[2026/07/09, ver.1.0.0]
+
+\define@key{棒グラフ}{バーの色}{\def\棒グラフバーの色{#1}}
+\define@key{棒グラフ}{バーの枠の色}{\def\棒グラフバーの枠の色{#1}}
+\define@key{棒グラフ}{要素名の文字サイズ}{\def\棒グラフ要素名の文字サイズ{#1}}
+\define@key{棒グラフ}{個数の文字サイズ}{\def\棒グラフ個数の文字サイズ{#1}}
+\define@key{棒グラフ}{前の単位}{\def\棒グラフ単位前{#1}}
+\define@key{棒グラフ}{後ろの単位}{\def\棒グラフ単位後{#1}}
+\define@key{棒グラフ}{中央揃え}{\def\棒グラフ中央揃え{#1}}
+\define@key{棒グラフ}{タイトル}{\def\棒グラフタイトル{#1}}
+\define@key{棒グラフ}{タイトル位置}{\def\棒グラフタイトル位置{#1}}
+\define@key{棒グラフ}{フォント}{\def\棒グラフフォント{#1}}
+
+\newcounter{棒グラフ要素数}
+\setcounter{棒グラフ要素数}{1}
+
+\newenvironment{棒グラフ}[1][]{%
+  \def\棒グラフバーの色{lightgray}%
+  \def\棒グラフバーの枠の色{black}%
+  \def\棒グラフ要素名の文字サイズ{\normalsize}%
+  \def\棒グラフ個数の文字サイズ{\small}%
+  \def\棒グラフ単位前{}%
+  \def\棒グラフ単位後{}%
+  \def\棒グラフ中央揃え{する}%
+  \def\棒グラフタイトル{}%
+  \def\棒グラフタイトル位置{上}%
+  \def\棒グラフフォント{}%
+  \setkeys{棒グラフ}{#1}%
+  \ifthenelse{\equal{\棒グラフ中央揃え}{する}}{\begin{center*}}{}%
+  \棒グラフフォント
+  % タイトルがあり，かつ「タイトル位置=上」の場合に出力
+  \ifthenelse{\equal{\棒グラフタイトル}{}}{}{%
+    \ifthenelse{\equal{\棒グラフタイトル位置}{上}}{%
+      \br{.3}\centerline{\棒グラフ要素名の文字サイズ\棒グラフタイトル}%
+    }{}%
+  }%
+  \br{-.3}\begin{tikzpicture}[baseline=0pt]%
+}{%
+  \end{tikzpicture}%
+  % タイトルがあり，かつ「タイトル位置=下」の場合に出力
+  \ifthenelse{\equal{\棒グラフタイトル}{}}{}{%
+    \ifthenelse{\equal{\棒グラフタイトル位置}{下}}{%
+      \br{.3}\centerline{\棒グラフ要素名の文字サイズ\棒グラフタイトル}%
+    }{}%
+  }%
+  % 「中央揃え=する」の場合のみcenter環境を終了
+  \ifthenelse{\equal{\棒グラフ中央揃え}{する}}{\end{center*}}{}%
+  \br{.5}\setcounter{棒グラフ要素数}{1}%
+}
+
+\newcommand{\要素}[2]%
+  {%
+    \draw(0em,.6em-1.2*\the棒グラフ要素数 em)node[left, font=\棒グラフ要素名の文字サイズ]{#1};
+    \draw[draw=\棒グラフバーの枠の色,fill=\棒グラフバーの色](0em,.9em-1.2*\the棒グラフ要素数 em)rectangle(#2em,.3em-1.2*\the棒グラフ要素数 em);
+    \draw(0em,0em)--(0em,-1.2*\the棒グラフ要素数 em);
+    \draw(#2em,.6em-1.2*\the棒グラフ要素数 em)node[right, font=\棒グラフ個数の文字サイズ]{\scalebox{.9}{\棒グラフ単位前}\hspace{0pt}#2\hspace{0pt}\scalebox{.9}{\棒グラフ単位後}\stepcounter{棒グラフ要素数}};
+  }%
