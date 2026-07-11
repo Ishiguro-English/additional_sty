@@ -1,5 +1,5 @@
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesPackage{グラフ描画}[2026/07/09, ver.1.0.0]
+\ProvidesPackage{グラフ描画}[2026/07/11, ver.1.0.2]
 
 \define@key{棒グラフ}{バーの色}{\def\棒グラフバーの色{#1}}
 \define@key{棒グラフ}{バーの枠の色}{\def\棒グラフバーの枠の色{#1}}
@@ -11,9 +11,16 @@
 \define@key{棒グラフ}{タイトル}{\def\棒グラフタイトル{#1}}
 \define@key{棒グラフ}{タイトル位置}{\def\棒グラフタイトル位置{#1}}
 \define@key{棒グラフ}{フォント}{\def\棒グラフフォント{#1}}
+\define@key{棒グラフ}{絵文字}{\def\棒グラフ一括絵文字{#1}}
+\define@key{棒グラフ}{要素間の縦余白を追加}{\def\棒グラフ追加縦余白{#1}}
 
 \newcounter{棒グラフ要素数}
 \setcounter{棒グラフ要素数}{1}
+
+% 何度も呼び出されてもエラーにならないよう，マクロの外であらかじめ宣言しておく
+\newcounter{棒グラフ余白計算用}
+\newlength{\棒グラフ一行の高さ}
+\newlength{\棒グラフ累積余白}
 
 \newenvironment{棒グラフ}[1][]{%
   \def\棒グラフバーの色{lightgray}%
@@ -26,6 +33,8 @@
   \def\棒グラフタイトル{}%
   \def\棒グラフタイトル位置{上}%
   \def\棒グラフフォント{}%
+  \def\棒グラフ一括絵文字{}%
+  \def\棒グラフ追加縦余白{0pt}%
   \setkeys{棒グラフ}{#1}%
   \ifthenelse{\equal{\棒グラフ中央揃え}{する}}{\begin{center*}}{}%
   \棒グラフフォント
@@ -49,10 +58,41 @@
   \br{.5}\setcounter{棒グラフ要素数}{1}%
 }
 
-\newcommand{\要素}[2]%
+\newcommand{\要素}[3][]%
   {%
-    \draw(0em,.6em-1.2*\the棒グラフ要素数 em)node[left, font=\棒グラフ要素名の文字サイズ]{#1};
-    \draw[draw=\棒グラフバーの枠の色,fill=\棒グラフバーの色](0em,.9em-1.2*\the棒グラフ要素数 em)rectangle(#2em,.3em-1.2*\the棒グラフ要素数 em);
-    \draw(0em,0em)--(0em,-1.2*\the棒グラフ要素数 em);
-    \draw(#2em,.6em-1.2*\the棒グラフ要素数 em)node[right, font=\棒グラフ個数の文字サイズ]{\scalebox{.9}{\棒グラフ単位前}\hspace{0pt}#2\hspace{0pt}\scalebox{.9}{\棒グラフ単位後}\stepcounter{棒グラフ要素数}};
+    % 現在の行数に応じたトータルの高さを計算
+    \setlength{\棒グラフ一行の高さ}{1.2em}%
+    \multiply\棒グラフ一行の高さ by \the棒グラフ要素数\relax
+    % 2行目以降の場合のみ，そこまでの累積追加余白を足す
+    \ifnum\value{棒グラフ要素数}>1
+      \setcounter{棒グラフ余白計算用}{\value{棒グラフ要素数}}%
+      \addtocounter{棒グラフ余白計算用}{-1}%
+      \setlength{\棒グラフ累積余白}{\棒グラフ追加縦余白}%
+      \multiply\棒グラフ累積余白 by \value{棒グラフ余白計算用}\relax
+      \addtolength{\棒グラフ一行の高さ}{\棒グラフ累積余白}%
+    \fi
+    % 1. 左側に要素名を表示
+    \draw(0em,.6em-\棒グラフ一行の高さ)node[left, font=\棒グラフ要素名の文字サイズ]{#2};
+    % 2. 使用する絵文字・マークを決定する処理
+    \def\今回使う絵文字{#1}%
+    \ifthenelse{\equal{\今回使う絵文字}{}}{%
+      \def\今回使う絵文字{\棒グラフ一括絵文字}%
+    }{}%
+    % 3. 絵文字の有無による分岐
+    \ifthenelse{\equal{\今回使う絵文字}{}}{%
+      % 指定なし：従来の rectangle による棒グラフ
+      \draw[draw=\棒グラフバーの枠の色, fill=\棒グラフバーの色](0em,.9em-\棒グラフ一行の高さ)rectangle(#3em,.3em-\棒グラフ一行の高さ);
+      \draw(#3em,.6em-\棒グラフ一行の高さ)node[right, font=\棒グラフ個数の文字サイズ]{\scalebox{.9}{\棒グラフ単位前}\hspace{0pt}#3\hspace{0pt}\scalebox{.9}{\棒グラフ単位後}};
+    }{%
+      % 絵文字の指定あり
+      \draw(0em,.6em-\棒グラフ一行の高さ)node[right, font=\棒グラフ個数の文字サイズ]{%
+        \fornext{#3}{\今回使う絵文字}\hspace{0.3333em}%
+        \scalebox{.9}{\棒グラフ単位前}\hspace{0pt}#3\hspace{0pt}\scalebox{.9}{\棒グラフ単位後}%
+      };
+    }%
+    
+    % 4. 縦の軸線を描画（現在の行のジャストな底辺位置まで伸ばす）
+    \draw(0em,0em)--(0em,-\棒グラフ一行の高さ);
+    % 5. カウンターをインクリメント
+    \stepcounter{棒グラフ要素数}%
   }%
