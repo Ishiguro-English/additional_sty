@@ -25,6 +25,12 @@
 \usepackage{fontawesome,awesomebox}
 \AtBeginDvi{\special{pdf:mapfile fontawesome.map}}
 \let\kantei\DFPKantei
+\renewcommand{\gt}[2][4]{%
+  \csname HiraKakuW%
+    \ifcase#1Zero\or One\or Two\or Three\or Four\or Five\or Six\or Seven\or Eight\or Nine\fi
+  \endcsname
+  {#2}%
+}
 % 基本設定------------------------------------------------------------------------------------
 \番号付け変更[1]{\ajKaku}\番号付け変更[2]{\ajMaru}\番号付け変更[3]{\ajKakkoalph}%
 \番号付き箇条書きの空白設定(0pt)<0zw>[1zw]{1.5zw}{1zw}%
@@ -112,6 +118,16 @@
     \hspace{.1zw}\begin{tabular}[t]{@{}c@{}}%
       #1{#3}\\%
       #2#4\\%
+    \end{tabular}\hspace{.1zw}}%
+    \renewcommand{\arraystretch}{r}%
+  }%
+
+\DeclareDocumentCommand\oo{ O{\oline} D<>{\scriptsize} m m  }%
+  {%
+    {\renewcommand{\arraystretch}{0.65}%
+    \hspace{.1zw}\begin{tabular}[b]{@{}c@{}}%
+      #2#4\\%
+      #1{#3}\\%
     \end{tabular}\hspace{.1zw}}%
     \renewcommand{\arraystretch}{r}%
   }%
@@ -622,7 +638,8 @@
 \let\marukakukatab\ajKuroMaruKakuKata%
 \newenvironment{marukakukatabenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruKakuKata}}{\end{enumerate}}%
 \newcounter{exenubangou}[subsection]%
-\newenvironment{exenu}{\begin{jquote}(3zw)[.3\baselineskip]\begin{enumerate}[\stepcounter{exenubangou}$Ex.$\MaruKaku{exenubangou}]}{\end{enumerate}\end{jquote}}%
+\setcounter{exenubangou}{1}%
+\newenvironment{exenu}{\begin{jquote}(3zw)[.3\baselineskip]\begin{enumerate}[$Ex.$\MaruKaku{exenubangou}\stepcounter{exenubangou}]}{\end{enumerate}\end{jquote}}%
 \newcounter{例文番号}
 \setcounter{例文番号}{1}
 \renewcommand{\ex}[2]{\見出しぶら下げ*{\quad\raisebox{-.2zw}{\tikz\node[fill=gray!60,ellipse,inner sep=0pt]{\zap{Ex.\the例文番号}};}}{#1\par#2}\stepcounter{例文番号}}
