@@ -5,7 +5,8 @@
 
 % 私家版======================================================================================
 % 読み込み------------------------------------------------------------------------------------
-\usepackage{ascolorbox,ceo,changecolumnseprule,kcolorbox,setspace,pxrubrica2,グラフ描画,罫線ノート,小道具,デザイン,%ノート,% \爪と相性が悪い（\checknotedataのせい）ため見送り
+\usepackage{ascolorbox,ceo,changecolumnseprule,kcolorbox,setspace,pxrubrica2,下線追加コマンド,
+グラフ描画,罫線ノート,小道具,デザイン,%ノート,% \爪と相性が悪い（\checknotedataのせい）ため見送り
 表紙,品詞,吹き出し}%
 \usepackage[explicit]{titlesec}%
 %\usepackage{answerbox}% ceoより後で読み込む/\pboxがplext.styと重複するため見送り
@@ -31,6 +32,13 @@
   \endcsname
   {#2}%
 }
+%\xx{\gt}{textcommandwithoption}
+\renewcommand{\gtfamily}[1][4]{%
+  \csname HiraKakuW%
+    \ifcase#1Zero\or One\or Two\or Three\or Four\or Five\or Six\or Seven\or Eight\or Nine\fi
+  family\endcsname
+}
+%\AddCommandInUline*\gtfamily[1][n]{}
 % 基本設定------------------------------------------------------------------------------------
 \番号付け変更[1]{\ajKaku}\番号付け変更[2]{\ajMaru}\番号付け変更[3]{\ajKakkoalph}%
 \番号付き箇条書きの空白設定(0pt)<0zw>[1zw]{1.5zw}{1zw}%
@@ -646,43 +654,43 @@
 
 \usepackage{改ceo}% ここで読み込む必要アリ
 
-\newcommand{\空行幅}{\br{.5}}
-\newcommand{\設問問題文}[2]{\空行幅\begin{＋２}\hspace{-3zw}\makebox[3zw][l]{\Large\bf{#1}}#2\par\end{＋２}\nopagebreak}
-\newcommand{\設問問題文Ａ}[3]{\空行幅\begin{＋３}\hspace{-4zw}\makebox[2zw][l]{\Large\bf{#1}}\makebox[2zw][l]{#2}#3\par\end{＋３}\nopagebreak}
-\newcommand{\設問問１}{\@ifstar{\@設問問１A}{\@設問問１B}}
-\newcommand{\@設問問１A}[2]{\begin{同ページに収める}\begin{２０}\hspace{-2zw}\makebox[3zw][l]{#1}#2\par\end{２０}\end{同ページに収める}} % * をつけると直前で改行しない
-\newcommand{\@設問問１B}[2]{\空行幅\begin{同ページに収める}\begin{２０}\hspace{-2zw}\makebox[3zw][l]{#1}#2\par\end{２０}\end{同ページに収める}} % * がないと直前で改行する
-\newcommand{\設問１}{\@ifstar{\@設問１A}{\@設問１B}}
-\newcommand{\@設問１A}[2]{\begin{同ページに収める}\begin{１０}\hspace{-1zw}\makebox[2zw][l]{#1}#2\par\end{１０}\end{同ページに収める}} % * をつけると直前で改行しない
-\newcommand{\@設問１B}[2]{\空行幅\begin{同ページに収める}\begin{１０}\hspace{-1zw}\makebox[2zw][l]{#1}#2\par\end{１０}\end{同ページに収める}} % * がないと直前で改行する
-\newcommand{\小問肢}[2]{\begin{１０}\hspace{-1zw}\makebox[2zw][l]{#1}#2\end{１０}}
-\newenvironment{英文}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{0zw}\addtolength{\linewidth}{0zw}}{\par}
-\newenvironment{英文＋１}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{\par}
-\newenvironment{英文＋２}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
-\newenvironment{英文＋３}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
-\newenvironment{英文＋４}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
-\newcommand{\４択}[4]{\par\makebox[9zw][l]{#1}\makebox[9zw][l]{#2}\makebox[9zw][l]{#3}\makebox[9zw][l]{#4}\par}
-\newcommand{\３択}[3]{\par\makebox[12zw][l]{#1}\makebox[12zw][l]{#2}\makebox[12zw][l]{#3}\par}
-\newcommand{\２択}[2]{\par\makebox[18zw][l]{#1}\makebox[18zw][l]{#2}\par}
+\providecommand{\空行幅}{\br{.5}}
+\providecommand{\設問問題文}[2]{\空行幅\begin{＋２}\hspace{-3zw}\makebox[3zw][l]{\Large\bf{#1}}#2\par\end{＋２}\nopagebreak}
+\providecommand{\設問問題文Ａ}[3]{\空行幅\begin{＋３}\hspace{-4zw}\makebox[2zw][l]{\Large\bf{#1}}\makebox[2zw][l]{#2}#3\par\end{＋３}\nopagebreak}
+\providecommand{\設問問１}{\@ifstar{\@設問問１A}{\@設問問１B}}
+\providecommand{\@設問問１A}[2]{\begin{同ページに収める}\begin{２０}\hspace{-2zw}\makebox[3zw][l]{#1}#2\par\end{２０}\end{同ページに収める}} % * をつけると直前で改行しない
+\providecommand{\@設問問１B}[2]{\空行幅\begin{同ページに収める}\begin{２０}\hspace{-2zw}\makebox[3zw][l]{#1}#2\par\end{２０}\end{同ページに収める}} % * がないと直前で改行する
+\providecommand{\設問１}{\@ifstar{\@設問１A}{\@設問１B}}
+\providecommand{\@設問１A}[2]{\begin{同ページに収める}\begin{１０}\hspace{-1zw}\makebox[2zw][l]{#1}#2\par\end{１０}\end{同ページに収める}} % * をつけると直前で改行しない
+\providecommand{\@設問１B}[2]{\空行幅\begin{同ページに収める}\begin{１０}\hspace{-1zw}\makebox[2zw][l]{#1}#2\par\end{１０}\end{同ページに収める}} % * がないと直前で改行する
+\providecommand{\小問肢}[2]{\begin{１０}\hspace{-1zw}\makebox[2zw][l]{#1}#2\end{１０}}
+\ProvideDocumentEnvironment{英文}{}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{0zw}\addtolength{\linewidth}{0zw}}{\par}
+\ProvideDocumentEnvironment{英文＋１}{}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{}{\par}
+\ProvideDocumentEnvironment{英文＋２}{}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
+\ProvideDocumentEnvironment{英文＋３}{}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\ProvideDocumentEnvironment{英文＋４}{}{\par\setlength{\parindent}{3zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\providecommand{\４択}[4]{\par\makebox[9zw][l]{#1}\makebox[9zw][l]{#2}\makebox[9zw][l]{#3}\makebox[9zw][l]{#4}\par}
+\providecommand{\３択}[3]{\par\makebox[12zw][l]{#1}\makebox[12zw][l]{#2}\makebox[12zw][l]{#3}\par}
+\providecommand{\２択}[2]{\par\makebox[18zw][l]{#1}\makebox[18zw][l]{#2}\par}
 
-\newcommand{\@大問番号表示}{\ajKaku}
-\newcommand{\大問番号表示}[1]{\renewcommand{\@大問番号表示}{#1}}
-\newcommand{\大問番号}[1]{\setcounter{daimon@bangou}{#1}}
-\newcommand{\小問番号}[1]{\shoumon@bangou=#1 \advance\shoumon@bangou by -1}
-\newcommand{\英文中括弧}{\@ifstar{\英文中括弧A}{\英文中括弧B}}
-\newcommand{\英文中括弧A}[2][5]{\makebox[#1zw][c]{[\hfill #2\hfill ]}} % * がある場合
-\newcommand{\英文中括弧B}[2][5]{\makebox[#1zw][c]{(\hfill #2\hfill )}} % * がない場合
+\providecommand{\@大問番号表示}{\ajKaku}
+\providecommand{\大問番号表示}[1]{\reprovidecommand{\@大問番号表示}{#1}}
+\providecommand{\大問番号}[1]{\setcounter{daimon@bangou}{#1}}
+\providecommand{\小問番号}[1]{\shoumon@bangou=#1 \advance\shoumon@bangou by -1}
+\providecommand{\英文中括弧}{\@ifstar{\英文中括弧A}{\英文中括弧B}}
+\providecommand{\英文中括弧A}[2][5]{\makebox[#1zw][c]{[\hfill #2\hfill ]}} % * がある場合
+\providecommand{\英文中括弧B}[2][5]{\makebox[#1zw][c]{(\hfill #2\hfill )}} % * がない場合
 % \英文中括弧{a}のように打つと「( a )」のように出力される。
 % \英文中括弧[10]{a}のように打つと「(　　a　　)」のように全角10文字分の幅で出力される。[]を省略すると全角5文字分の幅で出力。
 % \英文中括弧*{a}のように打つと「[ a ]」のように出力される。
-\newcommand{\英文中括弧左}{\@ifstar{\英文中括弧左A}{\英文中括弧左B}}
-\newcommand{\英文中括弧左A}[2][5]{\makebox[#1zw][c]{[ #2\hfill ]}} % * がある場合
-\newcommand{\英文中括弧左B}[2][5]{\makebox[#1zw][c]{( #2\hfill )}} % * がない場合
+\providecommand{\英文中括弧左}{\@ifstar{\英文中括弧左A}{\英文中括弧左B}}
+\providecommand{\英文中括弧左A}[2][5]{\makebox[#1zw][c]{[ #2\hfill ]}} % * がある場合
+\providecommand{\英文中括弧左B}[2][5]{\makebox[#1zw][c]{( #2\hfill )}} % * がない場合
 %頭文字を示す空欄用。( a     ) のように出力される。
-\newcommand{\英文中下線}[2][5]{%
+\providecommand{\英文中下線}[2][5]{%
 \下線{\makebox[#1zw][l]{#2}}%
 }
-\newcommand{\英文中下線中}[2][5]{%
+\providecommand{\英文中下線中}[2][5]{%
 \下線{\makebox[#1zw][c]{#2}}%
 }
 % 空白----------------------------------------------------------------------------------------
@@ -761,58 +769,58 @@
 \providecommand{\４４文字}[2][l]{\makebox[44zw][#1]{#2}}
 \providecommand{\４５文字}[2][l]{\makebox[45zw][#1]{#2}}
 
-\newenvironment{００}{\setlength{\parindent}{0zw}}{\par}
-\newenvironment{＋１}{\par\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{\par}
-\newenvironment{＋２}{\par\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
-\newenvironment{＋３}{\par\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
-\newenvironment{＋４}{\par\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
-\newenvironment{＋５}{\par\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
-\newenvironment{＋６}{\par\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
-\newenvironment{＋７}{\par\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
-\newenvironment{＋８}{\par\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
-\newenvironment{＋９}{\par\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
-\newenvironment{＋１０}{\par\addtolength{\leftskip}{10zw}\addtolength{\linewidth}{-10zw}}{\par}
+\ProvideDocumentEnvironment{００}{}{\setlength{\parindent}{0zw}}{\par}
+\ProvideDocumentEnvironment{＋１}{}{\par\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{\par}
+\ProvideDocumentEnvironment{＋２}{}{\par\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
+\ProvideDocumentEnvironment{＋３}{}{\par\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\ProvideDocumentEnvironment{＋４}{}{\par\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\ProvideDocumentEnvironment{＋５}{}{\par\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\ProvideDocumentEnvironment{＋６}{}{\par\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\ProvideDocumentEnvironment{＋７}{}{\par\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\ProvideDocumentEnvironment{＋８}{}{\par\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\ProvideDocumentEnvironment{＋９}{}{\par\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
+\ProvideDocumentEnvironment{＋１０}{}{\par\addtolength{\leftskip}{10zw}\addtolength{\linewidth}{-10zw}}{\par}
 
-\newenvironment{０１}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{\par}
-\newenvironment{０２}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
-\newenvironment{０３}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
-\newenvironment{０４}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
-\newenvironment{０５}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
-\newenvironment{０６}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
-\newenvironment{０７}{\par\setlength{\parindent}{-7zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
-\newenvironment{０８}{\par\setlength{\parindent}{-8zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
-\newenvironment{１０}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{\par}
-\newenvironment{１１}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
-\newenvironment{１２}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
-\newenvironment{１３}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
-\newenvironment{１４}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
-\newenvironment{１５}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
-\newenvironment{１６}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
-\newenvironment{１７}{\par\setlength{\parindent}{-7zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
-\newenvironment{１８}{\par\setlength{\parindent}{-8zw}\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
-\newenvironment{１９}{\par\setlength{\parindent}{-9zw}\addtolength{\leftskip}{10zw}\addtolength{\linewidth}{-10zw}}{\par}
-\newenvironment{１・１０}{\par\setlength{\parindent}{-10zw}\addtolength{\leftskip}{11zw}\addtolength{\linewidth}{-11zw}}{\par}
-\newenvironment{２０}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
-\newenvironment{２１}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
-\newenvironment{２２}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
-\newenvironment{２３}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
-\newenvironment{２４}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
-\newenvironment{２５}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
-\newenvironment{２６}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
-\newenvironment{３０}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
-\newenvironment{３１}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
-\newenvironment{３２}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
-\newenvironment{３３}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
-\newenvironment{３４}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
-\newenvironment{３５}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
-\newenvironment{３６}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
-\newenvironment{４０}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
-\newenvironment{４１}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
-\newenvironment{４２}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
-\newenvironment{４３}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
-\newenvironment{４４}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
-\newenvironment{４５}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
-\newenvironment{４６}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{10zw}\addtolength{\linewidth}{-10zw}}{\par}
+\ProvideDocumentEnvironment{０１}{}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{\par}
+\ProvideDocumentEnvironment{０２}{}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
+\ProvideDocumentEnvironment{０３}{}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\ProvideDocumentEnvironment{０４}{}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\ProvideDocumentEnvironment{０５}{}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\ProvideDocumentEnvironment{０６}{}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\ProvideDocumentEnvironment{０７}{}{\par\setlength{\parindent}{-7zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\ProvideDocumentEnvironment{０８}{}{\par\setlength{\parindent}{-8zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\ProvideDocumentEnvironment{１０}{}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{1zw}\addtolength{\linewidth}{-1zw}}{\par}
+\ProvideDocumentEnvironment{１１}{}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
+\ProvideDocumentEnvironment{１２}{}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\ProvideDocumentEnvironment{１３}{}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\ProvideDocumentEnvironment{１４}{}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\ProvideDocumentEnvironment{１５}{}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\ProvideDocumentEnvironment{１６}{}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\ProvideDocumentEnvironment{１７}{}{\par\setlength{\parindent}{-7zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\ProvideDocumentEnvironment{１８}{}{\par\setlength{\parindent}{-8zw}\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
+\ProvideDocumentEnvironment{１９}{}{\par\setlength{\parindent}{-9zw}\addtolength{\leftskip}{10zw}\addtolength{\linewidth}{-10zw}}{\par}
+\ProvideDocumentEnvironment{１・１０}{}{\par\setlength{\parindent}{-10zw}\addtolength{\leftskip}{11zw}\addtolength{\linewidth}{-11zw}}{\par}
+\ProvideDocumentEnvironment{２０}{}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{2zw}\addtolength{\linewidth}{-2zw}}{\par}
+\ProvideDocumentEnvironment{２１}{}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\ProvideDocumentEnvironment{２２}{}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\ProvideDocumentEnvironment{２３}{}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\ProvideDocumentEnvironment{２４}{}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\ProvideDocumentEnvironment{２５}{}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\ProvideDocumentEnvironment{２６}{}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\ProvideDocumentEnvironment{３０}{}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{3zw}\addtolength{\linewidth}{-3zw}}{\par}
+\ProvideDocumentEnvironment{３１}{}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\ProvideDocumentEnvironment{３２}{}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\ProvideDocumentEnvironment{３３}{}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\ProvideDocumentEnvironment{３４}{}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\ProvideDocumentEnvironment{３５}{}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\ProvideDocumentEnvironment{３６}{}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
+\ProvideDocumentEnvironment{４０}{}{\par\setlength{\parindent}{0zw}\addtolength{\leftskip}{4zw}\addtolength{\linewidth}{-4zw}}{\par}
+\ProvideDocumentEnvironment{４１}{}{\par\setlength{\parindent}{-1zw}\addtolength{\leftskip}{5zw}\addtolength{\linewidth}{-5zw}}{\par}
+\ProvideDocumentEnvironment{４２}{}{\par\setlength{\parindent}{-2zw}\addtolength{\leftskip}{6zw}\addtolength{\linewidth}{-6zw}}{\par}
+\ProvideDocumentEnvironment{４３}{}{\par\setlength{\parindent}{-3zw}\addtolength{\leftskip}{7zw}\addtolength{\linewidth}{-7zw}}{\par}
+\ProvideDocumentEnvironment{４４}{}{\par\setlength{\parindent}{-4zw}\addtolength{\leftskip}{8zw}\addtolength{\linewidth}{-8zw}}{\par}
+\ProvideDocumentEnvironment{４５}{}{\par\setlength{\parindent}{-5zw}\addtolength{\leftskip}{9zw}\addtolength{\linewidth}{-9zw}}{\par}
+\ProvideDocumentEnvironment{４６}{}{\par\setlength{\parindent}{-6zw}\addtolength{\leftskip}{10zw}\addtolength{\linewidth}{-10zw}}{\par}
 
 \def\lphrases{\@ifnextchar<{\@lphrases}{\@lphrases<lr>}}
 \def\@lphrases<#1>{\@ifnextchar[{\@@lphrases<#1>}{\@@lphrases<#1>[l]}}
