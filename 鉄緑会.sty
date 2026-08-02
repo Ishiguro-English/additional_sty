@@ -577,7 +577,7 @@
 \newenvironment{kakubenu}{\begin{enumerate}\全番号付け変更{\ajKuroKaku}}{\end{enumerate}}%
 \let\marukaku\ajMaruKaku%
 \newenvironment{marukakuenu}{\begin{enumerate}\全番号付け変更{\ajMaruKaku}}{\end{enumerate}}%
-\def\kakko{\ajKakko}%
+\def\kakko#1{\ifthenelse{\equal{#1}{}}{\ajKakko0}{\ajKakko{#1}}}%
 \newenvironment{kakkoenu}{\begin{enumerate}\全番号付け変更{\ajKakko}}{\end{enumerate}}%
 \let\marukakub\ajKuroMaruKaku%
 \newenvironment{marukakubenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruKaku}}{\end{enumerate}}%
