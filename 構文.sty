@@ -43,9 +43,9 @@
   \endgroup
   }%
 }
-\newcounter{例文番号}
+%\newcounter{例文番号}
 \setcounter{例文番号}{1}
-\renewcommand{\ex}[2]{\br{.3}\見出しぶら下げ*{\quad\raisebox{-.2zw}{\tikz\node[fill=gray!60,ellipse,inner sep=0pt]{\texthti{Ex.\the例文番号}};}}{#1\par#2}\br{.3}\stepcounter{例文番号}}
+\renewcommand{\ex}[2]{\br{.3}\見出しぶら下げ*{\quad\raisebox{-.2zw}{\tikz\node[fill=gray!60,ellipse,inner sep=0pt]{$Ex.\the例文番号$};}}{#1\par#2}\br{.3}\stepcounter{例文番号}}
 \newenvironment{jq}{\begin{jquotation}[.3\baselineskip]}{\end{jquotation}}
 \newenvironment{jq*}{\br{.3}}{\br{.3}}
 \newcommand{\語注}[2][2]{\alt<\Star>[#1]{#2}}
@@ -54,3 +54,45 @@
 \newcommand{\Appendix}{\setcounter{hoibangou}{0}\twocolumn[\begin{asbox7}{Appendix}\end{asbox7}]~\br{-1}}
 \newenvironment{例題}[2][]{\begin{太い枠囲み}[#1]{#2}\begin{choubun}}{\end{choubun}\end{太い枠囲み}\br1\ノート}
 \newcommand{\宿題解説}{\begin{asbox7}{宿題解説}\end{asbox7}}
+
+\renewcommand{\mru}[2][]{%
+  \jghostguarded{% 前後に和文ゴースト挿入
+  \begingroup
+  \setkeys{品詞}{#1}%
+  \pgfmathparse{0.9*\f@size}\edef\品詞@fontsize{\pgfmathresult}%
+  \pgfmathparse{0.15*\f@size}\edef\品詞@roundedcorners{3.5*\pgfmathresult}%
+  \pgfmathparse{0.04*\f@size}\edef\品詞@linewidth{2*\pgfmathresult}%
+  \pgfmathparse{0.1*\f@size}\edef\品詞@innersep{\pgfmathresult}%
+  \pgfmathparse{1.1*\f@size}\edef\品詞@minimumwidth{\pgfmathresult}%
+  \ifydir
+    \def\品詞@node{\vphantom{あ}#2}%
+  \else
+    \def\品詞@node{\mbox{\tate\vphantom{あ}#2}}%
+  \fi
+  \mbox{\yoko
+  \begin{tikzpicture}[baseline=(A.base),font=\normalsize]
+    \node[draw=red!50!orange, rectangle, rounded corners=\品詞@roundedcorners pt,
+          text=\cmdKV@品詞@text,
+          %fill=\cmdKV@品詞@fill,
+          fill opacity=1,%
+          line width=\品詞@linewidth pt,
+          inner sep=\品詞@innersep pt, outer sep=0pt,
+          minimum width=\品詞@minimumwidth pt,
+          ] (A) {\品詞@node};
+  \end{tikzpicture}}%
+  \endgroup
+  }%
+}
+
+\newtcolorbox{kaisou1}[1]{enhanced,breakable,title=#1,colframe=red!50!black,colback=white,fonttitle={\gtfamily[5]},before upper=\段落下げ}
+\newtcolorbox{kaisou2}[1]{enhanced,breakable,title=#1,colframe=green!50!black,colback=white,fonttitle={\gtfamily[5]},before skip=1zw,before upper=\段落下げ}
+\newtcolorbox{kaisou3}[1]{enhanced,breakable,title=#1,colframe=orange!50!black,colback=white,fonttitle={\gtfamily[5]},before skip=1zw,before upper=\段落下げ}
+\newcommand{\penA}[1]{\下線[position=.4zw,width=1.2zw,color=magenta!35,background]{#1}}
+\newcommand{\penB}[1]{\下線[position=.4zw,width=1.2zw,color=orange!90,background]{#1}}
+\newcommand{\penC}[1]{\下線[position=.4zw,width=1.2zw,color=yellow!80!orange,background]{#1}}
+\newcommand{\penD}[1]{\下線[position=.4zw,width=1.2zw,color=lightgreen,background]{#1}}
+\newcommand{\penE}[1]{\下線[position=.4zw,width=1.2zw,color=green!80!cyan!60,background]{#1}}
+\newcommand{\penF}[1]{\下線[position=.4zw,width=1.2zw,color=cyan,background]{#1}}
+\newcommand{\penG}[1]{\下線[position=.4zw,width=1.2zw,color=lightblue!80!blue!80!cyan,background]{#1}}
+\newcommand{\penH}[1]{\下線[position=.4zw,width=1.2zw,color=blue!60!purple!40,background]{#1}}
+\newcommand{\penI}[1]{\下線[position=.4zw,width=1.2zw,color=magenta!70!cyan!50,background]{#1}}

@@ -32,13 +32,13 @@
   \endcsname
   {#2}%
 }
-%\xx{\gt}{textcommandwithoption}
+\let\originalgtfamily\gtfamily
 \renewcommand{\gtfamily}[1][4]{%
   \csname HiraKakuW%
     \ifcase#1Zero\or One\or Two\or Three\or Four\or Five\or Six\or Seven\or Eight\or Nine\fi
   family\endcsname
 }
-%\AddCommandInUline*\gtfamily[1][n]{}
+\renewcommand{\bgtfamily}{\originalgtfamily\bfseries\mathversion{bold}}
 % 基本設定------------------------------------------------------------------------------------
 \番号付け変更[1]{\ajKaku}\番号付け変更[2]{\ajMaru}\番号付け変更[3]{\ajKakkoalph}%
 \番号付き箇条書きの空白設定(0pt)<0zw>[1zw]{1.5zw}{1zw}%
