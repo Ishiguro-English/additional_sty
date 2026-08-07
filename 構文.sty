@@ -96,3 +96,16 @@
 \newcommand{\penG}[1]{\下線[position=.4zw,width=1.2zw,color=lightblue!80!blue!80!cyan,background]{#1}}
 \newcommand{\penH}[1]{\下線[position=.4zw,width=1.2zw,color=blue!60!purple!40,background]{#1}}
 \newcommand{\penI}[1]{\下線[position=.4zw,width=1.2zw,color=magenta!70!cyan!50,background]{#1}}
+
+\def\先行詞#1{%
+  \tikz[remember picture,baseline=(A.base)]%
+    \node[inner sep=0pt, outer sep=0pt, black,thick] (A) {\下線{\vphantom{hp}#1}};%
+}
+\providecommand*\関係詞[2][0pt]{%
+  \tikz[remember picture,baseline=(B.base)]%
+    \node[inner sep=0pt, outer sep=0pt, black,thick] (B) {\下線{\vphantom{hp}#2}};%
+  \tikz[overlay,remember picture,black,thick,>=stealth]{%
+    \draw[black,thick,->] (B) -- ++(0,-1.2em) -| ($(A.south) + (#1,0pt)$)%
+        node[below, near start] {};%
+  }%
+}

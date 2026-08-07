@@ -1,0 +1,9 @@
+PWD /usr/local/tetex/share/texmf/ptex/platex/tetsutex/additional_sty/l3packages
+INPUT /usr/local/teTeX/share/texmf/web2c/texmf.cnf
+INPUT /usr/local/teTeX/share/texmf/web2c/texmf.cnf
+INPUT /usr/local/teTeX/share/texmf-var/web2c/uplatex.fmt
+INPUT xfp.ins
+OUTPUT xfp.log
+INPUT /usr/local/teTeX/share/texmf-dist/tex/latex/base/docstrip.tex
+INPUT xfp.dtx
+OUTPUT ./xfp.sty

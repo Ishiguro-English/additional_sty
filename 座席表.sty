@@ -1,0 +1,67 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{座席表}[2026/08/06, ver.1.0.0]
+
+\RequirePackage{graphicx}
+\RequirePackage{varwidth}
+\RequirePackage{xfp}
+
+\newsavebox{\AutoResizeBox}
+
+\makeatletter
+
+\newenvironment{AutoResize}[2]{%
+  \def\AutoResizeWidth{#1}%
+  \def\AutoResizeHeight{#2}%
+  \begin{lrbox}{\AutoResizeBox}%
+  \begin{varwidth}{1000pt}%
+}{%
+  \end{varwidth}%
+  \end{lrbox}%
+  \AutoResizeScale
+}
+
+\newcommand{\AutoResizeScale}{%
+  \dimen0=\wd\AutoResizeBox
+  \dimen2=\dimexpr\ht\AutoResizeBox+\dp\AutoResizeBox\relax
+
+  \dimen4=\AutoResizeWidth
+  \dimen6=\AutoResizeHeight
+
+  \edef\ARScale{%
+    \fpeval{
+      min(
+        \strip@pt\dimen4/\strip@pt\dimen0,
+        \strip@pt\dimen6/\strip@pt\dimen2
+      )
+    }
+  }%
+
+  \scalebox{\ARScale}{\usebox{\AutoResizeBox}}%
+}
+
+\makeatother
+
+\newcommand{\教室番号}[1]{\def\教室番号出力{#1}}
+\newcommand{\クラス名}[1]{\def\クラス名出力{#1}}
+\newcommand{\授業日付}[1]{\def\授業日付出力{#1}}
+
+\newcommand{\上部出力}{%
+  \bgtfamily\noindent{\HUGE\教室番号出力 教室}\ihspace{3zw}\下線{\large クラス名：\makebox[10zw][c]{\LARGE\クラス名出力}授業日：\makebox[7zw][c]{\LARGE\授業日付出力}}\br{.5}
+  \ihspace{2zw}\fbox{\makebox[45.3zw][c]{ホワイトボード}}\br{.5}
+  \begin{center*}\begin{AutoResize}{\linewidth}{21zw}
+}
+\newcommand{\下部出力}{%
+  \end{AutoResize}\end{center*}\br{-.5}
+  \vfill\gtfamily\noindent 各自，自分の名前の座席に着席して授業を受けること。\\[-5pt]自分の名前がない場合，空席に着席し，授業開始時に担当講師に申し出ること。
+}
+\fboxsep=1pt
+\newlength{\氏名長}
+\newcounter{列数}
+\setcounter{列数}{1}
+\newcommand{\列間空行}[1]{\def\列間空行数{\br{#1}}}
+\newcommand{\机}[2]{\mbox{\settowidth{\large\氏名長}{#1}\fbox{\makebox[3.5zw][c]{\large\vphantom{あ}\ifthenelse{\lengthtest{\the\氏名長>3.5zw}}{\resizebox{3.5zw}{.88zw}{#1}}{#1}}}\hspace{-.5pt}\settowidth{\large\氏名長}{#2}\fbox{\makebox[3.5zw][c]{\large\vphantom{あ}\ifthenelse{\lengthtest{\the\氏名長>3.5zw}}{\resizebox{3.5zw}{.88zw}{#2}}{#2}}}}}
+\newcommand{\横列}[1]{\mbox{\raisebox{.2zw}{\gt{\scriptsize\makebox[1zw][r]{\the列数}\:\:\!列目\ }}#1}\列間空行数\stepcounter{列数}}
+
+
+\AfterEndPreamble{\上部出力}
+\pretocmd{\enddocument}{\下部出力}{}{}
