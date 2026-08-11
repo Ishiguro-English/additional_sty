@@ -1,0 +1,461 @@
+%!TEX root = 補充プリント.tex
+
+\usepackage{tetsuryoku}
+\pagestyle{fancy}
+
+\余白設定[
+上余白=1truecm,
+下余白=上余白,
+左余白=1.414truecm,
+左右差=0truecm,
+段間隔=3zw,
+段組の仕切り線の太さ=.5truept,
+ヘッダの縦幅=16truept,
+ヘッダ下端と本文上端の縦間隔=10truept,
+ヘッダと本文を仕切る線の太さ=0truept,
+本文下端とフッタ下端の縦間隔=20truept,
+本文とフッタを仕切る線の太さ=0truept,
+傍注領域の幅=0truept,
+本文端と傍注領域との間隔=0truept,
+傍注同士の縦間隔=\baselineskip,
+奇数ページの傍注位置=右,
+偶数ページの傍注位置=左,
+]
+
+%%%%%%%%%%%%%%%%%%%%%%% イジらないコマンド
+
+%\段組の仕切り線変更{\これでvfil{\支柱*[.75pt]{\rule{.75pt}{.75pt}}}}
+%
+%\renewcommand{\headrule}{\br{-.6}\hbox to\headwidth{\これでhfil{\hspace{1.2pt}\rule{.75pt}{.75pt}}}}
+%\renewcommand{\footrule}{\br{.5}\hbox to\headwidth{\これでhfil{\hspace{1.2pt}\rule{.75pt}{.75pt}}}}
+
+\makeatletter
+\newcommand{\ind}{\@ifstar{\@ind}{\@@ind}} % * をつけると同ページに収める
+
+\newcommand{\@ind}[5][0]{%
+\begin{同ページに収める}\parindent=1zw
+\begin{jquotation}(#2zw+#3zw)(#1zw)
+\hspace{-\parindent}\hspace{-#3zw}\makebox[1zw+#3zw][l]{#4}\inhibitglue#5
+\end{jquotation}%
+\end{同ページに収める}%
+}
+
+\newcommand{\@@ind}[5][0]{%
+\begin{jquotation}(#2zw+#3zw)(#1zw)\parindent=1zw
+\hspace{-\parindent}\hspace{-#3zw}\makebox[1zw+#3zw][l]{#4}\inhibitglue#5
+\end{jquotation}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%% パス設定
+
+\def\回読み込み#1{%
+\graphicspath{{./#1/pdf/}}%
+\input{#1/H1_#1}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%% 表紙コマンド
+
+\newcounter{回番号}
+\setcounter{回番号}{0}
+\newcommand{\回タイトル}{}
+
+%%%%%%%%%%%%%%%%%%%%%%% ヘッダ・フッタ
+
+%\fancyhead[OL]{\footnotesize\mgfamily \クラス\ihspace{1zw}基礎講座第{\Large{\tetsuarabic{回番号}}}回\ihspace{1zw}\回タイトル\ihspace{1zw}}
+%\fancyhead[ER]{\footnotesize\mgfamily \クラス\ihspace{1zw}基礎講座第{\Large{\tetsuarabic{回番号}}}回\ihspace{1zw}\回タイトル\ihspace{1zw}}
+%\cfoot{\footnotesize\mgfamily −\arabic{page}−}% この行が無いと勝手にフッタ中央にページ番号が出力される
+%
+%%%%%%%%%%%%%%%%%%%%%%% 例題解説用コマンド
+
+%%% 改行
+
+\def\ssp{\br{.1}}
+\def\sp{\br{.2}}
+\def\spp{\br{.5}}
+\def\msp{\br{-.5}}
+\def\mpp{\br{-1}}
+
+%%% 指針
+
+\newcommand{\ししん}[1]{\noindent\shadowbox{\mg{#1指針}}}
+\newcommand{\指針}{\noindent\shadowbox{\mg{指針}}}
+\newcommand{\別解指針}{\noindent\shadowbox{\mg{別解指針}}}
+\newcommand{\別解１指針}{\noindent\shadowbox{\mg{別解１指針}}}
+\newcommand{\別解２指針}{\noindent\shadowbox{\mg{別解２指針}}}
+
+%%% 標題
+
+\def\nagasen{
+\br{-.5}
+\cdotsfill
+}
+
+\newcommand{\小問解説}[1]{
+\noindent \gt{\large ◆ \ajKakko#1 について}
+\noindent\nagasen
+\sp}
+
+\newcommand{\小問解説２}[1]{
+\noindent \gt{\large ◆ #1 について}
+\nopagebreak%
+\noindent\nagasen%
+\sp%
+}
+
+\def\三角{\noindent\▲\ihspace{1zw}}
+
+\def\講評段落{\noindent \△\ihspace{1zw}}
+
+\newcommand{\小見出し}[1]{\noindent\begin{tikzpicture}[scale=.45]
+\filldraw[fill=black!80!white,draw=black!80!white](0,0) -- (0,1) -- (0.86,0.5) -- cycle;
+\filldraw[fill=black!60!white,draw=black!60!white](0.86,0) -- (0.86,1) -- (1.72,0.5) -- cycle;
+\filldraw[fill=black!40!white,draw=black!40!white](1.72,0) -- (1.72,1) -- (2.58,0.5) -- cycle;
+\draw[black,line width=.7pt,dotted](0,-0.2) -- +(19.7,0);
+\hamidasi(4.7zw,.24zw)[l]{\large\gt{#1}}
+\end{tikzpicture}}
+
+\renewcommand{\見出し}[1]{\noindent \gt{【#1】}}
+
+\newcommand{\標題}[1]{\noindent ■ \ihspace{0.5zw}\強調{#1}%
+\par%
+\nopagebreak%
+}
+
+\newcommand{\定石}[1]{\noindent \強調{★\ihspace{.5zw}#1}%
+\par%
+\nopagebreak}
+
+\newcommand{\発想}[1]{\noindent \強調{●\ihspace{.5zw}#1}%
+\par%
+\nopagebreak}
+
+\newcommand{\参考}[1]{\noindent \強調{※\ihspace{.5zw}#1}%
+\par%
+\nopagebreak}
+
+
+\newcommand{\メモ}{\br{.5}\noindent\img(3zw,*){指針マーク.pdf}\ihspace{.2zw}{\color[gray]{0.70}\rule[3pt]{\linewidth-3.2zw}{4pt}\\[-21pt]%
+\hfill\rule[2pt]{\linewidth-3.2zw}{.5pt}}
+\br{-1.6}
+\hfill\raisebox{-3pt}{\color[gray]{0.50}\large\texthtbi{Note}}\br{1.2}}
+
+%%% ポイント
+
+\renewcommand{\強調}[1]{\textmg{\下線{#1}}}% \強調 を，下線＋丸ゴシックに変更 
+
+\newcommand{\カラーポイント}[2]{
+\begin{組カラーボックス}{KEY}{#1}
+\mgfamily #2
+\end{組カラーボックス}
+}
+
+\newcommand{\チェックポイント}[2]{
+\begin{組カラーボックス}{CHECK}{#1のポイント}
+\mgfamily #2
+\end{組カラーボックス}
+}
+
+\newcommand{\ポイント}[1]{
+\par\br{.5}
+\begin{rectbox}[rectboxoval=2pt,backgroundcolor=gray!20,framecolor=black,framethickness=1pt,fboxsep=6pt]
+\parindent=1zw \mgfamily #1
+\end{rectbox}
+\par\br{.5}}
+
+
+%%% 枠囲み
+
+\newenvironment{点線囲み}{%
+\par\br{-.5}
+\begin{長い点線枠囲み}\raggedright\br{-.2}
+}{\br{-.2}\end{長い点線枠囲み}\par\br{-.5}\par}
+
+\newcommand{\手書き}[3]{\ifthenelse{\equal{\出力形式}{講師用}}
+{\begin{breakleftbar}
+
+\内容があれば出力{#1}{\見出し{#1}}
+
+#2
+
+\end{breakleftbar}}
+{\begin{breakleftbar}
+
+\内容があれば出力{#1}{\見出し{#1}}
+
+#3
+
+\end{breakleftbar}}}
+
+\newenvironment{箇条書き}{\bgroup\番号付き箇条書きの空白設定 [.3zw]{2zw}{0zw}\begin{enumerate}[・]
+}{\end{enumerate}\egroup}
+
+\newcommand{\補充問題}[1]{
+\stepcounter{補充問題番号}
+\begin{枠囲み}{補充問題\tetsuarabic{例題番号}−\tetsuarabic{補充問題番号}}
+#1 
+\end{枠囲み}}
+
+\newcommand{\補充出典}[1]{\sp\footnotesize\mg{\右寄せ{【出典】#1}}}
+
+%%% 高２数学の出典 ショートカットver.
+
+\newcommand{\数学出典１}[2]{\sp\footnotesize\mg{\右寄せ{【出典】高２数学第\単発tetsuarabic{#1}回「\高２数学タイトル{#1}」例題\単発tetsuarabic{#2}}}}
+
+\newcommand{\数学出典２}[2]{\sp\footnotesize\mg{\右寄せ{【出典】高２数学第\単発tetsuarabic{#1}回「\高２数学タイトル{#1}」練習\単発tetsuarabic{#2}}}}
+
+\newcommand{\数学出典３}[2]{\sp\footnotesize\mg{\右寄せ{【出典】高２数学第\単発tetsuarabic{#1}回「\高２数学タイトル{#1}」問題\単発tetsuarabic{#2}}}}
+
+\newcommand{\数学出典４}[1]{\sp\footnotesize\mg{\右寄せ{【出典】高２数学 Test Seminar 第\単発tetsuarabic{#1}回}}}
+
+%%% 高２数Ⅲの出典 ショートカットver.
+
+\newcommand{\数Ⅲ出典１}[2]{\sp\footnotesize\mg{\右寄せ{【出典】高２数\ajRoman3実戦第\単発tetsuarabic{#1}回「\高２数Ⅲタイトル{#1}」例題\単発tetsuarabic{#2}}}}
+
+\newcommand{\数Ⅲ出典２}[2]{\sp\footnotesize\mg{\右寄せ{【出典】高２数\ajRoman3実戦第\単発tetsuarabic{#1}回「\高２数Ⅲタイトル{#1}」練習\単発tetsuarabic{#2}}}}
+
+\newcommand{\数Ⅲ出典３}[2]{\sp\footnotesize\mg{\右寄せ{【出典】高２数\ajRoman3実戦第\単発tetsuarabic{#1}回「\高２数Ⅲタイトル{#1}」問題\単発tetsuarabic{#2}}}}
+
+\newcommand{\数Ⅲ出典４}[1]{\sp\footnotesize\mg{\右寄せ{【出典】高２数\ajRoman3実戦 Test Seminar 第\単発tetsuarabic{#1}回}}}
+
+\newcommand{\予習振り返り}[1]{
+
+\noindent{\mg{【予習段階で気付かなかったこと】}}
+\br{-.5}
+\begin{boxnote}
+\breaklines{#1}
+\end{boxnote}
+}
+
+\newenvironment{見出し付き点線段落}[1][デフォルト見出し]
+{\par\br{.1}\noindent\cdotsfill\gt{【#1】}\cdotsfill\par}{\par\noindent\cdotsfill\par\br{.1}}
+
+
+\newcommand{\解答}[1]{\begin{breakleftbar}
+\見出し{解答}
+
+#1
+
+\end{breakleftbar}}
+
+\newcommand{\別解}[2]{\begin{答案段落}{別解#1}
+#2
+\end{答案段落}
+}
+
+\newcommand{\補遺}[1]{
+\begin{columnbox3}{\textzap{\下線{Appendix}}}
+\par
+{\noindent\hfil\large\gt{\下線{#1}}}
+\end{columnbox3}
+}
+
+%%% 数式
+
+\def\同値{\Leftrightarrow}
+\def\極形式{\@ifnextchar[{\@極形式}{\@極形式[+]}}
+\def\@極形式[#1]#2#3{%
+\ifthenelse{\equal{#2}{1}}{\cos{#3}#1i\sin{#3}}{#2\left( \cos{#3}#1 i\sin{#3}\right)}%
+}
+
+\newcommand{\合同}[2]{\equiv #1\ (\mathrm{mod}\,#2)}
+\newcommand{\合同式}[3]{#1\equiv #2\ (\mathrm{mod}\,#3)}
+
+
+%%% 講評用コマンド
+
+\newcommand{\復習テスト}{\noindent\shadowbox{\mg{復習テスト}}}
+\newcommand{\計算テスト}{\noindent\shadowbox{\mg{計算テスト}}}
+\newcommand{\計算ドリル}{\noindent\shadowbox{\mg{計算ドリル}}}
+\newcommand{\総復習テスト}{\noindent\shadowbox{\mg{総復習テスト}}}
+
+
+%%% アンケート返信
+
+\newcommand{\質問}[1]{\見出しぶら下げ*{・}{#1}}
+
+\newcommand{\答え}[1]{\br{.5}\begin{jquotation}(1zw)[0pt]
+\見出しぶら下げ*{\→\ihspace{1zw}}{\small\mg{#1}}
+\end{jquotation}\br1}
+
+\newcommand{\ぼやき}[1]{\fuiji{\small{#1}}}
+\newcommand{\komoji}[1]{\フォントサイズ{6}{#1}}
+
+%\newcommand{\クラス１}{\noindent\shadowbox{\mg{高2数\ajRoman31}}}
+%\newcommand{\クラス２}{\noindent\shadowbox{\mg{高2数学R3}}}
+%\newcommand{\講評１}{\noindent\shadowbox{\mg{2019年度高2数\ajRoman31・5成績データ}}}
+%\newcommand{\講評２}{\noindent\shadowbox{\mg{2018年度高2数\ajRoman33・5成績データ}}}
+%\newcommand{\講評３}{\noindent\shadowbox{\mg{2016年度高2数\ajRoman34成績データ}}}
+
+\def\氏名表示{\@ifstar{\@氏名表示}{\@@氏名表示}}
+\def\@氏名表示#1{○○ ○○}
+\def\@@氏名表示#1{#1}
+
+%%% 連絡事項
+
+\newcommand{\hyoudai}[1]{\ascboxB{\mg{#1}}}
+
+\def\宿題{\begin{枠囲み}{宿題}
+\begin{enumerate}[\Kaku{enumi}]
+\item \gt{例題２週分（第\カウンタ出力[\tetsuarabic](x-1){回番号}回・第\カウンタ出力[\tetsuarabic](x){回番号}回）}
+\item \gt{計算テストの予習}（満点が取れるなら見るだけでOK）
+\item \gt{問題集A・B・C問題}
+\item \gt{問題集の間違え直し}
+\item \gt{計算ドリル４枚}
+\end{enumerate}
+\end{枠囲み}}
+
+%%%%%%%%%%%%%%%%%%%%%%% いつ使うか分からないコマンド
+
+\newcommand{\SUB}[1]{_{_{\mathrm{#1}}}}
+
+\newcommand{\参照}[1]{\hfill\白右矢印\ \mg{#1}}
+
+\newcommand{\あな}[1]{\下線{\支柱[13pt]{}\ihspace{#1zw}}}
+
+\def\式番号#1{\ensuremath{\text{　……\ajMaru{#1}}}}
+
+\newenvironment{補充解答}{\begin{breakleftbar}\noindent \強調{解答}\par}{\end{breakleftbar}\br{.5}}
+
+%%% 顔文字設定
+
+
+\def\トランプ{$\heartsuit\diamondsuit\spadesuit\clubsuit$}
+%以下，単体で使うには向かないパーツ
+\def\パーツ目{\rule[6pt]{1.5pt}{4pt}}
+\def\パーツほっぺ{\斜体{\rule[2.5pt]{2pt}{2pt}}}
+\def\パーツ口{\scalebox{.5}[.8]{$\smile$}}
+%以下，よく使う顔文字
+\def\にこ{（\hspace{.3zw}\パーツ目\hspace{.2zw}\scalebox{.8}[1]{$\smile$}\hspace{.2zw}\パーツ目\hspace{.3zw}）}
+\def\しゅん{\mtt{(>\_<)}}
+\def\あせ{\mtt{(\^\^;)}}
+\def\なみだ{\mtt{(;\_;)}}
+\def\ちび{\mtt{(\^\^)}}
+\def\じょし{\mtt{(*\^\^*)}}
+\def\くちまる{\mtt{(*\^o\^*)}}
+\def\おわた{\mtt{＼(\^o\^)／}}
+\def\いぇい{\mtt{*\\(\^o\^)/*}}
+\def\ぷんすか{（・$\frown$・）}
+\def\うーぱー{（・$\smile$・）}
+\def\るーぱー{（＾$\smile$＾）}
+\def\にやり{（￣$\smile$￣）}
+\def\むむむ{（￣$\frown$￣）}
+\def\あおり{\scalebox{.7}[1]{\reflectbox{\ajUpHand} \hspace{-.4zw}（＾$\smile$＾）\ajUpHand}}
+\def\煽り文章{\everypar{\あおり}}%これはおまけ
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ここからデザイン関係のデザイン
+
+%\def\小見出し#1#2{\noindent\begin{tikzpicture}[scale=.45]
+%\filldraw[fill=black!80!white,draw=black!80!white](0,0) -- (0,1) -- (0.86,0.5) -- cycle;
+%\filldraw[fill=black!60!white,draw=black!60!white](0.86,0) -- (0.86,1) -- (1.72,0.5) -- cycle;
+%\filldraw[fill=black!40!white,draw=black!40!white](1.72,0) -- (1.72,1) -- (2.58,0.5) -- cycle;
+%\draw[black,line width=.7pt,dotted](0,-0.2) -- +(19.5,0);
+%\hamidasi(#1zw,.24zw){\large\gt{#2}}
+%\end{tikzpicture}}
+%
+%\def\小見出し長#1#2{\noindent\begin{tikzpicture}[scale=.45]
+%\filldraw[fill=black!80!white,draw=black!80!white](0,0) -- (0,1) -- (0.86,0.5) -- cycle;
+%\filldraw[fill=black!60!white,draw=black!60!white](0.86,0) -- (0.86,1) -- (1.72,0.5) -- cycle;
+%\filldraw[fill=black!40!white,draw=black!40!white](1.72,0) -- (1.72,1) -- (2.58,0.5) -- cycle;
+%\draw[black,line width=.7pt,dotted](0,-0.2) -- +(41,0);
+%\hamidasi(#1zw,.24zw){\large\gb{#2}}
+%\end{tikzpicture}}
+
+\newtcolorbox{howtousebox}[1]{empty,height fill,attach boxed title to top left={yshift*=-1.3cm},
+underlay={\draw[thick,dotted] (frame.north west) -- (frame.north east);
+\draw[thick,dotted] ([yshift=-1mm]frame.north west) -- ([yshift=-1mm]frame.north east);
+\draw[thick,dotted] (frame.south west) -- (frame.south east);
+\draw[thick,dotted] ([yshift=-1mm]frame.south west) -- ([yshift=-1mm]frame.south east);
+},
+fonttitle={\Huge},title={\tsubasa{#1}},boxed title style={left=0mm},coltitle=black}
+
+\DeclareTColorBox{largetitle1}{ m }%
+{empty,attach boxed title to top left={yshift=-.8cm},halign=flush right,fontupper=\gtfamily\Large,top=0mm,bottom=.5mm,
+fonttitle={\Large},title={#1},coltitle=black,
+underlay={\draw[gray,line width=3pt] (title.north west) -- (title.north east) -- ([xshift=-13cm]frame.south east) -- (frame.south east);}}
+
+\DeclareTColorBox{middletitle1}{ m }%
+{empty,attach boxed title to top left={yshift=-\tcboxedtitleheight+.3mm},top=0mm,bottom=0mm,left=\tcboxedtitlewidth+3mm,title={#1},coltitle=black,fontupper={\large\gtfamily},fonttitle={\large\gtfamily},
+underlay={\draw[gray!80!black,line width=1.5pt] (title.north west) -- (title.north east) -- (title.south east);},
+boxed title style={top=0mm,right=0mm,left=0mm,bottom=0mm}}
+
+\newtcolorbox{columnbox1}[1]{empty,coltext=white,coltitle=black,left skip=5mm,
+attach boxed title to top left={xshift=-5mm,yshift*=-\tcboxedtitleheight/2},
+interior code={%
+\fill[gray](frame.north west) -- ([xshift=-2mm,yshift=-2.5mm]frame.north east) -- ([yshift=1mm]frame.south east) -- ([xshift=-2mm,yshift=-2mm]frame.south west) -- cycle;
+},boxed title style={%
+overlay={%
+\fill[gray!30!white]([xshift=-1mm,yshift=1mm]frame.north west) -- (frame.north east) -- ([xshift=-1mm,yshift=-.7mm]frame.south east) -- (frame.south west) -- cycle;
+}},fonttitle={\large\gtfamily},
+title={#1}}
+
+\newtcolorbox{columnbox2}[1]{empty,breakable,top=0mm,left=0mm,coltitle=black,left skip=2.5cm,right=0mm,
+attach boxed title to top left={xshift=-2.5cm,yshift=-\tcboxedtitleheight},boxed title style={colback=white,underlay={%
+\fill[black!70!white]([xshift=-1mm,yshift=1mm]frame.north west) -- ([xshift=2.3cm,yshift=1mm]frame.north west) -- ([xshift=2.3cm,yshift=-7mm]frame.south west) -- ([xshift=-1mm,yshift=-7mm]frame.south west) -- cycle;
+\fill[white](frame.north west) -- (frame.north east) -- (frame.south east) -- (frame.south west) -- cycle;
+}},
+title={#1}}
+
+\newtcolorbox{columnbox3}[1]{empty,breakable,left skip=7mm,left=0mm,top=6mm,coltitle=black,
+topsep at break={-5mm},
+underlay unbroken and first={%
+\fill[gray!50!white]([xshift=-7mm]frame.north west) node[anchor=west,xshift=1mm,yshift=-3mm,black]{\large\gt{#1}} -- ([xshift=-3mm]frame.north west) -- ([xshift=-3mm]frame.south west) -- ([xshift=-7mm]frame.south west) -- cycle;
+},
+underlay middle and last={%
+\fill[gray!50!white]([xshift=-7mm]frame.north west) -- ([xshift=-3mm]frame.north west) -- ([xshift=-3mm]frame.south west) -- ([xshift=-7mm]frame.south west) -- cycle;
+}}
+
+\newtcolorbox{columnbox4}[1]{empty,breakable,borderline={.75pt}{0pt}{black,dotted},sharp corners,before={\br{.5}\noindent},
+underlay unbroken and first={%
+\path (frame.north west) node[anchor=north,xshift=-1mm,yshift=1mm,fill=black!70!white,draw=white]{\rotatebox{90}{\color{white}\ \ #1\ \ }};}}
+
+\newtcolorbox{columnbox5}[1]{empty,breakable,top=0mm,left=0mm,coltitle=black,left skip=2.5cm,coltitle=white,before={\br1\noindent},
+attach boxed title to top left={xshift=-2.5cm,yshift=-\tcboxedtitleheight},boxed title style={colback=gray,underlay={%
+\fill[black!50!gray,rounded corners=7pt](frame.north west) -- (frame.north east) -- (frame.south east) -- (frame.south west) -- cycle;
+}},
+underlay unbroken={\draw[very thick]([yshift=2mm]title.north west) -- ([yshift=2mm]title.north east-|frame.east);
+\draw[very thick](frame.south west-|title.west) -- (frame.south east);},
+underlay first={\draw[very thick]([yshift=2mm]title.north west) -- ([yshift=2mm]title.north east-|frame.east);},
+underlay last={\draw[very thick](frame.south west-|title.west) -- (frame.south east);},
+title={#1}}
+
+\newtcolorbox{columnbox6}[1]{enhanced,breakable,attach boxed title to top left={xshift=1cm,yshift*=-\tcboxedtitleheight/2},colbacktitle=black!75!white,arc=7mm,boxed title style={%
+underlay={%
+\fill[black!75!white,rounded corners=15pt](frame.north west) -- (frame.north east) -- (frame.east) -- (frame.south east) -- (frame.south west) -- (frame.west) -- cycle;
+}},
+fonttitle={\gtfamily},title={#1}}
+
+\newtcbox{middletitleA}[1]{empty,coltitle=black,top=0mm,bottom=0mm,left=6mm,attach boxed title to top left={xshift=3mm},
+underlay={\draw[very thick,fill=gray!50!white,draw=black!85!white](frame.south west) -- (frame.south west|-title.north) -- ++ (3mm,0) -- ([xshift=3mm]frame.south west) -- cycle;
+\draw[very thick,gray]([xshift=-6mm]title.south west) -- ([xshift=30pt]title.south west-|frame.east);
+\draw[fill=black!70!white]([xshift=30pt,yshift=-1mm]title.south west-|frame.east) rectangle ++ (2mm,2mm);},
+title={#1},fonttitle={}}
+
+\newtcbox{smalltitleA}[1]{empty,left=7.5mm,bottom=.5mm,
+underlay={%
+\fill[black!70!white] (frame.south west) rectangle ++ (8.5mm,8.5mm);
+\fill[white] ([xshift=.5mm,yshift=.5mm]frame.south west) rectangle ++ (7.5mm,7.5mm);
+\fill[black!70!white] ([xshift=1mm,yshift=1mm]frame.south west) rectangle ++ (6.5mm,6.5mm);
+\path ([xshift=4.25mm,yshift=4.25mm]frame.south west) node[white]{\LARGE{#1}};
+\draw[black!70!white] ([xshift=8.5mm,yshift=1.5mm]frame.south west) -- ([xshift=30pt,yshift=1.5mm]frame.south east);
+}}
+
+
+\newtcbox{smalltitleB}[1]{empty,left=7.5mm,bottom=2mm,
+underlay={%
+\draw[very thick,black!80!white] (frame.south west) -- ++ (0mm,8.5mm) -- ++ (8.5mm,0mm) -- ++ (0mm,-8.5mm) -- cycle;
+\fill[black!80!white] (frame.south west) -- ++ (0mm,2.5mm) -- ++ (2.5mm,-2.5mm) -- cycle;
+\fill[black!80!white] ([yshift=8.5mm]frame.south west) -- ++ (2.5mm,0mm) -- ++ (-2.5mm,-2.5mm) -- cycle;
+\fill[black!80!white] ([xshift=8.5mm]frame.south west) -- ++ (-2.5mm,0mm) -- ++ (2.5mm,2.5mm) -- cycle;
+\fill[black!80!white] ([xshift=8.5mm,yshift=8.5mm]frame.south west) -- ++ (0mm,-2.5mm) -- ++ (-2.5mm,2.5mm) -- cycle;
+\draw[gray!50!white] ([xshift=.4mm,yshift=.4mm]frame.south west) -- ++ (0mm,7.7mm) -- ++ (7.7mm,0mm) -- ++ (0mm,-7.7mm) -- cycle;
+\path ([xshift=4.25mm,yshift=4.25mm]frame.south west) node[black!80!white]{\LARGE{#1}};
+\draw[very thick,black!70!white] ([xshift=8.5mm,yshift=2.5mm]frame.south west) -- ([xshift=30pt,yshift=2.5mm]frame.south east);
+\draw[black!70!white] ([xshift=8.5mm,yshift=1.8mm]frame.south west) -- ([xshift=30pt,yshift=1.8mm]frame.south east);
+}}
+
+\DeclareTCBox{\ascboxB}{ O{} }%
+{empty,top=0mm,bottom=0mm,right=-1mm,
+underlay={%\draw[very thick,draw=gray] ([yshift=.7mm,xshift=3mm]frame.south west) -- ([yshift=.7mm]frame.south east);
+\draw[thick, black!70!white] (frame.north west) -- ++ (3mm,0) -- ++ (0,-3mm) -- ++ (-3mm,0) -- cycle;
+\draw[thick, black!40!white] ([xshift=1mm,yshift=-1mm]frame.north west) -- ++ (3mm,0) -- ++ (0,-3mm) -- ++ (-3mm,0) -- cycle;}}

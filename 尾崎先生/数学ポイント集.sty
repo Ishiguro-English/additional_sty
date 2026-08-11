@@ -1,0 +1,4912 @@
+%!TEX root = 解説プリント2020SA7.tex
+
+\newcommand{\tab}[2]{\makebox[{#1}zw][l]{#2}}
+
+%%%%%%%%%%%%%%%%%%%%%%%% 共通 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\誘導}{\カラーポイント{小問に分かれた問題}{
+前の小問がヒントの可能性が高い！}}
+
+\newcommand{\考えにくい問題}{\カラーポイント{考えにくい問題は…}{
+\begin{箇条書き}
+%\item 証明なら背理法（対偶法）の利用
+\item 抽象的な議論にならないように『数式化』
+\item グラフを描いて『視覚化』
+\item 『実験』をして規則性・状況を掴む
+\end{箇条書き}}}
+
+\newcommand{\詰まったら}{\カラーポイント{詰まったら…}{
+「問題文の条件」や「前の小問の結論」の利用を考える！\par
+使わない条件は与えないはず！}}
+
+\newcommand{\誘導を活かす}{\カラーポイント{誘導を活かす際には…}{適用条件を確認すること！}}
+
+\newcommand{\実験}{\カラーポイント{具体的に実験せよ}{
+実験して規則性・状況を掴む！}}
+
+\newcommand{\実験・予想・帰納法}{\カラーポイント{実験・予想・帰納法}{実験\ihspace{1zw}\→\ihspace{1zw}予想\ihspace{1zw}\→\ihspace{1zw}帰納法！}}
+
+\newcommand{\忘れやすい場合分け}{\カラーポイント{文字式を掛けるとき/文字式で割るとき}{\見出しぶら下げ{　等式　：}{文字式が$0$になるか注意すること}
+\見出しぶら下げ{　不等式：}{文字式の\下線{正負}，$0$になるかに注意すること}}}
+
+\newcommand{\前の設問ができなくても諦めない}{\カラーポイント{前の設問ができなくても諦めない！}{
+\begin{箇条書き}
+\item 前の設問が証明問題
+\item 前の設問が答えだけなら予想できる
+\item 前の設問と関係ない
+\end{箇条書き}
+\noindent などの状況では，\波線強調{前の設問が解けなくても後の設問は解けるかもしれない！}}}
+
+\newcommand{\検算}{\カラーポイント{答えが求まったら…}{検算・妥当性の確認！}}
+
+%%%%%%%%%%%%%%%%%%%%%%%% 高２数学 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% 第１回
+
+\newcommand{\関数方程式}{\カラーポイント{関数方程式}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item 具体的な値を代入
+\begin{箇条書き}
+\item 極端な値（$0,\,\pm1$など）を代入
+\item 異なる文字に同じ値を代入
+\item 片方の文字だけに値を代入
+\end{箇条書き}
+\item 微分と結びつける
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item 微分係数/導関数の定義
+\item 関数方程式の両辺をある文字について微分\par
+㊟~$f(x)$が微分可能であるか確認すること
+\end{enumerate}
+%\item 導関数の定義に持ち込む
+%\[\limh[0]\bun{f(x+h)-f(x)}{h}=f'(x)\]
+%\sp
+\item （整式なら）次数決定
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item 次数を$n$として両辺を比較
+\item $f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots\ (a_n\neq 0)$とおいて，$n\to n-1\to n-2$次の順に係数比較
+\end{enumerate}
+\end{enumerate}}}
+
+\newcommand{\３次方程式}{\カラーポイント{$3$次方程式の解の扱い}{
+3次方程式の解が$\alpha,\ \beta,\ \gamma$のとき，
+\begin{enumerate}[\Kaku{enumi}]
+\item 解と係数の関係
+\item 解を代入して等式条件を得る
+\[f(\alpha)=f(\beta)=f(\gamma)=0\]
+\item 因数分解
+\[f(x)=k(x-\alpha)(x-\beta)(x-\gamma)\]
+\end{enumerate}}}
+
+\newcommand{\方程式の解}{\カラーポイント{方程式の解が分かったときの対応}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 解を代入して等式条件を得る
+\item 解と係数の関係
+\item 解を利用して因数分解
+\end{enumerate}}}
+
+\newcommand{\次数決定の方法}{\カラーポイント{次数決定の方法}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 次数を$n$として両辺を比較
+\item $f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots\ (a_n\neq 0)$とおいて，$n\to n-1\to n-2$次の順に係数比較
+\end{enumerate}}}
+
+\newcommand{\割り算の公式}{\カラーポイント{割り算の公式}{
+整式$f(x)$を$g(x)$で割った商が$Q(x)$，余りが$R(x)$であるとき，
+\[&f(x)=g(x)Q(x)+R(x)\\
+&\text{（ただし}R(x)\text{は}g(x)\text{より低次）}\]
+という\強調{恒等式}を実際に立てる。その後，「具体的な値を代入」「両辺微分して式の本数を増やす」などを行う。}}
+
+\newcommand{\剰余定理・因数定理}{\カラーポイント{剰余定理・因数定理}{
+○ 剰余定理
+
+\ihspace{1zw}$f(x)$を$x-\alpha$で割った余りは$f(\alpha)$
+
+○ 因数定理
+
+\ihspace{1zw}\ajMaru1「$f(x)$が$x-\alpha$で割り切れる」$\同値 f(\alpha)=0$
+
+\ihspace{1zw}\ajMaru2「$f(x)$が$(x-\alpha)^2$で割り切れる」
+
+\hfil $\同値 f(\alpha)=f'(\alpha)=0$
+
+\ihspace{1zw}\ajLig{○注} \ajMaru2は$f(x)$を微分して導くこと！}}
+
+\newcommand{\因数定理}{\カラーポイント{因数定理}{
+整式$f(x)$が$x-\alpha$で割り切れる条件は$f(\alpha)=0$}}
+
+\newcommand{\因数定理の拡張}{\カラーポイント{因数定理の拡張}{
+整式$f(x)=0$が$(x-\alpha)^k$で割り切れる条件は
+\[f(\alpha)=f'(\alpha)=\cdots=f^{(k-1)}(\alpha)=0\]}}
+
+\newcommand{\対称式}{\カラーポイント{対称式の扱い}{対称式は基本対称式で表す！}}
+
+\newcommand{\３文字の交代式}{\カラーポイント{3文字の交代式}{
+3文字$a,\,b,\,c$についての交代式は
+\[(b-c)(c-a)(a-b)\]
+を因数に持つ}}
+
+\newcommand{\対称式と交代式}{\カラーポイント{対称式と交代式}{
+\[&\text{(対称式)$\times$(対称式)$=$(対称式)}\\
+&\text{(対称式)$\times$(交代式)$=$(交代式)}\\
+&\text{(交代式)$\times$(交代式)$=$(対称式)}\]
+
+\ajLig{○注} 対称式は$1$，交代式は$-1$に相当するとイメージすると分かりやすい}}
+
+\newcommand{\実数係数の方程式}{\カラーポイント{実数係数の方程式の複素数解}{
+実数係数の方程式
+\[a_nz^n+a_{n-1}z^{n-1}+\cdots a_1z+a_0=0\]
+について
+\begin{enumerate}[\Kaku{enumi}]
+\item 複素数$\alpha$を解にもつとき，$\conj{\alpha}$を解に持つ
+\item 奇数次のとき，実数解を少なくとも１つ持つ
+\end{enumerate}}}
+
+\newcommand{\次数下げ}{\カラーポイント{次数下げの方法}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $\alpha^n$を$(n-1)$次以下の$\alpha$の式で表す\\
+\→ 計算は楽だが，1度に1次ずつしか下がらないので，低次の場合に向いている
+\item 割り算の公式の利用\\
+\→ 一気に次数が下がるが，計算が面倒なので，高次の場合に向いている
+\end{enumerate}}}
+
+%%% 第２回
+
+\newcommand{\有理数の設定}{\カラーポイント{有理数の設定}
+{\begin{enumerate}[\Kaku{enumi}]
+\item $\bun{q}{p}$（$p\in\N,\,q\in\Z,\,p\txt{と}q\txt{は互いに素}$）
+\見出しぶら下げ*{\→}{整数の議論にもちこむ。}
+\item $\alpha$（$\alpha\in\Q$）のまま進める
+\見出しぶら下げ*{\→}{既知の無理数があるときに有効。無理数の相等にもちこむことが多い。}
+\end{enumerate}}}
+
+\newcommand{\無理数の証明}{\カラーポイント{無理数の証明}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 既知の無理数なし
+
+%\→ $\bun{q}{p}$（ただし，$p\in \mathbb{N},\,q\in \mathbb{Z},\,p\text{と}q\text{は互いに素}$）と置く
+
+\見出しぶら下げ*{\→}{互いに素な整数（正であると分かっていれば自然数）$p,\ q$を用いて$\bun qp$で表せると仮定して，整数問題に帰着させ，（素因数分解の一意性などから）矛盾を導く}
+\item 既知の無理数あり
+\見出しぶら下げ*{\→}{有理数を$\alpha$などとおいて，（無理数）$=$（有理数）の形を作り，矛盾を示す}
+\end{enumerate}}}
+
+\newcommand{\無理数の証明２}{\カラーポイント{無理数の証明}{\begin{enumerate}[\Kaku{enumi}]
+\item $\log \text{●},\ \sqrt[n]{\text{▲}}$
+\見出しぶら下げ*{\→}{指数の形に直して，素因数に注目して示す}
+\item 三角関数
+\見出しぶら下げ*{\→}{加法定理を用いて，$\cos 30\Deg,\ \sin 45\Deg,\ \tan 30\Deg$などの「無理数の値を持つもの」に結びつける}
+\item $e,\ \pi$
+\見出しぶら下げ*{\→}{式の値が「ある計算法では整数であるが，別の計算法では小数部分を持つ」として示す}
+\end{enumerate}}}
+
+\newcommand{\直接示しにくい証明}{\カラーポイント{直接示しにくい証明}{「〜ない」「少なくとも〜」「〜または…」などを見たら
+
+背理法の利用を考える\hfill \フォントサイズ{8}{※稀に対偶法を使うこともある}}}
+
+\newcommand{\無理数の相等}{\カラーポイント{無理数の相等}{
+$a,\,b$が有理数，$p$が無理数のとき，
+\[ap+b=0\同値 a=b=0\]}}
+
+\newcommand{\ペアにして考える}{\カラーポイント{$a+b\sq{X}$を見たら…}{
+$a-b\sq{X}$とセットで考える。
+\[\left(a+b\sq{X}\right)^n&=A_n+B_n\sq{X}\\
+\left(a-b\sq{X}\right)^n&=A_n-B_n\sq{X}\]
+が成り立つので，
+\[\left(a+b\sq{X}\right)^n+\left(a-b\sq{X}\right)^n=2A_n\]
+と表せる。$\left|a-b\sq{X}\right|<1$であれば上の式と合わせて整数部分の偶奇が分かる。}}
+
+\newcommand{\二項定理}{\カラーポイント{二項定理}{
+$n$を自然数とするとき，
+\[(a+b)^n=\sum^n_{k=0}\c{n}{k}a^kb^{n-k}=\sum^n_{k=0}\c{n}{k}a^{n-k}b^k\]}}
+
+\newcommand{\有名な漸化式}{\カラーポイント{$\alpha^n+\beta^n$の形を見たら…}{
+\[\alpha^{n+2}+\beta^{n+2}=\left(\alpha+\beta\right)\left(\alpha^{n+1}+\beta^{n+1}\right)\freqn{\bs{-\alpha\beta\left(\alpha^n+\beta^n\right)}}\]
+という漸化式を浮かべる}}
+
+\newcommand{\合同式の定義}{\カラーポイント{合同式の定義}{%
+$m$をある整数とする。整数$a,\ b$について，$a-b$が$m$の倍数であるとき，「$a,\ b$は$m$を法として合同である」と言い，\[a\合同 bm\]
+と表す}}
+
+\newcommand{\合同式の演算}{\カラーポイント{合同式の演算}{%
+$m,\ a,\ b,\ c,\ d\in\Z$として，合同式の法を$m$とすると，
+\begin{enumerate}[\Maru{enumi}]
+\item $a\equiv  b\Rightarrow b\equiv  a$
+\item $a\equiv b,\ b\equiv  c\Rightarrow a\equiv  c$
+\br{.5}
+\item $a\equiv b,\ c\equiv d
+\Rightarrow \left\{\begin{array}{clc}
+a+c&\equiv& b+d\\
+a-c&\equiv& b-d\\
+ac&\equiv& bd\\
+a^n&\equiv& b^n
+\end{array}\right.$
+\item $\left\{\begin{array}{l}
+ka\equiv kb\\
+\text{$k$と$m$は互いに素}
+\end{array}\right.
+\Rightarrow a\equiv b$
+\end{enumerate}}}
+
+\newcommand{\連続n整数の積}{\カラーポイント{連続$n$整数の積}{
+$n!$の倍数になる}}
+
+\newcommand{\フェルマーの小定理１}{\カラーポイント{フェルマーの小定理\ajMaru1}{$p$を素数，$a$を$p$と互いに素な整数とするとき，
+\[a^{p-1}\equiv 1\ (\mod p)\]}}
+
+\newcommand{\フェルマーの小定理２}{\カラーポイント{フェルマーの小定理\ajMaru2}{$p$を素数，$a$を整数とするとき，
+\[a^p\equiv a\ (\mod p)\]}}
+
+\newcommand{\中国式剰余定理}{\カラーポイント{中国式剰余定理}{
+$m,\ n\ (\text{ただし}n\geqq 2)$を互いに素な自然数としたとき，$m,\,2m,\,3m,\,\cdots,\,(n-1)m$を$n$で割った余りは全て異なる}}
+
+\newcommand{\平方剰余}{\カラーポイント{平方剰余}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 平方数を$3$で割った余りは$0$か$1$になる
+\item 平方数を$4$で割った余りは$0$か$1$になる
+\item 平方数を$5$で割った余りは$0$か$1$か$4$になる
+\item 平方数を$8$で割った余りは$0$か$1$か$4$になる
+\end{enumerate}}}
+
+%\newcommand{\平方剰余１}{\カラーポイント{平方剰余\ajMaru1}{平方数を$3$で割った余りは$0$か$1$になる}}
+%
+%\newcommand{\平方剰余２}{\カラーポイント{平方剰余\ajMaru2}{平方数を$4$で割った余りは$0$か$1$になる}}
+
+\newcommand{\平方数の偶奇の問題}{\カラーポイント{平方数の偶奇の問題}{平方数を偶奇で場合分けする際には，$\mod 4$で考え，
+\begin{enumerate}[]
+\item ${\text{（偶数）}}^2$は$4$の倍数
+\item ${\text{（奇数）}}^2$は$4$で割って$1$余る
+\end{enumerate}
+\noindent ことを利用する！}}
+
+%\newcommand{\平方剰余３}{\カラーポイント{平方剰余\ajMaru3}{平方数を$5$で割った余りは$0$か$1$か$4$になる}}
+%
+%\newcommand{\平方剰余４}{\カラーポイント{平方剰余\ajMaru4}{平方数を$8$で割った余りは$0$か$1$か$4$になる}}
+
+%\newcommand{\２がダメなら}{\カラーポイント{$\rm{mod}\ 2$がダメなら…}{
+%$\rm{mod}\ 2$がダメなら$\rm{mod}\ 4$。$\rm{mod}\ 4$がダメなら$\rm{mod}\ 8$\ …}}
+
+\newcommand{\合同式の法}{\カラーポイント{合同式の法}{$\rm{mod}\,2$がダメなら，$2^2,\ 2^3,\ \cdots$
+
+$\rm{mod}\,3$がダメなら，$3^2,\ 3^3,\ \cdots$を法にして考えよ}}
+
+%%% 第３回
+
+\newcommand{\整数問題}{\カラーポイント{整数問題の３大アプローチ}{\begin{enumerate}[\KuroKaku{enumi}]
+\item 約数・倍数関係（因数分解）
+\item 合同式
+\item 不等式評価
+\end{enumerate}}}
+
+\newcommand{\対称的な形の不定方程式}{\カラーポイント{対称的な形の不定方程式}{大小関係を設定して絞る！}}
+
+\newcommand{\偶奇の一致}{\カラーポイント{偶奇の一致}{
+$x,\ n$が整数，$m$が$0$以上の整数で
+\[(x+m)(x-m)=n\]
+の形が作れたとき，\ajKaku1\ajKaku2から約数を絞り込むことができる！
+\begin{enumerate}[\Kaku{enumi}]
+\item $x+m\geqq x-m$
+\item $x+m$と$x-m$の偶奇が一致する
+\end{enumerate}}}
+
+\newcommand{\最大公約数の数式化}{\カラーポイント{最大公約数の数式化}{
+２つの自然数$a,\,b$に対して，$a,\,b$の最小公倍数を$g$とするとき，$a',\,b'$を\強調{互いに素な自然数}として，
+
+\[a=a'g,\,b=b'g\]
+
+と数式化できる。特に，$a,\,b$が\強調{互いに素でない}とき，\bgt{$g\geqq 2$という条件を付加}するのを忘れないこと！}}
+
+% 不定方程式解法をpdfに入れる必要がある！（03/pdfにある！）
+\newcommand{\２次不定方程式}{\カラーポイント{２次不定方程式の整数解}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 因数分解して（\ihspace{1zw}）$\times$（\ihspace{1zw}）$=$（整数）の形を作る
+\item 次数の低い１文字について整理
+\item ２次方程式の判別式$D$を取って，$D\geqq 0$から絞る
+\item ２次方程式の判別式$D$を取って，$D=m^2$から絞る
+\end{enumerate}}}
+
+\newcommand{\分数関数の次数下げ}{\カラーポイント{分数関数を見たら}{まずは$\txt{（分子の次数）}<\txt{（分母の次数）}$となるよう，次数下げを行う！}}
+
+\newcommand{\分数方程式の整数解}{\カラーポイント{分数方程式の整数解}{
+分数関数を変形して，
+\[\text{(分母の次数)}>\text{(分子の次数)}\]
+とした後，
+\[\bun{\text{分母より次数の低い整式}h(x)}{\text{整式}g(x)}\]
+が整数となるような$x$を求めることを考える。
+
+\spp
+
+\下線{\ajKaku1 $g(x)$が$1$次式のとき}
+
+定数を$k$として$\bun{k}{g(x)}$という形になるので，$g(x)$が$k$の約数になる条件を考える。
+
+\spp
+
+\下線{\ajKaku2 $g(x)$が$2$次式のとき}
+
+\begin{enumerate}[\Kakkoroman{enumi}]
+\item $\left|h(x)\right|\geqq \left|g(x)\right|$または$h(x)=0$から絞り込む。
+\item 「$=k$」とおいて分母を払い，2次不定方程式に持ち込む。
+\end{enumerate}
+
+\spp
+
+\下線{\ajKaku3 $g(x)$が$3$次以上のとき}
+
+$\left|h(x)\right|\geqq \left|g(x)\right|$または$h(x)=0$から絞り込む。}}
+
+\newcommand{\素数}{\カラーポイント{素数条件の使い方}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $(\text{整数})\times(\text{整数})=(\text{素数})$の形にして，
+
+約数・倍数の関係
+\item 適当な法の合同式で考える
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item 偶素数は$2$のみ
+\item 素数のうち$3$の倍数は$3$のみ
+\end{enumerate}
+を利用することが多い
+\item $p$は$1,\,2,\,\cdots,\,p-1$と互いに素
+\end{enumerate}}}
+
+\newcommand{\整数係数の方程式の有理数解１}{\カラーポイント{整数係数の方程式の有理数解}{
+整数係数の$n$次方程式
+\[a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0=0\]
+
+（ただし，$a_n,\,a_0\ne 0$）が有理数解を持つならばその候補は
+\[x=\pm\bun{(\text{定数項}a_0\text{の約数})}{(\text{最高次係数}a_n\text{の約数})}\]}}
+
+\newcommand{\整数係数の方程式の有理数解２}{\カラーポイント{整数係数の方程式の有理数解（整数解版）}{
+整数係数の$n$次方程式
+\[a_nx^n+a_{n-1}x^{n-1}+\cdots +a_1x+a_0=0\]
+（ただし$a_n,\,a_0\neq 0$）が\強調{整数解}を持つならば，それは定数項の約数に限られる}}
+
+\newcommand{\整数係数の方程式の有理数解３}{\カラーポイント{整数係数の方程式の有理数解（モニック版）}{
+最高次係数が$1$の整数係数$n$次方程式
+\[x^n+a_{n-1}x^{n-1}+\cdots +a_1x+a_0=0\]
+
+（ただし$a_0\neq 0$）が有理数解を持つならば，それは整数に限る（$a_0$の約数）。
+
+したがって，整数解がなければ有理数解もない。}}
+
+\newcommand{\整数の集合１}{\カラーポイント{$ax+by$の集合\ajMaru1}{
+自然数$a,\,b$に対して集合
+\[S=\{ax+by\ |\ x,\,y\text{は整数}\}\]
+は$a,\,b$の最大公約数$g$の倍数全体の集合に一致する}}
+
+\newcommand{\整数の集合２}{\カラーポイント{$ax+by$の集合\ajMaru2}{
+\波線{互いに素な}自然数$a,\,b$に対して集合
+\[S=\{ax+by\ |\ x,\,y\text{は整数}\}\]
+は整数全体の集合に一致する}}
+
+\newcommand{\１つだけ移項}{\カラーポイント{約数・倍数の関係を利用するために…}{
+１つだけ移項して，残りを因数分解する}}
+
+\newcommand{\互いに素と約数・倍数の関係}{\カラーポイント{互いに素と約数・倍数の関係}{
+$p,\,q$が互いに素な整数で，$m,\,n\in\mathbb{Z}$のとき，
+\[pm=qn\]
+ならば，「$m$は$q$の倍数」「$n$は$p$の倍数」である}}
+
+\newcommand{\ユークリッドの互除法}{\カラーポイント{ユークリッドの互除法}{
+2つの整数$a,\,b$の最大公約数を$(a,\,b)$と表現する。このとき整数$k$を用いて，
+\[(a,\,b)=(a-kb,\,b)\]
+が成立する。}}
+
+%%% 第４回 数に関する問題４
+
+\newcommand{\恒等式}{\カラーポイント{恒等式}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item 係数比較法
+\item 数値代入法（十分性のチェックを忘れずに）
+\end{enumerate}}}
+
+\newcommand{\恒等式の性質}{\カラーポイント{恒等式の性質}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 任意の値を代入しても成立する\\
+\ajLig{○注} 分数形の場合は分母$\ne 0$を満たす値という制約がつく
+\item 両辺微分しても恒等式になる
+\end{enumerate}}}
+
+\newcommand{\必要条件から絞り込み}{\カラーポイント{「任意の〜」「全ての〜」ときたら…}{必要条件から絞る~\→~十分性の確認}}
+
+\newcommand{\必要条件から絞り込み２}{\カラーポイント{必要条件から絞り込むときに代入する値}{必要条件から絞るときには
+
+\begin{tabular}{L{10zw}L{10zw}}
+\ajKaku1 \mg{対称性のよい値} & \ajKaku2 \mg{極端な値}
+\end{tabular}
+
+\noindent を代入せよ！}}
+
+\newcommand{\平方数でないことの証明}{\カラーポイント{平方数でないことの証明}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 「$=m^2$」と置いて矛盾を導く（背理法）
+\item 平方剰余を考える
+\item 連続平方数ではさむ
+\end{enumerate}}}
+
+%%% 第５回 集合と論証
+
+\newcommand{\２変数の関係式}{\カラーポイント{２変数の関係式は…}{図示できるときは図示する！}}
+
+\newcommand{\絶対値を含む関数・方程式・不等式}{\カラーポイント{絶対値を含む関数・方程式・不等式}{\begin{enumerate}[\Kaku{enumi}]
+\item 基本は中身の正負で場合分け
+\item （不等式は）「$2$乗しても大小関係が不変」を利用できる
+\end{enumerate}}}
+
+\newcommand{\直線の通過領域}{\カラーポイント{直線の通過領域}{\ajKuroKaku1 逆像法\hfil \ajKuroKaku2 順像法\hfil \ajKuroKaku3 包絡線}}
+
+\newcommand{\通過領域}{\カラーポイント{通過領域}{\ajKuroKaku1 逆像法\hfil \ajKuroKaku2 順像法\hfil \ajKuroKaku3 包絡線}}
+
+\newcommand{\見かけの２次式}{\カラーポイント{見かけの2次式}{2次式の2次係数が文字のときは，判別式や解の公式を使う前にチェックせよ！}}
+
+\newcommand{\ディリクレの部屋割り論法}{\カラーポイント{ディリクレの部屋割り論法}{$n$個の部屋に$n+1$人以上入れると，$2$人以上入る部屋が少なくとも1つできる}}
+
+\newcommand{\ディリクレの部屋割り論法２}{\カラーポイント{ディリクレの部屋割り論法（拡張版）}{$n$個の部屋に$kn+1$人以上入れると，$k+1$人以上入る部屋が少なくとも1つできる}}
+
+\newcommand{\存在証明}{\カラーポイント{存在証明の方法}{
+\begin{enumerate}[\Kaku{enumi}]
+\item \bgt{具体的に題意を満たす例を見つける}
+\item 有限集合の要素で特定の条件を満たす\bgt{対の存在}を示す
+
+\→　ディリクレの部屋割り論法
+\item 連続／微分可能な関数$f(x)$における存在証明
+
+\→　中間値の定理，平均値の定理
+\item 直接示しにくい場合　\→　背理法，対偶法
+\end{enumerate}}}
+
+\newcommand{\存在証明１}{\カラーポイント{存在証明の基本}{
+まずは，題意を満たす例を見つける}}
+
+%%% 第６回 関数・方程式・不等式１
+
+\newcommand{\２次関数の最大・最小}{\カラーポイント{２次関数の最大・最小}{「端点，端点の中点」と「軸」の位置で場合分け}}
+
+\newcommand{\写像}{\カラーポイント{写像で覚えておきたいこと}{集合$X$から集合$Y$への写像について覚えておきたいことは以下
+\begin{enumerate}[\Kaku{enumi}]
+\item 写像\\
+・ 集合$X$の全ての要素から「→」が出発しないといけない\\
+・ 全ての「→」の終点は集合$Y$の要素に収まらないといけない
+\item １対１の写像（単射）\\
+対応する$Y$の要素が重なってはいけない
+\item 上への写像（全射）\\
+$Y$の要素が余ってはいけない
+\end{enumerate}}}
+
+\newcommand{\パラメータ分離}{\カラーポイント{パラメータを含む方程式・不等式}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item 完全パラメータ分離\\
+\→ $a=(x\text{のみの式})$の形に変形
+\item 不完全パラメータ分離\\
+\→ $(\text{$a$を含む$x$の一次式})=(\text{$x$のみの式})$の形に変形
+\item パラメータを分離しない
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item ２次方程式なら「解の配置」
+\item 差を取って増減や値域を調べる
+\end{enumerate}
+\end{enumerate}}}
+
+\newcommand{\不完全パラメータ分離}{\カラーポイント{不完全パラメータ分離}{
+グラフを利用することが目的なので，
+\[(\text{$a$を含む$x$の一次式})=(\text{$x$のみの式})\]
+の左辺が\bgt{定点を通り，$a$について同次である}ときに使う}}
+
+\newcommand{\平行移動}{\カラーポイント{平行移動}{$y=f(x)$のグラフを$x$軸方向に$p$，$y$軸方向に$q$平行移動したグラフの方程式は
+\[y-q=f(x-p)\同値 y=f(x-p)+q\]}}
+
+\newcommand{\拡大}{\カラーポイント{拡大}{$y=f(x)$のグラフを$x$軸方向に$a$倍，$y$軸方向に$b$倍拡大したグラフの方程式は
+\[\bun yb=f\left(\bun xa\right)\同値 y=bf\left(\bun xa\right)\]}}
+
+\newcommand{\対称移動}{\カラーポイント{対称移動}{$y=f(x)$のグラフを…
+\begin{enumerate}[\Kaku{enumi}]
+\item $x$軸に関して対称移動したグラフの方程式は
+\[-y=f(x)\同値 y=-f(x)\]
+\item $y$軸に関して対称移動したグラフの方程式は
+\[y=f(-x)\]
+\item 原点に関して対称移動したグラフの方程式は
+\[-y=f(-x)\同値 y=-f(-x)\]
+\item $y=x$に関して対称移動したグラフの方程式は
+\[x=f(y)\]
+\end{enumerate}}}
+
+\newcommand{\折返し}{\カラーポイント{折返し}{$y=f(x)$のグラフを…
+\begin{enumerate}[\Kaku{enumi}]
+\item $x=p$に関して折り返したグラフの方程式は
+\[y=f(2p-x)\]
+\item $y=q$に関して折り返したグラフの方程式は
+\[2q-y=f(x)\同値 y=-f(x)+2q\]
+\item $(p,\,q)$に関して折り返したグラフの方程式は
+\[\ihspace{-2zw}2q-y=f(2p-x)\同値 y=-f(2p-x)+2q\]
+\item $y=x$に関して折り返したグラフの方程式は
+\[x=f(y)\ihspace{1zw}\text{($x,\ y$を入れ替える)}\]
+\end{enumerate}}}
+
+\newcommand{\変換と軌跡}{\カラーポイント{変換による軌跡の方程式の求め方}{
+\見出しぶら下げ{Step1．}{変換前の曲線上の点をP\ $(x,\ y)$，変換後の曲線上の点をQ\ $(X,\ Y)$と置く}
+\見出しぶら下げ{Step2．}{式を２本立式し，点Q\ $(X,\ Y)$が点P\ $(x,\ y)$に移動したと読みかえて，
+\[\left\{\begin{array}{ll}
+x=\ovalbox{$X,\ Y$の式}\\
+y=\ovalbox{$X,\ Y$の式}
+\end{array}\right.\text{　……☆}\]の形で表す}
+\見出しぶら下げ{Step3．}{元の曲線の方程式（$x,\ y$の式）に☆を代入する}
+\見出しぶら下げ{Step4．}{$X,\ Y$を$x,\ y$に書き換えて，答えを表す}}}
+
+\newcommand{\偶関数・奇関数}{\カラーポイント{偶関数・奇関数}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 任意の実数$x$に対して，\下線{$f(x)=f(-x)$}\\
+\→ $f(x)$は偶関数であり，$y$軸対称
+\item 任意の実数$x$に対して，\下線{$f(x)=-f(-x)$}\\
+\→ $f(x)$は奇関数であり，原点対称
+\end{enumerate}}}
+
+\newcommand{\偶関数・奇関数と定積分}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $f(x)$が偶関数
+\[\int^a_{-a}f(x)\dx=2\int^a_0f(x)\dx\]
+\item $f(x)$が奇関数
+\[\int^a_{-a}f(x)\dx=0\]
+\end{enumerate}}
+
+\newcommand{\周期関数}{\カラーポイント{周期関数}{
+関数$f(x)$が任意の実数$x$に対して，\下線{$f(x)=f(x+c)$}を満たすとき，$f(x)$を周期$c$の周期関数といい，正の数$c$のうち最小のものを基本周期という}}
+
+\newcommand{\関数方程式の代入の候補例}{\カラーポイント{関数方程式の代入の候補例}{
+\begin{箇条書き}
+\item $x=0,\ y=0$（$f(0)$を知りたいとき）
+\item $x=1,\ y=1$（$f(1)$を知りたいとき）
+\item $x=x,\ y=0$（$0$は何を足しても不変）
+\item $x=x,\ y=1$（$1$は何を掛けても不変）
+\item $x=x,\ y=-x$（足して，$0$を作る）
+\item $x=x,\ y=\bun1x$（掛けて，$1$を作る）
+\item $x=x,\ y=x+h$（$h\to 0$で微分の定義式へ）
+\end{箇条書き}}}
+
+\newcommand{\関数方程式のコツ}{\カラーポイント{関数方程式のコツ}{$f(x)$の形を予想する}}
+
+%%% 第７回 関数・方程式・不等式２
+
+\newcommand{\解の配置}{\カラーポイント{解の配置}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 判別式の正負
+\item 軸の位置
+\item 定義域の端点の$y$座標の正負
+\end{enumerate}
+の３点セットを\bgt{グラフを描いて}考える。
+
+また，{\Large \ajKaku3}については毎回考える。
+}}
+
+\newcommand{\少なくとも１解}{\カラーポイント{「少なくとも1解」の場合分け}{「$p<x<q$に少なくとも1解を持つ」等，「2解を持つ」以外の状況では\bgt{$f(p)f(q)$の正，$0$，負で場合分け}して考える}}
+
+\newcommand{\共通解・整数解・有理数解}{\カラーポイント{共通解・整数解・有理数解を持つとき}{具体的にその解を\bgt{文字で置いて}代入する}}
+
+\newcommand{\共通解}{\カラーポイント{共通解の問題}{
+\見出しぶら下げ{Step1．}{具体的にその解を\bgt{$\alpha$で置いて}代入する}
+\見出しぶら下げ{Step2．}{\mpp
+\begin{enumerate}[\Kaku{enumi}]
+\item 「文字消去」して，$\alpha$のみの方程式にする
+\item 「次数下げ」をして，高次の項をなくす
+\end{enumerate}}}}
+
+\newcommand{\解の個数と置換}{\カラーポイント{解の個数問題で置換したら…}{元の文字と，置換した文字の対応関係を考える}}
+
+%%% 第８回 関数・方程式・不等式３
+
+\newcommand{\合成関数}{\カラーポイント{合成関数の扱い}{
+\begin{enumerate}[\Kaku{enumi}]
+\item １段階ずつ分けて考える
+\item 実際に合成関数を求める
+\end{enumerate}}}
+
+%\newcommand{\対称な曲線の共有点}{\カラーポイント{対称な曲線の共有点}{
+%\bgt{$y=f(x)$と$x=f(y)$の共有点に関する解法}
+%\begin{enumerate}[\Kaku{enumi}]
+%\item $y=f(x)$と$x=f(y)$を足し引きして同値変形\\
+%\→\ $y-x$や$y+x$でくくることができる
+%\item $f(x)$が整式なら$f\left(f(x)\right)-x$は$f(x)-x$で因数分解できる
+%\item $y=x$上にない共有点の求め方
+%\見出しぶら下げ{Step1．}{$y=x$について対称な2共有点を通る直線を$y=-x+2t$とおく
+%
+%\hfil （$(t,\,t)$について対称な2点）}
+%\見出しぶら下げ{Step2．}{2共有点の$x$座標の差を$2\alpha$とおく}
+%\end{enumerate}}}
+
+\newcommand{\対称な曲線の共有点}{\カラーポイント{$y=f(x)$と$x=f(y)$の共有点の求め方}{\begin{enumerate}[\Kaku{enumi}]
+\item $y=f(x)$と$x=f(y)$を辺々引いて$y-x$をくくり出す
+\item $f(x)$が整式なら$f\left(f(x)\right)-x$は$f(x)-x$で因数分解できる
+\item $y=f(x)$が\下線{単調増加関数}ならば，$y=f(x)$と$y=f^{-1}(x)$の共有点はすべて$y=x$上に存在する
+\end{enumerate}}}
+
+%\newcommand{\２次分数関数の最大・最小}{\カラーポイント{２次分数関数の最大・最小}{\begin{enumerate}[\Kaku{enumi}]
+%\item 次数下げ~\→~微分により，グラフを描く
+%\item 次数下げをして，相加平均・相乗平均の関係を用いる
+%\見出しぶら下げ*{㊟}{値域は求まらないことに注意！}
+%\item $=k$と置いて実数条件，解の配置の持ち込む（逆像法）
+%\end{enumerate}}}
+
+\newcommand{\分数関数の扱い}{\カラーポイント{分数関数の扱い}{\begin{enumerate}[\Kaku{enumi}]
+\item 次数下げ→微分により，グラフを描く
+\item 次数下げをして，相加平均・相乗平均の関係を用いる
+\見出しぶら下げ*{㊟}{最大~or~最小しか求まらないことに注意！}
+\item $=k$と置いて実数条件，解の配置の持ち込む（逆像法）
+\見出しぶら下げ*{㊟}{パラメータ分離が奏功することも}
+\end{enumerate}
+}}
+
+\newcommand{\相反方程式}{\カラーポイント{相反方程式}{\begin{enumerate}[\Kaku{enumi}]
+\item 偶数次のとき（$2n$次とする）
+\見出しぶら下げ{Step1．}{$x=0$は別で扱い，両辺を$x^n(\ne 0)$で割る}
+\見出しぶら下げ{Step2．}{$X=x+\bun1x$または$X=x-\bun1x$~\footnote{\ajMaru1$n$が奇数で偶数次の項の符号のみ異なる場合，\ajMaru2$n$が偶数で奇数次の符号のみ異なる場合。}とおく}
+\item 奇数次のとき（$2n+1$次とする）
+\見出しぶら下げ*{\→}{$x=-1$を解に持つので，$x+1$でくくれば，
+
+偶数次の場合に帰着される}
+\end{enumerate}}}
+
+\newcommand{\ガウス記号の性質}{
+\カラーポイント{ガウス記号の性質}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $x-1 < [x] \leqq x~\同値~[x]\leqq x< [x]+1$
+\item $n\in\Z$の時，$n\leqq x<n+1$ならば$[x]=n$
+\end{enumerate}}}
+
+\newcommand{\ガウス記号の解法}{
+\カラーポイント{ガウス記号の扱い}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 不等式評価
+\[[x]\leqq x< [x]+1\同値 x-1 < [x] \leqq x\]
+\item $[x]$が切り替わる値で場合分け（グラフを図示）\par
+\ihspace{1zw}$n\in\Z$のとき$n\leqq x<n+1$ならば，$[x]=n$
+%
+%㊟　その後，グラフを図示することも
+\item $[x]=n\ (\in\mathbb{Z})$と置いて，整数問題に帰着させる
+\item $x$の整数部分と小数部分を分離する
+\end{enumerate}}}
+
+%%% 第９回 関数・方程式・不等式
+
+%\newcommand{\コーシー・シュワルツ}{\カラーポイント{コーシー・シュワルツの不等式}{
+%\begin{enumerate}[\Kaku{enumi}]
+%\item \強調{\bgtfamily ２変数}
+%\[(ax+by)^2\leqq (a^2+b^2)(x^2+y^2)\]
+%
+%等号成立条件は，$a:b=x:y$
+%\spp
+%\item \強調{\bgtfamily ３変数}
+%\[\ihspace{-2zw}(ax+by+cz)^2\leqq (a^2+b^2+c^2)(x^2+y^2+z^2)\]
+%
+%等号成立条件は，$a:b:c=x:y:z$
+%\spp
+%\item \強調{\bgtfamily $n$変数}
+%
+%\[&(a_1b_1+a_2b_2+\cdots+a_nb_n)^2\\
+%\leqq &(a_1^2+a_2^2+\cdots +a_n^2)(b_1^2+b_2^2+\cdots+b_n^2)\]
+%
+%等号成立条件は，
+%\[a_1:a_2:\cdots :a_n=b_1:b_2:\cdots :b_n\]
+%\end{enumerate}
+%\sp
+%登場する式について，\bgt{項数が同じで，和で構成されている}ときに使うことが多い}}
+
+\newcommand{\コーシー・シュワルツ}{\カラーポイント{コーシー・シュワルツの不等式}{
+\[(a_1b_1+a_2b_2+\cdots+a_nb_n)^2\freqn{\bs{\leqq (a_1^2+a_2^2+\cdots +a_n^2)(b_1^2+b_2^2+\cdots+b_n^2)}}\]
+
+等号成立条件は，
+\[a_1:a_2:\cdots :a_n=b_1:b_2:\cdots :b_n\]}}
+
+\newcommand{\コーシー・シュワルツの利用}{\カラーポイント{コーシー・シュワルツの不等式を利用するときは…}{
+\begin{箇条書き}
+\item 元になっているベクトルを見つける
+\item 不等号の向きに注目する \hfill \フォントサイズ{8pt}{（大きい方が「大きさ」の２乗の積）}
+\item 最大値・最小値を議論するときは等号成立条件を確認する\end{箇条書き}}}
+
+%\newcommand{\相加相乗}{\カラーポイント{相加平均・相乗平均の不等式}{%
+%\begin{enumerate}[\Kaku{enumi}]
+%\item \強調{\bgtfamily ２変数}
+%
+%\下線{$a,\ b\geqq 0$のとき，}
+%\[\bun{a+b}{2}\geqq \sq{ab}\同値 a+b\geqq 2\sq{ab}\]
+%
+%等号成立は，$a=b=c$のとき
+%
+%\spp
+%\item \強調{\bgtfamily ３変数}
+%
+%\下線{$a,\ b,\ c\geqq 0$のとき，}
+%\[\bun{a+b+c}{3}\geqq \sq[3\ ]{abc}\]
+%
+%等号成立は，$a=b=c$のとき
+%\spp
+%\item \強調{\bgtfamily $n$変数}
+%
+%\下線{$a_1,\ a_2,\ \ldots,\ a_n\geqq 0$のとき，}
+%\[\bun{a_1+a_2+\cdots+a_n}n\geqq \sq[n\,]{a_1a_2\cdots a_n}\]
+%
+%等号成立条件は，$a_1=a_2=\cdots=a_n$のとき
+%\end{enumerate}
+%\sp
+%登場する式について，\bgt{逆数のペアの和で構成されている}ときに使うことが多い}}
+
+\newcommand{\相加相乗}{\カラーポイント{相加平均・相乗平均の関係}{$a_1,\ a_2,\ \ldots,\ a_n\geqq 0$のとき，
+\[\bun{a_1+a_2+\cdots+a_n}n\geqq \sq[n\,]{a_1a_2\cdots a_n}\]
+
+等号成立条件は，$a_1=a_2=\cdots=a_n$のとき}}
+
+\newcommand{\相加相乗の利用}{\カラーポイント{相加・相乗を利用するときは…}{
+\begin{箇条書き}
+\item \bgt{適用条件の確認}を忘れない！\\
+例１：$x+y\geqq 2\sq{xy}$なら，\下線{$x\geqq 0,\ y\geqq 0$}\\
+例２：$x+\bun1x\geqq 2$なら，\下線{$x>0$}
+\item 最大値・最小値を議論するときは等号成立条件を確認する\end{箇条書き}}}
+
+\newcommand{\相加相乗の使い時}{\カラーポイント{相加相乗の使いドコロ}{
+\begin{enumerate}[\textbullet]
+\item 積が一定の２数の和の最小値
+\item 和が一定の２数の積の最大値
+\end{enumerate}}}
+
+\newcommand{\並べ替え不等式}{\カラーポイント{並べ替え不等式}{
+$n$個の要素からなる$x,\ y$の数列
+\[&x_1>x_2>\cdots>x_n\\
+&y_1>y_2>\cdots>y_n\]
+から一つずつ取り出して$n$個のペアを作り，その積を足し合わせることを考える
+\begin{箇条書き}
+\item 最大値：$x_1y_1+x_2y_2+\cdots+x_ny_n$
+\item 最小値：$x_1y_n+x_2y_{n-1}+\cdots+x_ny_1$
+\end{箇条書き}}}
+
+\newcommand{\文字固定}{\カラーポイント{固定すべき文字の特徴}{
+\mg{【原則】}複雑な文字を固定する
+\begin{enumerate}[\Kaku{enumi}]
+\item 次数の高い文字
+\item 登場回数が多い文字
+\item 制約のある文字
+\end{enumerate}}}
+
+\newcommand{\文字固定の注意点}{\カラーポイント{文字固定の注意点}{文字固定によって，その他の文字の変域が制限を受けることがある！}}
+
+\newcommand{\２文字から３文字への拡張}{\カラーポイント{２文字から３文字への拡張}{
+2文字の不等式$f(a,\,b)\geqq 0$を3文字の不等式$f(a,\,b,\,c)\geqq 0$に拡張したいとき, 
+\begin{enumerate}[\Kaku{enumi}]
+\item 対称性を残す\\
+\→ $f(a,\ b)\geqq 0$と同様に$f(b,\ c)\geqq 0,\ f(c,\ a)\geqq 0$が成立するので, これらを足し合わせる
+\item 対称性を崩す\\
+\→ 以下の２つの操作が有効
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item 不等式の両辺に$c$（3文字目）を加える
+\item $f(a,\ b)\geqq 0$において$b$を$b+c$に置き換える
+\end{enumerate}
+\end{enumerate}}}
+
+%%% 第10回 三角関数１
+
+\newcommand{\三角関数}{\カラーポイント{三角関数の基本方針}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item \強調{種類の統一}
+
+$\cos^2\theta+\sin^2\theta=1$，$\cos$の倍角公式，合成など
+
+\見出しぶら下げ*{㊟}{$\cos$の倍角公式は$\cos$だけの表記，$\sin$だけの表記があるので種類の統一に有効}
+\item \強調{角度の統一}
+
+倍角公式，半角公式など
+\item \強調{変数の集約}
+
+和積，積和，合成，加法定理の逆など
+
+\見出しぶら下げ*{㊟}{和積と倍角は相性◎}
+\end{enumerate}}}
+
+\newcommand{\三角関数２}{\カラーポイント{三角関数の応用手法}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item \強調{$\sin \theta,\ \cos \theta$の対称式}
+
+$t=\sin\theta+\cos\theta$と置くと，$\sin\theta\cos\theta=\bun{t^2-1}2$と表せるので，$t$の関数に。$t$の変域に注意！
+\item \強調{$X=\cos \theta,\ Y=\sin \theta$と置いて図示}
+
+図形が$X^2+Y^2=1$と共有点を持つ条件を考える。
+%\item \強調{$\sin =\sin,\ \cos =\cos$の形}%%絶対に載せない！
+%
+%左辺に寄せて和積でも良いが，角度を直接比較することもできる。
+\item \強調{次数下げ}
+
+半角，積和は，三角関数の次数を下げることができる。
+\[&\cos^2 \theta=\bun{1+\cos 2\theta}2,\quad\sin^2 \theta=\bun{1-\cos 2\theta}2\\
+&\sin\theta\cos\theta=\bun12\sin2\theta\]
+
+%\ajLig{○注} $\sin \theta$と$\cos \theta$の$2$次同次式なら，$\sin2\theta,\ \cos2\theta$の$1$次式に落とし込めるので，合成を使って最大・最小が求まる。
+\sp
+\item \強調{\raisebox{6pt}{$t=\tan\bun{\theta}2$の置換}}
+\[\left\{\begin{array}{ll}
+\cos \theta=\bun{1-t^2}{1+t^2},\quad \sin\theta=\bun{2t}{1+t^2}\\[10pt]
+\tan \theta=\bun{2t}{1-t^2}
+\end{array}\right.\]
+
+\ajLig{○注} 最終奥義。分数かつ次数も上がるので避けたい。
+\end{enumerate}}}
+
+\newcommand{\三角関数の２次同次式１}{\カラーポイント{$\sin x,\,\cos x$の２次同次式\ajMaru1}{$a\cos^2x+b\cos x\sin x+c\sin^2x$は，倍角公式・半角公式を用いて，$\sin{2x}$と$\cos{2x}$のみで表せる}}
+
+\newcommand{\三角関数の２次同次式２}{\カラーポイント{$\sin x,\,\cos x$の２次同次式\ajMaru2}{\begin{align*}
+&a\cos^{2}{x}+b\sin x\cos x+c\sin^{2}{x}=p\\
+\LLeftrightarrow{}&a+b\bun{\sin x}{\cos x}+c\bun{\sin^{2}{x}}{\cos^{2}{x}}=p\cdot \bun{1}{\cos^{2}{x}}\\
+\LLeftrightarrow{}&a+b\tan x+c\tan^{2}{x}=p(1+\tan^{2}{x})
+\end{align*}
+と$\tan x$について整理することもできる}}
+
+\newcommand{\三角形の形状決定}{\カラーポイント{三角形の形状決定問題}{\begin{箇条書き}
+\item 正弦定理・余弦定理を用いて，条件を辺か角に統一する
+\item 第一選択は正弦定理
+\item $A+B+C=\pi$という条件を失念しない
+\end{箇条書き}}}
+
+\newcommand{\和積と倍角}{\カラーポイント{和積と倍角は相性◎}{この２つを同時に使って共通因数を作る流れは頻出！}}
+
+\newcommand{\ワイエルシュトラス置換}{\カラーポイント{ワイエルシュトラス置換}{
+$t=\tan \bun x2$とすると，
+\[&\sin x=\bun{2t}{1+t^2},\ \cos x=\bun{1-t^2}{1+t^2},\\
+&\tan x=\bun{2t}{1-t^2},\ \dx=\bun{2}{1+t^2}\dt\]
+
+\ajLig{○注} 覚えるのではなく，導けるように！}}
+
+%%% 第11回 三角関数２
+
+\newcommand{\三角形の面積公式}{\カラーポイント{三角形の面積公式}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $\text{(底辺)}\times\text{(高さ)}\div 2$
+\item 二辺夾角が分かっていたら，
+\[\bun12ab\sin C\]
+
+\item $3$辺が分かっていたら，ヘロンの公式
+\[\scalebox{.95}{$\sqrt{s(s-a)(s-b)(s-c)}$\quad $(s=\bun{a+b+c}2)$}\]
+
+\item 内接円の半径$r$，外接円の半径$R$が分かっていたら，あるいは，それらを求めたいときは，
+\[\bun12r(a+b+c),\quad \bun{abc}{4R}\]
+
+\item $2$辺のベクトル$\vec{AB}=(a,\ b)$，$\vec{AC}=(c,\ d)$が
+
+分かっていたら，（空間ベクトルなら下）
+\[&\bun12|ad-bc|\\
+&\bun12\sqrt{\abs{\vec{AB}}^2\abs{\vec{AC}}^2-\left(\vec{AB}\cdot\vec{AC}\right)^2}\]
+\end{enumerate}}}
+
+%%% 第12回 総合演習
+
+\newcommand{\ガウス記号と極限}{\カラーポイント{ガウス記号と極限}{不等式を作って「はさみうちの原理」に持ち込む}}
+
+\newcommand{\トレミーの定理}{\カラーポイント{トレミーの定理}{
+%%% 12/pdfに図がある
+
+四角形$\caprm ABCD$が円に内接するとき，対辺の積の和は対角線の積に等しい
+\[\mathrm{ AB\cdot CD+AD\cdot BC=AC\cdot BD}\]
+
+\img[c]{13-3-3.pdf}}}
+
+%%% 第13回 指数対数
+
+\newcommand{\指数対数の変換}{\カラーポイント{指数・対数の変換}{$\left\{\begin{array}{l}
+\text{指数}\\
+\text{対数}
+\end{array}\right\}$関数のままでは考えにくいときは$\left\{\begin{array}{l}
+\text{対数}\\
+\text{指数}
+\end{array}\right\}$
+
+関数に書き換えると楽になることがある！}}
+
+\newcommand{\対数を取るときの注意点}{\カラーポイント{対数を取るときの注意点}{\begin{箇条書き}
+\item 対数を取る前に，真数条件の確認を忘れない
+\item 底は$1$でない正数を選ぶ
+\end{箇条書き}}}
+
+\newcommand{\係数が対称的な連立方程式}{\カラーポイント{係数が対称的な連立方程式・連立漸化式}{辺々足し引きする！}}
+
+\newcommand{\足し引きの同値変形}{\カラーポイント{足し引きの同値変形}{\[\left\{\begin{array}{l}
+\text{\ajMaru{1}}\\
+\text{\ajMaru{2}}
+\end{array}\right.\Longleftrightarrow \left\{\begin{array}{l}
+\text{\ajMaru{1}}+\text{\ajMaru{2}}\\
+\text{\ajMaru{1}}-\text{\ajMaru{2}}
+\end{array}\right.\]}}
+
+\newcommand{\対数方程式・不等式}{\カラーポイント{対数方程式・不等式（指数方程式・不等式も同様）}
+{\見出しぶら下げ{Step1．}{真数条件・底条件をチェック}
+\見出しぶら下げ{Step2．}{底の統一（なるべく１より大きいものに）}
+\見出しぶら下げ{Step3．}{$\log=\log$と両辺に$\log$１つずつの形に変形}
+\見出しぶら下げ{Step4．}{真数を比較}
+\見出しぶら下げ*{㊟}{底が１より小さいと不等号の向きが逆転するので注意}
+\見出しぶら下げ*{㊟}{真数にルートや分数が出ないようにするために
+\begin{enumerate}[\Maru{enumi}]
+\item 分数の係数は払う
+\item $\log$の引き算は移項して足し算に直す
+\end{enumerate}}}}
+
+\newcommand{\桁数}{\カラーポイント{桁数と常用対数}{
+\begin{enumerate}[\Kaku{enumi}]
+\mathindent=1zw
+\item \強調{$N$の整数部分が$n$桁}
+\[&10^{n-1}\leqq N<10^n\\
+\Leftrightarrow &n-1\leqq \log_{10}N<n\]
+\sp
+\item \強調{$N$の整数部分が$n$桁で，首位の数字が$a$}
+\[\ihspace{-2zw}&a\cdot 10^{n-1}\leqq N<(a+1)\cdot 10^{n-1}\\
+\ihspace{-2zw}\Leftrightarrow &\scalebox{.95}{$n-1+\log_{10}a\leqq \log_{10}N<n-1+\log_{10}(a+1)$}\]
+
+\sp
+\item \強調{$x$は小数第$n$位に初めて$0$でない数字が現れる}
+\[&10^{-n}\leqq x<10^{-n+1}\\
+\Leftrightarrow &{-n}\leqq \log_{10}x<-n+1\]
+
+\sp
+\item \強調{$x$は小数第$n$位に初めて$0$でない数字が現れ，
+その数字が$a$}
+\[\ihspace{-1zw}&a\cdot 10^{-n}\leqq x<(a+1)\cdot 10^{-n}\\
+\ihspace{-1zw}\Leftrightarrow &{-n}+\log_{10}a\leqq \log_{10}x<-n+\log_{10}(a+1)\]
+\end{enumerate}}}
+
+\newcommand{\大小比較}{\カラーポイント{大小比較の問題}{
+具体的な値を代入して大小関係を予想する！}}
+
+\newcommand{\対数を見たら}{\カラーポイント{対数を見たら}{\Large まずは，真数条件・底条件を確認する！}}
+
+%%% 第14回 微分１
+
+\newcommand{\接線と接点の対応関係}{\カラーポイント{接線と接点の対応関係}{曲線が\下線{3次以下}の関数であれば，接線と接点の個数が一対一に対応する
+}}
+
+\newcommand{\２曲線が接する条件}{\カラーポイント{2曲線が接する条件}{\mathindent=1zw\[&\text{2曲線$y=f(x)$と$y=g(x)$が$x=a$で接する}\\
+\同値&f(a)=g(a)\text{かつ}f'(a)=g'(a)\]}}
+
+\newcommand{\２曲線が接する条件２}{\カラーポイント{2曲線が接する条件}{
+2曲線$y=f(x)$と$y=g(x)$が$x=a$で接する\\
+$\同値 f(x)=g(x)$が$x=a$を重解に持つ\\
+$\同値 f(x)-g(x)=(x-a)^2h(x)$}}
+
+\newcommand{\法線と接点の対応関係}{\カラーポイント{法線と接点の対応関係}{曲線が\下線{2次以下}の関数であれば，法線と接点の個数が一対一に対応する}}
+
+%%% 第16回 微分３
+
+\newcommand{\３次方程式の解の配置}{\カラーポイント{３次方程式の解の配置}{
+\begin{enumerate}[\Kaku{enumi}]
+\item まずは，\bgt{因数分解}を考える。パラメータ（最低次）について整理すると因数が見つかりやすい。
+\item 次に，\bgt{パラメータ分離}を考える。定点を通る直線のときに有効。
+\item そうでなければ，グラフで議論。
+\end{enumerate}}}
+
+\newcommand{\３次関数の性質}{\カラーポイント{３次関数の性質}{
+答案で使ってよいのは\下線{\ajKaku1のみ}
+\begin{enumerate}[\Kaku{enumi}]
+\item 変曲点に関して点対称
+\item ８つの合同な長方形を作れる
+\item 変曲点が原点になるように平行移動した上で，
+\[\ihspace{-2zw}\text{(極値の$x$座標)}:\text{($x$軸との交点の$x$座標)}=1:\sq3\]
+\item (接点と変曲点の$x$座標の差)と(変曲点ともう１つの交点の$x$座標の差)の比
+\[1:2\]
+\item $f'(x)$の判別式$D$と極値の関係
+\[\ihspace{-2zw}\left\{\begin{array}{l}
+D>0\text{のとき：極大値・極小値を１つずつ持つ}\\
+D\leqq 0\text{のとき：極値を持たない}
+\end{array}\right.\]
+\end{enumerate}}}
+
+\newcommand{\高次方程式}{\カラーポイント{高次方程式}{\large まずは\bgt{因数分解}を狙う！}}
+
+\newcommand{\相異なる３実数解}{\カラーポイント{３次方程式$f(x)=0$が相異なる３実数解を持つ条件}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $f(x)$が極大値・極小値を持ち，
+\item これらの正負が異なること
+\end{enumerate}}}
+
+%%% 第17回 積分１
+
+\newcommand{\関数列}{\カラーポイント{関数列のアプローチ}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 漸化式を直接解く（$x$を定数とみなす）
+\item 漸化式を直接解けないとき：実験→予想→帰納法
+
+㊟~$f_n(x)$が\下線{整式で，かつ次数が不変}のときに限り，
+
+係数に関する漸化式を立てる
+\end{enumerate}}}
+
+%%% 第18回 積分２
+
+\newcommand{\面積計算の公式}{\カラーポイント{面積計算の公式}{
+% 18/pdfにある！
+\msp
+\img*<.53>[c]{6-2-1.pdf}
+\msp
+最高次係数に注意して，
+\begin{align*}
+&\int_{\alpha}^\beta a(x-\alpha)(x-\beta)\dx=\bun{|a|}{6}(\beta-\alpha)^3\\
+&\int_{\alpha}^\beta a(x-\alpha)(x-\beta)^2\dx=\bun{|a|}{12}(\beta-\alpha)^4\\
+&\int_{\alpha}^\beta a(x-\alpha)^2(x-\beta)^2\dx=\bun{|a|}{30}(\beta-\alpha)^5
+\end{align*}
+
+\ajLig{○注} 答案で使って良いのは１つ目だけ！}}
+
+%%% 第20回 最大・最小問題
+
+\newcommand{\多変数関数の最大・最小}{\カラーポイント{多変数関数の最大・最小の５つの方針}{
+\mg{◎下準備}
+\begin{enumerate}[\mg{\KuroKaku{enumi}}]
+\item \mg{等式条件：文字消去}
+\item \mg{特徴的な式：文字の置き換え}
+\begin{enumerate}[\Maru{enumii}]
+\item 対称式：基本対称式に置き換え
+\item 同次式：$t=\bun yx$に置き換え
+\item $x^2+y^2$の形：極置換
+\end{enumerate}
+\end{enumerate}
+
+\mg{◎本体}
+\begin{enumerate}[\mg{\KuroKaku{enumi}}]
+\setcounter{enumi}{2}
+\item \mg{有名不等式}
+\見出しぶら下げ*{\→}{相加・相乗，コーシー・シュワルツ，凸不等式}
+\item \mg{解の存在条件に帰着\if高２用 させる\else\fi （逆像法）}
+\begin{enumerate}[\Maru{enumii}]
+\item 数式的：解の配置
+\item 図形的：線形計画法
+\end{enumerate}
+\item \mg{関数の値域を考える（順像法）}
+\begin{enumerate}[\Maru{enumii}]
+\item １変数：微分，平方完成\if高２用 など\else\fi
+\item 多変数：\if高２用 \下線{文字固定}\else 文字固定\fi →微分，平方完成\if高２用 など\else\fi
+\end{enumerate}
+\end{enumerate}}}
+
+\newcommand{\多変数関数の最大・最小２}{\ポイント{\begin{enumerate}[\Maru{enumi}]
+\item 等式条件の確認（\ajKuroKaku1に繋がる）
+\begin{enumerate}[・]
+\item 文字の間の独立・従属の確認\\
+\→~自由度はいくつか
+\end{enumerate}
+\item 式の特徴の確認（\ajKuroKaku2\ajKuroKaku3に繋がる）
+\begin{enumerate}[・]
+\item 対称性があれば保つか，崩すか
+\item 同次式は置き換える
+\item 対称性があり，\下線{同次}のときは有名不等式を疑う
+\end{enumerate}
+\end{enumerate}}}
+
+\newcommand{\代入法の注意点}{\カラーポイント{代入法（文字消去）で気をつけること}{文字を消去しても変域は残ることに注意！
+\begin{enumerate}[\Kaku{enumi}]
+\item 全ての式に代入すること
+\見出しぶら下げ{㊟　}{\下線{不等式への代入}を忘れないこと}
+\item 隠れた「実数条件」を引き継ぐこと
+\見出しぶら下げ{例１：}{$x\in \R\同値 x^2\geqq 0$}
+\見出しぶら下げ{例２：}{$x+y=k,\ xy=l$のとき，$x,\,y\in \R\同値 t^2-kt+l=0$の判別式が$0$以上}
+\end{enumerate}}}
+
+\newcommand{\文字は消えても変域は残る}{\カラーポイント{文字の消去・置き換え}{文字を消去あるいは置き換えたら，その文字の条件を他の文字に伝える！}}
+
+\newcommand{\基本対称式を取ったら}{\if高２用
+\カラーポイント{基本対称式を文字で置いたとき}{
+$x+y=k,\ xy=l$と置くと，実数$x,\,y$は
+\[t^2-kt+l=0\]
+の2実数解なので，\下線[-4pt]{$k^2-4l\geqq 0$}という条件がつく！}
+\else
+\カラーポイント{基本対称式を取ったら…}{
+すぐに実数条件を引き継ぐこと！
+
+例えば，$x+y=k,\ xy=l$と置くと，$x,\ y$は
+\[t^2-kt+l=0\]
+の2解なので，少なくとも\下線[-4pt]{$k^2-4l\geqq 0$}という条件が残る}
+\fi
+}
+
+%%% 第23回 数列１
+
+\newcommand{\等差中項・等比中項}{\カラーポイント{等差中項・等比中項}{
+3数$a,\ b,\ c$がこの順に等差数列をなすための条件は
+\[2b=a+c\]
+
+3数$a,\ b,\ c$がこの順に等比数列をなすための条件は
+\[b^2=ac\]}}
+
+\newcommand{\整式・等比}{\カラーポイント{$\text{（整式）}\times \text{（等比）}$型の数列の和}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 整式が$1$次式のとき~\→~「$S-rS$法」
+\item 整式が$2$次以上のとき（$n$次とする）
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item $S-rS$法を$n$回くり返し用いる
+\item 和の中抜け
+\end{enumerate}
+\end{enumerate}}}
+
+%\newcommand{\整式・等比}{\カラーポイント{$\text{（整式）}\times \text{（等比）}$型の数列の和}{
+%整式側が1次式，つまり
+%\[S_n=\sum_{k=1}^n(pk+q)\times r^k\]
+%であれば，「$S_n-rS_n$法」で計算できる
+%\spp
+%一方，整式側が2次以上の場合，
+%\begin{enumerate}[\Kaku{enumi}]
+%\item $S_n-rS_n$法をくり返し用いる\\
+%（整式が$m$次なら$m$回実行すれば求められる）
+%\item 和の中抜けの利用
+%\end{enumerate}}}
+
+\newcommand{\数列の和}{\カラーポイント{数列の和の求め方}{\begin{enumerate}[\Kaku{enumi}]
+\item 等差数列・等比数列の和の公式
+\item $\sum k^2,\ \sum k^3$
+\item $S-rS$法（$\text{整式}\times\text{等比数列}$の和）
+\item 和の中抜け
+\item 実験→予想→帰納法
+\end{enumerate}}}
+
+\newcommand{\数列の和と一般項の関係}{\カラーポイント{数列の和と一般項の関係}{\[\left\{\begin{array}{l}
+a_n=S_n-S_{n-1}\ (n\geqq 2)\\[3pt]
+a_1=S_1
+\end{array}\right.\]}}
+
+\newcommand{\２以上の場合分けが必要な場面}{\カラーポイント{$n\geqq 2,\ n=1$の場合分けが必要な場面}{\begin{enumerate}[\Kaku{enumi}]
+\item $S_n\left(=\sum_{k=1}^na_k\right)$から$a_n$を求めるとき
+\[a_n=\left\{\begin{array}{ll}
+S_n-S_{n-1}&\text{（$n\geqq 2$のとき）}\\[3pt]
+S_1&\text{（$n=1$のとき）}
+\end{array}\right.\]
+\item $b_n\,(\,=a_{n+1}-a_n)$から$a_n$を求めるとき
+\[a_n=\left\{\begin{array}{ll}
+a_1+\sum_{k=1}^{n-1}b_k&\text{（$n\geqq 2$のとき）}\\
+a_1&\text{（$n=1$のとき）}
+\end{array}\right.\]
+\item 漸化式を繰り返し用いるとき
+\end{enumerate}}}
+
+\newcommand{\シグマ公式}{\カラーポイント{$\sum$の公式}{
+\[&\sum_{k=1}^nk=\bun12n(n+1)\\
+&\sum_{k=1}^nk^2=\bun16n(n+1)(2n+1)\\
+&\sum_{k=1}^nk^3=\Bigl\{\bun12n(n+1)\Bigr\}^2\]}}
+
+\newcommand{\数列・確率の検算}{\カラーポイント{数列・確率の検算}{数列・場合の数・確率などで$n$を含むときは，
+
+$n=0,\ 1,\ 2,\ 3$や$n\to \infty$で検算をする！}}
+
+\newcommand{\階差数列}{\カラーポイント{階差数列}{
+数列$\left\{a_n\right\}$の階差数列を$\left\{b_n\right\}$とすると，
+\[a_n=a_1+\sum^{n-1}_{k=1}b_k\ (n\geqq 2)\]}}
+
+\newcommand{\群数列}{\カラーポイント{群数列で大事なこと}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 群数列の定義を述べる
+\item 情報をまとめる
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item 第$k$群の項数・総和
+\item 第$k$群の初項・末項
+\item 第$1$群から第$n$群までの総項数・総和
+\end{enumerate}
+%\item 答えを正確に合わせる
+%
+%\ajLig{○注} 答えを１つズラしただけで，かなり減点される
+\end{enumerate}}}
+
+\newcommand{\連続積の和}{\カラーポイント{連続整数積の和}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $\sum (n+1)(n+2)\cdots (n+m)$
+\sp
+\見出しぶら下げ*{\→}{$n$と$(n+m+1)$を用意して次数を上げて，和の中抜けに}
+\sp
+\item $\sum \bun1{(n+1)(n+2)\cdots (n+m)}$
+\sp
+\見出しぶら下げ*{\→}{$n$と$(n+m+1)$を分子に用意して１回約分して，和の中抜けに}
+\end{enumerate}}}
+
+%%% 第24回 数列２
+
+\newcommand{\数列の最大・最小}{\カラーポイント{数列／離散関数の最大・最小}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item $f(n+1)-f(n)$と$0$との大小を比較
+\sp
+\item $\bun{f(n+1)}{f(n)}$と$1$との大小を比較\sp
+\→ $\c{n}{r}$，階乗，累乗など積を含む式に有効
+
+\ajLig{○注} $f(n)$の正負が一定のときしか使えない
+\sp
+\item 定義域を$n$（自然数）から$x$（実数）へと拡張して
+
+微分する
+
+\→ 微分するのが簡単な関数に有効
+
+\ajLig{○注} 端点・極値の前後の整数点を\bgt{全て}調べる
+\end{enumerate}}}
+
+%% テーマ講義から。改行して良い。
+\newcommand{\２項間漸化式}{\カラーポイント{２項間漸化式$a_{n+1}=pa_n+f(n)$}{\begin{enumerate}[\Kaku{enumi}]
+\item $p=1$のとき
+\[a_{n+1}-a_n=f(n)\]
+より，階差数列が求まる（$n=1$の場合分けに注意）。
+\item $p\ne 1$のとき
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item 一般の場合
+\[g(n+1)=pg(n)+f(n)\]
+を満たす多項式$g(n)$（特殊解）を見つけて，漸化式と辺々引くことで，
+\[a_{n+1}-g(n+1)=p\left\{a_n-g(n)\right\}\]
+となり，等比数列に帰着される。
+\item $f(n)=A\cdot r^n$（等比数列）の場合は両辺$p^{n+1}$か$r^{n+1}$で割って，数列$\left\{\bun{a_n}{p^n}\right\}$か$\left\{\bun{a_n}{r^n}\right\}$の一般項を求める。
+\end{enumerate}
+\end{enumerate}}}
+
+%% 同様
+\newcommand{\３項間漸化式}{\カラーポイント{３項間漸化式$a_{n+2}+pa_{n+1}+a_n=0$}{
+\見出しぶら下げ{Step1．}{特性方程式$x^2+px+q=0$を解いて特性解を求める}
+\見出しぶら下げ{Step2．}{$\left\{\begin{array}{l}
+a_{n+2}-\alpha a_{n+1}=\beta(a_{n+1}-\alpha a_n)\\
+a_{n+2}-\beta a_{n+1}=\alpha(a_{n+1}-\beta a_n)
+\end{array}\right.$と等比数列の形に変形する}
+\見出しぶら下げ{Step3．}{等比数列を解き，辺々引く}
+\見出しぶら下げ*{㊟}{特性方程式が重解をもつときはStep2．が同じ式を表すので，２項間漸化式を解く}}}
+
+%% 同様
+\newcommand{\３項間漸化式の解}{\カラーポイント{３項間漸化式の解の形}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 特性方程式$x^2+sx+t=0$が相異なる2解をもつとき，つまり特性方程式の判別式が$0$でないとき
+
+2解を$\alpha$，$\beta$として，$a_n$は，ある定数$u$，$v$を用いて
+\[\bs{a_n=u\alpha^{n-1}+v\beta^{n-1}}\]
+と表せる
+\item 特性方程式$x^2+sx+t=0$が重解をもつとき，つまり特性方程式の判別式が$0$のとき
+
+重解を$\alpha$として，$a_n$は，ある定数$u$，$v$を用いて
+\[\bs{a_n=(un+v)\cdot\alpha^{n-1}}\]
+と表せる
+\end{enumerate}}}
+
+\newcommand{\確率漸化式１}{\カラーポイント{確率漸化式}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item 最初の一手で場合分け
+\item 最後の一手で場合分け
+\end{enumerate}}}
+
+\newcommand{\確率漸化式の検討}{\カラーポイント{$n$によって定まる場合の数・確率}{
+まずは\強調{漸化式を作れないか}を考える
+\begin{箇条書き}
+\item \下線{状況が有限個}のとき
+\item $n,\ n+1,\ n+2$などの対応関係が明確なとき
+\end{箇条書き}
+\noindent は積極的に狙っていく
+
+漸化式を立てられない場合は直接求める}}
+
+\newcommand{\確率漸化式２}{\カラーポイント{変数設定の工夫}{
+\begin{enumerate}[\Kaku{enumi}]
+\item \ajKakkoalph1 対称性\hfil \ajKakkoalph2 偶奇性\hfil \ajKakkoalph3 確率の和が$1$
+
+\noindent に気付いて変数を減らす
+\item 状況を分けて変数を増やす（補助数列の設定）
+\end{enumerate}}}
+
+%
+%\newcommand{\確率漸化式２}{\カラーポイント{確率漸化式}{
+%\見出しぶら下げ{Step1．}{「$2$項間漸化式」か「$3$項間漸化式」かを見抜く}
+%\番号付き箇条書きの空白設定[1zw]{3zw}{1zw}
+%\begin{enumerate}[\KuroKaku{enumi}]
+%\item 最初の一手で場合分け
+%\item 最後の一手で場合分け
+%\end{enumerate}
+%\ihspace{1zw}を両睨みするのが大切！
+%\見出しぶら下げ{Step2．}{「$2$項間漸化式」の変数設定では以下の方法が頻出}
+%\番号付き箇条書きの空白設定[1zw]{3zw}{1zw}
+%\begin{enumerate}[\Kaku{enumi}]
+%\item \ajKakkoalph1 対称性\hfil \ajKakkoalph2 偶奇性\hfil \ajKakkoalph3 確率の和が$1$
+%
+%\noindent に気付いて変数を減らす
+%\item 状況を分けて変数を増やす
+%\item 「実験」をして状況を掴んでから変数を設定
+%\end{enumerate}}}
+
+\newcommand{\連立漸化式}{\カラーポイント{連立漸化式の解法}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item 加減法（推奨）
+\見出しぶら下げ{…~}{$a_{n+1}-\alpha b_{n+1}=\beta(a_n-\alpha b_n)$を満たす$\alpha,\,\beta$の組を見つけ，２項間漸化式に帰着}
+\一字ぶら下げ{㊟}{係数が対称的な場合は辺々足し引きする}
+\item 代入法
+\見出しぶら下げ{…~}{$a_n$または$b_n$を消去し，３項間漸化式に帰着}
+\end{enumerate}}}
+
+\newcommand{\三項間漸化式の一般項}{\ポイント{$3$項間漸化式の特性方程式の２解が$\alpha,\,\beta$のとき，
+
+一般項は\ $a_n=A\alpha^n+B\beta^n$\ と表される}}
+
+\newcommand{\分数漸化式}{\カラーポイント{分数漸化式$a_{n+1}=\bun{ra_n+s}{pa_n+q}$の一般論}{
+\hfill （ただし$p\ne 0,\ rq-ps\ne 0$）
+
+\noindent \ajKaku{1}\ihspace{1zw}$s=0$の場合
+
+\見出しぶら下げ[1zw]{\→ }{\ihspace{1zw}\波線{両辺$0$でないことを確認した上で逆数を取る！}}
+
+\sp
+
+\noindent \ajKaku{2}\ihspace{1zw}$s\ne 0$の場合
+
+\hfill （ノーヒントで入試に出題されることはまれ）
+
+\見出しぶら下げ[1zw]{\→ }{\parindent=1zw\hspace{1zw}特性方程式$\alpha=\Bun{r\alpha +s}{p\alpha +q}$の解$\alpha_1,\,\alpha_2$を求め，漸化式から$\alpha_1,\,\alpha_2$を引くと
+\[\left\{\begin{array}{l}
+a_{n+1}-\alpha_1=\bun{k_1(a_n-\alpha_1)}{pa_n+q}\\[10pt]
+a_{n+1}-\alpha_2=\bun{k_2(a_n-\alpha_2)}{pa_n+q}
+\end{array}\right.\]
+\ssp
+\noindent の形になる。}
+\begin{enumerate}[\Kakkoalph{enumi}]
+\item $\alpha_1=\alpha_2$のとき
+
+$b_n=a_n-\alpha_1$として解くと\ajKaku1に帰着できる。
+\item $\alpha_1\ne\alpha_2$のとき
+
+式を辺々割ると$\Bigl\{\Bun{a_{n}-\alpha_1}{a_{n}-\alpha_2}\Bigr\}$が等比数列になる。
+\end{enumerate}}}
+
+\newcommand{\図形と対称式}{\カラーポイント{図形の方程式が対称式なら…}{グラフは$y=x$について対称になる！}}
+
+\newcommand{\積を含む漸化式}{\カラーポイント{積の形の項を含む漸化式}{\begin{enumerate}[\Kaku{enumi}]
+\item 両辺正であることを確認し，$\log$をとって議論する
+
+\ajLig{○注} 積・累乗のみで構成されている場合のみ
+\item 両辺に同じものを掛けたり割ったりして，
+
+既知の漸化式に帰着する
+
+\ajLig{○注} $a_n\ne 0$を確認するか証明すること
+\item $a_{n+1}=f(n)a_n$の形に変形できるならば，漸化式をくり返し用いる
+
+\ajLig{○注} $n=1$の場合分けを行うこと
+\end{enumerate}}}
+
+\newcommand{\係数にnを含む漸化式}{\カラーポイント{係数に$n$を含む漸化式}{階乗をかけたり割ったりして，「番号$1$ズレ」を生成するのが有効}}
+
+\newcommand{\積・累乗の形の漸化式}{\カラーポイント{積・累乗\kenten{だけ}を含む漸化式}{対数をとって積は和に変換，累乗は係数として前に落とす}}
+
+%%% 第25回 数列３
+\newcommand{\公式が使えない数列の和}{\カラーポイント{公式が使えない数列の和}{\begin{enumerate}[\Kaku{enumi}]
+\setcounter{enumi}{2}
+\item $S-rS$法（$\text{整式}\times\text{等比数列}$の和）
+\item 和の中抜け
+\item 実験→予想→帰納法
+\end{enumerate}}}
+
+\newcommand{\数学的帰納法}{\カラーポイント{自然数・整数についての命題では…}{直接示しにくいときは「数学的帰納法」の利用を考える！}}
+
+\newcommand{\数学的帰納法のパターン}{\カラーポイント{数学的帰納法のパターン}
+{\番号付き箇条書きの空白設定(0pt)<0zw>[.5zw]{2zw}{0zw}
+\begin{enumerate}\番号付け変更[1]{\ajKaku}\番号付け変更[2]{\ajKakkoroman}
+\item\gt{二項間型}
+\begin{enumerate}
+\item $P(1)$を示す
+\item $k\in\N$とし，$P(k)$を仮定して$P(k+1)$を示す
+\end{enumerate}
+\item\gt{三項間型}
+\begin{enumerate}
+\item $P(1),\,P(2)$を示す
+\item $k\in\N$とし，$P(k),\,P(k+1)$を仮定して$P(k+2)$を示す
+\end{enumerate}
+\item\gt{$k$項間型}
+\begin{enumerate}
+\item $P(1)$を示す
+\item $k\in\N$とし，$P(1),\,P(1),\,\cdots,\,P(k)$を仮定して\\$P(k+1)$を示す
+\end{enumerate}
+\end{enumerate}}}
+
+\newcommand{\数列と帰納法}{\カラーポイント{漸化式と数学的帰納法は相性◎}{漸化式と帰納法の型が一致することが多い！
+\sp
+例１：3項間漸化式と帰納法
+
+「$n=1,\ 2$」「$n=k,\ k+1$⇒$n=k+2$」の成立を示す
+\sp
+例２：$\sum$を含む漸化式と帰納法
+
+「$n=1$」「$n=1,\ 2,\cdots ,k$⇒$n=k+1$」の成立を示す}}
+
+%%% 第26回 数列４
+\newcommand{\多項定理}{\カラーポイント{多項定理}{\[\ihspace{-2.5zw}(a+b+c)^n=\sum_{\substack{p+q+r=n\\p,\,q,\,r\geqq 0}}\bun{n!}{p!q!r!}a^pb^qc^r\]\br{-.6}
+\[\ihspace{-2.5zw}(a+b+c+d)^n=\sum_{\substack{p+q+r+s=n\\p,\,q,\,r,\,s\geqq 0}}\bun{n!}{p!q!r!s!}a^pb^qc^rd^s\]}}
+
+\newcommand{\格子点数}{\カラーポイント{格子点の数え方}{
+\見出しぶら下げ{Step1．}{固定する文字を決める}
+\見出しぶら下げ{Step2．}{$x=k$上の格子点の個数$f(k)$を求める}
+\見出しぶら下げ{Step3．}{$\sum f(k)$を計算して全体の個数を求める}}}
+
+\newcommand{\格子点の問題で固定する文字}{\カラーポイント{格子点の問題で固定する文字}{端点が格子点になるような切り方を考えよ}}
+
+\newcommand{\端点が格子点にならない場合}{\カラーポイント{\scalebox{.9}[1]{いずれの方向に切っても端点が格子点にならない場合}}{ガウス記号を使って評価してからはさみうちに持ち込む！}}
+
+\newcommand{\二項係数の性質}{\カラーポイント{二項係数の性質}{
+\begin{enumerate}[\Kaku{enumi}]
+%\item $\c{n}{r}=\bun{n!}{r!(n-r)!}$
+\item $\c{n}{k}=\c{n}{n-k}$
+\item $\c{n}{k}=\c{n-1}{k}+\c{n-1}{k-1}$
+\item $k\c{n}{k}=n\c{n-1}{k-1}$
+\item $\sum^n_{k=0}\c{n}{k}=2^n$
+\end{enumerate}}}
+
+%%% 第28回 確率２
+
+%% テーマ講義より 変えても良い
+\newcommand{\確率}{\カラーポイント{確率の求め方}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item $\bun{\text{場合の数}}{\text{場合の数}}$
+\sp
+\見出しぶら下げ*{㊟}{分母の「根元事象」を同様に確からしく取る}
+\見出しぶら下げ*{㊟}{分母と分子で同じ数え方をする}
+\item 確率の積の法則／和の法則
+\begin{箇条書き}
+\item 積の法則：$P(A\cap B)=P(A)\times P_A(B)$
+\item 積の法則（独立）：$P(A\cap B)=P(A)\times P(B)$
+\item 和の法則：$P(A\cup B)=P(A)+P(B)-P(A\cap B)$
+\item 和の法則（排反）：$P(A\cup B)=P(A)+P(B)$
+\end{箇条書き}
+\end{enumerate}}}
+
+%%% 短縮版
+\newcommand{\確率の求め方}{\カラーポイント{確率の求め方}{
+\sp
+\begin{tabular}{L{10zw}L{10zw}}
+\ajKuroKaku1 $\bun{\text{場合の数}}{\text{場合の数}}$&\ajKuroKaku2 確率の積の法則／和の法則
+\end{tabular}}}
+
+\newcommand{\根元事象を取る}{\カラーポイント{根元事象を取るときは…}{同様に確からしく取る！
+
+困ったら，「全てを区別し，全てを並べる順列」を考える}}
+
+\newcommand{\根元事象を束ねる}{\カラーポイント{根元事象を束ねる}{「全てを区別し，全てを並べる順列」を「束」にした考え方なら，同様に確からしくなる}}
+
+\newcommand{\確率１}{\カラーポイント{\ajKuroKaku1~$\bun{\text{場合の数}}{\text{場合の数}}$の注意点}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 分母の「根元事象」を同様に確からしく取る
+\item 分母と分子で同じ数え方をする
+\end{enumerate}}}
+
+
+%%% 包除原理そのものは場合の数だが，区別しなくて良いだろう…
+\newcommand{\包除原理２}{\カラーポイント{包除原理（$2$文字）}{$P(A\cup B)=P(A)+P(B)-P(A\cap B)$}}
+
+\newcommand{\包除原理３}{\カラーポイント{包除原理（$3$文字）}{\begin{align*}
+&P(A\cup B\cup C)\\
+={}&P(A)+P(B)+P(C)\\
+&{}-P(A\cap B)-P(B\cap C)-P(C\cap A)\\
+&{}+P(A\cap B\cap C)
+\end{align*}}}
+
+\newcommand{\包除原理}{\カラーポイント{包除原理（$n$文字）}{\begin{align*}
+&P(A_1\cup A_2\cup\cdots\cup A_{n})\\
+={}&\sum_{i}P(A_i)-\sum_{i<j}P(A_i\cap A_j)\\
+&+\sum_{i<j<k}P(A_i\cap A_j\cap A_k)\\
+&+\cdots +(-1)^{n-1}P(A_1\cap A_2\cap\cdots\cap A_n)
+\end{align*}}}
+
+\newcommand{\不等式を満たす整数の組の個数}{\カラーポイント{不等式を満たす整数の組の個数}{図示して，格子点の個数に対応させて数える！}}
+
+\newcommand{\ジャンケン}{\カラーポイント{ジャンケンの問題}{
+\見出しぶら下げ{・分母：}{各人がどの手を取るかで$3^n$通り。}
+\見出しぶら下げ{・分子：}{「誰」が「どの手」で勝つかを考える。あいこは数えにくいので，誰かが勝った場合の余事象で求める。}}}
+
+\newcommand{\余事象}{\カラーポイント{場合の数・確率の問題では…}{\波線{直接数えにくい}ときは\bgt{余事象}の利用も検討せよ！}}
+
+\newcommand{\否定・余事象の利用}{\カラーポイント{否定・余事象の利用}{否定・余事象の利用は有効だが，慎重に！}}
+
+%%% 第29回 確率３
+
+\newcommand{\条件付き確率}{\カラーポイント{条件付き確率}{
+事象に名前を設定し，以下の公式にしたがって求める
+\br{-.2}
+\begin{枠囲み}{条件付き確率の公式}
+$A$という事象の下で$B$という事象が起こる確率は
+\[P_A(B)=\bun{P(A\cap B)}{P(A)}\]
+\end{枠囲み}}}
+
+\newcommand{\取り出す問題}{\カラーポイント{「取り出す」問題}{
+\見出しぶら下げ{Step1．}{同じものを区別せずに「パターン」をすべて考える}
+\見出しぶら下げ{Step2．}{同じものを区別して「確率の積」で計算する}}}
+
+\newcommand{\確率の積の法則}{\カラーポイント{確率の積の法則}{\begin{enumerate}[\Kaku{enumi}]
+\item 常に成立する積の法則
+\[P(A\cap B)=P(A)\times P_A(B)\]
+\item 独立事象の積の法則
+\[P(A\cap B)=P(A)\times P(B)\]
+\end{enumerate}}}
+
+\newcommand{\反復試行の確率}{\カラーポイント{反復試行の確率}{ある試行を$n$回繰り返すとき，確率$p$で起こる事象$A$が$n$回中$r$回起こる確率は，\[\c{n}{r}p^r(1-p)^{n-r}\]}}
+
+%%% 第31回 ベクトル１
+
+\newcommand{\図形問題}{\カラーポイント{図形問題の方針}{
+\begin{tabular}{L{10zw}L{10zw}}
+\ajKuroKaku1 \mg{幾何} & \ajKuroKaku2 \mg{ベクトル}\\
+\ajKuroKaku3 \mg{座標} & \ajKuroKaku4 \mg{複素数平面}
+\end{tabular}}}
+
+\newcommand{\図形的考察}{\カラーポイント{図形的考察を意識すべき状況}{\begin{箇条書き}
+\item 円や正三角形などの幾何的性質を持つ図形のとき
+\item 代数的な考察（ベクトル，座標，複素数平面）で詰まったとき
+\end{箇条書き}}}
+
+\newcommand{\ベクトルの得意分野}{\カラーポイント{ベクトルの使いドコロ}{
+\強調{直角・垂直}，\強調{共線・共平面}，\強調{三角形の内部または周上}
+
+内分・外分，\強調{三角形・四面体の重心}，長さ，なす角}}
+
+\newcommand{\複素数の得意分野}{\カラーポイント{複素数平面の使いドコロ}{回転，相似，二辺比夾角が分かる図形（正三角形，直角二等辺三角形，正方形等）を見たら，複素数平面の検討を！}}
+
+\newcommand{\ベクトル方程式}{\カラーポイント{ベクトル方程式}{
+\見出しぶら下げ{Step1．}{始点を統一する}
+\見出しぶら下げ{Step2．}{目標を見定める}
+\begin{enumerate}[\Kaku{enumi}]
+\item $\text{(内積)}=0$：直角を意識する
+\item $\text{(大きさ)}=\text{(一定)}$：円 or 球面
+\item 動点について2次：動ベクトルについて整理してから平方完成し，\ajKaku2の形に帰着
+\end{enumerate}}}
+
+\newcommand{\三角形の内部・周上}{\カラーポイント{三角形の内部および周上}{
+$\vec{AP}=s\vec{AB}+t\vec{AC}$で表される平面上の点$\rm P$が$\triangle \rm ABC$の内部および周上を動く条件は
+\[s\geqq 0,\ t\geqq 0,\ s+t\leqq 1\]}}
+
+\newcommand{\三角形の内部・周上２}{\カラーポイント{三角形の内部および周上}{
+$\vec{OP}=s\vec{OA}+t\vec{OB}+u\vec{OC}$で表される点$\rm P$が$\triangle \rm ABC$の内部および周上を動く条件は
+\[s\geqq 0,\ t\geqq 0,\ u\geqq 0,\ s+t+u=1\]
+
+平面，空間のどちらでも成り立つ
+}}
+
+\newcommand{\２直線のなす角}{\カラーポイント{$2$直線のなす角}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item 幾何的に考える
+\item 内積の利用\\
+方向ベクトルを考え，$\cos\theta=\bun{\vec{a}\cdot \vec{b}}{\vecabs{a}\vecabs{b}}$の利用
+\item $\text{(傾き)}=\tan\text{の利用}$\\
+$x$軸とのなす角を考え，$\tan$の加法定理の利用
+\end{enumerate}}}
+
+\newcommand{\２直線のなす角３}{\カラーポイント{\ajKuroKaku3$\text{(傾き)}=\tan\text{の利用}$の注意点}{
+\begin{enumerate}
+\item \bgt{角度は$-\bun{\pi}2<\theta<\bun{\pi}2$と設定}
+\item 直線が$y$軸平行だと「傾き」を定義できない
+\item 2直線が直交すると，なす角の$\tan$が存在しない
+%\item 図を描いて，傾きの正負の組合せを全て考える
+\end{enumerate}}}
+
+\newcommand{\三角関数の１次式}{\カラーポイント{三角関数の１次式}{
+%\noindent 【目標】$f(x)=A\cos x+B\sin x$の最大・最小を考えたい
+\begin{enumerate}[\Kaku{enumi}]
+\item 合成する
+\item $X=\cos x,\ Y=\sin x$とおき，これを単位円周上の点と見て，$X^2+Y^2=1$と合わせて図示する
+\item ベクトルの内積の形に変形する
+%$\vec{x}=(\cos x,\ \sin x),\ \vec{a}=(A,\ B)$とおき，\\$f(x)=\vec{a}\cdot \vec{x}$と捉える（内積）
+\end{enumerate}}}
+
+\newcommand{\平面に落とし込む}{\カラーポイント{空間図形の問題では…}{断面を取って，平面に落とし込む！
+\begin{箇条書き}
+\item 対称的な立体なら，\強調{対称面}や\強調{対称軸}を通る平面で落とし込むのが基本
+\item 平面が一直線になる方向から眺めると奏功することも
+\end{箇条書き}}}
+
+\newcommand{\始点の取り方}{\カラーポイント{ベクトル/複素数平面の始点の取り方}{定点を始点に取る！
+\begin{enumerate}[\Kaku{enumi}]
+\item 対称性なし~\→~問題文中の点（回転中心）
+\item 対称性あり~\→~それらと無関係な点（位置ベクトル）
+\item 1点を除いて対称性あり~\→~その1点
+\end{enumerate}}}
+
+%図はH3理系数学冬期にある！
+\newcommand{\正射影ベクトル}{\カラーポイント{正射影ベクトル}{%
+\begin{mawarikomi}(0zw, 0zw){}{\img{H3S-09-1-5.pdf}}
+$\vec{b}$の$\vec{a}$の上への正射影ベクトル$\vec{h}$は
+\[\vec{h}=\bun{\vec{a}\cdot\vec{b}}{\vecabs{a}^2}\vec{a}\]
+\end{mawarikomi}\spp}}
+
+%%% 第32回 ベクトル２
+
+\newcommand{\同一図形量}{\カラーポイント{同一図形量}{
+図形問題で\強調{等式を作る}ためには，「長さ・面積・体積など」を２通りで表せば良い}}
+
+\newcommand{\内接円・内接球}{\カラーポイント{内接円の半径／内接球の半径}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 三角形の内接円の半径$r$は三角形の面積$S$と周の長さ$L$から求める
+\[S=\bun12Lr\]
+\item 四面体の内接球の半径$r$は四面体の体積$V$と表面積$S$から求める
+\[V=\bun13Sr\]
+\end{enumerate}}}
+
+\newcommand{\直線のベクトル方程式}{\カラーポイント{直線・線分のベクトル方程式}{2点A$(\vec{a})$，B$(\vec{b})$について，直線AB上の点X$(\vec{x})$はパラメータ$t$を用いて
+\[\vec{x}=t\vec{a}+(1-t)\vec{b}\ihspace{1zw}\text{（係数を足して$1$）}\]
+と表せる。線分ABなら$0\leqq t\leqq 1$という条件を加える。}}
+
+\newcommand{\共線・共平面条件}{\カラーポイント{共線・共平面条件}{
+◯P,\ Q,\ Rが\強調{同一直線上}にある条件は
+\[\vec{PR}=k\vec{PQ}\同値 \vec{OR}=(1-k)\vec{OP}+k\vec{OQ}\]
+
+\spp
+
+◯P,\ Q,\ R,\ Sが\強調{同一平面上}にある条件は
+\[&\vec{PS}=k\vec{PQ}+l\vec{PR}\\
+\同値 &\vec{OS}=(1-k-l)\vec{OP}+k\vec{OQ}+l\vec{OR}\]}}
+
+%%% 第33回 総合演習３
+
+\newcommand{\三角形の重心}{\カラーポイント{三角形の重心の性質}{\begin{enumerate}[\Kaku{enumi}]
+\item $2$中線（$3$中線）の交点
+\item 中線を$2:1$に内分
+\item $\vec{g}=\bun13(\vec{a}+\vec{b}+\vec{c})$
+\item 中線定理：$\rm {GB}^2+{GC}^2=2({GD}^2+{BD}^2)$
+\item $\vec{AG}+\vec{BG}+\vec{CG}=\vec 0$
+\item $\rm \triangle GBC=\triangle GCA=\triangle GAB$
+\end{enumerate}}}
+
+\newcommand{\円で有名な補助線}{\カラーポイント{円に対する補助線}{円で図形的考察を行うときは\下線{中心と主役を結ぶ}
+\begin{enumerate}[\Kaku{enumi}]
+\item 円と直線が接する：中心と接点を結ぶ
+\item ２円が接する：中心同士を結ぶ（接点がその上に存在）
+\item 弦を扱う：中心から弦に垂線を下ろす
+\end{enumerate}}}
+
+\newcommand{\円の弦の長さ}{\カラーポイント{円の弦の長さの求め方}{円の中心から弦に垂線を下ろし，三角比の定義で求める}}
+
+%%% 第34回 平面図形
+
+\newcommand{\反射の問題}{\カラーポイント{反射・最短距離の問題}{
+図形を折り返して，経路を直線上に伸ばす}}
+
+\newcommand{\円の問題}{\カラーポイント{円の問題}{
+図形的考察を忘れずに！
+
+特に，\bgt{中心・半径・接点・接線}などに注目したい}}
+
+\newcommand{\正領域・負領域}{\カラーポイント{正領域・負領域}{2点$(x_1,\,y_1),\ (x_2,\,y_2)$が$f(x,\,y)=0$のグラフで区切られた2つの領域の
+\[&\txt{同じ側にある}\同値 f(x_1,\,y_1)\cdot f(x_2,\,y_2)>0\\
+&\txt{反対側にある}\同値 f(x_1,\,y_1)\cdot f(x_2,\,y_2)<0\]}}
+
+%%% 第35回 空間図形
+
+\newcommand{\直線のベクトル方程式２}{\カラーポイント{直線のベクトル方程式}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 点A（$\vec{a}$）を通り，$\vec{l}$に平行な直線の方程式は
+\[\vec{x}=\vec{a}+t\vec{l}\ihspace{1zw}\text{（$\vec{l}$は方向ベクトル）}\]
+\item 直線ABの方程式は$\vec{l}=\vec{AB}$として，
+\[\vec{x}=(1-t)\vec{a}+t\vec{b}\ihspace{1zw}\text{（係数を足して$1$）}\]
+\end{enumerate}}}
+
+\newcommand{\空間内の直線の方程式}{\カラーポイント{空間内の直線の方程式}{
+点A\ $(a,\ b,\ c)$を通り，$\vec{l}=(l,\ m,\ n)$に平行な直線の方程式は
+\[\mat{x,y,z}=\mat{a,b,c}+t\mat{l,m,n}\]}}
+
+\newcommand{\平面の方程式}{\カラーポイント{平面のベクトル方程式}{
+通る$1$点$\caprm A$（$\vec{a}$）が与えられたとして，\begin{enumerate}[\Kaku{enumi}]
+\item 方向ベクトル$\vec{l},\,\vec{m}$が既知の場合
+\[\vec{x}=\vec{a}+\alpha\vec{l}+\beta\vec{m}\]
+\item 法線ベクトル$\vec{n}$が既知の場合
+\[\raisedbigl(\vec{x}-\vec{a}\raisedbigr)\cdot\vec{n}=0\]
+\end{enumerate}}}
+
+\newcommand{\平面の方程式１}{\カラーポイント{平面のベクトル方程式\ajMaru1}{
+点{A}（$\vec{a}$）を通り，$\vec{l}$と$\vec{m}$によって張られる平面のベクトル方程式は$s,\ t$をパラメータとして，
+\[\vec{x}=\vec{a}+s\vec{l}+t\vec{m}\]}}
+
+\newcommand{\平面の方程式２}{\カラーポイント{平面のベクトル方程式\ajMaru2}{
+点{A}（$\vec{a}$）を通り，法線ベクトルが$\vec{n}$である平面のベクトル方程式は
+\[\left(\vec{x}-\vec{a}\right)\cdot \vec{n}=0\]}}
+
+\newcommand{\外積}{\カラーポイント{外積の定義}{\sp $2$つのベクトル$\vec{a}=\mat{x_1,y_1,z_1},\ \vec{b}=\mat{x_2,y_2,z_2}$に対して，
+\[\vec{a}\times\vec{b}=\mat{y_1z_2-y_2z_1,z_1x_2-z_2x_1,x_1y_2-x_2y_1}\]
+を$\vec{a}$と$\vec{b}$の外積（ベクトル積）という。このベクトルは$\vec{a}$と$\vec{b}$の両方に垂直となる。}}
+
+\newcommand{\外積の性質}{\カラーポイント{外積の性質}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 外積の向きは，$\vec{a}$から$\vec{b}$に向けて右ねじを回したときに，ねじが進む向きに等しい。
+\item $\vec{a},\,\vec{b}$によって張られる平行四辺形の面積$S$は，$\vec{a}$と$\
+vec{b}$の「外積の大きさ」に等しい。すなわち，$\vec{a}$と$\vec{b}$のなす角を$\theta$として，
+\[\abs{\vec{a}\times\vec{b}}=\vecabs{a}\vecabs{b}\sin\theta\]
+\end{enumerate}
+\img*[c]{361.pdf}}}
+
+\newcommand{\平面に落とす}{\カラーポイント{空間図形の問題では…}{
+断面を取って，平面に落とし込む！
+\begin{箇条書き}
+\item 対称的な立体なら，\強調{対称面}や\強調{対称軸}を通る平面で落とし込むのが基本
+\item 平面が一直線／直線が点に見える方向から正射影するのも有効
+\end{箇条書き}}}
+
+\newcommand{\直線の平行条件・直交条件}{\カラーポイント{直線の平行条件・直交条件}{
+2直線$a_1x+b_1y+c_1=0,\,a_2x+b_2y+c_2=0$に対して,
+\begin{箇条書き}
+\item 平行$\同値 a_1b_2-a_2b_1=0$
+\item 直交$\同値 a_1a_2+b_1b_2=0$
+\end{箇条書き}}}
+
+\newcommand{\正射影の面積}{\カラーポイント{正射影の面積}{平面$\alpha$上の面積$S$の図形を平面$\beta$に正射影してできる図形の面積$S'$は，$\alpha,\,\beta$のなす角を$\theta$として，
+\[S'=S\cos\theta\]
+\img*[c]{正射影の面積.pdf}}}
+
+%%% 第36回 幾何
+
+\newcommand{\三角形の外心}{\カラーポイント{三角形の外心の性質}{\begin{enumerate}[\Kaku{enumi}]
+\item $2$辺（$3$辺）の垂直二等分線の交点
+\item 三角形の外接円の中心（$3$頂点からの距離が等しい）
+\item 正弦定理より，
+\[\rm OA=OB=OC=\bun{BC}{2\sin A}\]
+\item 外接円の半径を$R$とすると，
+\[S=\bun{abc}{4R}\]
+\end{enumerate}}}
+
+\newcommand{\三角形の内心}{\カラーポイント{三角形の内心の性質}{\begin{enumerate}[\Kaku{enumi}]
+\item $2$内角（$3$内角）の二等分線の交点
+\item 三角形の内接円の中心（$3$辺からの距離が等しい）
+\item 内接円の半径を$r$とすると，
+\[S=\bun12r(a+b+c)\]
+\item $\vec{i}=\bun{a\vec{a}+b\vec{b}+c\vec{c}}{a+b+c}$
+\end{enumerate}}}
+
+\newcommand{\三角形の垂心}{\カラーポイント{三角形の垂心の性質}{\begin{enumerate}[\Kaku{enumi}]
+\item 2頂点（3頂点）から対辺に下ろした垂線の交点
+\item Oを外心として，
+\[\vec{OH}=\vec{OA}+\vec{OB}+\vec{OC}\]
+\item Oを外心，Gを重心として，
+\[\rm OG:GH=1:2\ihspace{1zw}\text{（オイラー線）}\]
+\end{enumerate}}}
+
+\newcommand{\三角形の傍心}{\カラーポイント{三角形の傍心の性質}{\begin{enumerate}[\Kaku{enumi}]
+\item $1$つの内角の二等分線と$2$つの外角の二等分線の交点（$3$つ存在する）
+\item 三角形の傍接円の中心（$3$辺からの距離が等しい）
+\item $\triangle \rm I_ABC\souji \triangle I_AI_BI_C$
+\item $\triangle \rm ABC$の内心$\rm I$は$\triangle \rm I_AI_BI_C$の垂心\\
+（$\rm I_AA\perp I_BI_C$）
+\item 傍接円の半径を$r_a$とすると，
+\[S=\bun12r_a(b+c-a)\]
+\item $\vec{i_a}=\bun{-a\vec{a}+b\vec{b}+c\vec{c}}{-a+b+c}$
+\end{enumerate}}}
+
+\newcommand{\正弦定理}{\カラーポイント{正弦定理}{
+$\triangle \rm ABC$の外接円の半径を$R$とすると，
+\[\bun{a}{\sin A}=\bun{b}{\sin B}=\bun{c}{\sin C}=2R\]}}
+
+\newcommand{\正弦定理の使い時}{\カラーポイント{正弦定理の使い時}{\begin{enumerate}[\Kaku{enumi}]
+\item ２組の対辺・対角のうち１つが不明なとき
+\item 外接円の半径が知りたいとき/与えられているとき
+\end{enumerate}}}
+
+%%% 第37回 軌跡・領域１
+
+\newcommand{\軌跡・領域の手順}{\カラーポイント{軌跡・領域の手順}{
+\noindent \ajLig{○注} 数式化の前に\bgt{「図形的考察」}を！
+\見出しぶら下げ{Step1．}{軌跡上ないし領域内の点を文字で置く}
+\見出しぶら下げ{Step2．}{数式化をする}
+\見出しぶら下げ{Step3．}{「文字消去」を行う}}}
+
+\newcommand{\文字消去の手法}{\カラーポイント{文字消去の３手法}{\begin{enumerate}[\gt{\KuroKaku{enumi}}]
+\item \gt{代入法}\\
+…「消したい文字」を「残したい文字」で表して代入
+\item \gt{逆像法}\\
+…「消したい文字」を解にもつ方程式・不等式を作り，\\
+解の存在条件を考える
+\item \gt{順像法}\\
+…「残したい文字」を「消したい文字」の関数で表し，\\
+その値域を考える
+\end{enumerate}}}
+
+\newcommand{\文字消去の使い分け}{\カラーポイント{文字消去の使い分け}{
+\見出しぶら下げ{Step1．}{対称式があれば，基本対称式で表す（…\ajKuroKaku1~or~\ajKuroKaku2へ）}
+\見出しぶら下げ{Step2．}{「文字消去」の手法を選ぶ}
+\begin{enumerate}[\Kaku{enumi}]
+\item 等式条件から文字消去ができる…\ajKuroKaku1へ
+\item $Y\text{(残したい文字)}=\text{(消したい文字を含む関係式)}$\\
+の形で表せる…\ajKuroKaku3へ\hfil 表せない…\ajKuroKaku2へ
+\end{enumerate}}}
+
+%\newcommand{\文字消去の手法の絶対原則}{\カラーポイント{\ajKuroKaku2「逆像法」・\ajKuroKaku3「順像法」の絶対原則}{
+%\begin{enumerate}[\KuroKaku{enumi}]
+%\setcounter{enumi}{1}
+%\item 基本的に消したい文字について「２次以下の整式」
+%\item 「\text{(残したい文字)$=$(消したい文字の関係式)}」で表せる
+%\end{enumerate}}}
+
+\newcommand{\逆像法の使い所}{\カラーポイント{\ajKuroKaku2~逆像法の使い所}{消したい文字について$2$次以下の整式のときのみ}}
+
+\newcommand{\順像法の使い所}{\カラーポイント{\ajKuroKaku3~順像法の使い所}{\text{(残したい文字)$=$(消したい文字の関係式)}と表せる}}
+
+\newcommand{\軌跡・領域}{\軌跡・領域の手順 \文字消去の手法 \文字消去の使い分け}
+
+\newcommand{\文字消去}{\文字消去の手法 \msp \文字消去の使い分け}
+
+\newcommand{\領域図示}{\カラーポイント{領域図示の注意点}{
+境界として表れる直線と曲線は接することが多い！
+
+他に，基本的な注意点は
+\begin{enumerate}[\Kaku{enumi}]
+\item 方程式を図中に明示
+\item 境界の情報を点線・実線・白丸・黒丸で説明
+\item 境界が含まれるか迷ったら，代入して検算
+\end{enumerate}}}
+
+\newcommand{\軌跡と直角}{\カラーポイント{２定点を見込む角が一定}{円周角の定理の利用　\→　軌跡は円の一部}}
+
+\newcommand{\線分の通過領域}{\カラーポイント{線分の通過領域}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 直線の通過領域を求めて，端点の軌跡で切る
+\item 直線の方程式に$x$の変域を付与して考える
+\end{enumerate}}}
+
+%%% 第38回 軌跡・領域２
+
+\newcommand{\パラメータを含む関数}{\カラーポイント{パラメータを含む関数の扱い}{パラメータについて$1$次の場合は通る定点を求め，それ以外の場合も「正負がはっきり分かる点」を求めておく}}
+
+\newcommand{\軌跡・領域の図形的考察}{\カラーポイント{軌跡・領域で頻出の図形的考察}{\begin{enumerate}[\Kaku{enumi}]
+\item 直角（角度一定）→円（円周角の定理の逆）
+\item 包絡線の利用
+\item ２次曲線の定義が使える\\
+→放物線・楕円・双曲線
+\end{enumerate}}}
+
+\newcommand{\変換}{\カラーポイント{変換の解法}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 逆変換が求まる，つまり$s=f(x,\,y),\ t=g(x,\,y)$が$x,\,y$について解ける場合
+\一字ぶら下げ{\→}{逆に解いて$x,\,y$の条件に代入（\gt{\ajKuroKaku1~代入法}）}
+\item 「$f(x,\,y),\ g(x,\,y)$がともに対称式」で，かつ「変換前の領域が軸に平行な長方形または$x$と$y$に関して対称」である場合
+\一字ぶら下げ{\→}{解と係数の関係で$x,\,y$を解にもつ$2$次方程式を作り，実数解の存在条件を考える\右寄せ{（\gt{基本対称式→\ajKuroKaku2~逆像法}）}}
+\item 変換をベクトルの和に直せる場合
+\一字ぶら下げ{\→}{「ベクトル分解」（「切って移す」の「変換前固定」に相当）}
+\item その他の場合
+\begin{enumerate}[\Kakko{enumii}]
+\item １文字目を等式条件で消去し，２文字目の関数と見て値域を求める（\gt{\ajKuroKaku1~代入法→\ajKuroKaku3~順像法}）
+\item 変換前固定または変換後固定などによって一部だけ変換で移してから，固定を解除して全体の領域を求める＝「切って移す」
+\end{enumerate}
+\end{enumerate}}}
+
+\newcommand{\空間図形}{\カラーポイント{空間図形の方針}{\ajKuroKaku1　幾何\hfil \ajKuroKaku2　ベクトル\hfil \ajKuroKaku3　座標}}
+
+%%% 第39回 定点通過と束
+
+%\newcommand{\パラメータを含む方程式２}{\カラーポイント{パラメータを含む方程式が表す図形の動き}{
+%\begin{enumerate}[\Kaku{enumi}]
+%\item \gt{パラメータが{１}次の場合}\\
+%\→ 定点を通る（ことが多い）
+%\item \gt{パラメータが{２}次の場合}\\
+%\→ 放物線を包絡線にもつ（ことが多い）
+%\end{enumerate}}}
+
+\newcommand{\２円が接する条件}{\カラーポイント{２円が接する条件}{\begin{enumerate}[\Kaku{enumi}]
+\item 中心間距離と半径の和・差との関係を使う
+\item 方程式を連立し，重解をもつことを使う
+\end{enumerate}}}
+
+%%% 第40回 変数の設定・置換・消去
+
+\newcommand{\同次式}{\カラーポイント{同次式}{\ihspace{1zw}$x$と$y$の（$n$次の）同次式\\[.2\baselineskip]
+\→\ihspace{1zw}（$x^n$で割って）$\bun yx=t$と置いて$t$だけの式に！}}
+
+%%% 第42回 総合演習４
+
+\newcommand{\存在条件}{\カラーポイント{実数として存在する条件}{\begin{enumerate}[\Kaku{enumi}]
+\item 1文字ずつ存在条件を考える
+\見出しぶら下げ*{\→}{消したい文字についての方程式を作り，実数解を持つ条件を考える}
+\item 複数の文字の存在条件を一度に考える
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item $x,\ y$／$x,\ y,\ z$について対称のときは，これらを解に持つ2次／3次方程式を作って実数解を持つ条件を考える
+\item 「$x,\,y$が実数$\Leftrightarrow xy$平面上で条件を満たす点として存在する」と読み替えて図示
+\end{enumerate}
+\end{enumerate}}}
+
+\newcommand{\円と放物線が接する問題}{\カラーポイント{「円と放物線が接する」問題}{\begin{enumerate}[\KuroKaku{enumi}]
+\item 円の中心から放物線までの最短距離が半径
+\item 放物線の法線が円の中心を通る
+\item $1$文字消去して，方程式の重解条件を考える
+
+\ajLig{○注} 消去する文字には注意を払うこと！
+\end{enumerate}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%% 高２数学 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\不定形}{\カラーポイント{不定形の例}{
+$\bun{\infty}{\infty},\ \infty-\infty,\ \bun00,\ \infty\times0,\ (1+0)^{\infty},\ \infty^0$}}
+
+\newcommand{\情報の整理}{\カラーポイント{情報の整理}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 問題文の（使っていない）条件と前の小問の結果
+\item 問われている小問の結論や目標
+\end{enumerate}
+\noindent を計算用紙に書き並べる。これらの共通点や相違点を攻めると上手くいくことが多い。}}
+
+%%%%%%% 第１回「微分１」
+
+\newcommand{\接線の方程式}{\カラーポイント{接線の方程式}{
+曲線$y=f(x)$上の点$(t,\,f(t))$における接線は，
+\[y=f'(t)(x-t)+f(t)\]}}
+
+\newcommand{\法線の方程式}{\カラーポイント{法線の方程式}{
+
+曲線$y=f(x)$上の点$(t,\,f(t))$における法線は，
+\begin{enumerate}[\textbullet]
+\item $f'(t)=0$のとき：$x=t$
+\item $f'(t)\ne 0$のとき：$y=-\bun{1}{f'(t)}(x-t)+f(t)$
+\end{enumerate}
+\見出しぶら下げ*{\→}{２つをまとめて，
+\[(x-t)+f'(t)(y-f(t))=0\]
+
+（\text{点}$(t,\,f(t))$\text{を通り，法線ベクトル}$(1,\,f'(t))$\text{の直線}）}}}
+
+\newcommand{\点の極限}{\カラーポイント{点の極限}{点の極限\ihspace{1zw}\→\ihspace{1zw}各座標の極限を考える}}
+
+\newcommand{\接線の解法}{\カラーポイント{接線の解法}{\begin{enumerate}[\Kaku{enumi}]
+\item 接点を最初に設定
+\item 接線を最初に設定
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item 重解条件：準円，4次関数に2度接する場合
+\item 点と直線の距離の公式：円
+\end{enumerate}
+\end{enumerate}
+㊟~ファーストチョイスは\ajKaku1（接点より始めよ）
+
+㊟~二次曲線の場合，\ajKaku2を使うことも}}
+
+\newcommand{\パラメータ曲線の接線・法線}{\カラーポイント{パラメータ表示曲線の接線・法線}{
+曲線$C$が$\left(x(t),\,y(t)\right)$とパラメータ表示されているとき，$t=t_0$における
+\begin{enumerate}[\textbullet]
+\item 接線の方程式
+\[y'(t_0)(x-x(t_0))-x'(t_0)(y-y(t_0))=0\]
+\item 法線の方程式
+\[x'(t_0)(x-x(t_0))+y'(t_0)(y-y(t_0))=0\]
+\end{enumerate}}}
+
+\newcommand{\関数の差の形}{\カラーポイント{$f(b)-f(a)$を見たら}{\begin{enumerate}[\Kaku{enumi}]
+\item （整式なら）因数定理より，$b-a$をくくりだす
+\item （$\lim$なら）$b-a$で割って，微分係数の定義
+\[\limb[a]\bun{f(b)-f(a)}{b-a}\]
+\item 平均値の定理より，$b-a$をくくりだす
+\[f(b)-f(a)=f'(c)(b-a)\]
+\end{enumerate}}}
+
+%\newcommand{\微分係数の定義}{\カラーポイント{微分係数の定義}{
+%\begin{enumerate}[\Kaku{enumi}]
+%\sp
+%\item $\limb[a]\bun{f(b)-f(a)}{b-a}=f'(a)$
+%\sp
+%\item $\limh[0]\bun{f(a+h)-f(a)}{h}=f'(a)$
+%\end{enumerate}}}
+
+\newcommand{\微分係数の定義}{\カラーポイント{微分係数の定義}{関数$f(x)$に対し，極限値$\limh[0]\bun{f(a+h)-f(a)}h$が存在するとき，$f(x)$は$x=a$において\強調{微分可能}であると言い，その極限値を$\bs{f'(a)}$と表す。
+
+$a+h=b$とおけば，この極限値は$\limb[a]\bun{f(b)-f(a)}{b-a}$とも表せる。}}
+
+\newcommand{\微分係数の定義の着眼と発想}{\カラーポイント{微分係数の定義}{「$f(b)-f(a)$」の形をした「$\bun00$」の不定形の解消に役立つ。$f$は抽象的な関数でも良い。次の式変形が要求されることが多い。
+\begin{箇条書き}
+\item 分母・分子を$b-a$で割る
+\item 同じものを足し引きして分割する
+\end{箇条書き}}}
+
+\newcommand{\接線の本数を数える問題}{\カラーポイント{接線の本数を数える問題}{接線と接点の個数が一致することをコメントする
+
+\見出しぶら下げ*{㊟}{接線と接点の個数の一致が自明でない関数はグラフを描いて考える（誘導が付くことも多い）}}}
+
+\newcommand{\法線の本数を数える問題}{\カラーポイント{法線の本数を数える問題}{法線と接点の個数が一致することをコメントする
+
+\見出しぶら下げ*{㊟}{法線と接点の個数の一致が自明でない関数はグラフを描いて考える（誘導が付くことも多い）}}}
+
+\newcommand{\グラフの描き方}{\カラーポイント{グラフの描き方}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 定義域チェック
+
+\ajMaru1 \bgt{分母$\ne0$}，\ajMaru2 \bgt{真数条件}，\ajMaru3 \bgt{ルートの中身$0$以上}
+\item 対称性/周期性チェック（手間が減る）
+\見出しぶら下げ*{㊟}{三角関数のときは特に}
+\item 微分→増減表
+\item 極限チェック
+
+\ajMaru1 両端（端点，無限遠点），\ajMaru2 不連続点 $x\to \alpha\pm 0$
+\item グラフを描く
+\end{enumerate}}}
+
+\newcommand{\共通接線}{\カラーポイント{共通接線の求め方}{
+\begin{enumerate}[\Kaku{enumi}]
+\item \下線{$g(x)$が2次関数のとき}
+\見出しぶら下げ*{\→}{$y=f(x)$上の接点を設定し，そこでの接線が$y=g(x)$と接する条件を考える}
+\item \下線{$f(x),\,g(x)$ともに2次関数でないとき}
+\見出しぶら下げ*{\→}{$y=f(x)$，$y=g(x)$上のそれぞれの接点を設定し，それぞれの点における接線が一致する条件を考える（1次係数と定数項を比較する）}
+%\item 共通接線を設定し，これが両曲線に接する（重解条件を2回使う）
+\end{enumerate}}}
+
+\newcommand{\共通接線１}{\カラーポイント{\ajKuroKaku1 \bgt{接点を２つ設定する}}{
+\見出しぶら下げ{Step1．}{$(s,\ f(s))$における$y=f(x)$の接線と$(t,\ g(t))$における$y=g(x)$の接線を立式する
+\[\left\{\begin{array}{ll}
+y=f'(s)(x-s)+f(s)\\
+y=g'(t)(x-t)+g(t)
+\end{array}\right.\]}
+\見出しぶら下げ{Step2．}{2本の接線が一致する条件を求める}}}
+
+\newcommand{\共通接線２}{\カラーポイント{\ajKuroKaku2 \bgt{接点を１つ設定する}}{
+\見出しぶら下げ{Step1．}{$(t,\ f(t))$における$y=f(x)$の接線を立式する
+\[y=f'(t)(x-t)+f(t)\]}
+\見出しぶら下げ{Step2．}{上の式と$y=g(x)$から$y$消去した式が重解を持つ条件を求める}}}
+
+\newcommand{\汚い値}{\カラーポイント{汚い値や求まらない値}{一旦文字で置いて最後に値・関係式を代入せよ}}
+
+\newcommand{\面積計算の工夫}{\カラーポイント{面積計算の工夫}{
+三角形，四角形，扇形，$\bun16$公式が使える形に図形を分割
+
+して，計算を軽減する}}
+
+\newcommand{\対数の積分}{\カラーポイント{$\log$の積分}{
+不定積分を$C$とすると，
+\sp
+\begin{enumerate}[\Kaku{enumi}]
+\item $\int \log x\dx=x\log x-x+C$
+\item $\int \log (x+a)\dx=(x+a)\log (x+a)-x+C$
+\end{enumerate}}}
+
+%\newcommand{\難しい極限の問題}{\カラーポイント{難しい極限の問題}{\begin{箇条書き}
+%\item 大雑把に考える
+%\item 支配項をくくりだす
+%\item オーダーを考える
+%\end{箇条書き}}}
+
+\newcommand{\対数の極限}{\カラーポイント{$\log$の発散オーダー}{対数関数の発散オーダーを見積もるには「$\log$の真数部分」をその支配項でくくる
+
+一般に，
+\[\limx\bun{\log{\text{（$p$次式）}}}{\log{\text{（$q$次式）}}}=\bun{p}{q}\]}}
+
+\newcommand{\曲率円}{\カラーポイント{曲率円の性質}{
+%%% 図は01/pdfにある！！
+曲線$D:y=f(x)$上の点A$(a,\ f(a))$における曲率円$C$の性質は以下。
+\begin{enumerate}[\Kaku{enumi}]
+\item 点Aと曲線上の点Bにおける法線の交点をPとする。点Bを点Aに近づけたときの点Pの座標が$C$の中心となる。
+\item 点Aにおける$D$と$C$の第1次導関数・第2次導関数の値が一致する。
+\img*[c]{H2Math3-01-01.pdf}
+\end{enumerate}}}
+
+%%%%%%% 第２回「微分２」
+
+\newcommand{\導関数の正負の調べ方}{\カラーポイント{$f'(x)$の正負の「正しい」調べ方}{$f'(x)$を積の形にして，正負不明部を取り出す}}
+
+\newcommand{\関数の増減の調べ方}{\カラーポイント{$f(x)$の増減の「正しい」調べ方}{\波線{$f'(x)=0$を解くだけでは不十分}。増減を調べる方法は
+\begin{enumerate}[\Kaku{enumi}]
+\item $f'(x)$を因数分解する
+\item $f'(x)\geqq 0$を解く
+\item 中間値の定理（グラフを描く）
+\end{enumerate}}}
+
+\newcommand{\分子の有理化}{\カラーポイント{√$-$√の正負の調べ方}{分子の有理化を行うと正負が分かることがある
+\[\bun{\sq A-\sq B}{C}=\bun{A-B}{C(\sq A+\sq B)}\]
+
+㊟　分母の正負が一定かを確認すること}}
+
+\newcommand{\無理関数の最大・最小}{\カラーポイント{√を含む関数の値域の調べ方}{\scalebox{.99}{√を含む積の形は√の中に押し込んで，中身の値域を考える}}}
+
+\newcommand{\置換した関数の増減}{\カラーポイント{置換した関数の増減を考える際は}{置換した$t$ではなく，$x$を起点にして考えること！}}
+
+\newcommand{\解の唯一性の証明２}{\カラーポイント{方程式の解の存在と関数の単調性}{
+関数$f(x)$が全実数で単調増加／減少だからと言って，$f(x)=0$を満たす実数$x$が存在するとは限らない！
+
+\img*[c]{H3S-17-2-2.pdf}
+}}
+
+\newcommand{\解の唯一性の証明}{\カラーポイント{実数解をただ１つ持つことの証明}{
+\noindent 【目標】$f(x)=g(x)$が実数解をただ１つ持つことを示す
+
+☞まずは$h(x)=f(x)-g(x)$の単調性を疑う！
+\sp
+\begin{enumerate}[\Kaku{enumi}]
+\item \下線{$h(x)$が単調性を持つ関数であるとき}
+
+正負が異なる$h(a),\ h(b)$を１組見つけ，
+
+$h(x)$の連続性を言及して，「中間値の定理」を用いる
+
+\sp
+\item \下線{$h(x)$が単調性を持たない関数であるとき}
+
+グラフ（増減表）を描いて両端や極値の正負を調べる
+\end{enumerate}}}
+
+\newcommand{\図形量の最大・最小}{\カラーポイント{図形量の最大・最小}{
+\見出しぶら下げ{Step1．}{変数を設定
+
+\ajMaru1 自由度はいくつか　\ajMaru2 長さ or 角度}
+\見出しぶら下げ{Step2．}{変域を設定（変数を設定したらすぐに！）}
+\見出しぶら下げ{Step3．}{問題になっている図形量を変数で表す}
+\見出しぶら下げ{Step4．}{微分・グラフ・不等式などを利用して，
+
+最大値・最小値を求める}}}
+
+\newcommand{\単位円周上の３点}{\カラーポイント{単位円周上の3点}{座標平面において，単位円周上の3点$\caprm A,\,B,\,C$を文字で設定するときは，$\caprm A$を$(1,\,0)$に固定した上で，
+\[&\caprm B(\cos\alpha,\,\sin\alpha),\ C(\cos\beta,\,\sin\beta)\\
+&0<\alpha<\beta<2\pi\ \text{（ただし，$\alpha,\ \beta$は\波線{偏角}）}\]
+と設定するとよい}}
+
+\newcommand{\楕円の解法}{\カラーポイント{楕円の問題}{
+楕円の問題では以下の２つの解法を思い出すこと！
+\begin{enumerate}[\KuroKaku{enumi}]
+\item 円に拡大する
+
+\noindent \ajLig{○注} 拡大変換で保存されない長さや角度の条件がない場合
+
+\item パラメータ表示
+\[(x,\,y)=(a\cos \theta,\,b\sin \theta)\]
+
+\noindent \ajLig{○注} $\theta$は楕円上の角度ではなく，円に拡大したときの角度
+\end{enumerate}}}
+
+\newcommand{\拡大変換と図形量}{\カラーポイント{拡大変換と図形量の関係}{○~保存される図形量
+\begin{箇条書き}
+\item 接線は接線，接点は接点，交点は交点に移る
+\item 平行性，内分比，外分比，面積比
+\end{箇条書き}
+○~保存されない図形量
+\begin{箇条書き}
+\item 長さ，角度，平行でない線分の長さの比
+\item $x$軸に$a$倍，$y$軸に$b$倍拡大すると面積は$ab$倍
+\end{箇条書き}}}
+
+\newcommand{\楕円のパラメータ表示}{\カラーポイント{楕円上の点のパラメータ表示}{
+楕円$\bun{x^2}{a^2}+\bun{y^2}{b^2}=1$の点$\rmP$はパラメータ$\theta$を用いて，
+\[\caprm{P}(a\cos \theta \,，b\sin \theta )\ \ (0\leqq \theta <2\pi)\]
+と表される}}
+
+\newcommand{\複雑な関数}{\カラーポイント{複雑な見た目をしている関数}{変数の置換を行って極力簡単な関数に帰着させてから処理する}}
+
+\newcommand{\文字定数を含む関数の最大・最小}{\カラーポイント{文字定数を含む関数の最大・最小}{極値を取る点が定義域に含まれるか否かで場合分け}}
+
+%%%%%%% 第３回「微分３」
+
+\newcommand{\極値}{
+\カラーポイント{微分可能な関数が極値を持つための十分条件}{
+関数$f(x)$が微分可能で，$x=a$の前後で$f'(x)$の符号が$+$から$-$に（$-$から$+$に）変化するならば，$f(x)$は$x=a$で極大値（極小値）を取る
+\img[c]{3-1-02.pdf}}}
+
+\newcommand{\極値２}{\カラーポイント{極大値・極小値の定義}
+{関数$f(x)$と$x=a$に対して，$x=a$を含む十分狭い区間において$f(x)$が$x=a$で最大値（最小値）を取るとき，関数$f(x)$は$x=a$で\強調{極大値}（\強調{極小値}）を取ると言う。また，極大値と極小値をまとめて\強調{極値}という。}}
+
+\newcommand{\分数関数の極値}{\カラーポイント{分数関数の極値の計算の工夫}{分数関数$\bun{g(x)}{f(x)}$が$x=\alpha$で極値をとるとき，$f'(\alpha)\ne0$ならば，
+\[\bun{g(\alpha)}{f(\alpha)}=\bun{g'(\alpha)}{f'(\alpha)}\]}}
+
+\newcommand{\凹凸}{\カラーポイント{凹凸の定義}{
+ある区間上で定義された関数$f(x)$が\強調{上に凸}（\強調{下に凸}）であるとは，その区間に含まれる任意の2実数$a$，$b$に対して，2点$(a,\,f(a))$，$(b,\,f(b))$を結ぶ線分が$y=f(x)$のグラフよりも下（上）であることを言う
+\img[c]{3-2-01.pdf}}}
+
+\newcommand{\凹凸２}{\カラーポイント{$f''(x)$の正負と$f(x)$の凹凸の関係}{ある区間$I$上で定義された関数$f(x)$が2回微分可能であるとき，
+
+\begin{tabular}{l@{\hspace{.8zw}}c@{\hspace{.8zw}}l}
+$I$上で$f''(x)>0$&$\Rightarrow$&$f(x)$は$I$上で下に凸\\
+$I$上で$f''(x)<0$&$\Rightarrow$&$f(x)$は$I$上で上に凸\\
+\end{tabular}}}
+
+\newcommand{\関数の凹凸と変曲点}{\カラーポイント{２階微分可能な関数における凹凸と変曲点}{
+ある区間$I$上で定義された関数$f(x)$が2回微分可能であるとき，
+
+\begin{tabular}{l@{\hspace{.8zw}}c@{\hspace{.8zw}}l}
+$I$上で$f''(x)>0$&$\Rightarrow$&$f(x)$は$I$上で下に凸\\
+$I$上で$f''(x)<0$&$\Rightarrow$&$f(x)$は$I$上で上に凸\\
+\end{tabular}
+\spp
+\img[c]{3-2-02.pdf}
+
+\scalebox{.8}[1]{\mbox{$f''(x)<0\ \Rightarrow f'(x)$が単調減少$\Rightarrow$接線の傾きが減少$\Rightarrow$上に凸}}
+
+\scalebox{.8}[1]{\mbox{$f''(x)>0\ \Rightarrow f'(x)$が単調増加$\Rightarrow$接線の傾きが増加$\Rightarrow$下に凸}}
+\spp
+$f''(x)$の符号が$+$から$-$に（$-$から$+$に）変化する点を変曲点と言う}}
+
+\newcommand{\振動関数}{\カラーポイント{微分しなくても概形がわかるグラフ}{\[y=f(x)\cdot (\sin ax\ {\rm{or}} \cos ax) \]
+のグラフは微分しなくても概形を描くことができる。\強調{これは面積や体積を求めるときに活用できる}。しかし，\波線強調{極値は微分しないと求めることができない}。}}
+
+\newcommand{\対称移動２}{\カラーポイント{対称移動}{
+\[f(2l-x)=f(x)\]
+が成立するとき，$y=f(x)$は$x=l$について対称である}}
+
+\newcommand{\置換した関数と微分}{\カラーポイント{置き換えて良いケース／ダメなケース}{
+$f\left(g(x)\right)$において，$t=g(x)$と置換して$f(t)$を考える
+\sp
+\begin{enumerate}[\Kaku{enumi}]
+\item \下線{縦軸の値だけが問題のもの（最大値・最小値，値域）}
+
+「置換→微分」で最大値・最小値，値域は求まる
+
+\ajLig{○注}~$x$と$t$の関係を考える必要はない
+\sp
+\item \下線{グラフ上の動きが問題のもの（増減，凹凸）}
+
+原則として，置換せずに微分
+
+\ajLig{○注}~$g(x)$が単調なら「置換→微分」で増減は求まる
+
+\ihspace{1.2zw}$t$ではなく，$x$を起点に考えること
+
+\ajLig{○注}「置換→２階微分」では凹凸は求まらない
+\end{enumerate}}}
+
+\newcommand{\導関数の正負の調べ方２}{\カラーポイント{$\log$を含んだ導関数の正負の調べ方}{\noindent 【目標】$F(x)=f(x)\log x+g(x)$の正負を調べたい
+\sp
+\見出しぶら下げ{Step1．}{$\log$にかかっている$f(x)$を強引に括りだす}
+\sp
+\見出しぶら下げ{Step2．}{$G(x)=\log x+\bun{g(x)}{f(x)}$の正負・増減を調べる}
+\sp
+\noindent \ajLig{○注} ただし，$f(x)$の正負が一定な場合にしか使えない}}
+
+\newcommand{\陰関数の微分}{\カラーポイント{陰関数の微分}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 陽関数に直して微分
+\item 合成関数の微分公式$\bun{\d}{\dx}=\bun{\dy}{\dx}\cdot\bun{\d}{\dy}$を用いて，\par 陰関数のまま微分
+%\item 陽関数$y=\cdots$の形に直して微分する
+%\item $\bun{\d}{\dx}=\bun{\dy}{\dx}\cdot\bun{\d}{\dy}$を利用する
+\end{enumerate}}}
+
+\newcommand{\対数微分法}{\カラーポイント{対数微分法}{
+\mathindent=1zw
+\見出しぶら下げ{Step1．}{$y=f(x)^{g(x)}$について，\波線強調{両辺正であることを確認した上で}，自然対数を取る
+\[\log y=g(x)\log f(x)\]}
+\見出しぶら下げ{Step2．}{両辺を$x$について微分する
+\[&\underbrace{\bun{d}{dx}\log y}_{\bun{dy}{dx}\cdot\bun{d}{dy}\log y}=g'(x)\log f(x)+g(x)\bun{f'(x)}{f(x)}\\
+\同値\ &\bun{dy}{dx}\cdot\bun{1}{y}=g'(x)\log f(x)+g(x)\bun{f'(x)}{f(x)}\]}
+\見出しぶら下げ{Step3．}{求めたいのは$\bun{dy}{dx}$の値なので，
+\[\bun{dy}{dx}=y\cdot \left\{g'(x)\log f(x)+g(x)\bun{f'(x)}{f(x)}\right\}\]}}}
+
+\newcommand{\逆関数の微分}{\カラーポイント{逆関数の微分}{
+\見出しぶら下げ{Step1．}{$y=f(x)$の$x$と$y$を入れ替える\ihspace{.5zw}\→\ihspace{.5zw}$x=f(y)$}
+\見出しぶら下げ{Step2．}{両辺$x$で微分する
+\begin{align*}
+1=\bun{d}{dx}f(y)\同値{}&1=\bun{dy}{dx}\cdot\bun{d}{dy}f(y)\\
+\同値{}&\bun{dy}{dx}=\bun{1}{\bun{d}{dy}f(y)}
+\end{align*}}
+\見出しぶら下げ{Step3．}{右辺は$y$の式で表されているので，$x=f(y)$を使って($x$の式)に直す}}}
+
+%%%%%% 第４回「微分４」
+
+\newcommand{\関数を設定して大小比較}{\カラーポイント{具体値を含んだ大小比較}{自分で関数を用意して増減を調べ，引数の大小関係から不等式を得る！}}
+
+\newcommand{\多変数の不等式}{
+\カラーポイント{多変数の不等式}{\begin{enumerate}[\KuroKaku{enumi}]
+\item 文字固定
+
+\→ 万能だが，最終手段
+\item $t=\bun ba$の置換
+\sp
+例：$\log b-\log a=\log \bun ba$
+\sp
+\item 平均値の定理
+
+\→ 関数の差の形がある時
+\item 関数を設定して大小比較
+\sp
+例：$a^b,\ b^a$に対して，$\bun{\log x}x$
+\sp
+\item 有名不等式
+
+\→ 相加・相乗，コーシー・シュワルツ，凸不等式
+
+\ajLig{○注} 「凸不等式」は答案では使わない
+\end{enumerate}}}
+
+\newcommand{\お決まりのパターン}{\カラーポイント{お決まりのパターン}{「不等式証明」からの「はさみうちの原理を使った極限」
+
+の流れは頻出}}
+
+\newcommand{\はさみうちの注意点}{\カラーポイント{はさみうちの原理を用いるときの注意点}{はさみうちの原理を用いるときは，
+\begin{箇条書き}
+\item はさみうつ前の不等式
+\item 最左辺，最右辺が同じ値に収束すること
+\item 「はさみうちの原理より」というコメント
+\end{箇条書き}
+\noindent を必ず書くこと！}}
+
+\newcommand{\不等式証明の基本}{\カラーポイント{$f(x)>g(x),\ f(x)\geqq g(x)$の証明}{$f(x)-g(x)$を微分や因数分解をして最小値を求め，
+
+$f(x)-g(x)>0,\ f(x)-g(x)\geqq 0$を示す}}
+
+\newcommand{\ゼロ点}{\カラーポイント{\ajKaku2「ゼロ点」を探す}{
+\波線強調{（導）関数を因数分解出来ない}場合，\kenten{自分で}正負が切り替わる点を見つける必要がある
+\begin{enumerate}[\Kaku{enumi}]
+\item $e^x$（指数関数）を含む場合：$x=0,\ 1,\ e$など
+\item $\sin x,\ \tan x$（三角関数）を含む場合：$0$や有名角など
+\end{enumerate}
+をとりあえず代入してみる}}
+
+\newcommand{\ゼロ点２}{\カラーポイント{「ゼロ点」を探す}{
+\波線強調{（導）関数を因数分解出来ない}場合，\kenten{自分で}正負が切り替わる点を見つける必要がある
+\begin{enumerate}[\Kaku{enumi}]
+\item $e^x$（指数関数）を含む場合：$x=0,\ 1,\ e$など
+\item $\sin x,\ \tan x$（三角関数）を含む場合：$0$や有名角など
+\end{enumerate}
+をとりあえず代入してみる}}
+
+\newcommand{\極限の交換可能性}{\カラーポイント{極限の交換可能性}{$\limn x_n=\alpha$のとき，$f$が\波線強調{$n$を含まない} $x$の連続関数であるならば
+\[\ihspace{-.7zw}\limn f(x_n)=f\left(\limn x_n\right)=f(\alpha)\]
+と計算できる。特に，$f(x)=e^x$として，
+\[\ihspace{-.7zw}\limn \log{x_n}=\alpha\Rightarrow \limn x_n=\limn e^{\log{x_n}}=e^{\alpha}\]}}
+
+\newcommand{\無限和}{\カラーポイント{$\lim\sum$の処理}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item $\sum$計算
+\item 区分求積法
+\item 幅１長方形評価からのはさみうち
+
+\ajLig{○注} 台形評価の場合もある
+\item $f(k)$の不等式評価からのはさみうち
+
+\ajLig{○注} 誘導がつくことが多い
+\end{enumerate}}}
+
+\newcommand{\無限和の使い分け}{\カラーポイント{$\lim\sum$の使い分けの目安}{
+\begin{enumerate}[\KakkoAlph{enumi}]
+\item 直接求まる極限
+\sp
+\begin{enumerate}[\KuroKaku{enumii}]
+\item $\sum$計算
+\sp
+{\番号付き箇条書きの空白設定(0pt)<0zw>[1zw]{1zw}{1zw}
+\begin{enumerate}[\Maru{enumiii}]
+\item 等差数列・等比数列の和の公式
+\item $\sum k^2,\ \sum k^3$
+\item $S-rS$法（$\text{整式}\times\text{等比数列}$の和）
+\item 和の中抜け
+\end{enumerate}}
+\item 区分求積法
+\sp
+{\番号付き箇条書きの空白設定(0pt)<0zw>[1zw]{1zw}{1zw}
+\begin{enumerate}[・]
+\item $\bun kn$の形を多く含むとき
+\sp
+\item $\sum k^2,\ \sum k^3$は区分求積法の方が計算が楽
+\end{enumerate}}
+\end{enumerate}
+\sp
+\item 直接求まらない極限：不等式評価してはさみうち
+\sp
+\begin{enumerate}[\KuroKaku{enumii}]
+\setcounter{enumii}{2}
+\item 幅１長方形評価からのはさみうち\\
+\→~グラフが単調増加or減少であることが条件
+\sp
+{\番号付き箇条書きの空白設定(0pt)<0zw>[1zw]{1zw}{1zw}
+\begin{enumerate}[・]
+\item 区分求積法を使うと，$\int^1_0 \bun{1}{x^s}\dx,\ \int^1_0 \log x\dx$のような広義積分になるとき
+\end{enumerate}}
+\item $f(k)$の不等式評価からのはさみうち\\
+\→~最終手段（誘導がつくことが多い）
+\end{enumerate}
+\end{enumerate}}}
+
+\newcommand{\シグマを含んだ不等式}{\カラーポイント{$\dsum$を含んだ不等式}{\begin{enumerate}[\Kaku{enumi}]
+\item 数学的帰納法の利用
+\item $\dsum$に対して上下からの評価を行う
+\begin{enumerate}[\Maru{enumii}]
+\item 計算できる$\dsum$で押さえる
+\item 幅1長方形や台形で面積評価
+\end{enumerate}
+\item 中抜けができる形に変形し，直接$\dsum$計算に持ち込む
+\end{enumerate}}}
+
+\newcommand{\広義積分}{\カラーポイント{広義積分が登場したら…}{区分求積法を使うと，
+\[\int^1_0 \bun{1}{x^s}\dx,\ \int^1_0 \log x\dx,\ \int^1_0 \left(\log x\right)^2\dx\]
+などの形が登場したら，幅１長方形評価に方針を変える！}}
+
+\newcommand{\無限積}{\カラーポイント{無限積$\limn f(1)f(2)\cdots f(n)$の処理}{自然対数を取って$\limn \sum_{k=1}^n\log f(k)$の形にする}}
+
+\newcommand{\対数の使い時}{\カラーポイント{対数を取るタイミング}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 底にも指数にも変数を含むとき\par\→~指数が$\log$の係数になる
+\item 積\kenten{だけ}のとき~\→~和に直せる
+\item 無限積~\→~無限和（$\lim\dsum$）に帰着される
+\end{enumerate}}}
+
+\newcommand{\eで割ってから微分}{\カラーポイント{$e^x$の不等式証明}{両辺を$e^x$で割ると，１回の微分で済むことがある}}
+
+%%%%%% 第５回「微分５」
+
+%\newcommand{\分数関数の極限}{\カラーポイント{分数関数の極限}{まず「分母」に注目する
+%\begin{enumerate}[\Kaku{enumi}]
+%\item \下線{分母が$0$以外の値に収束するとき}
+%
+%\→ 分子の極限に注目する
+%\item \下線{分母が発散または$0$に収束するとき}
+%
+%\→ 「不定形」の場合は解消する
+%\begin{enumerate}[\Kakkoalph{enumii}]
+%\item 公式の利用
+%\item 分母の最も``強い''項でくくる
+%\end{enumerate}
+%\end{enumerate}}}
+
+\newcommand{\等比数列の収束・発散}{\カラーポイント{等比数列$x^n$の収束／発散}{
+\[\limn x^n=\left\{\begin{array}{ll}
+\infty \txt{に発散}&\txt{（$x>1$のとき）}\\[4pt]
+1&\txt{（$x=1$のとき）}\\[4pt]
+0&\txt{（$-1<x<1$のとき）}\\[4pt]
+\txt{振動}&\txt{（$x\leqq -1$のとき）}
+\end{array}\right.\]}}
+
+\newcommand{\無限等比数列の収束条件}{\カラーポイント{無限等比数列の収束条件}{
+無限等比数列$\limn ar^{n-1}$の収束条件は
+\[a=0\ \text{または}\ -1<r\leqq 1\]
+\begin{enumerate}[\Kaku{enumi}]
+\item $a=0$または$-1<r<1$のとき：$\limn a_n=0$
+\item $r=1$のとき：$\limn a_n=a$
+\end{enumerate}}}
+
+\newcommand{\無限等比数列の収束条件２}{\カラーポイント{無限等比数列の収束条件}{\[\txt{（初項）}=0\txt{または}-1<\txt{（公比）}\leqq 1\]}}
+
+%\newcommand{\無限等比級数の収束・発散}{\カラーポイント{無限等比級数の収束・発散}{
+%一般項を$a_n=ar^{n-1}$として，無限等比級数$\sum^{\infty}_{k=1}ar^{k-1}$の収束・発散は次の通り
+%\begin{箇条書き}
+%\item $a=0$の場合：$0$に収束
+%\item $a\ne0$の場合：
+%\begin{enumerate}
+%\item $-1<r<1$なら$\bun{a}{1-r}$に収束
+%\item それ以外$（r\leqq-1,\,1\leqq r)$なら発散
+%\end{enumerate}
+%\end{箇条書き}
+%
+%\noindent\hfil \↓
+%
+%以上をまとめると，無限等比数列の収束条件は
+%\[a=0\,\,\text{または}-1<r<1\,\,(\text{収束値は}\bun{a}{1-r})\]}}
+
+\newcommand{\関数の連続性}{\カラーポイント{関数の連続性}{\mathindent=1zw\begin{align*}
+&\text{関数$f(x)$が$x=a$で連続である}\\
+\同値 &\text{$\lim_{x\to a}f(x)$が存在し，その値が$f(a)$に等しいこと}\\
+\同値 &\limx[a-0]f(x)=\limx[a+0]f(x)=f(a)
+\end{align*}
+\sp
+イメージ：「グラフがつながっている」}}
+
+\newcommand{\関数の微分可能性}{\カラーポイント{関数の微分可能性}{\mathindent=1zw\begin{align*}
+&\text{関数$f(x)$が$x=a$で微分可能である}\\
+\同値 &\lim_{x\to a}\bun{f(x)-f(a)}{x-a}\text{が存在する}\\
+\同値 &\lim_{x\to a-0}\bun{f(x)-f(a)}{x-a}=\lim_{x\to a+0}\bun{f(x)-f(a)}{x-a}
+\end{align*}
+\sp
+イメージ：「グラフが\波線{なめらかに}つながっている」}}
+
+\newcommand{\連続性と微分可能性}{\カラーポイント{関数の連続性と微分可能性の関係}{
+\見出しぶら下げ{　○：}{$f(x)$が$x=a$で微分可能ならば，$f(x)$は$x=a$で連続である}
+\見出しぶら下げ{　×：}{$f(x)$が$x=a$で連続ならば，$f(x)$は$x=a$で微分可能である}}}
+
+\newcommand{\区分的に定義されている関数の連続性・微分可能性}{\カラーポイント{区分的に定義されている関数の連続性・微分可能性}{つなぎ目での連続性・微分可能性を調べる！}}
+
+\newcommand{\関数方程式と導関数の定義}{\カラーポイント{\ajKuroKaku2\ajKakkoalph1~微分係数/導関数の定義に持ち込むとき}{
+問題文や前の小問で$f(0)=1/f(1)=0$が分かっていたら，\bgt{$1$を$f(0)$に~/~$0$を$f(1)$に言い換える！}}}
+
+\newcommand{\導関数の定義}{\カラーポイント{導関数の定義}{
+\[\limh[0] \bun{f(x+h)-f(x)}{h}=f'(x)\]}}
+
+\newcommand{\関数方程式の流れ}{\カラーポイント{関数方程式のよくある流れ}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $f(0)$や$f(1)$などの具体的な値を求める
+\item $f'(0)$や$f'(1)$など，特定の$x$についての微分可能性を示す
+\item \ajKaku2を利用して，任意の$x$についての微分可能性を示す
+\item \ajKaku3で得られた$f'(x)$を積分し，$f(x)$の候補を求める
+\item \ajKaku1で得られた$f(0)$や$f(1)$を使って，$f(x)$の積分定数$C$を求める
+\end{enumerate}}}
+
+\newcommand{\平均値の定理}{\カラーポイント{平均値の定理}{
+%%%%%% 実戦講座第５回にある！
+%\img[c]{H2math3-05-01.pdf}
+\img*[c]{17-2-1.pdf}%傾きが伝わってくる！
+$a<b$とする。閉区間$a\leqq x\leqq b$において連続，開区間$a<x<b$において微分可能な関数$f(x)$に対して，
+\[\bun{f(b)-f(a)}{b-a}=f'(c),\quad a<c<b\]
+を満たす$c$が\波線{少なくとも１つ}存在する。}}
+
+\newcommand{\平均値の定理２}{\カラーポイント{平均値の定理}{
+$a<b$とする。閉区間$a\leqq x\leqq b$において連続，開区間$a<x<b$において微分可能な関数$f(x)$に対して，
+\[\bun{f(b)-f(a)}{b-a}=f'(c),\quad a<c<b\]
+を満たす$c$が\波線{少なくとも１つ}存在する。}}
+
+\newcommand{\平均値の定理の使い時}{
+\カラーポイント{平均値の定理の使い時}{
+\begin{enumerate}[\Kaku{enumi}]
+\item \scalebox{.95}{関数の差$f(b)-f(a)$から中身の差$b-a$をくくり出す}
+\item 微分可能な関数における存在証明\\
+㊟「少なくとも一つ」存在することに注意
+\end{enumerate}}}
+
+\newcommand{\平均値の定理の注意点}{\カラーポイント{平均値の定理を使う時の注意点}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $a=b$のときは場合分け
+\item 適用条件の確認
+
+\ajLig{○注}「全実数で微分可能」で済むことが多い
+\item $a,\ b$の大小が分からないときは
+
+×「$a<c<b$となる$c$が存在」
+
+○「…となる$c$が\波線{$a$と$b$の間に}存在」
+\end{enumerate}}}
+
+\newcommand{\凸不等式}{\カラーポイント{$n$文字の凸不等式}{
+関数$f(x)$がある区間で上に凸のとき，その区間に含まれる実数$x_1,\,x_2,\cdots,x_n$に対して以下の不等式が成り立つ
+
+\sp
+\begin{align*}
+&\bun{f(x_1)+f(x_2)+\cdots+f(x_n)}n\\
+&\hspace{5zw}\leqq f\left(\bun{x_1+x_2+\cdots+x_n}n\right)
+\end{align*}
+\sp
+
+等号成立条件は$x_1=x_2=\cdots =x_n$である}}
+
+\newcommand{\凸不等式２}{\カラーポイント{$n$文字の凸不等式（重み付き）}{
+関数$f(x)$がある区間で上に凸のとき，その区間に含まれる実数$x_1,\,x_2,\cdots,x_n$および$p_1+p_2+\cdots+p_n=1$をみたす$0$以上の実数$p_1,\,p_2,\,\tdots,\,p_n$に対して以下の不等式が成り立つ
+\sp
+\begin{align*}
+&p_1f(x_1)+p_2f(x_2)+\cdots+p_nf(x_n)\\
+&\hspace{5zw}\leqq f(p_1x_1+p_2x_2+\cdots+p_nx_n)
+\end{align*}
+}}
+
+%\newcommand{\凸不等式}{\カラーポイント{凸不等式}{
+%\begin{enumerate}[\Kaku{enumi}]
+%\item \強調{\bgtfamily $y=f(x)$のグラフが上に凸のとき}
+%\sp
+%$p,\,q\geqq 0,\ p+q=1$のとき，
+%\[f(pa+qb)\geqq pf(a)+qf(b)\]
+%
+%等号成立条件は
+%\[p=0\text{または}q=0\text{または}a=b\]
+%\spp
+%\item \強調{\bgtfamily $y=f(x)$のグラフが下に凸のとき}
+%\sp
+%$p,\,q\geqq 0,\ p+q=1$のとき，
+%\[f(pa+qb)\leqq pf(a)+qf(b)\]
+%
+%等号成立条件は
+%\[p=0\text{または}q=0\text{または}a=b\]
+%\end{enumerate}
+%\sp
+%登場する式において，\bgt{$f(pa+qb),\ f(a),\ f(b)$のような同じ形が含まれているとき・和が$1$の正数があるとき}に使うことが多い}}
+%
+%\newcommand{\凸不等式２}{\カラーポイント{凸不等式}
+%{
+%関数$f(x)$がある区間で上に凸のとき，その区間に含まれる実数$x_1,\,x_2,\cdots,x_n$に対して以下の不等式が成り立つ。
+%\sp
+%\[&\bun{f(x_1)+f(x_2)+\cdots+f(x_n)}n\\
+%&\hspace{3zw}\leqq f\left(\bun{x_1+x_2+\cdots+x_n}n\right)\]
+%\sp
+%等号成立条件は$x_1=x_2=\cdots =x_n$である。$f(x)$が下に凸なら，不等号の向きを逆にした不等式が成立する。}}
+
+\newcommand{\中間値の定理}{\カラーポイント{中間値の定理}{
+$a<b$とし，関数$f(x)$が閉区間$[a,\,b]$で連続で，
+
+$f(a)f(b)<0$であるならば，
+\[f(c)=0,\quad a<c<b\]
+を満たす$c$が\波線{少なくとも１つ}存在する}}
+
+\newcommand{\中間値の定理２}{\カラーポイント{中間値の定理}{
+関数$f(x)$が全実数で連続で，$\limx[-\infty] f(x)$と$\limx f(x)$の正負が異なるならば，$f(c)=0$を満たす$c$が\波線{少なくとも１つ}存在する}}
+
+\newcommand{\中間値の定理３}{\カラーポイント{中間値の定理}{
+$a<b$とし，関数$f(x)$が閉区間$[a,\,b]$で連続であれば，$f(x)$は$a\leqq x\leqq b$の範囲で$f(a)$と$f(b)$の間のすべての実数を取り得る}}
+
+\newcommand{\数列の極限}{\カラーポイント{「$a_{n+1}=f(a_n)$」型の問題}{\mathindent=1.5zw
+\noindent 【目標】$\limn a_n$を求める
+\spp
+\見出しぶら下げ{Step1．}{極限値を予想する
+
+\→ $\alpha=f(\alpha)$を満たす$\alpha$を数式かグラフで求める}
+\見出しぶら下げ{Step2．}{$a_{n+1}=f(a_n)$の両辺から$\alpha=f(\alpha)$を引く
+\[a_{n+1}-\alpha=f(a_n)-f(\alpha)\]}
+\見出しぶら下げ{Step3．}{$f(a_n)-f(\alpha)$から$a_n-\alpha$をくくりだす
+\begin{enumerate}[\Maru{enumi}]
+\item 整式　　：因数分解
+\item 無理関数：有理化
+\item 分数関数：通分
+\item 一般の関数 or \ajMaru1〜\ajMaru3が無理な場合\\
+：\bgt{平均値の定理}
+\end{enumerate}
+}
+\見出しぶら下げ{Step4．}{$a_n-\alpha$の正負が分からないときは両辺絶対値を取る
+\[|a_{n+1}-\alpha|=|●||a_n-\alpha|\]}
+\見出しぶら下げ{Step5．}{$|●|$を\波線{$0\leqq r<1$}を満たす\bgt{定数}で上から評価し，以下の不等式を作る
+\[|a_{n+1}-\alpha|\leqq r|a_n-\alpha|\text{　……☆}\]
+
+\ajLig{○注} \bgt{$a_n$の大きさの評価}が必要なことがある}
+\見出しぶら下げ{Step6．}{☆をくり返し用いる
+\[(0\leqq )\ |a_n-\alpha|\leqq r^{n-1}|a_1-\alpha|\]}
+\見出しぶら下げ{Step7．}{$n\to \infty$で「はさみうちの原理」を使う
+\[\limn|a_n-\alpha|=0\同値 \limn a_n=\alpha\]}}}
+
+\newcommand{\解けない漸化式の極限}{\カラーポイント{$a_{n+1}=f(a_n)$で定義された数列の一般項の極限}{\mathindent=1.5zw
+\見出しぶら下げ{Step1．}{極限値を予想する
+
+\→ $\alpha=f(\alpha)$を満たす$\alpha$を数式かグラフで求める}
+\見出しぶら下げ{Step2．}{$a_{n+1}=f(a_n)$の両辺から$\alpha=f(\alpha)$を引く
+\[a_{n+1}-\alpha=f(a_n)-f(\alpha)\]}
+\見出しぶら下げ{Step3．}{$f(a_n)-f(\alpha)$から$a_n-\alpha$をくくりだす
+\begin{enumerate}[\Maru{enumi}]
+\item 整式　　：因数分解
+\item 無理関数：有理化
+\item 分数関数：通分
+\item 一般の関数 or \ajMaru1〜\ajMaru3が無理な場合\\
+：\bgt{平均値の定理}
+\end{enumerate}
+}
+\見出しぶら下げ{Step4．}{\波線{$a_n-\alpha$の正負が分からないとき}は両辺絶対値を取る
+\[|a_{n+1}-\alpha|=|●||a_n-\alpha|\]}
+\見出しぶら下げ{Step5．}{$|●|$を\波線{$0\leqq r<1$}を満たす\bgt{定数}で上から評価し，以下の不等式を作る
+\[|a_{n+1}-\alpha|\leqq r|a_n-\alpha|\text{　……☆}\]
+
+\ajLig{○注} \bgt{$a_n$の大きさの評価}が必要なことがある}
+\見出しぶら下げ{Step6．}{☆をくり返し用いる
+\[(0\leqq )\ |a_n-\alpha|\leqq r^{n-1}|a_1-\alpha|\]}
+\見出しぶら下げ{Step7．}{$n\to \infty$で「はさみうちの原理」を用いる
+\[\limn|a_n-\alpha|=0\同値 \limn a_n=\alpha\]}}}
+
+\newcommand{\解けない漸化式の極限の注意点０}{
+\ポイント{\begin{enumerate}[\Maru{enumi}]
+\item $\text{●}$をくくり出したら等式の時点で絶対値をとる
+\item $\left|\text{●}\right|$を$1$未満の正の定数で押さえる
+\item $c_n$という$n$に依存した表記を用いる
+\item $x_n=\alpha$の場合は一応場合分けし，くり返し用いる前に，$x_n=\alpha$の場合を解決しておく
+\end{enumerate}}}
+
+\newcommand{\解けない漸化式の極限の注意点１}{
+\ポイント{\波線{$x_n-\alpha$の正負が分からない}ときは，$x_{n+1}=f(x_n)$から$\text{●}$をくくり出したら，等式の時点で絶対値をとる}}
+
+\newcommand{\解けない漸化式の極限の注意点２}{
+\ポイント{「$0\leqq \left|\text{●}\right|<1$」や「$0\leqq \left|f'(c_n)\right|<1$」を示すだけでは不十分で，必ず$0\leqq r<1$をみたす定数$r$を用いて上から評価しなければならない}}
+
+\newcommand{\解けない漸化式の極限の注意点３}{
+\ポイント{$\left|\text{●}\right|=|f'(c_n)|$自体が$n$によって変化する}}
+
+\newcommand{\解けない漸化式の極限の注意点４}{
+\ポイント{開区間$(a,\,b)$が存在しないと平均値の定理が使えないので，$x_n\neq \alpha$のケースは場合分けして，くり返し用いる\kenten{前}に，$x_n=\alpha$の場合を解決しておく}}
+
+%%%%%% 第６回「積分１」
+
+\newcommand{\部分積分}{\カラーポイント{部分積分で積分する関数のチョイス}{片方を積分，もう片方を微分した関数が残るので，
+\begin{center*}
+指数関数・三角関数\ihspace{.75zw}\→\ihspace{.75zw}整式\ihspace{.75zw}\→\ihspace{.75zw}対数関数
+\end{center*}
+\noindent の順番で，積分する方に割り当てよ！}}
+
+\newcommand{\積分計算の方向性}{\カラーポイント{積分計算の３つの方向性}{\begin{enumerate}[\KuroKaku{enumi}]
+\item \mg{積のまま積分}（置換積分，特殊基本関数など）
+\見出しぶら下げ*{\→}{微積分のペアがあるとき}
+\[\int f\left(g(x)\right)g'(x)\dx=F\left(g(x)\right)+C\]
+\item \mg{和に直して積分}（三角関数の公式，部分分数分解など）
+\見出しぶら下げ*{\→}{微積分のペアがないとき}
+\item \mg{部分積分}
+\見出しぶら下げ*{\→}{異なる種類の関数の積}
+\end{enumerate}}}
+
+\newcommand{\有理関数の積分}{\カラーポイント{有理関数の積分}{
+\見出しぶら下げ{Step1．}{分子の次数下げ}
+\見出しぶら下げ{Step2．}{特殊基本関数
+\[\bs{\dint \left\{f(x)\right\}^n\cdot f'(x)\dx},\ \bs{\dint\bun{f'(x)}{f(x)}\dx}\]}
+\見出しぶら下げ{Step3．}{分母の因数分解}
+\見出しぶら下げ{Step4．}{部分分数分解
+\sp
+\→ $\bun{b}{(x-a)^n}$と$\bun{cx+d}{x^2+ax+b}$の和にする
+\sp
+（$x^2+ax+b$は因数分解できない$2$次式）}
+\sp
+\見出しぶら下げ{Step5．}{各項ごとに積分
+\sp
+\begin{enumerate}[\textbullet]
+\item $\bun{b}{(x-a)^n}$は公式通り
+\item $\bun{cx+d}{x^2+ax+b}$は \ajMaru1 特殊基本関数と
+\sp
+\ajMaru2 平方完成して\bgt{$\tan \theta$置換} の合わせ技
+\end{enumerate}}}}
+
+\newcommand{\無理関数の積分}{\カラーポイント{無理関数の積分}{
+\begin{enumerate}[\Kaku{enumi}]
+\item \下線{特殊基本関数}
+
+\[\text{例：}&\int x\sq{1-x^2}\dx\\
+=&-\bun12\int (1-x^2)'(1-x^2)^{\bun12}\dx\\
+=&-\bun13(1-x^2)^{\bun32}+C\]
+\spp
+\item \下線{$\sq{\text{１次式}}$を含む関数}
+\begin{enumerate}[\Maru{enumii}]
+\item $\text{(１次式)}^{\bun12}$と直して公式を用いる
+\item $t=\sqrt{\text{(１次式)}}$とルートそのものを置換する
+\end{enumerate}
+\spp
+\item \下線{$\sq{\text{２次式}}$を含む関数}
+\見出しぶら下げ*{\→}{中身を\bgt{平方完成}して，\ajMaru1$\sr{a^2-x^2}$~{or}~\ajMaru2$\sr{x^2+A}$に帰着}
+\sp
+\begin{enumerate}[\Maru{enumii}]
+\item \bgt{円の面積}または$x=a\sin \theta$と置換
+\item $t=x+\sr{x^2+A}$と置換
+
+（誘導がつくので覚えなくてよい）
+\end{enumerate}
+\end{enumerate}}}
+
+\newcommand{\指数対数の積分}{\カラーポイント{指数関数・対数関数の積分}{\begin{enumerate}[\Kaku{enumi}]
+\item $\int f(e^x)e^x\dx$，$\int f(\log x)\cdot\bun1x\dx$
+
+\見出しぶら下げ*{\→}{$\int f(g(x))g'(x)\dx=F(g(x))+C$}
+\ssp
+\ajLig{○注} $f(x)$が整式の場合，特殊基本関数が使える
+
+\ajLig{○注} $g(x)=t$と置換しても良い
+
+\sp
+\item $e^x$，$e^{-x}$の分数式
+
+\見出しぶら下げ*{\→}{$t=e^x$と置換して有理式に}
+\sp
+\item $\int\text{（整式）}\cdot e^x\dx$
+
+\見出しぶら下げ*{\→}{整式を微分する方向に（瞬間）部分積分}
+\sp
+\item $\int\text{（整式）}\cdot \log x\dx$
+
+\見出しぶら下げ*{\→}{$\log x$を微分する方向に部分積分（1回だけ）}
+\sp
+\ajLig{○注} $\int \log x\dx$もこのパターン
+
+\ajLig{○注} $\int\text{（整式）}\cdot (\log x)^n\dx$なら$n$回部分積分
+\sp
+\item $\int e^x\cdot (\sin x/\cos x)\dx$
+
+\見出しぶら下げ*{\→}{$(e^x\sin x)'$と$(e^x\cos x)'$を計算する}
+\end{enumerate}}}
+
+\newcommand{\三角関数の積分}{\カラーポイント{三角関数の積分}{\begin{enumerate}[\Kaku{enumi}]
+\item \mg{$\left\{\begin{array}{l}
+f(\sin x)\cos x\\
+f(\cos x)\sin x\\
+f(\tan x)\bun{1}{\cos^2 x}
+\end{array}\right.$}
+\sp
+\見出しぶら下げ*{\→}{$\int f(g(x))g'(x)\dx=F(g(x))+C$}
+\sp
+\見出しぶら下げ*{\ajLig{○注}}{$g(x)=t$と置換しても良い}
+\見出しぶら下げ*{\ajLig{○注}}{$f(x)$が整式の場合，特殊基本関数が使える}
+\spp
+\見出しぶら下げ{例１：}{$\int \sin^{\text{奇数}}x\dx,\ \int \cos^{\text{奇数}}x\dx$は
+
+\bgt{$\sin x,\ \cos x$を１つだけ分離する}}
+\sp
+\見出しぶら下げ{例２：}{$\int \tan^{n}x\dx\ (n\geqq 3)$は
+
+\bgt{$\tan^2x$を分離して}，$\bun{1}{\cos^2 x}-1$の利用}
+\spp
+\item \mg{$\sin mx,\ \cos nx$の積}
+
+\見出しぶら下げ*{\→}{各種公式で\bgt{次数下げ}をして和の形にする}
+\sp
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item $\cos^2x/\sin^2x$：半角
+\item $\sin x\cos x$：倍角
+\item 2つの中身が異なるとき：積和
+\end{enumerate}
+\spp
+\見出しぶら下げ{例３：}{$\int \sin^{\text{偶数}}x\dx,\ \int \cos^{\text{偶数}}x\dx$は
+
+\bgt{半角公式を繰り返し用いる}}
+\spp
+\item \mg{$\int\text{（整式）}\cdot (\sin x/\cos x)\dx$}
+
+\見出しぶら下げ*{\→}{整式を微分する方向に（瞬間）部分積分}
+\spp
+\item \mg{$\int e^x\cdot (\sin x/\cos x)\dx$}
+
+\見出しぶら下げ*{\→}{$(e^x\sin x)'$と$(e^x\cos x)'$を計算する}
+\spp
+\item \mg{【最終手段】$t=\tan \bun{x}{2}$と置換し，有理関数へ}
+\br{-.3}
+\[&\sin x=\bun{2t}{1+t^2},\ \cos x=\bun{1-t^2}{1+t^2},\\
+&\tan x=\bun{2t}{1-t^2},\ \dx=\bun{2}{1+t^2}\dt\]
+
+\見出しぶら下げ*{\ajLig{○注}}{これらは覚えるのではなく，導けるように}
+\end{enumerate}}}
+
+\newcommand{\三角関数の積分２}{\カラーポイント{三角関数の積分}{\begin{enumerate}[\Kaku{enumi}]
+\item 特殊基本関数　例：$\sin ^3x,\ \tan^3 x$など
+\item 積和，半角を用いて次数下げ（積を和の形に）
+
+例：$\sin^2x,\ \sin 2x\cos 3x$など
+\item 部分積分（整式や指数関数との積）
+\item ワイエルシュトラス置換（$t=\tan \bun x2$の置換）
+\end{enumerate}}}
+
+\newcommand{\絶対値のついた関数の微分・積分}{\カラーポイント{絶対値のついた関数}{微分・積分するときは\bgt{絶対値を外してから}行う}}
+
+\newcommand{\定積分の視覚化}{\カラーポイント{定積分を面積と見る}{グラフで視覚化することで様子が掴める}}
+
+%% 高3数学 %基本事項見出し付きは別で定義したので，変だったら直して良い
+\newcommand{\扇形の弧長・面積}{\カラーポイント{扇形の弧長・面積}{\begin{mawarikomi}(0zw, 0zw){}{\img{扇形.pdf}}
+半径$r$，中心角$\theta\ [\mathrm{rad}]$の扇形の
+
+弧長$l$，面積$S$は
+\[l=r\theta,\quad S=\bun12r^2\theta\]
+\end{mawarikomi}}}
+
+%\newcommand{\位置・速度・加速度}{\カラーポイント{位置・速度・加速度の関係（１次元）}{
+%$x$軸上を運動している点\textrm{P}の位置，速度，加速度を
+%
+%それぞれ$x(t),\,v(t),\,a(t)$とすると，
+%\[v(t)&=x'(t)\\
+%a(t)&=v'(t)=x''(t)\\
+%x(t)&=x(t_0)+\int_{t_0}^tv(s)\ds\\
+%v(t)&=v(t_0)+\int_{t_0}^ta(s)\ds\]}}
+%
+%\newcommand{\位置・速度・加速度２}{\カラーポイント{位置・速度・加速度の関係（２次元）}{
+%$xy$平面上を運動している点\textrm{P}の位置ベクトルを
+%
+%$\vec{x}=(x(t),\,y(t))$とおくと，
+%\begin{align*}
+%\text{速度：}&\vec{v(t)}=(x'(t),\,y'(t))\\
+%\text{速さ：}&\vecabs{v(t)}=\sqrt{\{x'(t)\}^2+\{y'(t)\}^2}\\
+%\text{加速度：}&\vec{a(t)}=(x''(t),\,y''(t))\\
+%\text{加速度の大きさ：}&\vecabs{v(t)}=\sqrt{\{x''(t)\}^2+\{y''(t)\}^2}
+%\end{align*}}}
+
+\newcommand{\位置・速度・加速度}{\カラーポイント{位置・速度・加速度}{点$\rmP$の位置，速度，加速度をそれぞれ$\vec{x(t)},\,\vec{v(t)},\,\vec{a(t)}$とすると，
+\begin{align*}
+\vec{v(t)}&=\vec{x'(t)}\\
+\vec{a(t)}&=\vec{v'(t)}=\vec{x''(t)}\\
+\vec{x(t)}&=\vec{x(t_0)}+\dint_{t_0}^t\vec{v(t)}\dt\\
+\vec{v(t)}&=\vec{v(t_0)}+\dint_{t_0}^t\vec{a(t)}\dt
+\end{align*}}}
+
+%\newcommand{\変位と道のり}{\カラーポイント{変位と道のりの違い}{1周200mのランニングコースを5周した人を考えて，
+%\begin{箇条書き}
+%\item 変位：「最初と最後の位置」に注目して$0$になる。
+%\item 道のり：「走った人」に注目して，$1\mathrm{km}$になる。
+%\end{箇条書き}
+%\noindent というイメージを持つ。これを数式で考えると，$x$軸上の点$\rm{P}$が速度$v(t)$で$t=a$から$t=b$まで動いたとき，
+%\[\text{変位：}&\int^b_a v(t)\dt\\
+%\text{道のり：}&\int^b_a |v(t)|\dt\]}}
+
+\newcommand{\変位と道のり}{\カラーポイント{変位と道のり}{$x$軸上の点$\rm{P}$の速度を$v(t)$とすると，
+\[\text{変位：}\int^b_a v(t)\dt,\quad\text{道のり：}\int^b_a |v(t)|\dt\]}}
+
+\newcommand{\道のり}{\カラーポイント{二次元における道のりの求め方}{
+$xy$平面上の点が$t=a$から$t=b$までに動く道のりは，
+
+\begin{enumerate}[\Kaku{enumi}]
+\item 点が$\left(x(t),\,y(t)\right)$の形でパラメータ表示されているとき
+\[\dint^{t=b}_{t=a}\sqrt{\left(\bun{\d{x}}{\d{t}}\right)^2+\left(\bun{\d{y}}{\d{t}}\right)^2}\d{t}\]
+\item 点が$y=f(x)$の形で陽関数表示されているとき
+\[\dint^{x=b}_{x=a}\sq{1+\left(f'(x)\right)^2}\dx\]
+\end{enumerate}}}
+
+\newcommand{\三角関数の直交性}{\カラーポイント{三角関数の直交性}{$m,\,n$を自然数として，
+\[&\int_0^{2\pi}\cos mx\cos nx\dx=\left\{\begin{array}{ll}
+0&\text{（$m\ne n$のとき）}\\
+\pi&\text{（$m=n$のとき）}\\
+\end{array}\right.\\
+&\int_0^{2\pi}\sin mx\sin nx\dx=\left\{\begin{array}{ll}
+0&\text{（$m\ne n$のとき）}\\
+\pi&\text{（$m=n$のとき）}\\
+\end{array}\right.\\
+&\int_0^{2\pi}\cos mx\sin nx\dx=0
+\]}}
+
+\newcommand{\定積分の漸化式}{\カラーポイント{定積分の漸化式}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 部分積分を用いて次数下げ
+\item $I_n\pm I_{n+1}$を計算（誘導がつくことが多い）
+\[&\int^b_a f_n(x)\dx\pm \int^b_a f_{n+1}(x)\dx\\
+=&\int^b_a \{f_n(x)\pm f_{n+1}(x)\}\dx\]
+%定積分の線形性を利用している
+%\[&k\int^b_a f_n(x)\dx\pm l\int^b_a f_{n+1}(x)\dx\\
+%=&\int^b_a \{kf_n(x)\pm lf_{n+1}(x)\}\dx\]
+\end{enumerate}}}
+
+\newcommand{\定積分の漸化式sincos}{\カラーポイント{$\sin^{n}{x},\,\cos^{n}{x}$の積分漸化式}{$\sin x$／$\cos x$を1個だけ分離して部分積分}}
+
+\newcommand{\定積分の漸化式tan}{\カラーポイント{$\tan^{n}{x}$の積分漸化式}{2個分離して$\tan^{2}{x}+1=\bun1{\cos^2 x}=(\tan x)'$の利用}}
+
+\newcommand{\定積分と不等式}{\カラーポイント{定積分の不等式}{
+%%%%% 第６回「積分６」06/pdfにある→変えた！
+\img|1|[c]{12-04.pdf}
+
+区間$a\leqq x\leqq b$で常に$f(x)\leqq g(x)$が成立するとき，
+\[\int_a^b f(x)\,dx\leqq \int_a^bg(x)\,dx\]
+
+等号成立条件は$a\leqq x\leqq b$で常に$f(x)=g(x)$}}
+
+\newcommand{\定積分と不等式２}{\カラーポイント{定積分の不等式における等号成立条件}{$f(x)\leqq g(x)$を区間$a\leqq x\leqq b$で積分するとき，
+\sp
+\hfil 「$f(x)=g(x)$が\下線{$[a,\,b]$で常に成り立つわけではない}」
+\sp
+\noindent と明記すれば，「$\leqq$」を「$<$」に変えて，
+\[\int_a^bf(x)\dx<\int_a^bg(x)\dx\]
+のように条件を強められる！}}
+
+\newcommand{\定積分の不等式評価}{\カラーポイント{定積分の不等式評価}{
+\noindent \ajLig{○注} 前の小問の結果を使わず，単独で解けることが多い！
+\見出しぶら下げ{Step1．}{\bgt{結論から予想}}
+\sp
+例：$\int^1_0 f(x)\dx=\bun1{n+1}$\→\ $f(x)=x^n$
+\sp
+\見出しぶら下げ{Step2．}{被積分関数を評価（よく登場するものは以下）}
+\begin{enumerate}[\Kaku{enumi}]
+\item 被積分関数の最大値・最小値で評価（長方形評価）
+\item 積の形（$○\times□$）のときは一部（○or□）を評価\\
+\→\bgt{特に「あまり動かない方」「分母」を評価}
+\item 指数を評価
+\sp
+例：$0\leqq x\leqq1$において，
+\[&x^{\beta}\leqq x\leqq x^{\alpha}\ (0<\alpha<1<\beta)\\
+&x^n\geqq x^{n+1}\ (n\in \N)\]
+\item 凸性を利用した評価（三角形or台形評価）\\
+\→曲線，線分，接線の上下関係で評価
+
+例：$0\leqq x\leqq \bun{\pi}2$において，\[\bun2{\pi}x\leqq \sin x\leqq x\]
+\end{enumerate}}}
+
+\newcommand{\定積分の不等式評価２}{\カラーポイント{定積分の不等式評価}{
+\noindent \ajLig{○注} 前の小問の結果を使わず，単独で解けることが多い！
+\見出しぶら下げ{Step1．}{\bgt{結論から予想}}
+\sp
+例：$\int^1_0 f(x)\dx=\bun1{n+1}$\→\ $f(x)=x^n$
+\sp
+\見出しぶら下げ{Step2．}{被積分関数を評価（よく登場するものは以下）}
+\begin{enumerate}[\Kaku{enumi}]
+\item 被積分関数の最大値・最小値で評価（長方形評価）
+\item 積の形（$○\times□$）のときは一部（○or□）を評価\\
+\→\bgt{特に「あまり動かない方」「分母」を評価}
+\item 指数を評価
+\item 凹凸を利用した評価（三角形or台形評価）\\
+\→曲線，線分，接線の上下関係で評価
+\end{enumerate}}}
+
+\newcommand{\正弦の不等式評価}{\カラーポイント{$\sin x$の不等式評価}{$\sin x$は区間$\left[0,\ \bun{\pi}2\right]$において上に凸なので，
+\img*[c]{e3-2.pdf}}}
+
+\newcommand{\ジョルダンの不等式}{\カラーポイント{ジョルダンの不等式}{$0\leqq x\leqq \bun{\pi}2$において，$\bun2{\pi}x\leqq \sin x$
+\img*[c]{ジョルダンの不等式.pdf}
+}}
+
+\newcommand{\絶対値付きの定積分の不等式}{\カラーポイント{絶対値付きの定積分の不等式}{
+区間$a\leqq x\leqq b$において，
+\[\left|\int_a^bf(x)\dx\right|\leqq \int_a^b\left|f(x)\right|\dx\]
+
+等号成立条件は$a\leqq x\leqq b$で$f(x)$の正負が変化しない}}
+
+\newcommand{\定積分の三角不等式}{\カラーポイント{定積分の三角不等式}{
+区間$a\leqq x\leqq b$において，
+\[\left|\int_a^bf(x)\dx\right|\leqq \int_a^b\left|f(x)\right|\dx\]
+
+等号成立条件は$a\leqq x\leqq b$で$f(x)$の正負が変化しない}}
+
+\newcommand{\無限級数}{\カラーポイント{無限級数の求め方}{
+\見出しぶら下げ{Step1．}{第$N$部分和$S_N=\sum^{N}_{n=1}a_n$を計算する
+\sp
+一般に，数列の和の求め方は
+{\番号付き箇条書きの空白設定(0pt)<0zw>[1zw]{1zw}{1zw}
+\begin{enumerate}[\Maru{enumi}]
+\item 等差数列・等比数列の和の公式
+\item $\sum k^2,\ \sum k^3$
+\item $S-rS$法（$\text{整式}\times\text{等比数列}$の和）
+\item 和の中抜け
+\end{enumerate}}}
+\見出しぶら下げ{Step2．}{$N\to \infty$として，$\lim_{N\to \infty}S_N$を求める}}}
+
+\newcommand{\定積分の漸化式の誘導}{\カラーポイント{$I_n=\int_\text{●}^\text{●}\fbox{$n$乗}\dx$の問題のパターン}{
+\番号付け変更[1]{\ajKaku}
+\begin{enumerate}
+\item 部分積分（もしくは$I_n\pm I_{n+1}$など）により，\\
+$\left\{I_n\right\}$についての漸化式を作る。
+\item $I_n$の被積分関数の評価や$\left\{I_n\right\}$の漸化式を用いて，\\
+$I_n$に関する評価を得る。
+\item $n\to\infty$とすれば，はさみうちの原理により$\limn I_n=0$が示される。
+\item \ajKaku1の漸化式を解こうとすると，無限級数（もしくは無限積）が現れ，\ajKaku{2}の結果からその値が求まる。
+\item[{\makebox[1zw][l]{$\text{\ajKaku{4}}'$}}]もしくは，$\limn nI_n$や$\limn \sr nI_n$などの$\left\{I_n\right\}$に関する極限値が求まる。
+\end{enumerate}}}
+
+\newcommand{\数列の和の積分の誘導}{\カラーポイント{$\int^●_●\fbox{数列の和}\dx$の問題のパターン}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 「$\sum\txt{表記したもの}=\sum\txt{計算したもの}$」と整理する
+\[\sum^n_{k=1}(-1)^{k-1}x^{2k-2}=\bun1{1+x^2}-\bun{(-x^2)^n}{1+x^2}\]
+%\bun{1-(-x^2)^n}{1+x^2}\]
+%\bun1{1+x^2}-\bun{(-x^2)^n}{1+x^2}\]
+\item 両辺を積分すると，左辺に第$n$部分和が表れ，右辺の$n$を含まない項は定積分を計算できる
+\[\sum^n_{k=1}\bun{(-1)^{k-1}}{2k-1}=\bun{\pi}4-\int^1_0\bun{(-x^2)^n}{1+x^2}\dx\]
+\item \ajKaku2の右辺の$n$を含む項は被積分関数を不等式で評価し，$n\to \infty$とすれば，はさみうちの原理により$0$に収束することが示される
+\[\limn \int^1_0\bun{(-x^2)^n}{1+x^2}\dx=0\]
+\item \ajKaku2において$n\to \infty$とすると，無限級数が求まる
+\[\sum^{\infty}_{k=1}\bun{(-1)^{k-1}}{2k-1}=\bun{\pi}4\]
+\item[※]$n$を含む定積分について整理しても良い
+\[\scalebox{.9}{$\left|\sum^n_{k=1}\bun{(-1)^{k-1}}{2k-1}-\bun{\pi}4\right|=\left|(-1)^{n+1}\int^1_0\bun{x^{2n}}{1+x^2}\dx\right|$}\]
+\end{enumerate}
+}}
+
+\newcommand{\直接求まらない極限}{\カラーポイント{直接求まらない極限は…}{不等式で評価して，「はさみうちの原理」を予想する！
+\sp
+例：$\limx f(x)=0$を示せ
+\sp
+\→~絶対値を取って，$|f(x)|$を上から評価
+
+\ajLig{○注} $|f(x)|$は$0$で下から評価できる}}
+
+\newcommand{\周期関数の定積分}{\カラーポイント{周期関数の定積分}{
+\noindent 【目標】$\limn \int^b_a f(x)\left|\sin nx\right|\dx$を求める
+\sp
+☞　まずはグラフを描いて「視覚化」
+\sp
+\見出しぶら下げ{Step1．}{絶対値の中身の正負が一定な区間で分割する}
+%\begin{箇条書き}
+%\item $nx=t$と置換すると式が見やすくなる！
+%\item $y=\left|\sin t\right|$なら$\left[(k-1)\pi,\ k\pi\right]$で絶対値の中身の正負が一定になる
+%\end{箇条書き}
+\sp
+\見出しぶら下げ{Step2．}{次のいずれかの操作を行う}
+\begin{enumerate}[\Kaku{enumi}]
+\item 分割した各項の定積分を求める
+\item 定積分が求まらない場合は$f(x)$を不等式で評価してはさみうち
+\end{enumerate}
+\sp
+\見出しぶら下げ{Step3．}{それぞれを足し合わせて，極限を取る（無限級数）}}}
+
+%%%%%% 第７回「積分２」
+
+\newcommand{\等比数列の和}{\カラーポイント{等比数列の和}{
+初項$a$，公比$r$の等比数列$ar^{n-1}$の和は
+\begin{align*}
+&a+ar+\cdots+ar^{n-1}\\
+={}&\left\{\begin{array}{l} 
+\bun{a(1-r^n)}{1-r}~\,\,\下線{(r\ne1)}\\
+na~\,\,\下線{(r=1)}
+\end{array}\right.
+\end{align*}}}
+
+\newcommand{\定積分の線形性}{\カラーポイント{定積分の線形性}{積分区間が一致している複数の定積分は１つにまとめる}}
+
+\newcommand{\被積分関数の予想}{\カラーポイント{$f(x)$の予想の例}{
+\sp
+\begin{enumerate}[\Kaku{enumi}]
+\item \tab{12}{$\int^a_b f(x)\dx=0$}\→$f(x)=0$
+\item \tab{12}{$\int^{\bun{\pi}4}_0 f(x)\dx=\bun{\pi}4$}\→$f(x)=1$
+\item \tab{12}{$\int^1_0 f(x)\dx=\bun1{n+1}$}\→$f(x)=x^n$
+\item \tab{12}{$\int^1_0 f(x)\dx=\bun1{2n+1}$}\→$f(x)=x^{2n}$
+\end{enumerate}}}
+
+\newcommand{\不等式証明で正負不明部が登場}{\カラーポイント{不等式証明や極限で$(-1)^n$が登場したとき}{
+$(-1)^n$など，正負の判断がつかないものが出てきた時は，
+
+\bgt{絶対値を取ること}で消去できる}}
+
+%\newcommand{\無限級数のコツ}{\カラーポイント{無限級数の極限の取り方}{
+%\見出しぶら下げ{Step1．}{極限が分かるものと分からないものを整理する}
+%\見出しぶら下げ{Step2．}{極限を知りたいものを左辺，それ以外を右辺に
+%
+%整理する}}}
+
+\newcommand{\区間分割の典型}{\カラーポイント{区間分割の典型}{
+\noindent 【目標】$\int_0^{n\pi}f(x)|\sin x|\dx$を求める
+\sp
+\見出しぶら下げ{Step1．}{区間を$(k-1)\pi\leqq x\leqq k\pi\ (k=1,\ 2,\ \cdots,\ n)$で分割して，$\sum$を取る}
+\sp
+\見出しぶら下げ{Step2．}{それぞれの区間の定積分は
+\begin{enumerate}[\Maru{enumi}]
+\item 定積分の三角不等式を用いて絶対値を外す
+\item \bgt{$t=x-(k-1)\pi$}と置換する
+\end{enumerate}
+\noindent ことによって求める}}}
+
+\newcommand{\ライプニッツ級数}{\カラーポイント{ライプニッツ級数}{
+\begin{align*}
+\!\!\!1-\bun13+\bun15-\bun17+\bun19-\cdots=\bun{\pi}{4}
+\end{align*}}}
+
+\newcommand{\メルカトル級数}{\カラーポイント{メルカトル級数}{\begin{align*}
+\footnotesize{\ihspace{-2zw}1-\bun12+\bun13-\bun14+\bun15-\bun16+\bun17-\bun18+\cdots =\log 2}
+\end{align*}}}
+
+\newcommand{\区分求積法}{
+%%% 04/pdfに図がある！
+\カラーポイント{区分求積法}{
+\見出しぶら下げ{Step1．}{「和」の形にする}
+\見出しぶら下げ{Step2．}{微小短冊の横幅$\bun1n$を$\dsum$の外にくくりだす}
+\見出しぶら下げ{Step3．}{残った項を$f\left(\bun kn\right)$の形にして，区分求積法の公式を適用する
+\[\limn \bun1n\sum^{n}_{k=1}f\left(\bun{k}{n}\right)=\dint^{1}_{0}f(x)\dx\]}
+}}
+%\img*<1.2>[c]{H3kakushiri-17-01.pdf}
+
+\newcommand{\上に凸}{\カラーポイント{上に(下に)凸な関数の図形的性質}{%%% pdfは第７回にある！
+\begin{enumerate}[\Kaku{enumi}]
+\item 接線がグラフの上方(下方)に存在する
+\item グラフ上の$2$点を結ぶ線分がグラフの下方(上方)に存在する
+
+\img[c]{3-2-01.pdf}
+\end{enumerate}}}
+
+\newcommand{\幅１長方形評価の注意点}{\カラーポイント{幅１長方形評価の注意点}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 評価する関数が単調増加／減少であることを確認する
+\見出しぶら下げ*{㊟}{単調増加／減少によって，評価の方向が逆になる}
+\item 端１つの場合分けが要求されることがある
+\見出しぶら下げ*{㊟}{場合分けをしたら\下線{等号成立条件}に注意する}
+\end{enumerate}}}
+
+\newcommand{\調和級数}{\カラーポイント{調和級数の性質}{\begin{enumerate}[\Kaku{enumi}]
+\item 調和級数は発散する。つまり，
+\[\limn \sum^n_{k=1}\bun1k=\infty\]
+\item 調和級数の発散オーダーは$\log n$の発散オーダーと同じである。つまり，
+\[\limn \bun1{\log n}\sum^n_{k=1}\bun1k=1\]
+\end{enumerate}}}
+
+\newcommand{\台形評価}{\カラーポイント{台形評価}{
+\begin{箇条書き}
+\item $\bun{(b-a)}2\left\{f(a)+f(b)\right\}$のような台形の面積公式を連想させる形のときに検討する。
+\item グラフの\強調{凹凸}が一定か調べる。
+\item 台形は
+\begin{enumerate}[\Kaku{enumii}]
+\item 両端を結んで作る
+\item 中点での接線を引いて作る
+\end{enumerate}
+\ajKaku2については等積変形で長方形の面積として求められる。
+\end{箇条書き}}}
+
+%%%%%% 第８回「積分３」
+
+\newcommand{\積分方程式}{\カラーポイント{積分方程式}{
+\見出しぶら下げ{Step1．}{被積分関数の中に積分変数以外の変数が含まれていたら外に追い出す}
+\見出しぶら下げ{Step2.}{\br{-1}
+\begin{enumerate}[\KuroKaku{enumi}]
+\item 区間が定数：「$=k$」と置いて代入
+\item 区間に変数を含む：\波線{同値性に注意して}微分
+\end{enumerate}}}}
+
+\newcommand{\積分方程式１}{\カラーポイント{積分方程式で「$=k$」と置くときのコツ}{積分方程式の問題で定積分を文字で置く場合，係数などは込められるだけ込める！}}
+
+\newcommand{\定積分の微分}{\カラーポイント{微分の同値性（定積分ver.）}{
+\begin{align*}
+&\dint^{x}_{a}f(t)\d{t}=F(x)\\
+\同値{}&\bun{d}{\d{x}}\dint^{x}_{a}f(t)\d{t}=F'(x)\ \text{かつ}\ \下線{F(a)=0}
+\end{align*}}}
+
+\newcommand{\微分の同値性}{\カラーポイント{微分の同値性}{
+$f(x)=g(x)\同値 f'(x)=g'(x)$かつ\右寄せ{\波線{（ある$a$に対して）$f(a)=g(a)$}}}}
+
+\newcommand{\微積分学の基本定理}{\カラーポイント{微積分学の基本定理}{\[\bun{d}{\d{x}}\dint^{x}_{a}f(t)\d{t}=f(x)\]}}
+
+\newcommand{\微積分学の基本定理２}{\カラーポイント{微積分学の基本定理（一般形ver.）}{\sp\centering$\bun{d}{dx}\dint_{g(x)}^{h(x)}f(t)\dt=f(h(x))h'(x)-f(g(x))g'(x)$}}
+
+%\newcommand{\微積分学の基本定理２}{\カラーポイント{微積分学の基本定理}{
+%$f(x)$の原始関数を$F(x)$とすると，
+%\[&\bun{\d}{\dx}\int^{g(x)}_{h(x)}f(t)\dt\\
+%=&\bun{\d}{\dx}\Bigl[F(x)\Bigr]^{g(x)}_{h(x)}\\
+%=&\bun{\d}{\dx}\left\{F\left(g(x)\right)-F\left(h(x)\right)\right\}\\
+%=&f\left(g(x)\right)\cdot g'(x)-f\left(h(x)\right)\cdot h'(x)\]}}
+
+%\newcommand{\微分の同値性}{\カラーポイント{微分の同値性}{
+%$f(x)=g(x)\同値 f'(x)=g'(x)$かつ\下線{$f(c)=g(c)$}}}
+
+\newcommand{\変数の追い出し方}{\カラーポイント{変数の追い出し方}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 式の展開，加法定理，指数・対数法則を用いる
+\item 置換積分を用いる
+\end{enumerate}}}
+
+\newcommand{\微分方程式}{\カラーポイント{微分方程式の解法}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 積分をくり返し実行していく
+\item 変数分離法
+\end{enumerate}}}
+
+\newcommand{\変数分離法}{\カラーポイント{変数分離法}{
+\noindent 【目標】$f'(x)=f(x)g(x)$を解く
+\見出しぶら下げ{Step1．}{$f(x)=y,\ f'(x)=\bun{dy}{dx}$と書き換える}
+\見出しぶら下げ{Step2．}{$\bun{dy}{dx}$を分数のように扱って，\\
+$(y\text{の式})\times \dy=(x\text{の式})\times \dx$の形に変形する
+{\mathindent=1zw
+\[\bun{dy}{y}=g(x)\d{x}\]}}
+\見出しぶら下げ{Step3．}{両辺を積分する
+{\mathindent=1zw
+\[&\int\bun{dy}{y}=\int g(x)\d{x}\\
+\同値{}&\log |y|=G(x)+C\]}}
+\見出しぶら下げ{Step4．}{初期条件から，積分定数$C$を決定する}}}
+
+\newcommand{\置換積分のポイント}{\カラーポイント{置換積分のポイント}{\begin{enumerate}[\Kaku{enumi}]
+\item 「区間」や「引数」に注目する
+\item 「区間が逆転する置換」を疑う
+\end{enumerate}}}
+
+\newcommand{\区間逆転の置換}{\カラーポイント{区間逆転の置換}{
+$\int_0^{\text{■}}\cdots\dx$の積分において$t=\text{■}-x$と置換する！
+
+$\int_a^b\cdots\dx$なら$t=a+b-x$と置換する！}}
+
+%%%%%% 第９回「積分４」
+
+\newcommand{\逆関数の積分}{\カラーポイント{逆関数の定積分}{\begin{enumerate}[\Kaku{enumi}]
+\item 逆関数を求めて積分
+\item 定積分を面積と解釈して，もとの関数$f$の積分に帰着させる
+\item $x=f(t)$と置換して，部分積分により，もとの関数$f$の積分に帰着させる
+%\item グラフを$y=x$について折り返す
+%\item 置換積分
+\end{enumerate}}}
+
+\newcommand{\ベクトル分解}{\if高２用
+\カラーポイント{パラメータ表示の導出}{\begin{enumerate}[\Kaku{enumi}]
+\item ベクトルをつないで点の座標を求める
+\item ベクトルは「大きさ」と「向き」（そのベクトルと同じ向きに平行な単位ベクトル）に分けて考える
+\item 「向き」を図形的に考えるときは
+\begin{enumerate}[\Maru{enumii}]
+\item 長さの等しい２箇所に注目する
+\item $x$軸正方向の補助線を引く
+\end{enumerate}
+\end{enumerate}}
+\else
+\カラーポイント{ベクトル分解のポイント}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 図を描いてベクトル和を考える。
+\item 「滑らずに転がす」「引っ張ってほどく」ときは必ず長さが等しい２箇所がある。
+\item ベクトル成分を求めるときは「大きさ」と「向き」を別で考える。向きを考えるときは
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item $x$軸正方向の補助線を引く
+\item ベクトルの始点を原点に平行移動する
+\end{enumerate}
+\noindent と分かりやすい。
+\end{enumerate}}
+\fi}
+
+\newcommand{\サイクロイド}{\カラーポイント{サイクロイド}{半径$a$の円が定直線上を滑らずに転がるときの，円周上の定点が描く軌跡。パラメータ表示は以下の通り。
+\[\left\{\begin{array}{ll}
+x=a(\theta-\sin\theta)\\[5pt]
+y=a(1-\cos\theta)
+\end{array}\right.\]}}
+
+\newcommand{\アステロイド}{\カラーポイント{アステロイド}{半径$1$の円が半径$4$の円に内接しながら滑ることなく転がるとき，動円上の定点の描く軌跡をアステロイドという。パラメータ表示は以下の通り。
+\[\left\{\begin{array}{ll}
+x=4\cos^{3}\theta\\[3pt]
+y=4\sin^{3}\theta
+\end{array}\right.\]}}
+
+\newcommand{\アステロイドの性質}{\カラーポイント{アステロイドの性質}{\begin{箇条書き}
+\item アステロイドの接線が座標平面の両軸によって切り取られる長さは常に一定である
+\item 座標平面の両軸に両端をもつ長さが等しい任意の線分はアステロイドの接線である
+\end{箇条書き}}}
+
+\newcommand{\三角関数を含むグラフ}{\カラーポイント{三角関数を含んだグラフ}{\bgt{対称性・周期性}がないかを意識する}}
+
+\newcommand{\弧長}{\カラーポイント{弧長$L$の求め方}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 陽関数表示されたとき
+\begin{align*}
+L=\int_{x=a}^{x=b}\sqrt{1+\left\{f'(x)\right\}^2}\dx
+\end{align*}
+\spp
+\item パラメータ表示されたとき
+\begin{align*}
+L=\int_{t=a}^{t=b}\sqrt{\left\{x'(t)\right\}^2+\left\{y'(t)\right\}^2}\dt
+\end{align*}
+\end{enumerate}}}
+
+\newcommand{\ルートの外し方}{\カラーポイント{√の外し方}{
+\begin{enumerate}[\Kaku{enumi}]
+\sp
+\item $\sqrt{1+\cos x}=\sqrt{2}\left|\cos \bun{x}{2}\right|$
+\sp
+\item $\sqrt{1-\cos x}=\sqrt{2}\left|\sin \bun{x}{2}\right|$
+\sp
+\item $\sqrt{1\pm\sin x}=\left|\sin\bun{x}{2}\pm\cos\bun{x}{2}\right|$
+\sp
+\item $\sqrt{1+\left(\bun{e^x-e^{-x}}{2}\right)^2}=\bun{e^x+e^{-x}}{2}$
+\end{enumerate}}}
+
+\newcommand{\ルートの外し方２}{\カラーポイント{$\sr{1\pm\cos\theta}$，$\sr{1\pm\sin\theta}$のルートの外し方}{\mathindent=0zw
+\[\sr{1+\cos\theta}&=\sr{2\cos^2\bun\theta2}=\sr2\left|\cos\bun\theta2\right|\\
+\sr{1-\cos\theta}&=\sr{2\sin^2\bun\theta2}=\sr2\left|\sin\bun\theta2\right|\\
+\sr{1\pm\sin\theta}&=\sr{\sin^2\bun\theta2+\cos^2\bun\theta2\pm2\sin\bun\theta2\cos\bun\theta2}\\
+&=\left|\sin\bun\theta2\pm\cos\bun\theta2\right|
+\]}}
+
+\newcommand{\パラメータ曲線のグラフの描き方}{
+\カラーポイント{パラメータ表示された曲線のグラフの描き方}{
+\begin{enumerate}[\Kaku{enumi}]
+\item \bgt{パラメータ表示を解消して普通に描く}\\
+\→ パラメータを消去できる場合。パラメータの変域を$x,\ y$に反映することを忘れずに。
+\spp
+\item \bgt{接ベクトルの向きから, 点の動きを追う}\\
+\→ パラメータを消去できない場合。
+\sp
+\見出しぶら下げ{Step1．}{$\bun{dx}{dt}$，$\bun{dy}{dt}$を求める}
+\sp
+\見出しぶら下げ{Step2．}{\下線{点の動きを含めた}表を作成する}
+\見出しぶら下げ{Step3．}{座標平面上に代表点を書き入れる}
+\見出しぶら下げ{Step4．}{それらの間を適当な曲線で\下線{なめらかに}結ぶ}
+\end{enumerate}}}
+
+\newcommand{\面積計算}{\カラーポイント{面積の求め方}{
+\見出しぶら下げ{Step1．}{２曲線の共有点の$x$座標を求める
+
+\ajLig{○注} 求まらない場合は\bgt{一旦文字で置き}，その文字が満たす条件式を求めておく}
+\sp
+\見出しぶら下げ{Step2．}{２曲線の上下関係を調べてグラフを描く
+
+\ajLig{○注} 増減や凹凸が分からなくても良い}
+\sp
+\見出しぶら下げ{Step3．}{$\dint^{b}_{a}(\text{上}-\text{下})\d{x}$を計算する
+\sp
+\ajLig{○注} 上下関係が逆転する場合は区間を分けて計算する}}}
+
+%\newcommand{\パラメータ曲線の面積}{\カラーポイント{パラメータ表示された曲線で囲まれた領域の面積}{
+%\見出しぶら下げ{Step1．}{$\bun{dx}{dt},\,\bun{dy}{dt}$を求めて曲線のグラフを描く}
+%\見出しぶら下げ{Step2．}{左右（上下）の動きが一定な区間で区切って，$x,\ y$を用いてざっくり立式する}
+%\[S=\int_{x_\beta}^{x_\gamma}y_+\dx-\int_{x_\beta}^{x_\alpha}y_-\dx\]
+%\見出しぶら下げ{Step3．}{すべて$t$に置換して計算する}
+%\[S=\int_\beta^\gamma y(t)\bun{\d x(t)}{\dt}\dt-\int_\beta^\alpha y(t)\bun{\d x(t)}{\dt}\dt\]}}
+
+\newcommand{\パラメータ曲線の面積}{\カラーポイント{パラメータ表示曲線の面積}{
+\begin{enumerate}[\Kaku{enumi}]
+\item パラメータ積分
+\[S=\dint_{x=x_1}^{x=x_2}y\,dx=\dint_{t=t_1}^{t=t_2}y\bun{dx}{dt}dt\]
+\item 陽関数表示に直せるときは，普通に積分
+\item 極方程式に直せるときは，扇形近似
+\[S=\int_\alpha^\beta \bun12r^2\dtheta\]
+\item ガウス・グリーンの公式
+\[S=\bun12\int_a^b\left\{x(t)y'(t)-x'(t)y(t)\right\}\dt\]
+\end{enumerate}}
+}
+
+%%% 引き返しあり
+\newcommand{\パラメータ積分}{\カラーポイント{パラメータ表示された曲線で囲まれた領域の面積}{
+\見出しぶら下げ{Step1．}{$\bun{dx}{dt},\,\bun{dy}{dt}$を求めて曲線のグラフを描く}
+\見出しぶら下げ{Step2．}{左右（上下）の動きが一定な区間で区切って，$x,\ y$だけで立式する}
+\[S=\int_{x_\beta}^{x_\gamma}y_+\dx-\int_{x_\beta}^{x_\alpha}y_-\dx\]
+\見出しぶら下げ{Step3．}{パラメータ表示$(x,\,y)=(x(t),\,y(t))$を用いて，置換積分をする}
+\[S=\int_\beta^\gamma y(t)\bun{\d x(t)}{\dt}\dt-\int_\beta^\alpha y(t)\bun{\d x(t)}{\dt}\dt\]}}
+
+%%% 引き返しなし
+\newcommand{\パラメータ積分２}{\カラーポイント{パラメータ表示された曲線で囲まれた領域の面積}{\見出しぶら下げ{Step1．}{$\bun{dx}{dt},\,\bun{dy}{dt}$を求めて曲線のグラフを描く}
+\見出しぶら下げ{Step2．}{$x,\ y$だけで立式する
+\[S=\int^b_a y\dx\]}
+\見出しぶら下げ{Step3．}{パラメータ表示$(x,\,y)=(x(t),\,y(t))$を用いて，置換積分をする
+\[S=\int_{t_0}^{t_1}y(t)\bun{\dx(t)}{\dt}\dt\]}}}
+
+\newcommand{\途中で引き返す曲線}{\カラーポイント{「途中で引き返す」曲線の囲む部分の面積}{\begin{enumerate}
+\item[]陽関数表示できる部分に分割して立式する
+\item[\→]置換積分してパラメータに関する積分にする
+\item[\→]定積分はまとまって一つの積分になる
+\end{enumerate}
+
+\一字ぶら下げ{※}{$x$軸方向または$y$軸方向のうち，なるべく曲線が「引き返さない」方向に積分する}}}
+
+\newcommand{\単位ベクトル}{\カラーポイント{単位ベクトル}{
+大きさが$1$のベクトルを単位ベクトルという。\\$\vec{a}\ \left(\ne \vec{0}\right)$と平行な単位ベクトルは，$\pm\bun{\vec{a}}{\raisedbigl|\vec{a}\raisedbigr|}$である。}}
+
+\newcommand{\自己交差}{\カラーポイント{自己交差}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $t=\alpha$，$t=\beta$に同じ点を通るとして，$\alpha,\,\beta$を求める
+\item グラフを単調な部分に分割して，それぞれが交差しないことを示す
+%\item 凹凸も含めてグラフを描く 例を見たことがない
+\end{enumerate}}}
+
+%%% 図は高２数Ⅲ第９回
+\newcommand{\ガウス・グリーンの定理}{\カラーポイント{ガウス・グリーンの定理}{
+下図のように，パラメータ$t$によって$(x(t),\,y(t))$とパラメータ表示された点Pが，$a\leqq t\leqq b$の範囲で原点のまわりを反時計回りに回っているとき，網目部の面積$S$は
+\[S=\bun12\int_a^b\left\{x(t)y'(t)-x'(t)y(t)\right\}\dt\]
+
+\img[c]{ガウス・グリーンの公式.pdf}
+
+原点のまわりを時計回りに回っているときは
+\[S=-\bun12\int_a^b\left\{x(t)y'(t)-x'(t)y(t)\right\}\dt\]
+}}
+
+%%% 図は数Ⅲテーマ講義
+\newcommand{\扇形近似}{\カラーポイント{扇形近似}{
+\img*[c]{H3kakushiri-23-61.pdf}
+
+極方程式$r=f(\theta)$によって表された曲線$C$について，上図網掛け部の面積$S$は
+\[S=\int^{\beta}_{\alpha}\bun12r^2\d\theta=\bun12\int^{\beta}_{\alpha}\left\{f(\theta)\right\}^2\d\theta\]}}
+
+\newcommand{\扇形近似の注意点}{\カラーポイント{扇形近似の注意点}{\begin{enumerate}[\Kaku{enumi}]
+\item 始線からの角度か確認する
+\item 近似の説明を行う
+\item 積分区間を見定める
+\end{enumerate}}}
+
+\newcommand{\双曲線関数}{\カラーポイント{双曲線関数}{
+双曲線$x^2-y^2=1$のパラメータ表示は
+\[x=\bun{e^t+e^{-t}}2,\,y=\bun{e^t-e^{-t}}2\]
+で表され，$x$のパラメータ表示を\bgt{「ハイパボリックコサイン」}，$y$のパラメータ表示を\bgt{「ハイパボリックサイン」}と呼ぶ。記号を使って表すと，
+
+\[\cosh t=\bun{e^t+e^{-t}}2,\,\sinh t=\bun{e^t-e^{-t}}2\]
+
+以下の２つの公式は覚えておくと便利。
+
+\begin{enumerate}[\Kaku{enumi}]
+\item $\cosh^2 t-\sinh^2 t=1$
+\item $\left(\cosh t\right)'=\sinh t,\,\left(\sinh t\right)'=\cosh t$
+\end{enumerate}
+
+「\bgt{一方が登場した時はセットでもう一方を意識する}」と良い。}}
+
+%%%%%% 第10回「積分５」
+
+\newcommand{\体積}{\カラーポイント{体積の求め方}{
+\見出しぶら下げ{Step1．}{積分軸を決める。決めたらすぐに積分区間を求める。}
+\見出しぶら下げ{Step2．}{積分軸に垂直な平面で切って，断面図を描く。}
+\見出しぶら下げ{Step3．}{断面積$S(x)$を求める。}
+\見出しぶら下げ{Step4．}{立体が存在する範囲で$S(x)$を積分する。
+\[V=\dint^{b}_{a}S(x)\d{x}\]}}}
+
+\newcommand{\体積２}{\カラーポイント{体積の求め方}{
+\見出しぶら下げ{Step1．}{積分軸を決める。決めたらすぐに積分区間を求める。}
+\見出しぶら下げ{Step2．}{積分軸に垂直な平面で切って，断面図を描く。}
+\見出しぶら下げ{Step3．}{断面積$S(x)$を求める。}
+\見出しぶら下げ{Step4．}{立体が存在する範囲で$S(x)$を積分する。
+\[V=\dint^{b}_{a}S(x)\d{x}\]}
+注意点をまとめておきます。
+\begin{箇条書き}
+\item 立体の概形は分からなくて良い。\bgt{断面を把握することに集中せよ}。
+\item Step1．「積分軸の選択」が１番難しい。試行錯誤せよ。「回転体」は積分軸が決まっている分楽。
+\item Step2．では難しい操作（回転・合体）が加わる前に切れ。\bgt{「まず切れ，そして回せ」「まず切れ，そして合体せよ」}。
+\item Step2．では断面図が１通りであるとは限らないので注意せよ。
+\item Step3．断面に円が登場したら角度$\theta$を設定することが多い。変数を設定した後は$\theta$で置換積分することもセットで覚えておく。
+\end{箇条書き}}}
+
+\newcommand{\x軸に垂直に切断}{\カラーポイント{$x$軸に垂直に切断}{
+「平面$x=t$で切断」$=$「立体の式に$x=t$を代入」
+
+$=$「$x=t$として固定」}}
+
+\newcommand{\y軸に垂直に切断}{\カラーポイント{$y$軸に垂直に切断}{
+「平面$y=t$で切断」$=$「立体の式に$y=t$を代入」
+
+$=$「$y=t$として固定」}}
+
+\newcommand{\z軸に垂直に切断}{\カラーポイント{$z$軸に垂直に切断}{
+「平面$z=t$で切断」$=$「立体の式に$z=t$を代入」
+
+$=$「$z=t$として固定」}}
+
+\newcommand{\対称性のある立体の体積}{\カラーポイント{対称性のある立体の体積}{
+図形的な対称性を考慮して，計算を簡略化せよ}}
+
+\newcommand{\まず切れ}{\カラーポイント{複雑な操作のある体積の問題}{複雑な操作の前に切れ！
+
+切ってから回す，切ってから合体，切ってから動かす}}
+
+\newcommand{\切ってから合体}{\カラーポイント{共通部分の体積}{$\text{共通部分の断面}=\text{\波線強調{断面の共通部分}}$\par
+重ねてから切るのではなく，\波線強調{切ってから重ねよ！}}}
+%それぞれの立体の断面図を先に描いてから，合体する}}
+
+\newcommand{\切ってから回せ}{\カラーポイント{回転体の体積}{
+$\text{回転体の断面}=\text{\波線強調{断面の回転体}}$\par
+回してから切るのではなく，\波線強調{切ってから回せ！}}}
+
+\newcommand{\切ってから動かせ}{\カラーポイント{線織面に囲まれた立体の体積}{\scalebox{.95}{$\text{直線が通過してできる曲面の断面}=\text{\波線強調{直線と断面の交点の軌跡}}$}\par
+直線を動かしてから切るのではなく，\波線強調{切ってから動かせ！}}}
+
+\newcommand{\切ってから動かせ２}{\カラーポイント{平面や立体の通過領域の体積}{
+%\scalebox{.95}{$\text{平面／立体が通過してできる立体の断面}=\text{\波線強調{直線と断面の交点の軌跡}}$}\par
+動かしてから切るのではなく，\波線強調{切ってから動かせ！}}}
+
+\newcommand{\扇形の角度設定}{\カラーポイント{切り口に扇形がある場合}{中心角が分からなければ，角度$\theta$を設定~\→~$\theta$で置換積分
+
+㊟~$t$と$\theta$の関係式が得られる場所に設定すること}}
+
+\newcommand{\図示の注意点}{\カラーポイント{図示する時の注意点}{その図形が全ての状況を表しているとは限らない}}
+
+\newcommand{\断面図の注意点}{\カラーポイント{断面図を描く時の注意点}{その図形が全ての状況を表しているとは限らない！\ajMaru1「切片」や\ajMaru2「原点からの距離」に変数を含むときは近くの変数，定数と大小を比較すると場合分けに気付きやすい！}}
+
+\newcommand{\回転体の体積}{\カラーポイント{回転体の体積}{
+\見出しぶら下げ{Step1．}{回す図形が回転軸をまたいでいる時は，軸について折り返して一方に集める}
+\見出しぶら下げ{Step2．}{回す図形を回転軸に垂直に，\bgt{回す前に切る}}
+\見出しぶら下げ{Step3．}{切り口がドーナツ型になる時は，回転軸からの最短距離が内径（$l$），最長距離が外径（$L$）となり，
+
+断面積は$\pi(L^2-l^2)$となる
+
+\ajLig{○注} $\pi(L-l)^2$としないように！}}}
+
+\newcommand{\y軸回転体}{\カラーポイント{$y$軸まわりの回転体の体積}{\begin{enumerate}[\KuroKaku{enumi}]
+\item \mg{逆関数を求めて積分}
+\[\pi\int^{y_2}_{y_1}\{f^{-1}(y)\}^2\dy\]
+\item \mg{バウムクーヘン法}
+\[\int^{x_2}_{x_1}2\pi x|f(x)|\dx\]
+
+\ajLig{○注} 近似の説明を書くこと
+%\item 置換積分（非推奨）%使うタイミングがないので消す
+%\[\pi\int^{y_2}_{y_1}x^2\dy=\pi\int^{x_2}_{x_1}x^2\bun{\dy}{\dx}\dx\]
+%
+%\ajLig{○注} 単調増加・減少な区間に区切ること
+\end{enumerate}}}
+
+\newcommand{\バウムクーヘン法}{\カラーポイント{バウムクーヘン法}{
+$y=f(x)$のグラフが$(0<\,)\,a\leqq x\leqq b$の範囲で$x$軸と囲む部分を$y$軸のまわりに回転させてできる立体の体積は
+\[\int_a^b 2\pi x|f(x)|\dx\]}}
+
+\newcommand{\非回転体の体積}{\カラーポイント{非回転体の体積}{
+%断面積が求めやすいような軸で切ることがポイント
+\begin{enumerate}[\KuroKaku{enumi}]
+\item 数式的に考える
+\見出しぶら下げ*{\→}{立体を表す不等式を立てる}
+\item 図形的に考える
+\見出しぶら下げ*{\→}{立体の見取り図，断面図，投影図などを描く}
+\end{enumerate}}}
+
+\newcommand{\図形提示の体積}{\カラーポイント{図形提示された立体の体積}{
+\begin{enumerate}[\KuroKaku{enumi}]
+\item \mg{数式提示に直して考える}
+\見出しぶら下げ*{\→}{立体を表す方程式／不等式を立てて，\強調{文字固定}で機械的に切り口を把握する}
+\item \mg{図形提示のまま考える}
+\見出しぶら下げ*{\→}{\波線強調{色々な方向から平面図}を描いて，図形的に切り口を把握する}
+\end{enumerate}}}
+
+\newcommand{\円錐曲線}{\カラーポイント{円錐曲線}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 放物線：母線に平行な平面で切断
+\item 楕円　：全ての母線と交わる平面で切断\\
+\hfill (底面に平行だと円)
+\item 双曲線：母線に平行でない平面で切断
+\item ２直線：軸を含む平面で切断
+\end{enumerate}}}
+
+\newcommand{\円柱の不等式}{\カラーポイント{円柱を表す不等式}{中心が$(x,\ y)=(a,\ b)$, 半径が$r$, 高さが$c\leqq z\leqq d$の直円柱は以下のように表される
+\[(x-a)^2+(y-b)^2\leqq r^2,\quad c\leqq z\leqq d\]}}
+
+\newcommand{\円錐面の方程式}{\カラーポイント{円錐面の方程式の導出}{
+\begin{enumerate}[\Kaku{enumi}]
+\if高２用
+\item 回転軸に垂直な平面による切り口が円になる条件を立式する
+\item ベクトルの内積を用いて「軸となす角度が一定」という条件を立式する
+\else
+\item ベクトルの内積を用いて「軸となす角度が一定」という条件を立式する
+\item 回転軸に垂直な平面による切り口が円になる条件を立式する
+\fi
+\end{enumerate}}}
+
+%%%% 高２用！
+%\newcommand{\円錐面の方程式２}{\カラーポイント{円錐面の方程式の導出}{
+%\begin{enumerate}[\Kaku{enumi}]
+%\item 回転軸に垂直な平面による切り口が円になる条件を立式する
+%\item ベクトルの内積を用いて「軸となす角度が一定」という条件を立式する
+%\end{enumerate}}}
+
+\newcommand{\斜回転体}{\カラーポイント{斜回転体の体積}{\begin{enumerate}[\KuroKaku{enumi}]
+\item 置換積分
+\item 傘型近似
+\item 回転してパラメータ積分
+\end{enumerate}}}
+
+\newcommand{\斜回転体１}{\カラーポイント{\ajKuroKaku1~置換積分}{
+\見出しぶら下げ{Step1．}{回転軸$X$と回転軸に垂直な軸$Y$を設定し，
+
+$X$と$Y$だけでざっくり立式する
+\[V=\int^{X=\text{○}}_{X=\text{△}} \pi Y^2 \dX\]}
+\見出しぶら下げ{Step2．}{$Y$：点と直線の距離の公式
+
+$X$：内積% or 正射影ベクトル
+
+\noindent によって，$X$と$Y$を曲線のパラメータ$t$で表す}
+\見出しぶら下げ{Step3．}{$X$と$Y$を$t$で置換して積分する
+
+㊟~特殊基本関数のくくりだしで計算量を減らせる}}}
+
+\newcommand{\斜回転体の検算}{\カラーポイント{斜回転体の検算}{曲線$y=f(x)$を直線$y=l(x)$の周りに回転させてできる斜回転体の体積は
+\[\int^{b}_{a} \pi\left\{f(x)-l(x)\right\}^2\cos \theta \dx\]
+と表せる。ただし，$\theta$は$y=l(x)$と$x$軸正方向のなす角。}}
+
+\newcommand{\陰関数表示された曲線のグラフ}{\カラーポイント{陰関数表示された曲線のグラフの注意点}{\begin{enumerate}[\Kaku{enumi}]
+\item \bgt{陽関数表示に直して考える}
+\item 定義域チェック，対称性/周期性チェックをいつも以上に注意して行う
+%\item 定義域の考察を忘れない
+%\item 対称性を活用し，考える区間を減らすこと\\
+%例：$x^2$や$y^2$，$|x|$，$|y|$のみを含む式は$x$を$-x$に，\\
+%$y$を$-y$に変えても式は変わらない。つまり，それぞれ$y$軸や$x$軸に関して対称だと分かる。
+\end{enumerate}}}
+
+\newcommand{\アステロイドと放物線}{\カラーポイント{$x^k+y^k=a^k$で表される曲線とパラメータ表示}{%タイトル付けるの厳しい（笑）
+\begin{enumerate}[\Kaku{enumi}]
+\item $k=2$のとき：円
+\[x^2+y^2=a^2,\ (x=a\cos\theta,\ y=a\sin\theta)\]
+\item $k=1$のとき：直線
+\[x+y=a,\ (x=a\cos^2\theta,\ y=a\sin^2\theta)\]
+\item $k=\bun23$のとき：アステロイド
+\[x^{\bun23}+y^{\bun23}=a^{\bun23},\ (x=a\cos^3\theta,\ y=a\sin^3\theta)\]
+\item $k=\bun12$のとき：放物線
+\[x^{\bun12}+y^{\bun12}=a^{\bun12},\ (x=a\cos^4\theta,\ y=a\sin^4\theta)\]
+\end{enumerate}
+}}
+
+%%%%%%% 第11回 積分６
+
+\newcommand{\水の問題}{\カラーポイント{水の問題へのアプローチ}{
+\見出しぶら下げ{Step1．}{体積$V(t)$，水面の面積$S(t)$，高さ$h(t)$，半径$r(t)$などの関係式を立式する}
+\見出しぶら下げ{Step2．}{速度を求める時は関係式を$t$で微分する}
+\見出しぶら下げ{Step3．}{$t=t_0,\ h=h_0$などの値を代入する}}}
+
+\newcommand{\体積計算の工夫}{\カラーポイント{体積計算の工夫}{直方体・円柱・三角錐・円錐などが使える形に図形を分割して，計算を軽減する}}
+
+%%%%%%% 第12回 極限１
+
+\newcommand{\極限}{\カラーポイント{極限の２つの方向性}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 公式が使える形に変形して直接求める
+\item 直接求まらない極限は不等式評価してはさみうち
+\end{enumerate}}}
+
+\newcommand{\極限の考え方}{\カラーポイント{極限の考え方}{
+\見出しぶら下げ{Step1．}{$x$に形式的に代入し，不定形か確認する}
+\見出しぶら下げ{Step2．}{不定形を解消する}
+\見出しぶら下げ{Step3．}{直接求まらない極限は不等式で評価してはさみうち}}}
+
+\newcommand{\不定形の解消}{\カラーポイント{不定形の解消}{\begin{enumerate}[\Kaku{enumi}]
+\item （分母の）最も強い項でくくる
+\item （分子の）有理化を行う
+\item 三角関数・指数対数の極限公式に帰着させる
+\item 関数・数列の強さ比べ
+\item 微分係数の定義に帰着させる
+\end{enumerate}}}
+
+\newcommand{\図形と漸化式}{\カラーポイント{図形が順番に決まるときは…}{$n$個目と$n+1$個目に注目して漸化式を立てる}}
+
+\newcommand{\無限等比級数の収束条件}{\カラーポイント{無限等比級数の収束条件}{無限等比級数$S=\sum_{n=1}^{\infty}ar^{n-1}$の収束条件は
+\[a=0\text{または}-1<r<1\]
+\begin{enumerate}[\Kaku{enumi}]
+\item $a\ne 0$かつ$-1<r<1$のとき：$S=\bun{a}{1-r}$
+\item $a=0$のとき：$S=0$
+\end{enumerate}}}
+
+\newcommand{\無限等比級数の収束条件２}{\カラーポイント{無限等比級数の収束条件}{\[\txt{（初項）}=0\,\txt{または}\,-1<\txt{（公比）}<1\]}}
+
+\newcommand{\極限値の存在を仮定}{\カラーポイント{極限の問題の注意点}{極限値の存在を前提にした答案はご法度！}}
+
+\newcommand{\収束判定法}{\カラーポイント{無限級数と一般項の極限の関係}{無限級数が収束するためには，$\limn[\infty]a_n=0$であることが\bgt{必要}。\bgt{十分条件ではない}。
+\見出しぶら下げ{対偶：}{$\txt{$a_n$が$0$に収束しない}\ \Rightarrow\ \txt{無限級数は発散する}$}}}
+
+%\newcommand{\収束する数列の極限}{\カラーポイント{収束する数列の極限}{\bgt{$\limn a_n\,\,\limn b_n$が実数に収束するとき，}
+%\[&\limn(a_n\pm b_n)=\limn a_n\pm\limn b_n\\
+%&\limn(a_n\cdot b_n)=\limn a_n\cdot \limn b_n\]}}
+%
+%\newcommand{\極限の四則演算}{極限の四則演算は
+%
+%\ポイント{\begin{箇条書き}
+%\item $\limn a_n,\ \limn b_n$が収束すると分かっている
+%\item $\limn a_n\limn b_n$が発散する場合のうち，
+%
+%不定形でない
+%\end{箇条書き}}
+%
+%\noindent のいずれかしか認められません。}
+
+%%%%%%% 第13回 極限２
+
+\newcommand{\無限和の注意点}{\カラーポイント{数列の無限和を取るときの注意点}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 和の順序交換はダメ（有限和は良い）
+\item 全ての場合で同じ値に収束しないとダメ
+\end{enumerate}}}
+
+\newcommand{\場合分けされた数列の極限}{\カラーポイント{場合分けされた数列の極限}{一般項が場合分けされた数列は，全ての場合において同じ値に収束することを確認して初めて「収束する」と言える}}
+
+\newcommand{\分数関数の極限２}{\カラーポイント{分数関数の極限}{$\limx[a] f(x)=0$であり，$\limx[a]\bun{g(x)}{f(x)}$が収束するとき，
+\見出しぶら下げ{Step1．}{$\limx[a] g(x)=0$が\下線{必要}}
+\見出しぶら下げ{Step2．}{再度与式に代入して約分する}
+\見出しぶら下げ{Step3．}{$x\to a$のとき，極限値が存在するかを確認\右寄せ{（\下線{十分性の確認}）}}}}
+
+
+%%%%%%% 第14回 極限３
+
+\newcommand{\二変数の極限}{\カラーポイント{$n$と$a_n$の極限}{
+\noindent 【目標】$\limn f(n,\,a_n)$を求める（$a_n$を$n$で表せない）
+\begin{enumerate}[\Kaku{enumi}]
+\item $n$を吸収する形で「極限の基本公式」が使えるような変形を目指す
+\item $n$を$a_n$で表し，$\limn a_n=\text{●}$を調べて，
+\[\limn f(n,\,a_n)=\lim_{a_n\to\text{●}}g(a_n)\]と変形して極限を求める
+\end{enumerate}}}
+
+\newcommand{\テクニカルな極限}{\カラーポイント{$\limn n(a_n-\alpha)$を求めるコツ}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 極限値を知りたいものはまとめて扱う
+\item 収束・発散のオーダーを見積もる
+\item 与えられた等式条件を用いて，$n$を逆に$a_n$で表し，$n\to\infty$の極限から，$a_n\to\alpha$が利用できるように，
+\[\lim_{a_n\to\alpha}\text{（$a_n$の式）}\]
+と変形して，$a_n$の極限にすり替える
+\item $n$を吸収する形で「極限の基本公式」が使えるように変形する
+%\item $a_n$と$a_{n+1}$を両辺に混在させる変形も考える
+\end{enumerate}}}
+
+\newcommand{\方程式の解の極限}{
+\カラーポイント{方程式の解の極限}{方程式の解$x_n$の極限を考える際に，
+\begin{enumerate}[\Kaku{enumi}]
+\item $x_n$の満たす等式の条件を見落とさない
+\item グラフや式で$x_n$の極限を大雑把に予想する
+\item 自分ではさみうちの形を作ることもある
+%\\
+%例１：$\limn x_n=0$と予想したら
+%
+%→「$\limn \sin x_n=0$と$0<x_n<\bun{\pi}2$」を先に示す\\
+%例２：$\limn x_n=1$と予想したら
+%
+%→「$1<x_n<1+\bun1n$」を先に示す
+\end{enumerate}}}
+
+\newcommand{\区分求積法の応用}{\カラーポイント{区分求積法の応用}{$\sum$の区間は$1\leqq k\leqq n$である必要はない
+\[ \sum_{k=an+b}^{cn+d}\xrightarrow{n\to\infty}\int_a^c \]
+のように$n$の1次の係数を拾ってくればよい
+\見出しぶら下げ*{㊟}{$an+b,\,cn+d$が整数でない場合に区分求積法を用いるのは飛躍がある}}}
+
+%%%%%%% 第15回 複素数１
+
+%%% なるべく「複素数の〜」に統一する！
+
+\newcommand{\複素数の絶対値の計算}{\カラーポイント{複素数の絶対値の計算}{\begin{align*}
+\left|\alpha\beta\right|=\left|\alpha\right|\left|\beta\right|,\quad \left|\bun{\alpha}{\beta}\right|=\bun{\left|\alpha\right|}{\left|\beta\right|}
+\end{align*}}}
+
+\newcommand{\複素数の偏角の計算}{\カラーポイント{複素数の偏角の計算}{
+\begin{align*}
+&\arg \alpha\beta=\arg \alpha+\arg \beta \\
+&\arg \bun{\alpha}{\beta}=\arg \alpha -\arg \beta \\
+&\arg \alpha^n=n\arg\alpha
+\end{align*}}}
+
+\newcommand{\複素数の絶対値・偏角}{\複素数の絶対値の計算 \msp \複素数の偏角の計算}
+
+\newcommand{\ド・モアブルの定理}{\カラーポイント{ド・モアブルの定理}{$n$を整数として,
+\[(\cos \theta+i\sin \theta)^n=\cos n\theta+i\sin n\theta\]}}
+
+\newcommand{\複素数平面}{\カラーポイント{複素数平面の３大アプローチ}{\begin{enumerate}[\KuroKaku{enumi}]
+\item \mg{\if高２用 $z$\else 複素数\fi のまま}\\
+文字が増えないので，第一候補
+\item \mg{極形式}：\フォントサイズ{9pt}{$z=r(\cos \theta+i\sin \theta)\ (r\geqq 0,\ 0\leqq \theta<2\pi)$}\\
+積・商・累乗・$n$乗根には強いが，和・差には弱い
+\item \mg{直交形式}：$z=x+yi\ (x,\ y\in\R)$\\
+和・差には強いが，積・商・累乗・$n$乗根には弱い\\
+計算が煩雑になることが多い
+\end{enumerate}}}
+
+\newcommand{\複素数の実数条件}{\カラーポイント{複素数の実数条件}{\begin{enumerate}[\KuroKaku{enumi}]
+\item \mg{\if高２用 $z$\else 複素数\fi のまま}：$z=\conj{z}$
+\item \mg{極形式}：$\arg z=m\pi\ (m\in \Z)$
+\item \mg{直交形式}：$z=x+yi$で$y=0$
+\end{enumerate}}}
+
+\newcommand{\複素数の純虚数条件}{\カラーポイント{複素数の純虚数条件}{\begin{enumerate}[\KuroKaku{enumi}]
+\item \mg{\if高２用 $z$\else 複素数\fi のまま}：$z+\conj{z}=0$かつ$z\ne 0$
+\item \mg{極形式}：$\arg z=\bun{\pi}{2}+m\pi\ (m\in \Z)$
+\item \mg{直交形式}：$z=x+yi$で$x=0,\,y\ne 0$
+\end{enumerate}}}
+
+\newcommand{\複素数の絶対値の２乗}{\カラーポイント{複素数の絶対値の２乗}{\[|z\pm \alpha|^2=|z|^2\pm\conj{\alpha}z\pm\alpha\conj{z}+|\alpha|^2\]}}
+
+\newcommand{\複素数の方程式}{\カラーポイント{複素数の方程式}{
+\bgt{$z,\,\conj{z},\,|z|$を独立した変数とみなして，}\footnote{実際は従属な関係にありますが，問題を解く上では独立な変数であるかのように扱うと分かりやすいです。}
+\begin{enumerate}[\Kaku{enumi}]
+\item $z\cdot \conj{z}=|z|^2$を利用
+\item 両辺の絶対値を取る
+\item 両辺の共役複素数を取る
+\end{enumerate}
+を駆使して，$\conj{z}$と$|z|$の消去を目指す}}
+
+\newcommand{\複素数の方程式１}{\カラーポイント{$z$と$\conj z$を含む方程式の扱い}{$z$と$\conj{z}$を独立な変数とみなす}}
+
+\newcommand{\複素数の方程式２}{\カラーポイント{複素数の方程式}{複素数の方程式では，両辺の共役複素数を取る}}
+
+%%% pdfは発展講座第14回に！
+\newcommand{\複素数の回転・拡大変換}{\カラーポイント{複素数平面における回転・拡大変換}{\begin{mawarikomi}(0zw,0zw){}{\img*{H2math3-2-S17-01.pdf}}
+
+複素数平面上で，点$z$を点$\alpha$中心に反時計回りに$\theta$回転し，$r$倍拡大した点$w$は
+\[w=r(\cos\theta+i\sin\theta)(z-\alpha)+\alpha\]
+\br1
+\end{mawarikomi}}}
+
+%%% pdfは発展講座第14回に！
+\newcommand{\複素数の対称移動}{\カラーポイント{複素数平面における対称移動}{\begin{mawarikomi}(0zw,0zw){}{\img*<1.2>{14-補遺-01.pdf}}
+原点を通り，実軸正方向とのなす角が$\theta$である直線に関する対称移動は，
+\[f(z)=\conj z\,(\cos 2\theta+i\sin 2\theta)\]
+\end{mawarikomi}
+\br1}}
+
+\newcommand{\複素数の直線}{\カラーポイント{複素数平面における直線の方程式}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $\conj{A}z-A\conj{z}+B=0\ihspace{1zw}\text{（$B$は\下線{純虚数}）}$
+\item $\conj{A}z+A\conj{z}+B=0\ihspace{1zw}\text{（$B$は\下線{実数}）}$
+\end{enumerate}}}
+
+\newcommand{\複素数の一次式}{\カラーポイント{{$Az+B\conj z+C=0$}の表す図形}{%
+㊟\ihspace{.5zw}$A=B=0$の場合は考えない
+\begin{enumerate}[\Kaku{enumi}]
+\item $|A|\ne|B|$のとき：１点
+\item $|A|=|B|$のとき
+\begin{enumerate}[\Maru{enumii}]
+\item $B\conj C-\conj AC=0$のとき：直線
+\item $B\conj C-\conj AC\ne 0$のとき：空集合
+\end{enumerate}
+\end{enumerate}}}
+
+\newcommand{\複素数の平行条件・直交条件}{\カラーポイント{複素数平面における平行（共線）・直交条件}{
+%\begin{enumerate}[\Kaku{enumi}]
+%\item 平行（共線）条件
+相異なる複素数$\alpha,\ \beta,\ \gamma,\ \delta$に対して，
+\[\vec{\alpha\beta}\parallel\vec{\gamma\delta}&\同値 \bun{\beta-\alpha}{\delta-\gamma}\text{が実数}\\
+&\同値 \conj{\left(\bun{\beta-\alpha}{\delta-\gamma}\right)}=\bun{\beta-\alpha}{\delta-\gamma}\]
+%\item 直交条件
+\[\vec{\alpha\beta}\perp\vec{\gamma\delta}&\同値 \bun{\beta-\alpha}{\delta-\gamma}\text{が純虚数}\\
+&\同値 \conj{\left(\bun{\beta-\alpha}{\delta-\gamma}\right)}=-\bun{\beta-\alpha}{\delta-\gamma}\ (\ne 0)\]
+%\end{enumerate}
+}}
+
+\newcommand{\絶対値１の複素数}{\カラーポイント{絶対値$1$の複素数}{\begin{enumerate}[\KuroKaku{enumi}]
+\item \mg{\if高２用 $z$\else 複素数\fi のまま}：$|z|=1\同値 \conj{z}=\bun{1}{z}$の利用
+\item \mg{極形式}：$z=\cos \theta+i\sin \theta$とおく
+\item \mg{直交形式}：$x^2+y^2=1$の利用
+\end{enumerate}}}
+
+\newcommand{\複素数の典型的な変形}{\カラーポイント{複素数の典型的な変形}{\[z^l=z^k\ (k\leqq l)\]
+を見たら，両辺$z^k$で割って，
+\[z^{l-k}=1\]
+と変形すると上手くいくことが多い}}
+
+\newcommand{\相異なることの証明}{\カラーポイント{「相異なる」を示す}{\bgt{背理法}を使うと示しやすいことが多い。つまり，「等しいものがある」と仮定し，\強調{等式を立てて}から矛盾を示す。}}
+
+\newcommand{\必要十分条件の証明}{\カラーポイント{必要十分条件の証明}{\begin{enumerate}[\Kaku{enumi}]
+\item 同値変形で示す
+\item 必要条件と十分条件をそれぞれ示す
+\end{enumerate}}}
+
+%%%%%%% 第16回 複素数２
+
+\newcommand{\複素数の三角形の相似条件}{\カラーポイント{複素数平面における三角形の相似条件}{$\triangle \alpha\beta\gamma$と$\triangle \alpha'\beta'\gamma'$が
+\begin{enumerate}[\Kaku{enumi}]
+\item 同じ向きに相似である条件は
+\begin{align*}
+\bun{\gamma-\alpha}{\beta-\alpha}=\bun{\gamma'-\alpha'}{\beta'-\alpha'}
+\end{align*}
+\item 逆向きに相似である条件は
+\begin{align*}
+\bun{\gamma-\alpha}{\beta-\alpha}=\conj{\left(\bun{\gamma'-\alpha'}{\beta'-\alpha'}\right)}
+\end{align*}
+\end{enumerate}}}
+
+%\newcommand{\複素数の三角形}{\カラーポイント{$\triangle \rm \alpha\beta\gamma$の形状を決める複素数}{
+%\[\bun{\vecabs{\alpha\gamma}}{\vecabs{\alpha\beta}}=\left|\bun{\gamma-\alpha}{\beta-\alpha}\right|,\quad \angle\beta\alpha\gamma=\arg\bun{\gamma-\alpha}{\beta-\alpha}\]}}
+
+\newcommand{\複素数の三角形}{\カラーポイント{三角形の形状を決める複素数}{$\triangle \alpha\beta\gamma$の形状は$\bun{\gamma-\alpha}{\beta-\alpha}$の絶対値と偏角で決まる！}}
+
+\newcommand{\複素数の円}{\カラーポイント{複素数平面における円の方程式}{
+中心$\alpha$，半径$r$の円の方程式は
+\begin{align*}
+&|z-\alpha|=r\\
+\同値{}&|z|^2-z\conj{\alpha}-\conj{z}\alpha+|\alpha|^2=r^2
+\end{align*}
+
+特に，$C=|\alpha|^2-r^2$とすれば，
+\[|z|^2-z\conj{\alpha}-\conj{z}\alpha+C=0\ (C>0)\]}}
+
+\newcommand{\複素数の内分・外分}{\カラーポイント{複素数平面における内分・外分}{
+\begin{enumerate}[\Kaku{enumi}]
+\item \強調{内分点・外分点}
+
+線分$\alpha\beta$を$m:n$に内分/外分する点はそれぞれ，
+
+\[\bun{n\alpha+m\beta}{m+n}\text{（内分点）},\quad \bun{-n\alpha+m\beta}{m-n}\text{（外分点）}\]
+
+\item \強調{$\triangle\alpha\beta\gamma$の重心}
+
+\[\bun{\alpha+\beta+\gamma}{3}\]
+%
+%\item \強調{２点間の距離}
+%
+%２点$\alpha, \beta$間の距離$d$は
+%\[d=\vecabs{\alpha\beta}=|\vec{Ｏ\beta}-\vec{Ｏ\alpha}|=|\beta-\alpha|\]
+%として表され，$|z|^2=z\cdot\conj{z}$を利用して，
+%\begin{align*}
+%|\beta-\alpha|^2=&(\beta-\alpha)\cdot(\conj{\beta}-\conj{\alpha})\\
+%={}&|\beta|^2-\alpha\conj{\beta}-\conj{\alpha}\beta+|\alpha|^2
+%\end{align*}
+\end{enumerate}}}
+
+\newcommand{\アポロニウスの円}{\カラーポイント{アポロニウスの円}{\bgroup\caprm 平面上の2点$A,\,B$があるとき，$PA:PB=m:n$を満たす点$P$の軌跡は，
+\begin{場合分け}
+\item $m=n$のとき
+
+線分$AB$の垂直二等分線
+\item $m\ne n$のとき
+
+線分$AB$を$m:n$に内分する点と$m:n$に外分する点とを直径の両端とする円
+\end{場合分け}\egroup}}
+
+\newcommand{\n乗根の求め方}{\カラーポイント{複素数の$n$乗根の求め方}{
+\noindent 【目標】$z^n=\alpha$を満たす複素数$z$を求める
+\見出しぶら下げ{Step1．}{$z$を極形式で表す}
+\[z=\極形式{r}{\theta}\quad (r\geqq 0,\,0\leqq \theta<2\pi)\]
+\見出しぶら下げ{Step2．}{$z^n=\alpha$に代入し，両辺の絶対値と偏角を比較する}}}
+
+\newcommand{\４点が同一円周上}{\カラーポイント{$\bun{\beta-\gamma}{\alpha-\gamma}÷\bun{\beta-\delta}{\alpha-\delta}$が実数}{$\同値$４点$\alpha$，$\beta$，$\gamma$，$\delta$が同一円周上\波線強調{または同一直線上}
+\sp
+同一円周上なら，
+\begin{箇条書き}
+\item 正の実数のとき：直線$\alpha\beta$に対して，$\gamma,\ \delta$は同じ側
+\item 負の実数のとき：直線$\alpha\beta$に対して，$\gamma,\ \delta$は反対側
+\end{箇条書き}}}
+
+\newcommand{\同一円周上の証明}{\カラーポイント{同一円周上にあることの証明}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 角度で攻める：円周角の定理，内接四角形の性質など
+\item 長さで攻める：ある点からの距離が等しい
+\end{enumerate}
+\ajLig{○注} 中心が予想できるときは\下線{\ajKaku2が良い}}}
+
+\newcommand{\１と絶対値１の複素数}{\カラーポイント{$1-\text{（絶対値$1$の複素数）}$}{
+\begin{align*}
+&1-(\cos\theta+i\sin\theta)\\
+={}&2\sin^2\bun\theta2-2i\sin\bun\theta2\cos\bun\theta2\\
+={}&-2i\sin\bun\theta2\left(\cos\bun\theta2+i\sin\bun\theta2\right)
+\end{align*}}}
+
+\newcommand{\１のn乗根}{\カラーポイント{$1$の$n$乗根の性質}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $1$の$n$乗根は以下のように表される
+\[\ihspace{-1.5zw}\cos \bun{2\pi k}{n}+i\sin \bun{2\pi k}{n}\quad (k=0,\ 1,\ \cdots ,\ n-1)\]
+\見出しぶら下げ{\→　}{複素数平面上で単位円に内接する正$n$角形の頂点である}
+\item $1$の$1$以外の$n$乗根は\\
+$z^{n-1}+z^{n-2}+\cdots+z+1=0$の解である
+\見出しぶら下げ{\→　}{$1$の$n$乗根に関する値は元の方程式や解と係数の関係から求められることがある}
+\end{enumerate}}}
+
+\newcommand{\複素数の図形的考察}{\カラーポイント{複素数平面の図形問題では…}{
+円・正三角形・正方形などの特殊な図形が登場したら，
+
+\bgt{図形的考察}を忘れない！}}
+
+%%%%%%% 第17回 複素数３
+
+\newcommand{\円円対応}{\カラーポイント{反転の円円対応}{反転においては（反転円の中心を「中心」とすると），
+\begin{箇条書き}
+\item 中心を通る直線$\leftrightarrow $中心を通る直線（不動）
+\item 中心を通らない直線$\leftrightarrow $中心を通る円
+\item 中心を通らない円$\leftrightarrow $中心を通らない円
+\end{箇条書き}
+\noindent にそれぞれ移る}}
+
+%\newcommand{\円円対応２}{\カラーポイント{一次分数変換の円円対応}{
+%一次分数変換によって「円または直線」は
+%
+%「円または直線」に移る}}
+
+\newcommand{\複素数の変換}{\カラーポイント{\if高２用 複素数平面上の変換の解法\else 複素数平面の変換のアプローチ\fi}{\if高２用
+$z$平面上の図形を変換$w=f(z)$によって$w$平面に移す
+\begin{enumerate}[\mg{\KuroKaku{enumi}}]
+\item \mg{逆変換$z=f^{-1}(w)$が求まる場合}\\%：逆像法\\
+実際に求めて，変換前の$z$の式に代入すると，変換後の$w$の式が求まる（\mg{\ajKuroKaku1~$z$のまま}）。
+\item \mg{逆変換$z=f^{-1}(w)$が求まらない場合}\\%：順像法\\
+$z$平面上の図形を\mg{\ajKuroKaku2~極形式}か\mg{\ajKuroKaku3~直交形式}で表示し，$w=f(z)$で移し，$w$の動きを調べる
+\else
+$z$平面上の図形を変換$w=f(z)$によって$w$平面に移す
+\begin{enumerate}[\KuroKaku{enumi}]
+\item 逆変換$f^{-1}$が求まる場合\\%：逆像法\\
+移動前の点$z$を移動後の点$w$の式で表し，$z$の式に代入する。\bgt{「複素数のまま」解けることが多い}。
+\item 逆変換$f^{-1}$が求まらない場合\\%：順像法\\
+移動前の図形を「極形式」か「直交形式」でパラメータ表示して$f$で移し，移った先の点$w$の動きを調べる。
+\fi
+\end{enumerate}}}
+
+%\newcommand{\一次分数変換と逆変換}{\カラーポイント{一次分数変換}{\sp 一次分数変換$f(z)=\bun{cz+d}{az+b}\ (ad-bc\ne 0)$は
+%
+%必ず逆変換が求まる！}}
+
+\newcommand{\一次分数変換}{\カラーポイント{一次分数変換}{
+複素数の定数$a,\ b,\ c,\ d$に対して，
+\[w=\bun{az+b}{cz+d}\ (ad-bc\ne 0)\]
+と表される変換を\強調{一次分数変換}という
+\begin{enumerate}[\Kaku{enumi}]
+\item 逆変換が必ず求まる
+\item 「円または直線」は「円または直線」に移る（円円対応）
+\end{enumerate}}}
+
+\newcommand{\反転}{\カラーポイント{反転の定義}{中心$\rmO$，半径$r$の円$O$がある。$\rmO$とは異なる点$\rmP$を以下の条件を満たす点$\rmQ$に移す変換を，「円$O$に関する反転」という。$\rmO$を反転中心，円$O$を反転円という。
+{\番号付き箇条書きの空白設定(0pt)<0zw>[1zw]{2zw}{1zw}\begin{enumerate}[\Kaku{enumi}]
+\item $\rmQ$は半直線$\rmO\rmP$上
+\item $\caprm OP\cdot OQ=r^2$
+\end{enumerate}}
+\img*[c]{H3kakushiri-22-11.pdf}}}
+
+\newcommand{\反転の性質}{\カラーポイント{反転の性質}{
+円$C$についての反転よって，
+\begin{箇条書き}
+\item 円$C$の内部の点は円$C$の外部に
+\item 円$C$上の点は自分自身に
+\item 円$C$の外部の点は円$C$の内部に
+\end{箇条書き}
+\noindent にそれぞれ移る}}
+
+\newcommand{\反転と逆変換}{\カラーポイント{反転は逆変換が求まる}{反転は逆変換が求まる変換であり，もとの変換と逆変換は同一の式となる！}}
+
+\newcommand{\反転の式}{\カラーポイント{反転の式}{中心$\alpha$，半径$r$の円に関して，点$z$を反転した点を$w$とすると，
+\[w=\bun{r^2}{\conj{z-\alpha}}+\alpha\]}}
+
+\newcommand{\ジューコフスキー変換}{\カラーポイント{ジューコフスキー変換}{正の実数$a$に対して，
+\[w=z+\bun{a^2}z\]と表される変換を\強調{ジューコフスキー変換}という
+\begin{enumerate}[\Kaku{enumi}]
+\item $|z|=a$のとき\\
+2点$-2a,\,2a$を結ぶ線分に移る
+\sp
+\item $|z|=r_0\,(>a)$のとき\\
+楕円$\bun{x^2}{\Bigl(r_0+\bun{a^2}{r_0}\Bigr)^2}+\bun{y^2}{\Bigl(r_0-\bun{a^2}{r_0}\Bigr)^2}=1$に移る
+\sp
+\item $\arg z=\theta_0\,\Bigl(0<\theta_0<\bun{\pi}2\Bigr)$のとき\\
+双曲線$\bun{x^2}{(2a\cos\theta_0)^2}-\bun{y^2}{(2a\sin\theta_0)^2}=1$\\
+\hfill $(y>-(\tan \theta_0)x)$に移る
+\end{enumerate}}}
+
+%%% 第18回 複素数４
+
+\newcommand{\複素数の絶対値}{\カラーポイント{複素数の絶対値の扱い方}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 2乗して展開し，数式的に扱う
+\item 2点間の距離として，図形的に扱う
+\item 三角不等式$\left||z_1|-|z_2|\right|\leqq \left|z_1-z_2\right|\leqq |z_1|+|z_2|$
+\end{enumerate}}}
+
+\newcommand{\三角不等式}{\カラーポイント{三角不等式}{
+複素数$\alpha$，$\beta$に対して，
+\[\bigl||\alpha|-|\beta|\bigr|\leqq |\alpha+ \beta|\leqq |\alpha|+|\beta|\]
+
+等号成立条件は
+
+\見出しぶら下げ{左側：}{$\arg\alpha=\arg\beta+\pi$（$\vec{0\alpha}$と$\vec{0\beta}$が“逆向きに平行”）}
+
+\見出しぶら下げ{右側：}{$\arg\alpha=\arg\beta$（$\vec{0\alpha}$と$\vec{0\beta}$が“同じ向きに平行”）}}}
+
+\newcommand{\三角不等式２}{\カラーポイント{三角不等式（$n$文字）}{
+登場する文字は全て複素数とする
+\[\ihspace{-1zw}|\alpha_1\pm \alpha_2\pm \cdots \pm \alpha_n|\leqq |\alpha_1|+|\alpha_2|+\cdots+|\alpha_n|\]
+
+「絶対値を分けると大きくなる」というイメージを持つ}}
+
+\newcommand{\三角不等式３}{\カラーポイント{三角不等式}{
+実数$x,\ y$に対して，
+\[\left||x|-|y|\right|\leqq |x+y|\leqq |x|+|y|\]
+
+（等号成立条件は左側が$xy\leqq 0$，右側が$xy\geqq 0$）}}
+
+\newcommand{\sin等差数列の和}{\カラーポイント{$\dsum\cos{\text{（等差数列）}},\,\dsum\sin{\text{（等差数列）}}$の計算法}{\raggedright
+\begin{enumerate}[\Kaku{enumi}]
+\item $\sin \bun x2$をかける\ \→ \ 積和\ \→ \ 和の中抜け
+\item 数学的帰納法
+\item ド・モアブルの定理の利用
+
+$\sum_{k=1}^n(\cos x+i\sin x)^k$の実部と虚部が$\dsum_{k=1}^{n}\cos{kx},\,\dsum_{k=1}^{n}\sin{kx}$に等しい
+\end{enumerate}}}
+
+\newcommand{\ナイスペア}{\カラーポイント{係数と角度の等しい$\sin,\ \cos$のペア}{複素数を用いて１つの式で表す}}
+
+\newcommand{\複素数のノルム}{\カラーポイント{複素整数のノルム}{複素整数$a+b\sr mi$（$a,\,b\in\Z$）に対して，その共役複素数$a-b\sr mi$をかけた$a^2+mb^2$を，$a+b\sr mi$の\強調{ノルム}という}}
+
+%%% 第19回 二次曲線１
+
+\newcommand{\二次曲線の定義}{\カラーポイント{二次曲線の幾何的定義}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 放物線：定点とこの点を通らない定直線からの距離が等しい点の軌跡
+\item 楕円：２定点からの距離の和が一定な点の軌跡
+\item 双曲線：２定点からの距離の差が一定な点の軌跡
+\end{enumerate}}}
+
+\newcommand{\二次曲線の判別法}{\カラーポイント{二次曲線の判別法}{
+$ax^2+bxy+cy^2+dx+ey+f=0$が二次曲線のとき，
+\begin{enumerate}[\textbullet]
+\item $b^2-4ac<0$：楕円
+\item $b^2-4ac=0$：放物線
+\item $b^2-4ac>0$：双曲線
+\end{enumerate}}}
+
+\newcommand{\二次曲線の一般形}{\カラーポイント{$xy$の項を含む二次曲線}{回転して$xy$の項をなくし，軸を$x$軸または$y$軸に平行にさせる}}
+
+%%% 第20回 二次曲線２
+
+\newcommand{\二次曲線の接線}{\カラーポイント{二次曲線の接線（標準形）}{二次曲線上の点$(x_0,\,y_0)$における接線は
+\begin{enumerate}[\Kaku{enumi}]
+\item 楕円$\bun{x^2}{a^2}+\bun{y^2}{b^2}=1$について
+\[\bun{x_0x}{a^2}+\bun{y_0y}{b^2}=1\]
+\item 双曲線$\bun{x^2}{a^2}-\bun{y^2}{b^2}=1$について
+\[\bun{x_0x}{a^2}-\bun{y_0y}{b^2}=1\]
+\item 放物線$y^2=4px$について
+\[y_0y=2p(x+x_0)\]
+\end{enumerate}}}
+
+\newcommand{\二次曲線の接線２}{
+\カラーポイント{二次曲線の接線（一般形）}{
+二次曲線上の点$(x_0,\,y_0)$における接線は
+\bgroup
+\addtolength{\mathindent}{-2zw}
+\begin{enumerate}[\Kaku{enumi}]
+\item 楕円$\bun{(x-m)^2}{a^2}+\bun{(y-n)^2}{b^2}=1$について
+\begin{align*}
+\text{\scalebox{0.9}[1]{$\bun{(x_0-m)(x-m)}{a^2}+\bun{(y_0-n)(y-n)}{b^2}=1$}}
+\end{align*}
+\item 双曲線$\bun{(x-m)^2}{a^2}-\bun{(y-n)^2}{b^2}=1$について
+\begin{align*}
+\text{\scalebox{0.9}[1]{$\bun{(x_0-m)(x-m)}{a^2}-\bun{(y_0-n)(y-n)}{b^2}=1$}}
+\end{align*}
+\item 放物線$(y-n)^2=4p(x-m)$について
+\begin{align*}
+\text{\scalebox{0.9}[1]{$(y_0-n)(y-n)=2p\{(x-m)+(x_0-m)\}$}}
+\end{align*}
+\end{enumerate}
+\egroup}}
+
+\newcommand{\双曲線の漸近線}{\カラーポイント{双曲線の漸近線の求め方}
+{$b^2(x^2-2mx+m^2)-a^2(y^2-2ny+n^2)=a^2b^2$の\\
+漸近線を求めるときは，
+\見出しぶら下げ{Step1．}{\bgt{平方完成}
+\[\bun{(x-m)^2}{a^2}-\bun{(y-n)^2}{b^2}=1\]}
+\見出しぶら下げ{Step2．}{\bgt{「$=1$」を「$=0$」に}
+
+無限に伸ばしていくと，ほぼ一致する直線なので，
+\[\bun{(x-m)^2}{a^2}-\bun{(y-n)^2}{b^2}=0\]}
+\見出しぶら下げ{Step3．}{\bgt{因数分解}
+\[&\ihspace{-5zw}\Bigl(\bun{x-m}{a}+\bun{y-n}b\Bigr)\Bigl(\bun{x-m}{a}-\bun{y-n}b\Bigr)=0\\
+\ihspace{-5zw}\同値 &\bun{y-n}b=\pm \bun{x-m}{a}\]}}}
+
+%%% 図は20/pdfに
+\newcommand{\楕円の準円}{\カラーポイント{楕円の準円}{楕円$\bun{x^2}{a^2}+\bun{y^2}{b^2}=1\ (a>0,\ b>0)$の外部の点Pから$2$本の接線を引くとき，$2$接線が直交するような点Pの軌跡は，
+\[x^2+y^2=a^2+b^2\]
+で表され，これを\強調{楕円の準円}という。
+\img[c]{66-0181-02-2.pdf}}}
+
+\newcommand{\直交座標と極座標の変換}{\カラーポイント{直交座標と極座標の変換}{
+$xy$平面での点$(x,\,y)$が，原点を極，$x$軸正方向を始線にした極座標系で$\<r,\,\theta\>$であるとき，
+\[x=r\cos \theta,\quad y=r\sin \theta,\quad x^2+y^2=r^2\]}}
+
+\newcommand{\二次曲線の極方程式}{\カラーポイント{二次曲線の極方程式}{\bgroup \caprm
+平面上に，定直線$l$と，$l$上にない定点$F$がある。$e$を正の定数として，動点$P$が
+\[\text{（$P$と$l$との距離）}:PF=1:e\]
+を満たしながら動くときの点$P$の描く軌跡を，下図のように極と始線を定めて極方程式で表すと，
+\[\bs{r=\bun{k}{1-e\cos\theta}}\]
+の形になる。$k$はある正の定数である。
+\img[c]{20-4-05.pdf} \egroup}}
+
+%%% 図は発展18回
+\newcommand{\離心率}{\カラーポイント{二次曲線の離心率}{
+二次曲線の極方程式
+\[r=\bun{k}{1-e\cos\theta}\]
+において，正の定数$e$を\強調{離心率}と言う。$e$の値によって，2次曲線の形状は以下のようになる。
+\begin{center}
+\begin{tabular}{cc}
+\hlineb
+離心率$e$の値&曲線の形状\\\hline
+$0<e<1$&楕円\\
+$e=1$&放物線\\
+$1<e$&双曲線\\\hlineb
+\end{tabular}
+\end{center}
+\begin{center}
+\img[m]{H3kakushiri-23-66.pdf}\hfil\img[m]{H3kakushiri-23-67.pdf}\hfil\img[m]{H3kakushiri-23-68.pdf}
+\end{center}}}
+
+\newcommand{\極方程式の対称性}{\カラーポイント{極方程式$r=f(\theta)$の対称性}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 始線に関して対称
+\[f(\theta)=f(-\theta)\]
+\item 極を通り始線に垂直な直線に関して対称
+\[f(\theta)=f(\pi-\theta)\]
+\item 極について対称
+\[f(\theta)=f(\theta\pm\pi)\]
+\end{enumerate}}}
+
+%%% 第21回 総合演習
+
+\newcommand{\リーマン・ルベーグの定理}{\カラーポイント{リーマン・ルベーグの定理}{区間$[a,\,b]$上の連続関数$f(x)$について，
+\[\limn\int_a^bf(x)\sin nx\dx=0\]
+
+$\int_a^{\infty}|f(x)|\dx$が収束するとき，
+\[\limn\int_a^{\infty}f(x)\sin nx\dx=0\]
+
+さらに，$\sin nx$を$\cos nx$に変えても成立する}}
+
+\newcommand{\リーマン・ルベーグの定理２}{\カラーポイント{リーマン・ルベーグの定理の亜型１}{区間$[a,\,b]$上の連続関数$f(x)$について，
+\[\limn\int_a^bf(x)\sin^2nx\dx=\bun12\int_a^bf(x)\dx\]
+
+$\int_a^{\infty}|f(x)|\dx$が収束するとき，
+\[\limn\int_a^{\infty}f(x)\sin^2nx\dx=\bun12\int_a^{\infty}f(x)\dx\]
+
+さらに，$\sin nx$を$\cos nx$に変えても成立する}}
+
+\newcommand{\リーマン・ルベーグの定理３}{\カラーポイント{リーマン・ルベーグの定理の亜型２}{区間$[a,\,b]$上の連続関数$f(x)$について，
+\[\limn\int_a^bf(x)|\sin nx|\dx=\bun2\pi\int_a^bf(x)\dx\]
+
+$\int_a^{\infty}|f(x)|\dx$が収束するとき，
+\[\limn\int_a^{\infty}f(x)|\sin nx|\dx=\bun2\pi\int_a^{\infty}f(x)\dx\]
+
+さらに，$\sin nx$を$\cos nx$に変えても成立する}}
+
+\newcommand{\曲面積}{\カラーポイント{曲面積の問題}{切り開いて，展開図の上に座標を設定する！}}
+
+%%%%%%%%%%%%%%%%%%%%%%%% 高３数学 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% 第１回 総合演習
+
+\newcommand{\直線}{\カラーポイント{直線は面倒…}{
+直線の方程式を立てると，煩雑になることが多い\\
+\→ ベクトルや角度設定を用いて計算を楽にする}}
+
+\newcommand{\ベクトルの平行条件・直交条件}{\カラーポイント{ベクトルの平行条件・直交条件}{
+\begin{箇条書き}
+\item 平行条件
+\[\mat{a_1,b_1}\parallel\mat{a_2,b_2}\同値 a_1b_2-a_2b_1=0\]
+\item 垂直条件
+\[\mat{a_1,b_1}\perp\mat{a_2,b_2}\同値 a_1a_2+b_1b_2=0\]
+\end{箇条書き}}}
+
+\newcommand{\直線の直交条件・平行条件}{\カラーポイント{直線の直交条件・平行条件}{
+2直線$l_1:a_1x+b_1y+c_1=0$，$l_2:a_2x+b_2y+c_2=0$について，
+\begin{箇条書き}
+\item 直交条件：$l_1\perp l_2\Leftrightarrow a_1a_2+b_1b_2=0$
+\item 平行条件：$l_1\parallel l_2\Leftrightarrow a_1b_2-a_2b_1=0$
+\end{箇条書き}}}
+
+\newcommand{\包絡線}{\カラーポイント{包絡線の求め方}{$t$をパラメータに持つ直線群$f(x,\ y,\ t)=0$の包絡線は
+\[\left\{\begin{array}{ll}
+f(x,\,y,\,t)=0\\
+\Bun{\partial}{\partial t}f(x,\,y,\,t)=0
+\end{array}\right.\]
+から$t$を消去した式$g(x,\,y)=0$と表される}}
+
+\newcommand{\まずは図示}{\ポイント{図形問題ではまずは図示して，題意を把握する}}
+
+\newcommand{\極限公式}{\カラーポイント{極限公式}{
+\[&\limx[0]\bun{\sin x}{x}=1,\quad \limx[0]\bun{1-\cos x}{x^2}=\bun12\\
+&\limx[0]\bun{\tan x}{x}=1\\
+&\limx[0](1+x)^{\bun1x}=e,\quad \limx[\pm \infty]\left(1+\bun 1x\right)^{x}=e\\
+&\limx[0]\bun{e^x-1}{x}=1,\quad \limx[0]\bun{\log (1+x)}{x}=1\]}}
+
+\newcommand{\三角関数の極限公式}{\カラーポイント{三角関数の極限公式}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $\limx[0]\bun{\sin x}{x}=1$
+\item $\limx[0]\bun{1-\cos x}{x^2}=\bun12$
+\item $\limx[0]\bun{\tan x}{x}=1$
+\end{enumerate}}}
+
+\newcommand{\三角関数の極限}{\カラーポイント{三角関数の極限}{
+\begin{enumerate}
+\item 不定形かどうか確認する。
+\item 極限の飛ばす先が「$\rightarrow 0$」になっていないと公式が使えないので，適切な置き換えをして，まずは「$\rightarrow 0$」に揃える。
+\見出しぶら下げ*{例１：}{
+$x\to\infty$の場合，$t=\bun1x$とおくと，$x\to\infty$で$t\to +0$}
+\見出しぶら下げ*{例２：}{
+$x\to\alpha$の場合，$t=\alpha-x$あるいは$t=x-\alpha$とおくと，$x\to\alpha$で$t\to 0$
+}
+\item 公式が使える形に変形していく。
+\end{enumerate}}}
+
+\newcommand{\三角関数の極限公式の適用}{\カラーポイント{三角関数の極限公式の適用のコツ}{$\text{■}\to 0$である■について
+\[\sin\text{■},\quad 1-\cos\text{■},\quad \tan\text{■}\]
+があったら，それにそれぞれ$\text{■},\ \text{■}^2,\ \text{■}$をペアにする！}}
+
+\newcommand{\指数・対数関数の極限公式}{\カラーポイント{$e$に関する極限公式}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $\limx[0]\bun{e^x-1}{x}=1$
+\item $\limx[0](1+x)^{\bun1x}=e,\quad \limx[\pm \infty]\left(1+\bun 1x\right)^{x}=e$
+\item $\limx[0]\bun{\log (1+x)}{x}=1$
+%\item $\limx[0](1+x)^{\bun1x}=e$
+%\item $\limx[\pm\infty]\left(1+\bun1x\right)^x=e$
+%\item $\limx[0]\bun{e^x-1}x=1$
+%\item $\limx[0]\bun{\log(1+x)}x=1$
+\end{enumerate}}}
+
+\newcommand{\指数・対数関数の極限}{\カラーポイント{指数・対数関数の極限}{\begin{enumerate}
+\item 不定形かどうか確認する。
+\item 不定形の場合，$\bun00$の不定形か$(1+0)^{\infty}$の不定形のどちらか確認する。
+\bgroup
+\番号付き箇条書きの空白設定(0pt)<0zw>[1zw]{1zw}{1zw}
+\begin{enumerate}[\Kakkoroman{enumii}]
+\begin{点線囲み}
+\item[\ajKakkoroman{1}] $\bun00$の不定形の場合
+\一字ぶら下げ{\→}{$\limx[0]\bun{e^x-1}{x}=1$または$\limx[0]\bun{\log(1+x)}{x}=1$に帰着}
+\end{点線囲み}
+\begin{点線囲み}
+\item[\ajKakkoroman{2}] $(1+0)^{\infty}$の不定形の場合
+\一字ぶら下げ{\→}{$\limx[0](1+x)^{\bun1x}=e$に帰着}
+%\一字ぶら下げ{\→}{$e$の定義式$\limx[\pm\infty]\left(1+\bun1x\right)^x=e$に帰着}
+\end{点線囲み}
+\end{enumerate}
+\egroup
+\item 公式が使える形に変形していく。
+\end{enumerate}}}
+
+\newcommand{\指数・対数関数の極限公式の適用}{\カラーポイント{$e$に関する極限公式の適用のコツ}{
+\begin{enumerate}[\Kakkoroman{enumi}]
+\item $\bun00$の不定形の場合\par
+
+$\text{■}\to 0$である■について
+\[e^{\text{■}}-1,\quad \log(1+\text{■})\]
+があったら，それに$\text{■}$をペアにする！
+\item $(1+0)^{\infty}$の不定形の場合\par
+
+$\text{■}\to 0$である■について
+\[1+\text{■}\]
+があったら，$\bun{1}{\text{■}}$乗する！
+\end{enumerate}}}
+
+\newcommand{\極限の基本公式の適用}{\カラーポイント{極限の基本公式の適用のコツ}{$\text{■}\to 0$である■について
+\[\sin\text{■},\quad 1-\cos\text{■},\quad e^{\text{■}}-1,\quad\log\left(\text{■}+1\right)\]
+があったら，それにそれぞれ$\text{■},\ \text{■}^2,\ \text{■},\ \text{■}$をペアにする！}}
+
+\newcommand{\関数の強さ比べ}{\カラーポイント{数列・関数の強さ比べ}{\波線{$x\to\infty$}では，
+\[\underbrace{\text{（対数関数）}}_{\log x}\ll\underbrace{\text{（多項式）}}_{x^n}\ll\underbrace{\text{（指数関数）}}_{a^x\ (a>1)}\]}}
+
+\newcommand{\積分の平均値の定理}{\カラーポイント{積分の平均値の定理}{$f(x)$は$a\leqq x\leqq b$で連続な関数とする。このとき，
+\[\bun{1}{b-a}\dint^{b}_{a}f(x)\dx=f(c)\ (a\leqq c\leqq b)\]
+となる$c$が存在する。}}
+
+%%% 第２回 数と式
+
+\newcommand{\連続２整数}{\カラーポイント{連続$2$整数}{
+\begin{tabular}{L{10zw}L{10zw}}
+\ajKaku1 積が$2$の倍数 & \ajKaku2 互いに素
+\end{tabular}
+}}
+
+\newcommand{\しらみつぶし}{\カラーポイント{しらみつぶし}{「整数問題」「場合の数」等で，ある程度\下線{現実的な範囲に}
+
+絞り込めたら，後は\bgt{モレなく，ダブリなく}調べる！}}
+
+\newcommand{\整数の性質}{\カラーポイント{整数の性質}{\begin{enumerate}[\Kaku{enumi}]
+\item $n$が$ab$で割り切れるならば，$n$は$a$でも$b$でも割り切れる
+\item $n$が$a$でも$b$でも割り切れば，\下線{$a$と$b$が互いに素なら}，$n$は$ab$でも割り切れる
+\item $n$が$a$でも$b$でも割り切れるならば，$n$は$a$と$b$の最小公倍数でも割り切れる
+\end{enumerate}}}
+
+\newcommand{\整数の性質１}{\カラーポイント{整数の性質１}{$\text{$n$が$ab$の倍数}\Rightarrow \text{$n$は$a$の倍数かつ$b$の倍数}$}}
+
+\newcommand{\整数の性質２}{\カラーポイント{整数の性質２}{$n$が$a$の倍数かつ$b$の倍数であるとき，\波線強調{$a$と$b$が互いに素であれば}，$n$は$ab$の倍数である}}
+
+\newcommand{\整数の性質２の一般化}{\カラーポイント{整数の性質２の一般化}{$n$が$a$でも$b$でも割り切れるなら，$n$は$a$と$b$の最小公倍数でも割り切れる}}
+
+
+\newcommand{\整数ミス１}{\カラーポイント{整数問題でよくあるミス}{（整数）\!\!$\times$\!\!\!\! （整数でない数）が整数になることもある}}
+
+\newcommand{\整数ミス２}{\カラーポイント{整数問題でよくあるミス}{「$mn$が$a$で割り切れるならば，$m$が$a$で割り切れる，または$n$が$a$で割り切れる」は一般には成り立たない！}
+
+これが成り立つのは以下のケースです。
+
+\ポイント{\begin{enumerate}[\Kaku{enumi}]
+\item $a$が素数のとき
+\item $a$が素数$p$の$k$乗であって，かつ$m$と$n$が互いに素のとき
+\item $a$が素数$p$の$k$乗であって，かつ$m$が$p$で割り切れないことが分かっているとき（当然，$n$が$p$で割り切れる）
+\end{enumerate}}
+}
+
+\newcommand{\複数の文字がある場合}{\カラーポイント{複数の文字・条件がある場合}{より厳しい文字・条件に揃えて考えよ！}}
+
+\newcommand{\整数問題の議論}{\ポイント{整数問題の議論は厳密に！}}
+
+\newcommand{\二項係数と素数の関係}{\カラーポイント{二項係数と素数の関係}{\begin{enumerate}[\Kaku{enumi}]
+\item $p$が素数，整数$k$が$1\leqq k\leqq p-1$を満たすならば，$\c{p}{k}$は$p$の倍数である
+\item $p$が素数，$n$が自然数，整数$k$が$1\leqq k\leqq p^n-1$を満たすならば，$\c{p^n}{k}$は$p$の倍数である
+\end{enumerate}}}
+
+%%% 第３回 方程式
+
+\newcommand{\方程式の解の評価}{\カラーポイント{方程式の解の評価}{\begin{enumerate}[\Kaku{enumi}]
+\item $f(x)$が$a<x<b$で連続
+\item $f(a),\ f(b)$の正負が異なる（$f(a)\cdot f(b)<0$）
+\end{enumerate}
+\noindent ならば$f(x)$は$a<x<b$に少なくとも１つ実数解を持つ
+
+さらに，
+\begin{enumerate}[\Kaku{enumi}]
+\setcounter{enumi}{2}
+\item $a<x<b$で$f(x)$が狭義単調増加/減少
+\end{enumerate}
+\noindent であれば，ただ１つの実数解を持つ}}
+
+\newcommand{\解の視覚化}{\カラーポイント{解けない方程式}{
+$f(x)=0$の実数解を$y=f(x)$と$x$軸との共有点の座標と言い換えて，グラフを利用して考えることがある}}
+
+\newcommand{\複素数の相等}{\カラーポイント{複素数の相等}{$p,\,q$が実数，$\alpha$が虚数のとき
+\begin{align*}
+&p+q\alpha=0\ \Leftrightarrow \ p=q=0\\
+&p+q\alpha=p'+q'\alpha\ \Leftrightarrow \ p=p',\,q=q'
+\end{align*}}}
+
+\newcommand{\複２次式}{\カラーポイント{複２次式}{
+\begin{enumerate}[\Kaku{enumi}]
+\item $t=x^2$とおき，$t$の2次式と考える
+\item $(\quad)^2-(\quad)^2$の因数分解に持ち込む
+\end{enumerate}}}
+
+%%% 第４回 関数
+
+\newcommand{\移動と文字の置き換え}{\カラーポイント{移動と文字の置き換えの関係}
+{\sp
+\begin{center}
+\begin{tabular}{Ic|cI}\hlineb
+$(p,\,q)$平行移動 & $x \longmapsto x-p,\ y \longmapsto y-q$\\\hlineb
+$x$軸方向$a$倍拡大 & \支柱*[3pt]{$x \longmapsto \bun{x}{a}$}\\\hline
+$y$軸方向$b$倍拡大 & \支柱*[3pt]{$y \longmapsto \bun{y}{b}$}\\\hlineb
+$x$軸対称移動 & $y \longmapsto -y$\\\hline
+$y$軸対称移動 & $x \longmapsto -x$\\\hline
+原点対称移動 & $x \longmapsto -x$,\ $y \longmapsto -y$\\ \hlineb
+$x=a$について対称移動 & $x \longmapsto 2a-x$\\ \hline
+$y=x$について対称移動 & $x \longmapsto y$,\ $y \longmapsto x$\\ \hlineb
+\end{tabular}
+\end{center}\sp}}
+
+\newcommand{\逆関数の求め方}{\カラーポイント{逆関数の求め方}{
+\fboxsep=2pt
+\見出しぶら下げ{Step1．}{$y=f(x)$の値域を求める\par
+　　　　　\→ 　\fbox{$y$の範囲}\text{\ ……\ajMaru{1}}}
+\見出しぶら下げ{Step2．}{$y=f(x)$を$x$について解く\par
+　　　　　\→ 　\fbox{$x=\text{$y$の式}$}\text{\ ……\ajMaru{2}}}
+\見出しぶら下げ{Step3．}{\ajMaru{1}\ajMaru{2}において，$x$と$y$を入れ換える\par
+　　　　　\→ 　\fbox{$y=\text{$x$の式}$，$x$の範囲}}}}
+
+\newcommand{\追い出しの原理}{\カラーポイント{追い出しの原理}{$f(x)\geqq g(x)$かつ$\limx g(x)=\infty$のとき
+\[\limx f(x)=\infty\]}}
+
+%%% 第５回 最大・最小
+
+\newcommand{\極置換}{\カラーポイント{極置換}{$(x^2+y^2)^{\alpha}$のようなカタマリや「$x^2+y^2$が一定」のような条件を見たら，
+\[x=r\cos \theta,\ y=r\sin \theta\]
+という置換を考えよ}}
+
+\newcommand{\逆像法による値域の求め方}{\カラーポイント{逆像法による値域の求め方}{ある文字の取りうる値の範囲を求めるために，他の文字の存在条件を考える}}
+
+\newcommand{\不等式証明の方向性}{\カラーポイント{不等式証明}{\begin{enumerate}[\Kaku{enumi}]
+\item 式変形によって示す（平方完成，因数分解など）
+\item 関数と見て値域を調べる
+\item 有名不等式
+\end{enumerate}}}
+
+%%% 第６回 図形と式
+
+\newcommand{\正三角形の扱い}{\カラーポイント{正三角形の扱い}{\begin{enumerate}[\Kaku{enumi}]
+\item ３辺の長さが等しい三角形
+\一字ぶら下げ{\→}{距離で攻める（座標平面）}
+\item 内角がどれも$60\Deg$で等しい三角形
+\一字ぶら下げ{\→}{角度で攻める（$\tan$の利用，ベクトルの内積）}
+\item 頂角が$60\Deg$の二等辺三角形
+\一字ぶら下げ{\→}{複素数平面上で回転，または垂直二等分線を考える}
+\item 中心から各頂点を結んだベクトルが$120\Deg$をなす
+\一字ぶら下げ{\→}{複素数平面上で回転，またはベクトル}
+\end{enumerate}}}
+
+\newcommand{\円の接線}{\カラーポイント{円の接線}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 接点を設定　\→　円の接線の公式
+\[(x_0-a)(x-a)+(y_0-b)(y-b)=r^2\]
+\item 接線を設定　\→　点と直線の距離の公式
+\[\text{(中心と接線の距離)}=\txt{(半径)}\]
+\end{enumerate}}}
+
+\newcommand{\円の極線}{\カラーポイント{円の極線}{円$C:x^2+y^2=r^2$外の点$(p,\,q)$から$C$に引いた2接線の接点を結ぶ直線の方程式は$px+qy=r^2$である}}
+
+\newcommand{\二乗の同値性}{\ポイント{\[&A=\sq{B}\Leftrightarrow A^2=B,\ A\geqq 0\\
+&A=-\sq{B}\Leftrightarrow A^2=B,\ A\leqq 0\]}}
+
+\newcommand{\束の一般論}{\カラーポイント{束の一般論（弱い束）}{２曲線$f(x,\,y)=0,\ g(x,\,y)=0$が共有点をもつとき，
+\[s\,f(x,\,y)+t\,g(x,\,y)=0\text{　……☆}\]
+は，すべての共有点を通る図形となる}}
+
+\newcommand{\束の注意点}{\カラーポイント{束の注意点}{\begin{enumerate}
+\item 束の式を使う前に，2つの図形が交わることを確認
+\item 束の式では表せない式がある場合，別途確認
+\item 答えの一意性（題意をみたす図形が1つに限られること）を確認（「弱い束」のみ）
+\end{enumerate}}}
+
+\newcommand{\直線束}{\カラーポイント{直線束（強い束）}{交わる2直線$a_1x+b_1y+c_1=0,\ a_2x+b_2y+c_2=0$の交点を通る\下線{任意の}直線の方程式は
+\[(a_1x+b_1y+c_1)+k(a_2x+b_2y+c_2)=0\]
+または
+\[a_2x+b_2y+c_2=0\]
+で表される}}
+
+\newcommand{\円束}{\カラーポイント{円束（強い束）}{相異なる2点で交わる2円
+\[&x^2+y^2+a_1x+b_1y+c_1=0,\\
+&x^2+y^2+a_2x+b_2y+c_2=0\]
+の交点を通る\下線{任意の}円または直線の方程式は
+\[&(x^2+y^2+a_1x+b_1y+c_1)\\
+&\hspace{3zw}+k(x^2+y^2+a_2x+b_2y+c_2)=0\]
+または
+\[x^2+y^2+a_2x+b_2y+c_2=0\]
+で表される}}
+
+\newcommand{\共通弦}{\カラーポイント{共通弦の求め方}{\raggedright
+{２}円$f(x,\,y)=0$，$g(x,\,y)=0$（ただし$f(x,\,y)$，$g(x,\,y)$の{２}次係数はすべて$1$とする）が{２}点で交わっているとき，共通弦の方程式は，
+\[f(x,\,y)-g(x,\,y)=0\]}}
+
+%%% 第８回「幾何図形」
+
+\newcommand{\内接四角形の対角線}{\カラーポイント{内接四角形の対角線}{\begin{mawarikomi}(0zw, 0zw){}{\img{8-2-3.pdf}}
+\br{-1}
+\見出しぶら下げ{Step1．}{$\caprm \triangle ABD,\ \triangle BCD$に注目し，対角線$\caprm BD$を余弦定理で$2$通りに表す}
+\見出しぶら下げ{Step2．}{$\theta$と$\caprm BD$の長さについての等式条件が$2$つ出てくるので，連立方程式としてこれらを解く}
+\end{mawarikomi}}}
+
+%%% 高3演習pdf
+\newcommand{\円外の１点と２接線}{\カラーポイント{円外の$1$点と$2$接線}{円外の$1$点から引いた$2$本の接線の長さは等しい
+\img[c]{H3-08-2-2.pdf}}}
+
+%%% 高3演習pdf
+\newcommand{\外接四角形}{\カラーポイント{円の外接四角形}{円に外接する四角形の対辺の長さの和は等しい
+\[\rm AB+CD=AD+BC\]
+\mpp
+\img*<2>[c]{外接四角形.pdf}
+\msp}}
+
+\newcommand{\台形の補助線}{\カラーポイント{台形の基本補助線}{上底の端から下底に垂線を下ろす}}
+
+\newcommand{\球面と平面の交線}{\カラーポイント{球面と平面の交線}{
+球面と平面の交線は「円」になる！
+\見出しぶら下げ{Step1．}{球面の中心から平面に\下線{垂線}を下ろす。垂線の足が切り口の円の中心と一致する}
+\見出しぶら下げ{Step2．}{「球面の半径」「球面の中心と平面の距離」「交線の円の半径」の３つについて\下線{三平方の定理}を利用。}}}
+
+\newcommand{\直角三角形の外心}{\カラーポイント{直角三角形の外心}{直角三角形の外心は斜辺の中点と一致する}}
+
+\newcommand{\三角不等式図形版}{\カラーポイント{三角不等式}{
+\[&a,\,b,\,c\txt{が三角形の三辺の長さ}\\
+\同値{}&a<b+c,\ b<c+a,\ c<a+b\\
+\同値{}&|b-c|<a<b+c\\
+\同値{}&a\txt{を最大辺とするとき},\ a<b+c\]}}
+
+\newcommand{\変数設定}{\カラーポイント{変数設定のポイント}{\begin{箇条書き}
+\item 長さ，角度，傾きなどを検討する
+\item 変数をいくつ設定しなければならないかを考える
+\item 複数の変数を設定する場合，それぞれの変数は必ず独立でなければならない
+\item 変数を設定したらすぐに変域を考える
+\item 最大・最小を考えにくい場合は別の変数を検討する
+\end{箇条書き}}}
+
+%%% 第９回「ベクトル」
+
+\newcommand{\ベクトルの基本}{\カラーポイント{図形問題をベクトルで解く}{
+\見出しぶら下げ{Step1．}{始点を定める}
+\見出しぶら下げ{Step2．}{平面：１次独立な２本のベクトルを設定
+
+空間：１次独立な３本のベクトルを設定}
+\見出しぶら下げ{Step3．}{他のベクトルを基底ベクトルの１次結合で表す}
+\見出しぶら下げ{Step4．}{\ajKaku1　ベクトルについて整理して，係数比較する
+
+\ajKaku2　パラメータについて整理して，終点範囲を考える}}}
+
+\newcommand{\ベクトルとパラメータ}{\カラーポイント{ベクトルとパラメータ}{
+\begin{enumerate}[\Kaku{enumi}]
+\item ベクトルと未知パラメータ
+
+\→　ベクトルについて整理して，係数比較する
+\item 定ベクトルと動パラメータ
+
+\→　パラメータについて整理して，終点範囲を考える
+\end{enumerate}}}
+
+\newcommand{\ベクトルの大きさ}{\カラーポイント{ベクトルの大きさ}{ベクトルの大きさは2乗して内積に結びつけよ}}
+
+\newcommand{\３つのベクトルの和が０}{\カラーポイント{$a\vec x+b\vec y+c\vec z=\vec 0$という条件}{
+１つだけ移項して両辺の大きさの２乗を計算！}}
+
+\newcommand{\ベクトルの終点範囲の鉄則}{\カラーポイント{ベクトルの終点範囲の鉄則}{パラメータについて整理~\→~固定し，基本パターンに帰着}}
+
+\newcommand{\ベクトルの終点範囲}{\カラーポイント{ベクトルの終点範囲}{\sp$\vec{x}=s\vec{a}+t\vec{b}$の終点が動く範囲について，
+\begin{enumerate}[\Kaku{enumi}]
+\item \強調{係数$s,\,t$が独立に動くとき}\par
+1文字ずつ動かす
+\sp
+\item \強調{係数$s,\,t$が関係性を持って動くとき}\par
+「係数の和が１」の形をつくり，2点を通る直線のベクトル方程式に帰着
+\見出しぶら下げ*{※}{不等式条件の場合はいったん「$=1$」と等式条件で考えて，あとで拡大する}
+\end{enumerate}}}
+
+\newcommand{\空間内の円}{\カラーポイント{空間内の円のパラメータ表示}{
+平面$\pi$上の点$\rmC\ \left(\vec{c}\right)$を中心とする半径$r$の円は$\pi$上の２本の直交するベクトル$\vec{a},\ \vec{b}$を用いて，
+\[\vec{p}=\vec{c}+\left(r\cos{\theta}\right)\bun{\vec{a}}{\vecabs{a}}+\left(r\sin{\theta}\right)\bun{\vec{b}}{\vecabs{b}}\]}}
+
+%%% 第10回「空間図形」
+
+\newcommand{\平面の法線ベクトル}{\カラーポイント{平面の法線ベクトル}{平面$Ax+By+Cz+D=0$における法線ベクトルは
+\[\vec{n}=(A,\ B,\ C)\]}}
+
+\newcommand{\点と平面の距離の公式}{\カラーポイント{点と平面の距離の公式}{平面$ax+by+cz+d=0$と点$(x_0,\,y_0,\,z_0)$の距離は，\[\bun{|ax_0+by_0+cz_0+d|}{\sq{a^2+b^2+c^2}}\]}}
+
+%% テーマ講義から，改行して良い
+\newcommand{\空間図形の切断}{\カラーポイント{空間図形の切断}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 平面を平面で切ったときの切り口は直線（平面どうしの交わりは直線）
+\item 平行な２平面を切ったときの切り口は互いに平行
+\item 球を平面で切ったときの切り口は円
+\end{enumerate}
+}}
+
+\newcommand{\回転対称性}{\カラーポイント{回転対称性}{回転軸を含む平面内で図形を考察し，その図形を回転軸の周りに回す}}
+
+%%% 第11回「三角関数，指数・対数関数」
+
+\newcommand{\和積の使い時}{\カラーポイント{和積の使いドコロ}{$\alpha+\beta$または$\alpha-\beta$が一定値
+
+\一字ぶら下げ{\→}{$\sin\alpha\pm\sin\beta,\ \cos\alpha\pm\cos\beta,\ \sin\alpha\pm\cos\beta$に和積を使うと，変数がまとめられる！}}}
+
+\newcommand{\積和の使い時}{\カラーポイント{積和の使いドコロ}{$\alpha+\beta$または$\alpha-\beta$が一定値
+
+\一字ぶら下げ{\→}{$\sin\alpha\sin\beta,\ \cos\alpha\cos\beta,\ \sin\alpha\cos\beta$に積和を使うと，変数がまとめられる！}}}
+
+\newcommand{\三角関数の対称式}{\カラーポイント{三角関数の対称式}{$\sin\theta,\,\cos\theta$の対称式は，$t=\sin\theta+\cos\theta$と置くと，$t$に統一できる。$t$の変域に注意！}}
+
+%%% 第12回「数列１」
+
+%\newcommand{\和を含む漸化式}{\カラーポイント{和を含む漸化式}{\begin{enumerate}[\Kaku{enumi}]
+%\item $a_n$か$S_n$に揃える
+%\[a_n=S_n-S_{n-1}\ (n\geqq 2)\]
+%\item $n$をズラして差を取る
+%\見出しぶら下げ*{㊟}{漸化式が成立する$n$の範囲もズレる}
+%\見出しぶら下げ*{㊟}{２つの漸化式を引いて得られる漸化式は漸化式が成立する$n$の範囲の\kenten{共通部分}で成立する}
+%\end{enumerate}}}
+
+\newcommand{\和を含む漸化式}{\カラーポイント{和を含む漸化式}{
+$a_1+a_2+\cdots+a_n$を含む漸化式\\\→　$n$をズラして差を取る
+%\見出しぶら下げ*{㊟}{漸化式が成立する$n$の範囲もズレる}
+%\見出しぶら下げ*{㊟}{２つの漸化式を引いて得られる漸化式は漸化式が成立する$n$の範囲の\kenten{共通部分}で成立する}
+}}
+
+\newcommand{\格子点数と面積}{\カラーポイント{格子点数と面積の関係}{$n$を大きくしたときに考える領域も大きくなる場合，格子点の個数$T_n$と領域の面積$S_n$の比が$1$に近づくことが検算に利用できる。すなわち，
+\[T_n\neareq S_n\times 1\ (n\to\infty)\]}}
+
+\newcommand{\格子点数と体積}{\カラーポイント{格子点数と体積の関係}{$n$を大きくしたときに考える領域も大きくなる場合，格子点の個数$S_n$と領域の体積$V_n$の比が$1$に近づくことが検算に利用できる。すなわち，
+\[T_n\neareq V_n\times 1\ (n\to\infty)\]}}
+
+%%% 第13回「数列２」
+
+\newcommand{\強化帰納法}{\カラーポイント{強化帰納法}{結論を強めることで，帰納法に乗ることがある！}}
+
+\newcommand{\分数漸化式２}{\カラーポイント{分数漸化式$a_{n+1}=\bun{ra_n+s}{pa_n+q}$の一般論}{
+\hfill （ただし$p\ne 0,\ rq-ps\ne 0$）
+
+\noindent \ajKaku{1}\ihspace{1zw}$s=0$の場合
+
+\見出しぶら下げ[1zw]{\→ }{\ihspace{1zw}\波線{両辺$0$でないことを確認した上で逆数を取る！}}
+
+\sp
+
+\noindent \ajKaku{2}\ihspace{1zw}$s\ne 0$の場合
+
+\hfill （ノーヒントで入試に出題されることはまれ）
+
+\見出しぶら下げ[1zw]{\→ }{\parindent=1zw\hspace{1zw}「$a_n=b_n+c$」とおき，
+{\mathindent=1zw\[&b_{n+1}+c=\bun{r(b_n+c)+s}{p(b_n+c)+q}\\
+\LLeftrightarrow{}&b_{n+1}=\bun{(r-cp)b_n+(cr+s-c^2p-cq)}{pb_n+(pc+q)}\]}
+として，分子の定数項$cr+s-c^2p-cq=0$となる$c$の値を求めれば，
+\[b_{n+1}=\bun{(r-cp)b_n}{pb_n+(pc+q)}\]
+となり，\ajKaku{1}の場合に帰着される。}}}
+
+\newcommand{\一般項が求まらない数列に関する証明問題}{\カラーポイント{一般項が求まらない数列に関する証明問題}{漸化式を使って数学的帰納法で示す！}}
+
+\newcommand{\微分計算の工夫}{\カラーポイント{微分の手間を減らすために}{\begin{enumerate}[\Kaku{enumi}]
+\item 正負不明部を取り出して微分
+\ssp
+\item $\log$の係数はできるだけ$1$にしておく
+\ssp
+\item √の中に全て押し込んで，中身を微分
+\ssp
+\item $\sq{A}-\sq{B}$は有理化して$A-B$の正負を調べる
+\ssp
+\item 複雑な関数は置換をしてみる
+\ssp
+\item 絶対値やルートが含まれる不等式は，両辺とも正であることを確かめた上で，先に全体を$2$乗して比較%←微分することはあまりない（式変形で対処することが多い）
+\ssp
+\item 三角関数は次数を下げてから微分
+\end{enumerate}}}
+
+\newcommand{\微分する前の工夫}{\カラーポイント{微分する前の工夫}{\begin{enumerate}[\Kaku{enumi}]
+\item 正負不明部を取り出して微分する
+\item $\log$の係数はできるだけ\if高２用 定数\else $1$（定数）\fi にしておく
+\item ルートの中に全て押し込んで，中身を微分する
+\item 複雑な関数は置換をしてみる
+\if高２用\else
+\item 三角関数はできるだけ次数を下げておく\fi
+\end{enumerate}}}
+
+\newcommand{\微分した後の対応}{\カラーポイント{微分した後の対応}{\begin{enumerate}[\Kaku{enumi}]
+\item 正負が分かるように積の形に直す
+\item 積の形に直せない場合も正負が分かるところを先に調べておく
+\item $\sq{A}-\sq{B}$は有理化して$A-B$の正負を調べる
+\end{enumerate}}}
+
+\newcommand{\解けない漸化式}{\カラーポイント{解けない漸化式}{\begin{enumerate}[\Kaku{enumi}]
+\item 添字をズラして差を取る
+\item 実験→予想→帰納法
+\item 漸化式を解かずにそのまま用いる
+\end{enumerate}}}
+
+\newcommand{\漸化式を漸化式に代入}{\カラーポイント{漸化式を漸化式に代入するとき}{$n$の範囲に注意！}}
+
+\newcommand{\解けない漸化式の証明問題}{\カラーポイント{一般項が求まらない数列に関する証明問題}{漸化式を使って数学的帰納法で示す！}}
+
+%%% 第14回「確率１」
+
+\newcommand{\場合の数}{\カラーポイント{場合の数のアプローチ}{\begin{enumerate}[\Kaku{enumi}]
+\item 基本パターンに対応させる\\
+\→ 授業や確シリで扱った様々なパターンに応じて，順列や組み合わせの公式を適応する
+\item 数え上げる\\
+\→ 辞書的配列，樹形図などを利用
+\item $n$を含む場合\\
+\→ 漸化式の立式をすることも
+\end{enumerate}}}
+
+\newcommand{\モノを並べる}{\カラーポイント{モノを並べる問題の２つの視点}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 「置く場所を決め」，そこに何を置くか考える\右寄せ{（\bgt{場所ベース}）}
+\item 「モノ一つ一つに対して」，置き場所の選択肢を考える\右寄せ{（\bgt{モノベース}）}
+\end{enumerate}}}
+
+\newcommand{\区別のない組への組分け}{\カラーポイント{「区別のない組」への組分け}{\begin{enumerate}[\Kaku{enumi}]
+\item 機械的に書き出す
+\item まず組に区別をつけて数え，最後に重複度で割る
+\item 不定方程式の解の個数に帰着させる
+\item 区別のあるモノを分ける場合，最初に1つをどれかの組に入れてしまうことにより，組に区別がつくようになる
+\end{enumerate}}}
+
+\newcommand{\同じモノを含む順列}{\カラーポイント{同じモノを含む順列}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 「モノを置く場所」の組み合わせを考える
+\item いったんモノを区別して並べ，その後区別をなくし重複度で割る（順列を「束ねる」）
+\end{enumerate}}}
+
+\newcommand{\隣り合う・隣り合わない}{\カラーポイント{隣り合う／隣り合わない}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 隣り合うものを「かたまり」とみる
+\item 隣り合ってはダメなものを後から間に入れる
+\end{enumerate}}}
+
+%\newcommand{\円順列}{\カラーポイント{円順列}{\begin{enumerate}[\Kaku{enumi}]
+%\item 「１個しかないモノ」がある~\→~それを固定する
+%\item 「１個しかないモノ」がない
+%\見出しぶら下げ{Step1．}{一列に並べた順列を数える}
+%\見出しぶら下げ{Step2．}{円にしたときの重複度で割る（順列を「束ねる」）}
+%\[\ihspace{-2zw}\scalebox{.9}{$\text{例：}\bun{\text{周期$6$の並べ方}}6+\bun{\text{周期$3$の並べ方}}3+\bun{\text{周期$2$の並べ方}}2$}\]
+%\end{enumerate}}}
+
+\newcommand{\円順列}{\カラーポイント{円順列}{\begin{enumerate}[\Kaku{enumi}]
+\item 1種類だけを区別して，かつそのうち1個を固定する
+\item 一列に並べた順列を数えて，円にしたときの重複度で割る
+\end{enumerate}}}
+
+\newcommand{\数珠順列}{\カラーポイント{数珠順列}{
+\見出しぶら下げ{Step1．}{円順列で考えて，「左右対称な並べ方」と「左右非対称な並べ方」に分ける}
+\見出しぶら下げ{Step2．}{「左右非対称な並べ方」だけ$2$で割る}
+\[\ihspace{1zw}\bun{\text{左右非対称の並べ方}}2+\bun{\text{左右対称の並べ方}}1\]}}
+
+\newcommand{\カタラン数}{\カラーポイント{カタラン数}{
+○と×を常に「$\text{○の個数}\geqq \text{×の個数}$」という制約をつけて並べる方法は，カタラン数のアプローチが有効}}
+
+%%% 図は高３数学
+\newcommand{\カタラン数の定義と漸化式}{\カラーポイント{カタラン数の定義と漸化式}{以下の図において，$\rmS$から$\rmG$まで行く最短経路のうち，点線に触れない経路の数をカタラン数といい，$c_n$で表す。ただし，$c_0=0$とする。
+
+\img*[c]{H2-28-4-4.pdf}
+
+カタラン数$c_n$の一般項は，
+\[c_n=\bun{\c{2n}{n}}{n+1}\]
+で表される。}}
+
+\newcommand{\立体の円順列}{\カラーポイント{立体を塗り分ける問題}{\見出しぶら下げ{Step1．}{ある面を固定し，向かい合う面の塗り方を数える}
+\見出しぶら下げ{Step2．}{側面の塗り方を円順列に対応させて数える}}}
+
+\newcommand{\組分け}{\カラーポイント{組分けの問題}{
+\begin{center}
+\begin{tabular}{Ic|c|c||cI}\hlineb
+&モノの区別 & 組の区別 & 解法 \\ \hhline{I=|=|=||=I}
+\ajKakko1&○ & ○ & 累乗/$\c{n}{r}$の積 \\ \hline
+\ajKakko2&× & ○ & 「◯と｜」 \\ \hline
+\ajKakko3&○ & × & \ajKakko1を束ねる \\ \hline
+\ajKakko4&× & × & \ajKakko2を束ねる \\ \hlineb
+\end{tabular}
+\end{center}
+\見出しぶら下げ{　\ajKakko3の別解：}{最初の1つをどれかの組に入れることで，\par 組に区別がつく}
+\見出しぶら下げ{　\ajKakko4の別解：}{不定方程式を立式し，格子点数の問題に帰着させる}
+\[\text{例：}a+b+c=n,\ 0\leqq a\leqq b\leqq c\]}}
+
+\newcommand{\積がnの倍数}{\カラーポイント{積が◯の倍数}{「積が◯の倍数」という事象\hspace{1zw}\→\hspace{1zw}余事象で考える！}}
+
+\newcommand{\積がnの倍数２}{\カラーポイント{積が◯の倍数（◯が合成数のとき）}{「割り切れる」でベン図を作るよりも「割り切れない」でベン図を作るほうが楽に議論できる}}
+
+\newcommand{\二項係数の和}{\カラーポイント{$\c{n}{r}$の和}{二項定理に$x=1$を代入して，
+\begin{align*}
+\ihspace{-1zw}(x+1)^n=\sum_{k=0}^n\c{n}{k}\,x^k\ \Rightarrow\ \sum_{k=0}^n\c{n}{k}=2^n
+\end{align*}}}
+
+\newcommand{\二項係数の関係式の導出}{\カラーポイント{二項係数の関係式の導出}{\begin{enumerate}[\Kaku{enumi}]
+\item 二項係数の定義$\c{n}{k}=\bun{n!}{(n-k)!k!}$を使う%1
+\item 二項定理%2
+\[(1+x)^n=\dsum_{k=0}^{n}\c{n}{k}x^k\]
+において，
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item $x$に適当な数値を代入する
+\item 微分する
+\item 積分する
+\item 恒等式と見て係数比較
+\end{enumerate}
+\item パスカルの三角形を考える%3
+\item 組み合わせ論的解釈%4
+\end{enumerate}
+}}
+
+%%% 第15回「確率２」
+
+\newcommand{\完全順列}{\カラーポイント{完全順列}{
+$X_1,\ X_2,\ \cdots,\ X_n$に$1,\ 2,\ \cdots n$の値を$1$つずつ対応させるとき，全ての$i\ (i=1,\ 2,\ \cdots n)$において，$X_i\neq i$が成立するような対応の数を$f_n$とすると，
+
+{\番号付け変更[1]{\Kaku}
+\begin{enumerate}<2zw>
+\item $f_{n+2}=(n+1)(f_{n+1}+f_n)$
+\item $f_n=n!\left\{1-\bun1{1!}+\bun1{2!}-\cdots+\bun{(-1)^n}{n!}\right\}$
+\end{enumerate}
+}}}
+
+\newcommand{\までにの確率}{\カラーポイント{$n$回目までに事象が起こる確率}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 「ちょうど」$k$回目に事象が起こる確率を求め，$k=1$から$n$まで足し合わせる
+\item 漸化式の利用
+\end{enumerate}}}
+
+%%% 第16回「確率３」
+
+\newcommand{\推移の対称性と確率の対称性}{\カラーポイント{「推移の対称性」と「確率の対称性」}{
+\begin{箇条書き}
+\item \下線{推移の対称性}があれば，いくつかの状況をまとめて扱うことができる
+\item さらに，\下線{確率の対称性}まである場合は，まとめた事象の中で各事象の確率が同じになる
+\end{箇条書き}}}
+
+\newcommand{\状態推移}{\カラーポイント{状態の推移を考える２つの方向性}{\begin{enumerate}[\Kaku{enumi}]
+\item 初期状態から時間経過に沿って順次考える
+\item $n$回目の状態から逆算して，時間経過を遡って考える
+\end{enumerate}}}
+
+\newcommand{\停止点と推移図}{\カラーポイント{「停止点」がある場合の推移図}{「そこに動いたら終了」という点がある場合は，それを外して推移図を書く
+\begin{enumerate}[\Kaku{enumi}]
+\item 「\kenten{ちょうど}$n$回目に終了する確率」は直前の確率から求める
+\item 「$n$回目\kenten{までに}終了している確率」は余事象で求める
+\end{enumerate}}}
+
+\newcommand{\破産の確率}{\カラーポイント{破産の確率}{\kenten{いつか}〇〇になる確率　\→　最初の一手で場合分け}}
+
+%%% 第17回「総合演習」
+
+\newcommand{\２で割り切れる回数}{\カラーポイント{$2$で割り切れる回数}{任意の自然数は以下の形で表される
+\[2^a\cdot b\quad \text{（$a$は$0$以上の整数，$b$は正の奇数）}\]}}
+
+%%% 第19回「微分２」
+
+\newcommand{\増減から正負を復元}{\カラーポイント{関数の増減から正負を復元する方法}{
+\begin{enumerate}[\Kaku{enumi}]
+\item 区間の両端の正負を調べる
+\item[{\makebox[1zw][l]{$\text{\ajKaku{1}}'$}}]極値の正負を調べる
+\setcounter{enumi}{1}
+\item 「ゼロ点」を探す
+\item $+$の点と$-$の点を探して，中間値の定理
+\end{enumerate}}}
+
+%%% 第22回「複素数平面１」
+
+\newcommand{\複素数平面と図形的考察}{\ポイント{複素数平面の問題では「数式的処理」と「図形的考察」
+
+の両睨み！}}
+
+\newcommand{\ロルの定理}{\カラーポイント{ロルの定理}{$a<b$とする。関数$f(x)$が閉区間$a\leqq x\leqq b$において連続で，開区間$a<x<b$において微分可能であり，さらに$f(a)=f(b)$ならば，
+\[\text{$f'(c)=0$かつ$a<c<b$}\]
+を満たす$c$が存在する。}}
+
+%%% 第23回「複素数平面２」
+
+\newcommand{\初等幾何を複素数平面で解く}{\カラーポイント{初等幾何の問題を複素数平面で解く際の注意}{
+\begin{enumerate}[\Kaku{enumi}]
+\item \強調{原点のとり方を吟味する}
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item 対称性なし：回転中心
+\item 対称性あり：図と無関係な点
+\item 1点を除いて対称性あり：その1点
+\end{enumerate}
+\item \強調{文字数は最低限！}
+\見出しぶら下げ{\→ }{平面上の任意の点は\強調{一次独立な2つのベクトル}で表すことができるのだから，基本2つの複素数で表していこうと考える。}
+\end{enumerate}}}
+
+\newcommand{\平面図形を複素数平面で解く}{\カラーポイント{平面図形の問題を複素数平面で解く際の注意}{
+\begin{enumerate}[\Kaku{enumi}]
+\item \強調{原点のとり方を吟味する}
+\begin{enumerate}[\Kakkoalph{enumii}]
+\item 対称性なし：回転中心
+\item 対称性あり：図と無関係な点
+\item 1点を除いて対称性あり：その1点
+\end{enumerate}
+\item \強調{２文字で表す}
+\見出しぶら下げ{\→ }{平面上の任意の点は\強調{一次独立な2つのベクトル}で表すことができるのだから，基本2つの複素数で表していこうと考える。}
+\end{enumerate}}}
+
+%%% 第24回「平面上の曲線」
+
+\newcommand{\回転拡大を見抜く}{\カラーポイント{回転拡大を見抜く}{$\left\{\begin{array}{l}
+X=ax-by\\
+Y=bx+ay
+\end{array}\right.$を見たら回転拡大！}}
+
+\newcommand{\円と楕円の包含関係}{\カラーポイント{円と楕円の包含関係の問題}{楕円上の点をパラメータ表示し，円の中心からの距離と半径の大小を比べる}}
+
+\newcommand{\双曲線のパラメータ表示１}{\カラーポイント{双曲線のパラメータ表示}{双曲線$\bun{x^2}{a^2}-\bun{y^2}{b^2}=1$のパラメータ表示は，
+\[x=a\bun{e^t+e^{-t}}{2},\,y=b\bun{e^t-e^{-t}}{2}\]}}
+
+\newcommand{\双曲線のパラメータ表示２}{\カラーポイント{双曲線のパラメータ表示}{双曲線$\bun{x^2}{a^2}-\bun{y^2}{b^2}=1$のパラメータ表示は，
+\[x=\bun{a}{\cos\theta},\,y=b\tan\theta\]}}
+
+%%% ラスト！
