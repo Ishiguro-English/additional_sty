@@ -146,7 +146,7 @@
 \newtcolorbox{chuukabox}[2]{%
   enhanced,
   boxrule=1pt,
-  colframe=black!60,
+  colframe=black!80,
   colback=white,
   colbacktitle=white,
   sharp corners=northwest,
@@ -155,19 +155,19 @@
   arc=10pt,
   title={%
     \gtfamily[5]\７文字{#1}
-    \textcolor{black!60}{#2}
+    \textcolor{black!85}{#2}
     },
   underlay={%
-    \fill[black!60]
+    \fill[black!80]
       ([xshift=0.7mm,yshift=-0.7mm]frame.north west) 
       -- ++(2.6,0) -- ++(0,-0.17) -- ++(-0.17,0)
       -- ++(0,-0.17) -- ++(-0.17,0)
       -- ++(0,-0.17) -- ++(-2.26,0)
       -- cycle;
-    \draw[very thick,black!60!]
+    \draw[very thick,black!80!]
       ([xshift=0.7mm,yshift=1mm]frame.south west)
       -- ([xshift=-0.7mm,yshift=1mm]frame.south east);
-    \fill[black!60]
+    \fill[black!80]
       ([xshift=-0.7mm,yshift=1mm]frame.south east)
       -- ++(0,0.48) -- ++(-0.16,0) -- ++(0,-0.16)
       -- ++(-0.16,0) -- ++(0,-0.16)

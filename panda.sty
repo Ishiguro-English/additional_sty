@@ -8,8 +8,9 @@
 
 % 末尾のコメントアウト必須！
 \newcommand{\panda}[1]{\ispace\scalebox{1.6}{%
-  \ifthenelse{\equal{#1}{default}\OR\equal{#1}{デフォルト}}{\raisebox{-.1zw}{\和文一文字画像*{\texmf/ptex/platex/tetsutex/additional_sty/画像/パンダ/panda_default.png}}}{}%
-  \ifthenelse{\equal{#1}{full}\OR\equal{#1}{全身}}{\和文一文字画像*{\texmf/ptex/platex/tetsutex/additional_sty/画像/パンダ/panda_full.png}}{}%
+  \ifthenelse{\equal{#1}{default}\OR\equal{#1}{デフォルト}}{\raisebox{-.1zw}{\和文一文字画像*{\texmf/ptex/platex/tetsutex/additional_sty/image/panda/panda_default.pdf}}}{}%
+  \ifthenelse{\equal{#1}{full}\OR\equal{#1}{全身}}{\和文一文字画像*{\texmf/ptex/platex/tetsutex/additional_sty/image/panda/panda_full.pdf}}{}%
+  \ifthenelse{\equal{#1}{good}\OR\equal{#1}{いいね}}{\和文一文字画像*{\texmf/ptex/platex/tetsutex/additional_sty/image/panda/panda_good.pdf}}{}%
 }}
 
 \newcounter{emojititlebangou}
