@@ -27,16 +27,17 @@
 \usepackage{fontawesome,awesomebox}
 \AtBeginDvi{\special{pdf:mapfile fontawesome.map}}
 \let\kantei\DFPKantei
+\let\originaltextgt\gt
 \renewcommand{\gt}[2][4]{%
-  \csname HiraKakuW%
-    \ifcase#1Zero\or One\or Two\or Three\or Four\or Five\or Six\or Seven\or Eight\or Nine\fi
+  \csname%
+    \ifcase#1HiraKakuWZero\or HiraKakuWOne\or HiraKakuWTwo\or HiraKakuWThree\or originaltextgt\or HiraKakuWFive\or textbgt\or HiraKakuWSeven\or HiraKakuWEight\or HiraKakuWNine\fi
   \endcsname
   {#2}%
 }
 \let\originalgtfamily\gtfamily
 \renewcommand{\gtfamily}[1][4]{%
-  \csname HiraKakuW%
-    \ifcase#1Zero\or One\or Two\or Three\or Four\or Five\or Six\or Seven\or Eight\or Nine\fi
+  \csname%
+    \ifcase#1HiraKakuWZero\or HiraKakuWOne\or HiraKakuWTwo\or HiraKakuWThree\or originalgt\or HiraKakuWFive\or bgt\or HiraKakuWSeven\or HiraKakuWEight\or HiraKakuWNine\fi
   family\endcsname
 }
 \renewcommand{\bgtfamily}{\originalgtfamily\bfseries\mathversion{bold}}
@@ -74,8 +75,9 @@
 \newcommand{\段落下げ}{\parindent=1zw}%
 \newcommand{\ispace}{\inhibitglue\ignorespaces}%
 \AfterEndPreamble{\def\k#1{\inhibitglue（#1）\inhibitglue}}%
-\providecommand{\hantai}[1]{（↔︎\hspace{-.7zw}#1）}%
-\newcommand{\gyaku}{↔︎\hspace{-.7zw}}%
+\newcommand{\星数}[1]{\fornext{#1}{★}\fornext{5-#1}{☆}}%
+\newcommand{\gyaku}{{\ooalign{←\crcr→}}}%
+\providecommand{\hantai}[1]{（\gyaku\,#1）}%
 \newcommand*{\rightalign}[1]%
   {%
     \hspace{\parfillskip}%
@@ -112,6 +114,18 @@
 \def\出典{\br0\noindent\gt{【出典】}\tetsuhrulefill[2pt]{1pt}\br0}%
 \def\講評{\br0\noindent\gt{【講評】}\tetsuhrulefill[2pt]{1pt}\br0}%
 \def\中略{\br0\centerline{（中略）}\br0}%
+\def\先行詞#1{%
+  \tikz[remember picture,baseline=(A.base)]%
+    \node[inner sep=0pt, outer sep=0pt, black,thick] (A) {\下線{\vphantom{hp}#1}};%
+}
+\newcommand*\関係詞[2][0pt]{%
+  \tikz[remember picture,baseline=(B.base)]%
+    \node[inner sep=0pt, outer sep=0pt, black,thick] (B) {\下線{\vphantom{hp}#2}};%
+  \tikz[overlay,remember picture,black,thick,>=stealth]{%
+    \draw[black,thick,->] (B) -- ++(0,-1.2em) -| ($(A.south) + (#1,0pt)$)%
+        node[below, near start] {};%
+  }%
+}
 \newenvironment{pt}[1]{\begin{組カラーボックス}{POINT}{#1}\mgfamily}{\end{組カラーボックス}}
 \newenvironment{tessokubox}[1]{\begin{組カラーボックス}{鉄則}{#1}\mgfamily}{\end{組カラーボックス}}
 \newenvironment{tessokubox*}[1]{\begin{長い組カラーボックス}{鉄則}{#1}\mgfamily}{\end{長い組カラーボックス}}
@@ -124,14 +138,14 @@
 \def\x#1{\下線{\gt{\textcolor{orange!90!red}{#1}}}}%
 \def\ll#1#2{\Sub{#1}\下線{#2}}%
 \def\abcline#1{\下線{position=3.3zw}{#1}}%
-\DeclareDocumentCommand\uu{ O{\uline} D<>{\scriptsize} m m  }%
+\DeclareDocumentCommand\uu{ O{\uline} D<>{\scriptsize} m m }%
   {%
     {\renewcommand{\arraystretch}{0.65}%
     \hspace{.1zw}\begin{tabular}[t]{@{}c@{}}%
       #1{#3}\\%
       #2#4\\%
     \end{tabular}\hspace{.1zw}}%
-    \renewcommand{\arraystretch}{r}%
+    %\renewcommand{\arraystretch}{r}%
   }%
 
 \DeclareDocumentCommand\oo{ O{\oline} D<>{\scriptsize} m m  }%
@@ -506,6 +520,8 @@
 \def\番号付け@temp{\ajKuroMaruKakualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
 \def\番号付け@temp{\ajKuroMaruKakuHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
 \def\番号付け@temp{\ajKuroMaruKakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajStar}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\ajIrohaKakkoKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
 \def\番号付け@temp{\shikakukakko}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
 \def\番号付け@temp{\shikaku}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
 \def\番号付け@temp{\shikakub}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
@@ -528,7 +544,7 @@
     }% end of else 3
   }% end of else 2
 }% end of else 1
-\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
+\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
 }% end of \newcommand
 
 \newcommand{\ajStar}[1]{＊}%
@@ -536,6 +552,16 @@
 \let\@ajStar\ajStar%
 \DeclareRobustCommand{\ajStar}[1]{\@newajMacro{\@ajStar}{#1}}%
 \解答選択肢の見出し強調対応{\Star}{\gbfamily\Star}%
+\newenvironment{starenu}{\begin{enumerate}\全番号付け変更{\ajStar}}{\end{enumerate}}%
+%---
+\newcommand{\ajIrohaKakkoKata}[1]{\単発IrohaKakkoKata{#1}}%
+\let\irohakakkokata\ajIrohaKakkoKata
+\let\opt\ajIrohaKakkoKata
+%\newcommand{\IrohaKakkoKata}[1]{\ajIrohaKakkoKata{\arabic{#1}}}%
+\let\@ajIrohaKakkoKata\ajIrohaKakkoKata%
+\DeclareRobustCommand{\ajIrohaKakkoKata}[1]{\@newajMacro{\@ajIrohaKakkoKata}{#1}}%
+%\解答選択肢の見出し強調対応{\IrohaKakkoKata}{\gbfamily\IrohaKakkoKata}%
+\newenvironment{irohakakkokataenu}{\begin{enumerate}\全番号付け変更{\ajIrohaKakkoKata}}{\end{enumerate}}%
 %---
 \newcommand{\shikakukakko}[1]{\mbox{□\ajKakko{#1}}}%
 \newcommand{\Shikakukakko}[1]{\shikakukakko{\arabic{#1}}}%
@@ -573,7 +599,7 @@
 \newcommand{\全番号付け変更}[1]{\番号付け変更[1]{#1}\番号付け変更[2]{#1}\番号付け変更[3]{#1}}%
 \def\maru{\ajMaru}%
 \newenvironment{maruenu}{\begin{enumerate}\全番号付け変更{\ajMaru}}{\end{enumerate}}%
-\def\marub{\ajKuroMaru}%
+\def\marub#1{\bgt{\ajKuroMaru{#1}}}%
 \newenvironment{marubenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaru}}{\end{enumerate}}%
 \def\kaku{\ajKaku}%
 \newenvironment{kakuenu}{\begin{enumerate}\全番号付け変更{\ajKaku}}{\end{enumerate}}%
@@ -649,12 +675,13 @@
 \newenvironment{marukakuhirabenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruKakuHira}}{\end{enumerate}}%
 \let\marukakukatab\ajKuroMaruKakuKata%
 \newenvironment{marukakukatabenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaruKakuKata}}{\end{enumerate}}%
+%---
 \newcounter{exenubangou}[subsection]%
 \setcounter{exenubangou}{1}%
 \newenvironment{exenu}{\begin{jquote}(3zw)[.3\baselineskip]\begin{enumerate}[$Ex.$\MaruKaku{exenubangou}\stepcounter{exenubangou}]}{\end{enumerate}\end{jquote}}%
 \newcounter{例文番号}
 \setcounter{例文番号}{1}
-\renewcommand{\ex}[2]{\見出しぶら下げ*{\quad\raisebox{-.2zw}{\tikz\node[fill=gray!60,ellipse,inner sep=0pt]{\zap{Ex.\the例文番号}};}}{#1\par#2}\stepcounter{例文番号}}
+\renewcommand{\ex}[2]{\見出しぶら下げ*{\quad\raisebox{-.2zw}{\tikz\node[fill=gray!60,ellipse,inner sep=0pt]{$Ex.$\texthti{\the例文番号}};}}{#1\par#2}\stepcounter{例文番号}}
 
 \usepackage{改ceo}% ここで読み込む必要アリ
 
