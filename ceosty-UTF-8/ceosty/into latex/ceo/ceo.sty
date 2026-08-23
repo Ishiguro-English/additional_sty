@@ -1869,41 +1869,42 @@
       \expandafter\@verb@put@line@loop
    \fi}
 
-\def\verb{%
-   \relax \ifmmode \hbox \else \leavevmode\null \fi
-   \bgroup
-      \verb@eol@error \let\do\@makeother \dospecials
-      \verbatim@font\@noligs
-      \settowidth\dimen@{M}%
-      \edef\@verb@dblcharwd{\the\dimen@}%
-      \def\@verb@space{\texttt{\char32}}%
-      \def\@verb@backslash{\yy}%
-      \def\@verb@bgroup{\bl}%
-      \def\@verb@egroup{\br}%
-      \def\@verb@_{\uu}%
-      \def\@verb@less{\textless}%
-      \def\@verb@greater{\textgreater}%
-      \def\@verb@vline{$|$}%
-      \@ifstar\@sverb\@verb}
-\def\@verb{%
-   \def\@verb@space{\ }%
-   \frenchspacing
-   \@sverb}
-\def\@sverb#1{%
-   \@tempcnta=`#1\relax
-   \catcode\@tempcnta\active
-   \lccode`\~=\@tempcnta
-   \gdef\verb@balance@group{\verb@egroup
-      \@latex@error{\noexpand\verb illegal in command argument}\@ehc}%
-   \aftergroup\verb@balance@group
-   \lowercase{\let~\verb@egroup}%
-   \let\@verb@put@line@loop\@textverb@loop
-   \@verb@put@line@loop}%
-\let\@verb@put@line@loop@@\@verb@put@line@loop
-\def\@textverb@loop#1{%
-   \edef\@tempa{`\string#1}\@tempcntb=\@tempa\relax
-   \ifnum\@tempcnta=\@tempcntb\else \expandafter\@verb@put@line@loop@@ \fi
-   #1}
+% バックスラッシュが円記号に変わるため削除
+%\def\verb{%
+%   \relax \ifmmode \hbox \else \leavevmode\null \fi
+%   \bgroup
+%      \verb@eol@error \let\do\@makeother \dospecials
+%      \verbatim@font\@noligs
+%      \settowidth\dimen@{M}%
+%      \edef\@verb@dblcharwd{\the\dimen@}%
+%      \def\@verb@space{\texttt{\char32}}%
+%      \def\@verb@backslash{\yy}%
+%      \def\@verb@bgroup{\bl}%
+%      \def\@verb@egroup{\br}%
+%      \def\@verb@_{\uu}%
+%      \def\@verb@less{\textless}%
+%      \def\@verb@greater{\textgreater}%
+%      \def\@verb@vline{$|$}%
+%      \@ifstar\@sverb\@verb}
+%\def\@verb{%
+%   \def\@verb@space{\ }%
+%   \frenchspacing
+%   \@sverb}
+%\def\@sverb#1{%
+%   \@tempcnta=`#1\relax
+%   \catcode\@tempcnta\active
+%   \lccode`\~=\@tempcnta
+%   \gdef\verb@balance@group{\verb@egroup
+%      \@latex@error{\noexpand\verb illegal in command argument}\@ehc}%
+%   \aftergroup\verb@balance@group
+%   \lowercase{\let~\verb@egroup}%
+%   \let\@verb@put@line@loop\@textverb@loop
+%   \@verb@put@line@loop}%
+%\let\@verb@put@line@loop@@\@verb@put@line@loop
+%\def\@textverb@loop#1{%
+%   \edef\@tempa{`\string#1}\@tempcntb=\@tempa\relax
+%   \ifnum\@tempcnta=\@tempcntb\else \expandafter\@verb@put@line@loop@@ \fi
+%   #1}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %accent

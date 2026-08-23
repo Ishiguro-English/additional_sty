@@ -1,0 +1,56 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{マニュアル}[2026/08/22, ver.1.0.0]
+
+\usepackage{listings,plistings}%
+\cfoot{\footnotesize −\arabic{page}−}%
+\usepackage[os=mac, mackeys=symbols]{menukeys}
+
+\titleformat{\section}{}{}{0pt}{\下n行からは始めない{4}\kcboxN[B][\thesection][orange]{#1}\br{-1.5}}%
+\titleformat{\subsection}{}{}{0pt}{\br{-1}\kcboxR[orange!60!black]{#1}\br{-1}}%
+
+\lstset{
+    language=[LaTeX]Tex,% 新しく定義した言語を設定
+    frame=none,         % 枠設定
+    breaklines=true,    % 行が長くなった場合自動改行
+    breakindent=12pt,   % 自動改行時のインデント
+    columns=fixed,      % 文字の間隔を統一
+    basewidth=0.5em,    % 文字の横のサイズを小さく
+    numbers=left,       % 行数の位置
+    numberstyle={\scriptsize \color{white}},% 行数のフォント
+    stepnumber=1,       % 行数の増間
+    numbersep=1zw,      % 行数の余白
+    xrightmargin=0zw,   % 左の余白
+    xleftmargin=2zw,    % 右の余白
+    framexleftmargin=18pt,% フレームからの左の余白
+    keepspaces=true,    % スペースを省略せず保持
+    lineskip=-0.2ex,    % 枠線の途切れ防止
+    tabsize=4,          % タブ数
+    showstringspaces=false,%文字列中の半角スペースを表示させない
+    %%%%% VSCode風 の style & color %%%%%
+    %backgroundcolor={\color[gray]{0.1}},%背景色
+    basicstyle={\small\ttfamily \color{identifier}},        % 基礎の文字のフォント設定
+    texcsstyle={\color{identifier}},%
+    identifierstyle={\small\color{white}},% 変数名などのフォント設定
+    commentstyle={\small\color{comment}},% コメントのフォント設定
+    keywordstyle=[1]{\small\bfseries\color{keyword1}},% 予約語のフォント設定
+    keywordstyle=[2]{\small\bfseries\color{keyword2}},% 関数名のフォント設定
+    keywordstyle=[3]{\small\bfseries\color{keyword3}},% 大域変数のフォント設定
+    keywordstyle=[4]{\small\bfseries\color{keyword4}},% 定数のフォント設定
+    stringstyle={\small\ttfamily\color{string}},% 文字列のフォント設定
+    moredelim=**[is][\color{yellow}]{@}{@},
+    moredelim=**[is][\color{cyan!70!green}]{~}{~},
+%    listing inputencoding=utf8,
+%    listing only,
+}
+
+\definecolor{identifier}{rgb}{0.6, 0.9, 0.996}% LightBlue（変数)
+\definecolor{comment}{rgb}{0.415, 0.600, 0.333}% DeepGreen（コメント）
+\definecolor{keyword1}{rgb}{0.768, 0.521, 0.749}% Purple（予約語）
+\definecolor{keyword2}{rgb}{0.862, 0.862, 0.666}% Yellow（関数名）
+\definecolor{keyword3}{rgb}{0.2, 0.8, 1}% Blue（大域変数）
+\definecolor{keyword4}{rgb}{0.854, 0.439, 0.839}% Pink（定数）
+\definecolor{string}{rgb}{0.847, 0.560, 0.458}% Orange（文字列）
+
+\newenvironment{codebox}%
+  {\br{.5}\begin{再組カラーボックス}{\gt[3]{Input1}}{}[black!50!white][black!80!white]<black!30!white><black!60!white>(3pt)(boxrule=1pt)\br{-.5}}%
+  {\br{-.5}\end{再組カラーボックス}}%

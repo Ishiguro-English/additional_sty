@@ -114,18 +114,6 @@
 \def\出典{\br0\noindent\gt{【出典】}\tetsuhrulefill[2pt]{1pt}\br0}%
 \def\講評{\br0\noindent\gt{【講評】}\tetsuhrulefill[2pt]{1pt}\br0}%
 \def\中略{\br0\centerline{（中略）}\br0}%
-\def\先行詞#1{%
-  \tikz[remember picture,baseline=(A.base)]%
-    \node[inner sep=0pt, outer sep=0pt, black,thick] (A) {\下線{\vphantom{hp}#1}};%
-}
-\newcommand*\関係詞[2][0pt]{%
-  \tikz[remember picture,baseline=(B.base)]%
-    \node[inner sep=0pt, outer sep=0pt, black,thick] (B) {\下線{\vphantom{hp}#2}};%
-  \tikz[overlay,remember picture,black,thick,>=stealth]{%
-    \draw[black,thick,->] (B) -- ++(0,-1.2em) -| ($(A.south) + (#1,0pt)$)%
-        node[below, near start] {};%
-  }%
-}
 \newenvironment{pt}[1]{\begin{組カラーボックス}{POINT}{#1}\mgfamily}{\end{組カラーボックス}}
 \newenvironment{tessokubox}[1]{\begin{組カラーボックス}{鉄則}{#1}\mgfamily}{\end{組カラーボックス}}
 \newenvironment{tessokubox*}[1]{\begin{長い組カラーボックス}{鉄則}{#1}\mgfamily}{\end{長い組カラーボックス}}

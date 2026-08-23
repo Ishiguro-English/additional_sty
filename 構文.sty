@@ -1,5 +1,5 @@
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesPackage{構文}[2026/03/31, ver.1.0.0]
+\ProvidesPackage{構文}[2026/08/22, ver.1.0.1]
 
 \def\N#1{\hspace{-.5zw}\mbox{\textcolor{red}{\bgt{〈\hspace{0pt}}}}\nolinebreak#1\nolinebreak\textcolor{red}{\bgt{〉\inhibitglue}}}
 \def\A#1{\hspace{-.5zw}\mbox{\textcolor{blue}{\bgt{［\hspace{0pt}}}}\nolinebreak#1\nolinebreak\textcolor{blue}{\bgt{］\inhibitglue}}}
@@ -108,4 +108,326 @@
     \draw[black,thick,->] (B) -- ++(0,-1.2em) -| ($(A.south) + (#1,0pt)$)%
         node[below, near start] {};%
   }%
+}
+
+
+% 単語接続マクロ====================================================
+% 1.pgfkeysオプション定義-------------------------------------------
+\pgfkeys{
+  /接続/.cd,
+  % --- 接続線用パラメータ ---
+  侵入/.initial={1},      % 侵入pt
+  向き/.initial={1},      % 1：上，0：下
+  形状/.initial={0},      % 0：曲線，1：折線，2：直線
+  高さ/.initial={8pt},    % 折線の高さ/曲線の膨らみ高さ
+  膨らみ/.initial={0.25}, % 接続（曲線）の膨らみ具合
+  太さ/.initial={thick},  % デフォルト太さ
+    % --- 始点・終点指定 ---
+  始点/.code={\def\cwStart{#1}},
+  終点/.code={\def\cwEnd{#1}},
+  % --- 印（ハイライト）用パラメータ ---
+  背景色/.initial={none}, % デフォルトは背景なし
+  余白/.initial={1pt},    % ハイライトの余白（デフォルト1pt）
+  % モード切替フラグ
+  曲線/.code={\pgfkeys{/接続/形状=0}},
+  折線/.code={\pgfkeys{/接続/形状=1}},
+  折れ線/.code={\pgfkeys{/接続/形状=1}},
+  直線/.code={\pgfkeys{/接続/形状=2}},
+  上/.code={\pgfkeys{/接続/向き=1}},
+  下/.code={\pgfkeys{/接続/向き=0}},
+  % 色指定オプション
+  色/.code={\tikzset{cwcustom/.append style={draw=#1}}},
+  % 濃度ショートカット用キー
+  濃度/.code={\pgfkeys{/接続/背景色=gray!#1}},
+  % スタイル指定フラグ
+  二重線/.code={\tikzset{cwcustom/.append style={double}}},
+  破線/.code={\tikzset{cwcustom/.append style={dashed}}},
+  点線/.code={\tikzset{cwcustom/.append style={dotted}}},
+  太字/.code={\pgfkeys{/接続/太さ=thick}},
+  極太/.code={\pgfkeys{/接続/太さ=ultra thick}},
+  細字/.code={\pgfkeys{/接続/太さ=thin}},
+  % 鏃を標準固定した矢印オプション
+  矢印/.code={\tikzset{cwcustom/.append style={-{Triangle[length=4pt, width=4pt]}}}},
+  右矢印/.code={\tikzset{cwcustom/.append style={-{Triangle[length=4pt, width=4pt]}}}},
+  左矢印/.code={\tikzset{cwcustom/.append style={{Triangle[length=4pt, width=4pt]}-}}},
+  両矢印/.code={\tikzset{cwcustom/.append style={{Triangle[length=4pt, width=4pt]}-{Triangle[length=4pt, width=4pt]}}}},
+  左右矢印/.code={\tikzset{cwcustom/.append style={{Triangle[length=4pt, width=4pt]}-{Triangle[length=4pt, width=4pt]}}}},
+  矢印なし/.code={\tikzset{cwcustom/.append style={-}}},
+}
+% ユーザー一括デフォルト設定用マクロ
+\newcommand{\接続設定}[1]{\pgfkeys{/接続/.cd, #1}}
+% 2.印マクロ--------------------------------------------------------
+\newcommand{\印}[2][]{%
+  \begingroup
+  \pgfkeys{/接続/.cd, #1}%
+  \pgfkeysgetvalue{/接続/背景色}{\markColor}%\ihspace{1zw}\ihspace{1zw}\ihspace{1zw}\ihspace{1zw}\ihspace{1zw}\ihspace{1zw}\ihspace{1zw}
+  \pgfkeysgetvalue{/接続/余白}{\markPad}%
+  \def\noneStr{none}%
+  \ifx\markColor\noneStr
+    \mbox{%
+      \tikz[remember picture, baseline=(#2.base)]
+        \node[inner sep=0pt, outer sep=0pt] (#2) {\vphantom{bp}#2};%
+    }%
+  \else
+    \mbox{%
+      \tikz[remember picture, baseline=(#2.base)]
+        \node[inner sep=\markPad, fill=\markColor, outer sep=0pt, rounded corners=0pt] (#2) {\vphantom{bp}#2};%
+    }%
+  \fi
+  \endgroup
+}
+% 3.接続マクロ------------------------------------------------------
+\newcommand{\接続}[3][]{%
+  \begingroup
+  \def\cwStart{自動}%
+  \def\cwEnd{自動}%
+  \tikzset{cwcustom/.style={draw=black, -}}%
+  \pgfkeys{/接続/.cd, #1}%
+  \pgfkeysgetvalue{/接続/侵入}{\cwSink}%
+  \pgfkeysgetvalue{/接続/向き}{\cwDir}%
+  \pgfkeysgetvalue{/接続/形状}{\cwShape}%
+  \pgfkeysgetvalue{/接続/高さ}{\cwArm}%
+  \pgfkeysgetvalue{/接続/膨らみ}{\cwLoose}%
+  \pgfkeysgetvalue{/接続/太さ}{\cwLineWidth}%
+
+  % --- 始点・終点のアンカーと曲線方向 ---
+  \def\cwStartAnchor{south}%
+  \def\cwEndAnchor{north}%
+  \def\cwStartAngle{-90}%
+  \def\cwEndAngle{90}%
+  \def\cwEndInX{0}%
+  \def\cwEndInY{-1}%
+
+  % 始点
+  \def\cwTmp{上}%
+  \ifx\cwStart\cwTmp
+    \def\cwStartAnchor{north}%
+    \def\cwStartAngle{90}%
+  \fi
+  \def\cwTmp{下}%
+  \ifx\cwStart\cwTmp
+    \def\cwStartAnchor{south}%
+    \def\cwStartAngle{-90}%
+  \fi
+  \def\cwTmp{左}%
+  \ifx\cwStart\cwTmp
+    \def\cwStartAnchor{west}%
+    \def\cwStartAngle{180}%
+  \fi
+  \def\cwTmp{右}%
+  \ifx\cwStart\cwTmp
+    \def\cwStartAnchor{east}%
+    \def\cwStartAngle{0}%
+  \fi
+  \def\cwTmp{左上}%
+  \ifx\cwStart\cwTmp
+    \def\cwStartAnchor{north west}%
+    \def\cwStartAngle{135}%
+  \fi
+  \def\cwTmp{右上}%
+  \ifx\cwStart\cwTmp
+    \def\cwStartAnchor{north east}%
+    \def\cwStartAngle{45}%
+  \fi
+  \def\cwTmp{左下}%
+  \ifx\cwStart\cwTmp
+    \def\cwStartAnchor{south west}%
+    \def\cwStartAngle{-135}%
+  \fi
+  \def\cwTmp{右下}%
+  \ifx\cwStart\cwTmp
+    \def\cwStartAnchor{south east}%
+    \def\cwStartAngle{-45}%
+  \fi
+
+  % 終点
+  \def\cwTmp{上}%
+  \ifx\cwEnd\cwTmp
+    \def\cwEndAnchor{north}%
+    \def\cwEndAngle{90}%
+    \def\cwEndInX{0}%
+    \def\cwEndInY{-1}%
+  \fi
+  \def\cwTmp{下}%
+  \ifx\cwEnd\cwTmp
+    \def\cwEndAnchor{south}%
+    \def\cwEndAngle{-90}%
+    \def\cwEndInX{0}%
+    \def\cwEndInY{-1}%
+  \fi
+  \def\cwTmp{左}%
+  \ifx\cwEnd\cwTmp
+    \def\cwEndAnchor{west}%
+    \def\cwEndAngle{180}%
+    \def\cwEndInX{0}%
+    \def\cwEndInY{-1}%
+  \fi
+  \def\cwTmp{右}%
+  \ifx\cwEnd\cwTmp
+    \def\cwEndAnchor{east}%
+    \def\cwEndAngle{0}%
+    \def\cwEndInX{0}%
+    \def\cwEndInY{-1}%
+  \fi
+  \def\cwTmp{左上}%
+  \ifx\cwEnd\cwTmp
+    \def\cwEndAnchor{north west}%
+    \def\cwEndAngle{135}%
+    \def\cwEndInX{0}%
+    \def\cwEndInY{-1}%
+  \fi
+  \def\cwTmp{右上}%
+  \ifx\cwEnd\cwTmp
+    \def\cwEndAnchor{north east}%
+    \def\cwEndAngle{45}%
+    \def\cwEndInX{0}%
+    \def\cwEndInY{-1}%
+  \fi
+  \def\cwTmp{左下}%
+  \ifx\cwEnd\cwTmp
+    \def\cwEndAnchor{south west}%
+    \def\cwEndAngle{-135}%
+    \def\cwEndInX{0}%
+    \def\cwEndInY{-1}%
+  \fi
+  \def\cwTmp{右下}%
+  \ifx\cwEnd\cwTmp
+    \def\cwEndAnchor{south east}%
+    \def\cwEndAngle{-45}%
+    \def\cwEndInX{0}%
+    \def\cwEndInY{-1}%
+  \fi
+
+  %
+  \tikz[remember picture, overlay]{%
+    \pgfdeclarelayer{background}%
+    \pgfsetlayers{background,main}%
+    \begin{pgfonlayer}{background}%
+      \pgfmathsetmacro{\calculatedLoose}{\cwLoose * (\cwArm / 8pt)}%
+      %
+      \path let \p1=(#2.center), \p2=(#3.center) in 
+        \pgfextra{%
+          \pgfmathsetmacro{\ydiff}{abs(\y1-\y2)}%
+          \pgfmathsetmacro{\isSameLine}{\ydiff < 12 ? 1 : 0}%
+          %
+          % --- 始点・終点が明示された場合 ---
+          \def\cwAuto{自動}%
+          \ifx\cwStart\cwAuto
+            \ifx\cwEnd\cwAuto
+              % 何もしない → 下の従来処理
+            \else
+              % 終点のみ指定
+              \ifnum\cwShape=2
+                \def\drawCmd{\draw[cwcustom, \cwLineWidth] (#2.east) -- (#3.\cwEndAnchor);}
+              \else
+                \ifnum\cwShape=0
+                  \def\drawCmd{\draw[cwcustom, \cwLineWidth] (#2.south) to[out=-90, in=\cwEndAngle, looseness=\calculatedLoose] (#3.\cwEndAnchor);}
+                \else
+                  \def\drawCmd{\draw[cwcustom, \cwLineWidth] (#2.south) -- ++(0,-\cwArm) -| (#3.\cwEndAnchor);}
+                \fi
+              \fi
+            \fi
+          \else
+            % 始点が指定されている
+            \ifx\cwEnd\cwAuto
+              \ifnum\cwShape=2
+                \def\drawCmd{\draw[cwcustom, \cwLineWidth] (#2.\cwStartAnchor) -- (#3.west);}
+              \else
+                \ifnum\cwShape=0
+                  \def\drawCmd{\draw[cwcustom, \cwLineWidth] (#2.\cwStartAnchor) to[out=\cwStartAngle, in=180, looseness=\calculatedLoose] (#3.west);}
+                \else
+                  \def\drawCmd{\draw[cwcustom, \cwLineWidth] (#2.\cwStartAnchor) -- ++(\cwArm,0) |- (#3.west);}
+                \fi
+              \fi
+            \else
+              % 始点・終点とも指定
+              \ifnum\cwShape=2
+                \def\drawCmd{\draw[cwcustom, \cwLineWidth] (#2.\cwStartAnchor) -- (#3.\cwEndAnchor);}
+              \else
+                \ifnum\cwShape=0
+                  \def\drawCmd{\draw[cwcustom, \cwLineWidth] (#2.\cwStartAnchor) to[out=\cwStartAngle, in=\cwEndAngle, looseness=\calculatedLoose] (#3.\cwEndAnchor);}
+                \else
+                  \def\drawCmd{\draw[cwcustom, \cwLineWidth] (#2.\cwStartAnchor) -- ++(0,\cwArm) -| (#3.\cwEndAnchor);}
+                \fi
+              \fi
+            \fi
+          \fi
+          \ifnum\cwShape=2
+            % --- 直線モード（形状=2）---
+            \ifnum\isSameLine=1
+              % 同一行：文字の左右端を結ぶ
+              \def\drawCmd{\draw[cwcustom, \cwLineWidth] (#2.east) -- (#3.west);}
+            \else
+              % 改行またぎ：文字の下端と上端を結ぶ
+              \def\drawCmd{\draw[cwcustom, \cwLineWidth] (#2.south) -- (#3.north);}
+            \fi
+          \else
+            \ifnum\isSameLine=1
+              % --- 同一行 ---
+              \ifnum\cwShape=0
+                % 曲線（形状=0）
+                \ifnum\cwDir=1
+                  \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.north) + (0, -\cwSink pt)$) to[out=45, in=135, looseness=\calculatedLoose] ($(#3.north) + (0, -\cwSink pt)$);}
+                \else
+                  \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.south) + (0, \cwSink pt)$) to[out=-45, in=-135, looseness=\calculatedLoose] ($(#3.south) + (0, -\cwSink pt)$);}
+                \fi
+              \else
+                % 折線（形状=1）
+                \ifnum\cwDir=1
+                  \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.north) + (0, -\cwSink pt)$) -- ++(0, \cwArm) -| ($(#3.north) + (0, -\cwSink pt)$);}
+                \else
+                  \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.south) + (0, \cwSink pt)$) -- ++(0, -\cwArm) -| ($(#3.south) + (0, -\cwSink pt)$);}
+                \fi
+              \fi
+            \else
+              % --- 改行またぎ ---
+              \ifnum\cwShape=0
+                % 曲線（形状=0）
+                \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.south) + (0, \cwSink pt)$) to[out=-90, in=90, looseness=\calculatedLoose] ($(#3.north) + (0, -\cwSink pt)$);}
+              \else
+                % 折線（形状=1）
+                \def\cwAuto{自動}%
+                \ifx\cwEnd\cwAuto
+                  \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.south) + (0, \cwSink pt)$) -- ++(0, -\cwArm) -| ($(#3.north) + (0, -\cwSink pt)$);}
+                \else
+                  \def\cwTmp{上}%
+                  \ifx\cwEnd\cwTmp
+                    \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.south) + (0, \cwSink pt)$) -- ++(0, -\cwArm) -| ($(#3.north) + (0, -\cwSink pt)$);}
+                  \else
+                    \def\cwTmp{下}%
+                    \ifx\cwEnd\cwTmp
+                      \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.south) + (0, \cwSink pt)$) -- ++(0, -\cwArm) -| ($(#3.south) + (0, \cwSink pt)$);}
+                    \else
+                      \def\cwTmp{右下}%
+                      \ifx\cwEnd\cwTmp
+                        \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.south) + (0, \cwSink pt)$) -- ++(0, -\cwArm) -| ($(#3.south east) + (0, \cwSink pt)$);}
+                      \else
+                        \def\cwTmp{左下}%
+                        \ifx\cwEnd\cwTmp
+                          \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.south) + (0, \cwSink pt)$) -- ++(0, -\cwArm) -| ($(#3.south west) + (0, \cwSink pt)$);}
+                        \else
+                          \def\cwTmp{右上}%
+                          \ifx\cwEnd\cwTmp
+                            \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.south) + (0, -\cwArm) -| ($(#3.north east) + (0, -\cwSink pt)$);}
+                          \else
+                            \def\cwTmp{左上}%
+                            \ifx\cwEnd\cwTmp
+                              \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.south) + (0, -\cwArm) -| ($(#3.north west) + (0, -\cwSink pt)$);}
+                            \else
+                              \def\drawCmd{\draw[cwcustom, \cwLineWidth] ($(#2.south) + (0, \cwSink pt)$) -- ++(0, -\cwArm) -| (#3.west);}
+                            \fi
+                          \fi
+                        \fi
+                      \fi
+                    \fi
+                  \fi
+                \fi
+              \fi
+            \fi
+          \fi
+          \drawCmd
+        };
+    \end{pgfonlayer}%
+  }%
+  \endgroup
 }
