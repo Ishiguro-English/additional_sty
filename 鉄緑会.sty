@@ -120,6 +120,12 @@
 \newcommand{\pdf挿入}[2][]{\includepdf[pagecommand={},#1]{#2}}%
 \newcommand{\subkenten}[1]{\ruby[S]{#1}{$\bullet$}}
 \providecommand{\小見出し}[1]{\br{.3}\見出しぶら下げ*{\▲}{\bf{#1}}\br{.3}}
+\newcommand{\bentarrow}{%
+  \begin{tikzpicture}%
+    \draw (0,0.7ex) -- (0,0) -- (0.75em,0);
+    \draw (0.55em,0.2em) -- (0.75em,0) -- (0.55em,-0.2em);
+  \end{tikzpicture}%
+}
 % 下線系--------------------------------------------------------------------------------------
 \let\ul\下線%
 \newcommand{\imp}[1]{\下線{\gt{#1}}}%
@@ -669,7 +675,7 @@
 \newenvironment{exenu}{\begin{jquote}(3zw)[.3\baselineskip]\begin{enumerate}[$Ex.$\MaruKaku{exenubangou}\stepcounter{exenubangou}]}{\end{enumerate}\end{jquote}}%
 \newcounter{例文番号}
 \setcounter{例文番号}{1}
-\renewcommand{\ex}[2]{\見出しぶら下げ*{\quad\raisebox{-.2zw}{\tikz\node[fill=gray!60,ellipse,inner sep=0pt]{$Ex.$\texthti{\the例文番号}};}}{#1\par#2}\stepcounter{例文番号}}
+\renewcommand{\ex}[3][gray]{\見出しぶら下げ*{\quad\raisebox{-.2zw}{\tikz\node[fill=#1!60,ellipse,inner sep=0pt]{$Ex.$\texthti{\the例文番号}};}}{#2\par#3}\stepcounter{例文番号}}
 
 \usepackage{改ceo}% ここで読み込む必要アリ
 
@@ -874,7 +880,7 @@
 
 \def\hphrases{\@ifnextchar<{\@hphrases}{\@hphrases<lr>}}
 \def\@hphrases<#1>{\@ifnextchar[{\@@hphrases<#1>}{\@@hphrases<#1>[l]}}
-\def\@@hphrases<#1>[#2]{\@ifnextchar({\@@@hphrases<#1>[#2]}{\@@@hphrases<#1>[#2](t)}}
+\def\@@hphrases<#1>[#2]{\@ifnextchar({\@@@hphrases<#1>[#2]}{\@@@hphrases<#1>[#2](c)}}% 26/9/2：tからcに変更
 \def\@@@hphrases<#1>[#2](#3){\@ifnextchar|{\@@@@hphrases<#1>[#2](#3)}{\@@@hphrases<#1>[#2](#3)|0pt|}}
 \def\@@@@hphrases<#1>[#2](#3)|#4|#5{%
   \savebox{\@tempboxd}{%

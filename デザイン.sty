@@ -239,7 +239,7 @@
 \NewDocumentCommand\circlestitle{ O{\basiccolor} m }%
   {%
     \stepcounter{circlestitlebangou}%
-    \noindent%
+    \br0\noindent%
     \begin{scaletikzpicturetowidth}{\linewidth}%
       \begin{tikzpicture}[scale=\tikzscale]%
         \fill[#1!10!white](0,0)circle(.8);% section名の左の円1
@@ -256,7 +256,28 @@
         \draw(0,.2)node[right]{\Huge\@circlestitle@@font{\uline[width=.5pt]{\thecirclestitlebangou.\ \uline[-4.5pt,width=.5pt]{#2}}\uline[-4.5pt,width=.5pt]{\qquad\qquad\quad}}};% section名
         \draw(-.5,1.2)node[right]{\Large\textcolor{#1!75!white}{\@circlestitle@font{Chapter}}};% Chapterの文字
       \end{tikzpicture}%
-    \end{scaletikzpicturetowidth}%
+    \end{scaletikzpicturetowidth}\br0%
+  }%
+
+\NewDocumentCommand\subcirclestitle{ O{\basiccolor} m m }%
+  {%
+    \br0\noindent\begin{scaletikzpicturetowidth}{\linewidth}%
+      \begin{tikzpicture}[scale=\tikzscale]%
+        \fill[#1!10!white](0,0)circle(.8);% section名の左の円1
+        \fill[#1!20!white](-1,1)circle(.5);% section名の左の円2
+        \fill[#1!30!white](-.8,2)circle(.35);% section名の左の円3
+        \fill[#1!40!white](-.5,2.8)circle(.15);% section名の左の円4
+        \fill[#1!10!white](7.5,.3)circle(.6);% section名の右の円1
+        \fill[#1!20!white](8.8,.9)circle(.45);% section名の右の円2
+        \fill[#1!30!white](10,1.28)circle(.3);% section名の右の円3
+        \fill[#1!40!white](11.1,1.4)circle(.25);% section名の右の円4
+        \fill[#1!50!white](12.15,1.38)circle(.225);% section名の右の円5
+        \fill[#1!50!white](12.8,.8)circle(.2125);% section名の右の円6
+        \fill[#1!50!white](12.5,0)circle(.15);% section名の右の円7
+        \draw(0,.2)node[right]{\Huge\@circlestitle@@font{\uline[width=.5pt]{\uline[-4.5pt,width=.5pt]{\,#3}}\uline[-4.5pt,width=.5pt]{\qqqquad}}};% section名
+        \draw(-.5,1.35)node[right]{\Large\textcolor{#1!75!white}{\@circlestitle@font{#2}}};% Chapterの文字
+      \end{tikzpicture}%
+    \end{scaletikzpicturetowidth}\br0%
   }%
 % \dangotitle[][][]{}[]<>------------------------------
 \newcounter{dangotitlebangou}%

@@ -45,7 +45,7 @@
 }
 %\newcounter{例文番号}
 \setcounter{例文番号}{1}
-\renewcommand{\ex}[2]{\br{.3}\見出しぶら下げ*{\quad\raisebox{-.2zw}{\tikz\node[fill=gray!60,ellipse,inner sep=0pt]{$Ex.\the例文番号$};}}{#1\par#2}\br{.3}\stepcounter{例文番号}}
+\renewcommand{\ex}[3][gray]{\br{.3}\見出しぶら下げ*{\quad\raisebox{-.2zw}{\tikz\node[fill=#1!60,ellipse,inner sep=0pt]{$Ex.\the例文番号$};}}{#2\par#3}\br{.3}\stepcounter{例文番号}}
 \newenvironment{jq}{\begin{jquotation}[.3\baselineskip]}{\end{jquotation}}
 \newenvironment{jq*}{\br{.3}}{\br{.3}}
 \newcommand{\語注}[2][2]{\alt<\Star>[#1]{#2}}
