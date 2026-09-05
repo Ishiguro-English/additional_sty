@@ -106,16 +106,18 @@
 \define@key{ansbox}{得点}{\def\ansbox@score{#1}}
 \define@key{ansbox}{氏名}{\def\ansbox@name{#1}}
 \setkeys{ansbox}{設問=, 満点=, 得点=, 氏名=}
-\renewenvironment{答案例}[1][]{%
-  \setkeys{ansbox}{#1}%
-  \ifx\ansbox@question\@empty\else
-    \小見出し{\ansbox@question}%
-  \fi
-  \begin{答案段落}{答案例}%
-}{%
-  \ralign{（\ansbox@name，\ansbox@score\,/\,\ansbox@fullmark）}%
-  \end{答案段落}\br{-.5}%
-}
+\renewenvironment{答案例}[1][]%
+  {%
+    \setkeys{ansbox}{#1}%
+    \ifx\ansbox@question\@empty\else
+      \小見出し{\ansbox@question}%
+    \fi
+    \begin{答案段落}{答案例}%
+  }%
+  {%
+    \ralign{（\ansbox@name，\ansbox@score\,/\,\ansbox@fullmark）}%
+    \end{答案段落}\br{-.5}%
+  }%
 
 \newcommand{\アンケート返信}%
   {%
