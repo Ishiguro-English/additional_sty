@@ -516,6 +516,7 @@
 \def\番号付け@temp{\ajKuroMaruKakualph}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
 \def\番号付け@temp{\ajKuroMaruKakuHira}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
 \def\番号付け@temp{\ajKuroMaruKakuKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
+\def\番号付け@temp{\marub}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
 \def\番号付け@temp{\ajStar}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
 \def\番号付け@temp{\ajIrohaKakkoKata}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
 \def\番号付け@temp{\shikakukakko}\ifx\番号付け変更@引数\番号付け@temp\@enumerateのラベル形式定義{#1}{#2}{\ajLabel}\else
@@ -540,7 +541,7 @@
     }% end of else 3
   }% end of else 2
 }% end of else 1
-\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
+\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
 }% end of \newcommand
 
 \newcommand{\ajStar}[1]{＊}%
@@ -596,7 +597,7 @@
 \def\maru{\ajMaru}%
 \newenvironment{maruenu}{\begin{enumerate}\全番号付け変更{\ajMaru}}{\end{enumerate}}%
 \def\marub#1{\bgt{\ajKuroMaru{#1}}}%
-\newenvironment{marubenu}{\begin{enumerate}\全番号付け変更{\ajKuroMaru}}{\end{enumerate}}%
+\newenvironment{marubenu}{\begin{enumerate}\全番号付け変更{\marub}}{\end{enumerate}}%
 \def\kaku{\ajKaku}%
 \newenvironment{kakuenu}{\begin{enumerate}\全番号付け変更{\ajKaku}}{\end{enumerate}}%
 \let\kakub\ajKuroKaku%

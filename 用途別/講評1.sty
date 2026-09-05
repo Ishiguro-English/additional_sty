@@ -45,13 +45,13 @@
           \noindent クラス：\クラス名\hfill{担当：\担当者}\br{.5}%
           \見出し{\テスト名\hfill{w\the週数 実施 \ }}%
         ]%
-        \addtocounter{週数}{-1}%
       }%
       {\twocolumn[\見出し{\テスト名\hfill{w\the週数 実施 \ }}]}%
     \stepcounter{テスト数}%
     \小見出し{平均点}\br{-.3}%
     \begin{center*}{\Large\平均 点}\\（\受験者数 名）\end{center*}%
   }%
+
 \newcommand{\受験者}[1]{\def\受験者数{#1}}
 \def\設問註{}%
 \newcommand{\平均点}[1]%
@@ -81,13 +81,42 @@
   {\end{棒グラフ}\br{-.6}}%
 \newcommand{\設問}[2][]%
   {%
+    \def\小問の直前か判定{true}%
     \def\設問註{#1}\def\設問名{#2}\def\平均{\,--\,}%
-    \br{.3}\noindent【\設問名】%
+    \br{.3}\下n行からは始めない{2}{}\noindent【\設問名】%
   }%
-\newcommand{\優秀者}[1]{\br{.3}\begin{点線囲み}\raggedright#1\end{点線囲み}\br{-.2}}%
+\newcommand{\優秀者}[1]%
+  {%
+    \def\優秀者の有無{true}%
+    \br{.3}\begin{点線囲み}%
+      \raggedright#1%
+    \end{点線囲み}\br{-.5}%
+  }%
 \newcommand{\各論}{\小見出し{各論}\br{-.3}\def\平均の種類判定{設問別}}%
 \newcommand{\総論}{\小見出し{総論}}%
 \newcommand{\小問}[2]{\br{.3}\見出しぶら下げ*{\kakko{#1}}{#2}}%
+
+\newenvironment{問題}[1][]{\br{-.8}\begin{枠囲み}[#1]{問題}}{\end{枠囲み}\br{-.3}}
+\renewenvironment{解答}{\begin{枠囲み}{解答}}{\end{枠囲み}\br{-.3}}
+\newenvironment{箇条書き}{\begin{jquote}(-.5zw)\begin{marubenu}}{\end{marubenu}\end{jquote}}%
+
+\newcommand{\優秀答案}{\onecolumn\見出し{優秀答案}}%
+\define@key{ansbox}{設問}{\def\ansbox@question{#1}}
+\define@key{ansbox}{満点}{\def\ansbox@fullmark{#1}}
+\define@key{ansbox}{得点}{\def\ansbox@score{#1}}
+\define@key{ansbox}{氏名}{\def\ansbox@name{#1}}
+\setkeys{ansbox}{設問=, 満点=, 得点=, 氏名=}
+\renewenvironment{答案例}[1][]{%
+  \setkeys{ansbox}{#1}%
+  \ifx\ansbox@question\@empty\else
+    \小見出し{\ansbox@question}%
+  \fi
+  \begin{答案段落}{答案例}%
+}{%
+  \ralign{（\ansbox@name，\ansbox@score\,/\,\ansbox@fullmark）}%
+  \end{答案段落}\br{-.5}%
+}
+
 \newcommand{\アンケート返信}%
   {%
     \br2\見出し{アンケート返信}\bgroup%
