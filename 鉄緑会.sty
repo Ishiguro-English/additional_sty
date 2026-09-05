@@ -3,15 +3,15 @@
 
 \usepackage{tetsuryoku}%
 
-% 私家版======================================================================================
-% 読み込み------------------------------------------------------------------------------------
+% 私家版======================================================================
+% 読み込み--------------------------------------------------------------------
 \usepackage{ascolorbox,ceo,changecolumnseprule,kcolorbox,setspace,pxrubrica2,
 グラフ描画,罫線ノート,小道具,デザイン,%ノート,% \爪と相性が悪い（\checknotedataのせい）ため見送り
 表紙,品詞,吹き出し}%
 \usepackage[explicit]{titlesec}%
 \usepackage[usetype1]{下線追加コマンド}
 %\usepackage{answerbox}% ceoより後で読み込む/\pboxがplext.styと重複するため見送り
-% フォント------------------------------------------------------------------------------------
+% フォント--------------------------------------------------------------------
 \usepackage[prefer2004jis]{pxchfon}%
   \let\hmrfamily\relax%
   \let\hsffamily\relax%
@@ -43,7 +43,7 @@
 \renewcommand{\bgtfamily}{\originalgtfamily\bfseries\mathversion{bold}}
 \renewcommand{\ebgtfamily}{\originalgtfamily\ebseries\mathversion{bold}\ebgtrel}
 \def\oubungtseries{\originalgtfamily\mdseries}
-% 基本設定------------------------------------------------------------------------------------
+% 基本設定--------------------------------------------------------------------
 \番号付け変更[1]{\ajKaku}\番号付け変更[2]{\ajMaru}\番号付け変更[3]{\ajKakkoalph}%
 \番号付き箇条書きの空白設定(0pt)<0zw>[1zw]{1.5zw}{1zw}%
 \選択肢番号付け変更{\Kaku}%
@@ -54,7 +54,9 @@
 \RUBYsetup{J}% pxrubrica2.styをruby->RUBYに一斉変更
 \renewcommand{\kenten}{\KENTEN}%
 \renewcommand{\ruby}{\RUBY}%
-% 最新の鉄TeXに対応---------------------------------------------------------------------------
+% 最新の鉄TeXに対応-----------------------------------------------------------
+\resetlastupdate% アップデート日の警告を削除
+
 \providecommand{\注釈}[3][]{}
 \let\sub注釈\注釈
 \renewcommand{\注釈}[3][]{\sub注釈[#1]{\vphantom{bp}#2}{#3}}
@@ -69,7 +71,7 @@
   後半引出線の長さ=1.5mm,
   衝突判定距離=.55em
 }
-% 基本定義------------------------------------------------------------------------------------
+% 基本定義--------------------------------------------------------------------
 \newcommand{\basiccolor}{black}%
 \newcommand{\基調色}[1]{\renewcommand{\basiccolor}{#1}}%
 \newcommand{\段落下げ}{\parindent=1zw}%
@@ -126,7 +128,7 @@
     \draw (0.55em,0.2em) -- (0.75em,0) -- (0.55em,-0.2em);
   \end{tikzpicture}%
 }
-% 下線系--------------------------------------------------------------------------------------
+% 下線系----------------------------------------------------------------------
 \let\ul\下線%
 \newcommand{\imp}[1]{\下線{\gt{#1}}}%
 \def\x#1{\下線{\gt{\textcolor{orange!90!red}{#1}}}}%
@@ -151,7 +153,7 @@
     \end{tabular}\hspace{.1zw}}%
     \renewcommand{\arraystretch}{r}%
   }%
-% 数式----------------------------------------------------------------------------------------
+% 数式------------------------------------------------------------------------
 \newcommand{\kinji}{{\rm\ensuremath{\ \risingdotseq\ }}}%
 \let\近似\kinji%
 \newcommand{\douchi}{\mc{\ensuremath{\Leftrightarrow}}}%
@@ -226,7 +228,7 @@
 \let\Bwave\bluewave
 \def\greenwave#1{\波線[color=green!80!black,width=.7pt,position=-1.5pt]{#1}}%
 \let\Gwave\greenwave
-% otf関連-------------------------------------------------------------------------------------
+% otf関連---------------------------------------------------------------------
 \renewcommand{\番号付け変更}[2][1]{%
 \def\番号付け変更@引数{#2}%
 %%%%%%%%%%%%
@@ -718,7 +720,7 @@
 \providecommand{\英文中下線中}[2][5]{%
 \下線{\makebox[#1zw][c]{#2}}%
 }
-% 空白----------------------------------------------------------------------------------------
+% 空白------------------------------------------------------------------------
 \newcommand{\qqquad}{\qquad\quad}%
 \newcommand{\qqqquad}{\qqquad\quad}%
 \newcommand{\qqqqquad}{\qqqquad\quad}%

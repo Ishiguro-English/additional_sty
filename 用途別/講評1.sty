@@ -1,0 +1,99 @@
+\NeedsTeXFormat{pLaTeX2e}%
+\ProvidesPackage{講評1}[2026/09/05, ver.1.0.0]%
+
+\cfoot{\footnotesize −\arabic{page}−}%
+\newcommand{\ank}[2]%
+  {%
+    \ifthenelse{\equal{#2}{}}%
+      {%
+        \ifthenelse{\equal{#1}{}}%
+          {}%
+          {\見出しぶら下げ*{\▲}{\mcfamily#1}}%
+      }%
+      {%
+        \見出しぶら下げ*{\▲}{\mcfamily#1}%
+        \見出しぶら下げ*{\mushin{→}}{\fuijifamily#2}\br{.5}%
+      }%
+  }%
+\newcounter{見出し番号}%
+\def\見出し#1{\stepcounter{見出し番号}\一行カラーボックス{\gt{\the見出し番号}}{\gt{#1}}\br{.6}}%
+\def\小見出し#1{\ascboxD[B]{#1}}%
+
+\newcounter{週数}%
+\newcommand{\前後期}[1]{\def\期{#1}}%
+\newcommand{\配付週数}[1]{\setcounter{週数}{#1}}%
+\newcommand{\クラス}[1]{\def\クラス名{#1}}%
+\newcommand{\担当}[1]{\def\担当者{#1}}%
+
+\前後期{\,--\,}%
+\配付週数{0}%
+\クラス{\,--\,}%
+\担当{\,--\,}%
+
+\newcounter{テスト数}%
+\setcounter{テスト数}{1}%
+\newcommand{\テスト}[1]%
+  {%
+    \def\平均の種類判定{テスト別}%
+    \def\テスト名{#1}%
+    \def\平均{\,--\,}\受験者{\,--\,}%
+    \ifthenelse{\equal{\theテスト数}{1}}%
+      {%
+        \twocolumn[%
+          \begin{asbox7}{\期 第\the週数 週配付\quad 講評}\end{asbox7}%
+          \addtocounter{週数}{-1}%
+          \noindent クラス：\クラス名\hfill{担当：\担当者}\br{.5}%
+          \見出し{\テスト名\hfill{w\the週数 実施 \ }}%
+        ]%
+        \addtocounter{週数}{-1}%
+      }%
+      {\twocolumn[\見出し{\テスト名\hfill{w\the週数 実施 \ }}]}%
+    \stepcounter{テスト数}%
+    \小見出し{平均点}\br{-.3}%
+    \begin{center*}{\Large\平均 点}\\（\受験者数 名）\end{center*}%
+  }%
+\newcommand{\受験者}[1]{\def\受験者数{#1}}
+\def\設問註{}%
+\newcommand{\平均点}[1]%
+  {%
+    \def\平均{#1}%
+    \ifthenelse{\equal{\平均の種類判定}{テスト別}}%
+      {}{（平均点：\平均\ifthenelse{\equal{\設問註}{}}{}{，\設問註 回放送}）}%
+  }%
+\newenvironment{成績優秀者}%
+  {%
+    \br{-.5}\小見出し{成績優秀者}\br{-.2}%
+    \begin{center}%
+      \begin{tabular}{cccc}%
+        \hline%
+        順位&氏&名&得点\\\hline%
+  }%
+  {%
+        \hline%
+      \end{tabular}%
+    \end{center}%
+  }%
+\newenvironment{得点分布}%
+  {%
+    \br{-.5}\小見出し{得点分布}\br{.3}%
+    \begin{棒グラフ}[後ろの単位=人,中央揃え=しない]%
+  }%
+  {\end{棒グラフ}\br{-.6}}%
+\newcommand{\設問}[2][]%
+  {%
+    \def\設問註{#1}\def\設問名{#2}\def\平均{\,--\,}%
+    \br{.3}\noindent【\設問名】%
+  }%
+\newcommand{\優秀者}[1]{\br{.3}\begin{点線囲み}\raggedright#1\end{点線囲み}\br{-.2}}%
+\newcommand{\各論}{\小見出し{各論}\br{-.3}\def\平均の種類判定{設問別}}%
+\newcommand{\総論}{\小見出し{総論}}%
+\newcommand{\小問}[2]{\br{.3}\見出しぶら下げ*{\kakko{#1}}{#2}}%
+\newcommand{\アンケート返信}%
+  {%
+    \br2\見出し{アンケート返信}\bgroup%
+    \renewcommand{\mcfamily}{\mgfamily}%
+    \renewcommand{\fuijifamily}{\rm}%
+  }%
+\newcommand{\質問コーナー}{\noindent\cdotsfill\azukiBold{質問コーナー}\cdotsfill}%
+\newcommand{\お題}[1]{\br{-.3}\egroup\noindent\cdotsfill\azukiBold{【お題】#1}\cdotsfill}%
+\newcommand{\その他}{\br{-.3}\noindent\cdotsfill\azukiBold{その他}\cdotsfill}%
