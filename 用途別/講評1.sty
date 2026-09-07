@@ -49,16 +49,15 @@
       {\twocolumn[\見出し{\テスト名\hfill{w\the週数 実施 \ }}]}%
     \stepcounter{テスト数}%
     \小見出し{平均点}\br{-.3}%
-    \begin{center*}{\Large\平均 点}\\（\受験者数 名）\end{center*}%
   }%
 
-\newcommand{\受験者}[1]{\def\受験者数{#1}}
+\newcommand{\受験者}[1]{\ifthenelse{\equal{#1}{}}{\def\受験者数{\,--\,}}{\def\受験者数{#1}}}%
 \def\設問註{}%
 \newcommand{\平均点}[1]%
   {%
-    \def\平均{#1}%
+    \ifthenelse{\equal{#1}{}}{\def\平均{\,--\,}}{\def\平均{#1}}%
     \ifthenelse{\equal{\平均の種類判定}{テスト別}}%
-      {}{（平均点：\平均\ifthenelse{\equal{\設問註}{}}{}{，\設問註 回放送}）}%
+      {\begin{center*}{\Large\平均 点}\\（\受験者数 名）\end{center*}}{（平均点：\平均\ifthenelse{\equal{\設問註}{}}{}{，\設問註 回放送}）}%
   }%
 \newenvironment{成績優秀者}%
   {%
