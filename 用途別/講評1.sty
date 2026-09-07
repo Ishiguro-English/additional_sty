@@ -87,24 +87,24 @@
 \newcommand{\優秀者}[1]%
   {%
     \def\優秀者の有無{true}%
-    \br{.3}\begin{点線囲み}%
+    \br0\begin{点線囲み}%
       \raggedright#1%
-    \end{点線囲み}\br{-.5}%
+    \end{点線囲み}\br{-.2}%
   }%
-\newcommand{\各論}{\小見出し{各論}\br{-.3}\def\平均の種類判定{設問別}}%
+\newcommand{\各論}{\下n行からは始めない{4}{\小見出し{各論}}\br{-.3}\def\平均の種類判定{設問別}}%
 \newcommand{\総論}{\小見出し{総論}}%
-\newcommand{\小問}[2]{\br{.3}\見出しぶら下げ*{\kakko{#1}}{#2}}%
+\newcommand{\小問}[2]{\見出しぶら下げ*{\kakko{#1}}{#2}}%
 
 \newenvironment{問題}[1][]{\br{-.8}\begin{枠囲み}[#1]{問題}}{\end{枠囲み}\br{-.3}}
 \renewenvironment{解答}{\begin{枠囲み}{解答}}{\end{枠囲み}\br{-.3}}
 \newenvironment{箇条書き}{\begin{jquote}(-.5zw)\begin{marubenu}}{\end{marubenu}\end{jquote}}%
 
 \newcommand{\優秀答案}{\onecolumn\見出し{優秀答案}}%
-\define@key{ansbox}{設問}{\def\ansbox@question{#1}}
-\define@key{ansbox}{満点}{\def\ansbox@fullmark{#1}}
-\define@key{ansbox}{得点}{\def\ansbox@score{#1}}
-\define@key{ansbox}{氏名}{\def\ansbox@name{#1}}
-\setkeys{ansbox}{設問=, 満点=, 得点=, 氏名=}
+\define@key{ansbox}{設問}{\def\ansbox@question{#1}}%
+\define@key{ansbox}{満点}{\def\ansbox@fullmark{#1}}%
+\define@key{ansbox}{得点}{\def\ansbox@score{#1}}%
+\define@key{ansbox}{氏名}{\def\ansbox@name{#1}}%
+\setkeys{ansbox}{設問=, 満点=, 得点=, 氏名=}%
 \renewenvironment{答案例}[1][]%
   {%
     \setkeys{ansbox}{#1}%
