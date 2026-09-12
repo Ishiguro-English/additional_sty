@@ -2,6 +2,7 @@
 \ProvidesPackage{講評1}[2026/09/05, ver.1.0.0]%
 
 \cfoot{\footnotesize −\arabic{page}−}%
+
 \newcommand{\ank}[2]%
   {%
     \ifthenelse{\equal{#2}{}}%
@@ -12,7 +13,7 @@
       }%
       {%
         \見出しぶら下げ*{\▲}{\mcfamily#1}%
-        \見出しぶら下げ*{\mushin{→}}{\fuijifamily#2}\br{.5}%
+        \見出しぶら下げ*{\mushin{→}}{\fuijifamily#2}\br{.2}%
       }%
   }%
 \newcounter{見出し番号}%
