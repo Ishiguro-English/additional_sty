@@ -75,9 +75,11 @@
 \newcommand{\basiccolor}{black}%
 \newcommand{\基調色}[1]{\renewcommand{\basiccolor}{#1}}%
 \newcommand{\段落下げ}{\parindent=1zw}%
+\newcommand{\parr}{\par\quad}%
 \newcommand{\ispace}{\inhibitglue\ignorespaces}%
 \AfterEndPreamble{\def\k#1{\inhibitglue（#1）\inhibitglue}}%
 \newcommand{\星数}[1]{\fornext{#1}{★}\fornext{5-#1}{☆}}%
+\newcommand{\＝}{\\[-.5zw]\rotatebox[origin=c]{90}{＝}\\[-.5zw]}
 \newcommand{\gyaku}{{\ooalign{←\crcr→}}}%
 \providecommand{\hantai}[1]{（\gyaku\,#1）}%
 \newcommand*{\rightalign}[1]%
