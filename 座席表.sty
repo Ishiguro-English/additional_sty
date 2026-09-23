@@ -56,8 +56,7 @@
 
 \newcommand{\上部出力}{%
   \if座席表@講師用\bgtfamily
-    \回転{各自，自分の名前の座席に着席して授業を受けること。}\\[-5pt]
-    \回転{自分の名前がない場合，空席に着席し，授業開始時に担当講師に申し出ること。}\vfill
+    \回転{\白黒反転文字列{\huge\bgt{※講師用}}}\vfill
   \else
     \bgtfamily\noindent{\HUGE\教室番号出力 教室}\ihspace{3zw}\下線{\large クラス名：\makebox[10zw][c]{\LARGE\クラス名出力}授業日：\makebox[7zw][c]{\LARGE\授業日付出力}}\br{.5}
   \fi
