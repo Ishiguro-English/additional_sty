@@ -1,9 +1,20 @@
 \NeedsTeXFormat{pLaTeX2e}
 \ProvidesPackage{座席表}[2026/08/06, ver.1.0.0]
 
-\RequirePackage{graphicx}
-\RequirePackage{varwidth}
-\RequirePackage{xfp}
+\RequirePackage{鉄緑会,graphicx,varwidth,xfp,etoolbox}
+
+% option別
+\newif\if座席表@講師用
+\座席表@講師用false % default：生徒用
+
+\DeclareOption{講師用}{\座席表@講師用true}
+\DeclareOption{生徒用}{\座席表@講師用false}
+\ProcessOptions\relax
+
+\newcommand{\回転}[1]{\if座席表@講師用\rotatebox[origin=c]{180}{#1}\else#1\fi}
+\newcommand{\色}[1]{\if座席表@講師用\hphantom{#1}\else#1\fi}
+
+% Definitions
 
 \newsavebox{\AutoResizeBox}
 
@@ -39,29 +50,47 @@
   \scalebox{\ARScale}{\usebox{\AutoResizeBox}}%
 }
 
-\makeatother
-
 \newcommand{\教室番号}[1]{\def\教室番号出力{#1}}
 \newcommand{\クラス名}[1]{\def\クラス名出力{#1}}
 \newcommand{\授業日付}[1]{\def\授業日付出力{#1}}
 
 \newcommand{\上部出力}{%
-  \bgtfamily\noindent{\HUGE\教室番号出力 教室}\ihspace{3zw}\下線{\large クラス名：\makebox[10zw][c]{\LARGE\クラス名出力}授業日：\makebox[7zw][c]{\LARGE\授業日付出力}}\br{.5}
-  \ihspace{2zw}\fbox{\makebox[45.3zw][c]{ホワイトボード}}\br{.5}
+  \if座席表@講師用\bgtfamily
+    \回転{各自，自分の名前の座席に着席して授業を受けること。}\\[-5pt]
+    \回転{自分の名前がない場合，空席に着席し，授業開始時に担当講師に申し出ること。}\vfill
+  \else
+    \bgtfamily\noindent{\HUGE\教室番号出力 教室}\ihspace{3zw}\下線{\large クラス名：\makebox[10zw][c]{\LARGE\クラス名出力}授業日：\makebox[7zw][c]{\LARGE\授業日付出力}}\br{.5}
+  \fi
+  \ihspace{2zw}\fbox{\makebox[45.3zw][c]{\回転{ホワイトボード}}}\br{.5}
   \begin{center*}\begin{AutoResize}{\linewidth}{21zw}
 }
 \newcommand{\下部出力}{%
   \end{AutoResize}\end{center*}\br{-.5}
-  \vfill\gtfamily\noindent 各自，自分の名前の座席に着席して授業を受けること。\\[-5pt]自分の名前がない場合，空席に着席し，授業開始時に担当講師に申し出ること。
+  \vfill\gtfamily\noindent
+  \if座席表@講師用
+    \vfill\回転{\bgtfamily\noindent{\HUGE\教室番号出力 教室}\ihspace{3zw}\下線{\large クラス名：\makebox[10zw][c]{\LARGE\クラス名出力}授業日：\makebox[7zw][c]{\LARGE\授業日付出力}}}
+  \else
+    各自，自分の名前の座席に着席して授業を受けること。\\[-5pt]
+    自分の名前がない場合，空席に着席し，授業開始時に担当講師に申し出ること。
+  \fi
 }
 \fboxsep=1pt
 \newlength{\氏名長}
 \newcounter{列数}
 \setcounter{列数}{1}
 \newcommand{\列間空行}[1]{\def\列間空行数{\br{#1}}}
-\newcommand{\机}[2]{\mbox{\settowidth{\large\氏名長}{#1}\fbox{\makebox[3.5zw][c]{\large\vphantom{あ}\ifthenelse{\lengthtest{\the\氏名長>3.5zw}}{\resizebox{3.5zw}{.88zw}{#1}}{#1}}}\hspace{-.5pt}\settowidth{\large\氏名長}{#2}\fbox{\makebox[3.5zw][c]{\large\vphantom{あ}\ifthenelse{\lengthtest{\the\氏名長>3.5zw}}{\resizebox{3.5zw}{.88zw}{#2}}{#2}}}}}
-\newcommand{\横列}[1]{\mbox{\raisebox{.2zw}{\gt{\scriptsize\makebox[1zw][r]{\the列数}\:\:\!列目\ }}#1}\列間空行数\stepcounter{列数}}
+\newcommand{\机}[2]%
+  {%
+    \mbox{\settowidth{\large\氏名長}{#1}\fbox{\makebox[3.5zw][c]{\large\vphantom{あ}\回転{\ifthenelse{\lengthtest{\the\氏名長>3.5zw}}{\resizebox{3.5zw}{.88zw}{#1}}{#1}}}}\hspace{-.5pt}\settowidth{\large\氏名長}{#2}\fbox{\makebox[3.5zw][c]{\large\vphantom{あ}\回転{\ifthenelse{\lengthtest{\the\氏名長>3.5zw}}{\resizebox{3.5zw}{.88zw}{#2}}{#2}}}}}%
+  }
+\newcommand{\横列}[1]%
+  {%
+    \mbox{\raisebox{.2zw}{\回転{\gt{\scriptsize\makebox[1zw][r]{\the列数}\:\:\!列目\ }}}#1}
+    \列間空行数\stepcounter{列数}
+  }
 
 
 \AfterEndPreamble{\上部出力}
 \pretocmd{\enddocument}{\下部出力}{}{}
+
+\makeatother

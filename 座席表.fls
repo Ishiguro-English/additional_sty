@@ -1,0 +1,8 @@
+PWD /usr/local/tetex/share/texmf/ptex/platex/tetsutex/additional_sty
+INPUT /usr/local/teTeX/share/texmf/web2c/texmf.cnf
+INPUT /usr/local/teTeX/share/texmf/web2c/texmf.cnf
+INPUT /usr/local/teTeX/share/texmf-var/web2c/uplatex.fmt
+INPUT 座席表.sty
+OUTPUT 座席表.log
+INPUT 鉄緑会.sty
+INPUT 鉄緑会.sty
