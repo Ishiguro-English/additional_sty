@@ -528,8 +528,8 @@ rotate around={8:(-6,0.35)},yshift=-15pt
               %\begin{scope}[x={(current page.south east)}]%
                 \draw[draw=#1,fill=#1](0,1)rectangle(current page.south east)++(0,1.5);%
                 \ifthenelse{\isodd{\value{page}}}%
-                  {\draw[draw=#1!50,fill=#1!50](current page.south west)++(1,1)circle(.6)node{p.\arabic{page}};}%
                   {\draw[draw=#1!50,fill=#1!50](current page.south east)++(-1,1)circle(.6)node{p.\arabic{page}};}%
+                  {\draw[draw=#1!50,fill=#1!50](current page.south west)++(1,1)circle(.6)node{p.\arabic{page}};}%
               %\end{scope}%
             \end{tikzpicture}%
           }%
