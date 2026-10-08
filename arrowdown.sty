@@ -1,0 +1,48 @@
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{arrowdown}[2026/10/05, ver.1.0.0]
+
+% 各キーの定義----------------------------------------------------------------------------
+\define@key{arrowdown}{枠の色}[black]{\def\ad@framecolor{#1}}
+\define@key{arrowdown}{背景色}[black!30]{\def\ad@fillcolor{#1}}
+\define@key{arrowdown}{先端の角度}[130]{\def\ad@tipangle{#1}}
+\define@key{arrowdown}{太さ}[2.5zw]{\def\ad@width{#1}}
+\define@key{arrowdown}{フォント}[{\gt[3]}]{\def\ad@fontcmd##1{#1{##1}}}
+\define@key{arrowdown}{先端のはみ出し幅}[0.4zw]{\def\ad@headextend{#1}}
+\define@key{arrowdown}{縦の余白}[0zw]{\def\ad@innerxsep{#1}}
+\define@key{arrowdown}{横の余白}[0.3zw]{\def\ad@innerysep{#1}}
+
+% 本定義----------------------------------------------------------------------------------
+\newcommand{\arrowdown}[2][]{%
+  % デフォルト値のリセット
+  \def\ad@framecolor{black}%
+  \def\ad@fillcolor{black!30}%
+  \def\ad@tipangle{130}%
+  \def\ad@width{2.5zw}%
+  \def\ad@fontcmd##1{\gt[3]{##1}}%
+  \def\ad@headextend{0.4zw}%
+  \def\ad@innerxsep{0zw}%
+  \def\ad@innerysep{0.3zw}%
+  % オプション引数の上書き
+  \arrowdown@setkeys%
+  % 描画処理
+  \tikz[baseline=-1ex]{
+    \node [
+      draw=\ad@framecolor, 
+      fill=\ad@fillcolor, 
+      single arrow, 
+      shape border rotate=-90,
+      single arrow head extend=\ad@headextend,
+      single arrow tip angle=\ad@tipangle,
+      rotate=-90,
+      minimum width=\ad@width,
+      anchor=center,
+      inner xsep=\ad@innerxsep,
+      inner ysep=\ad@innerysep,
+      text opacity=0,
+      label={[anchor=center, yshift=-.4ex]center:\ad@fontcmd{#2}}
+    ] {\rotatebox[origin=c]{90}{\ad@fontcmd{#2}}};
+  }%
+}
+
+\newcommand{\arrowdownの設定}[1]{\def\arrowdown@setkeys{\setkeys{arrowdown}{#1}}}
+\arrowdownの設定{枠の色=black,背景色=black!30,先端の角度=130,太さ=2.5zw,フォント={\gt[3]},先端のはみ出し幅=0.4zw,縦の余白=0zw,横の余白=0.3zw}
