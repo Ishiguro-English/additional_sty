@@ -73,12 +73,15 @@
       \end{tabular}%
     \end{center}%
   }%
-\newenvironment{得点分布}[1][]%
+\newenvironment{得点分布}[1][no option]%
   {%
     \br{-.5}\小見出し{得点分布}\br{.3}%
-    \ifthenelse{\equal{#1}{auto}}%
-      {\begin{棒グラフ}[後ろの単位=人,中央揃え=しない,最大長=1]}%
-      {\begin{棒グラフ}[後ろの単位=人,中央揃え=しない,#1]}%
+    \ifthenelse{\equal{#1}{auto}}{\begin{棒グラフ}[後ろの単位=人,中央揃え=しない,最大長=13zw]}%
+      {%
+        \ifthenelse{\equal{#1}{no option}}%
+          {\begin{棒グラフ}[後ろの単位=人,中央揃え=しない,各要素の横幅=1.2zw]}%
+          {\begin{棒グラフ}[後ろの単位=人,中央揃え=しない,#1]}%
+      }%
   }%
   {\end{棒グラフ}\br{-.6}}%
 \newcommand{\設問}[2][]%

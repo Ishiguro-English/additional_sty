@@ -1,5 +1,5 @@
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesPackage{グラフ描画}[2026/10/08, ver.1.4.0]
+\ProvidesPackage{グラフ描画}[2026/10/08, ver.1.5.0]
 
 \RequirePackage{tikz}
 \RequirePackage{ifthen}
@@ -22,6 +22,7 @@
 \define@key{棒グラフ}{要素名の位置}{\def\棒グラフ要素名揃え{#1}}
 \define@key{棒グラフ}{要素名の右間隔}{\def\棒グラフ要素名右間隔{#1}}
 \define@key{棒グラフ}{要素名と縦線の間隔}{\def\棒グラフ要素名右間隔{#1}}
+\define@key{棒グラフ}{各要素の横幅}{\def\棒グラフ各要素の横幅{#1}}
 
 \newcounter{棒グラフ要素数}
 \newcounter{棒グラフ余白計算用}
@@ -51,6 +52,7 @@
   \def\棒グラフ最大長{10em}%
   \def\棒グラフ要素名揃え{右}%
   \def\棒グラフ要素名右間隔{0.4em}%
+  \def\棒グラフ各要素の横幅{}%
   \setkeys{棒グラフ}{#1}%
   % 初期化
   \gdef\棒グラフ要素データ{}%
@@ -93,16 +95,18 @@
     \addtolength{\棒グラフ一行の高さ}{\棒グラフ累積余白}%
   \fi
 
-  % #3と最大値から長さを計算
-  \pgfmathsetlength{\棒グラフ計算幅}{(#3 / \棒グラフ検出最大値) * \棒グラフ最大長}%
+  % 各要素の横幅の指定有無に応じて長さを計算
+  \ifthenelse{\equal{\棒グラフ各要素の横幅}{}}{%
+    \pgfmathsetlength{\棒グラフ計算幅}{(#3 / \棒グラフ検出最大値) * \棒グラフ最大長}%
+  }{%
+    \pgfmathsetlength{\棒グラフ計算幅}{#3 * \棒グラフ各要素の横幅}%
+  }%
 
   % 1.左側要素名#2の表示位置制御
   \ifthenelse{\equal{\棒グラフ要素名揃え}{左}}{%
-    % 左揃え：最長幅 ＋ 右間隔 だけ左にずらした位置から左端揃え(inner xsep=0pt)で描画
     \draw(-\棒グラフ最大要素名幅 - \棒グラフ要素名右間隔, .6em-\棒グラフ一行の高さ)%
       node[right, font=\棒グラフ要素名の文字サイズ, inner xsep=0pt]{#2};
   }{%
-    % 右揃え：縦線から指定の右間隔だけ離した位置に右端寄せ(inner xsep=0pt)で描画
     \draw(-\棒グラフ要素名右間隔, .6em-\棒グラフ一行の高さ)%
       node[left, font=\棒グラフ要素名の文字サイズ, inner xsep=0pt]{#2};
   }%
