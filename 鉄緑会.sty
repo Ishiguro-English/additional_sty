@@ -5,7 +5,7 @@
 
 % 私家版======================================================================
 % 読み込み--------------------------------------------------------------------
-\usepackage{ascolorbox,arrowdown,ceo,changecolumnseprule,kcolorbox,setspace,pxrubrica2,
+\usepackage{ascolorbox,arrowdown,ceo,changecolumnseprule,FUbox,kcolorbox,setspace,pxrubrica2,
 グラフ描画,罫線ノート,小道具,デザイン,%ノート,% \爪と相性が悪い（\checknotedataのせい）ため見送り
 表紙,品詞,吹き出し}%
 \usepackage[explicit]{titlesec}%
@@ -118,7 +118,7 @@
 \def\出典{\br0\noindent\gt{【出典】}\tetsuhrulefill[2pt]{1pt}\br0}%
 \def\講評{\br0\noindent\gt{【講評】}\tetsuhrulefill[2pt]{1pt}\br0}%
 \def\中略{\br0\centerline{（中略）}\br0}%
-\newenvironment{pt}[1]{\begin{組カラーボックス}{POINT}{#1}\mgfamily}{\end{組カラーボックス}}
+\newenvironment{pt}[1]{\begin{組カラーボックス}{POINT}{#1}\mgfamily\fboxsep=1pt}{\end{組カラーボックス}}
 \newenvironment{tessokubox}[1]{\begin{組カラーボックス}{鉄則}{#1}\mgfamily}{\end{組カラーボックス}}
 \newenvironment{tessokubox*}[1]{\begin{長い組カラーボックス}{鉄則}{#1}\mgfamily}{\end{長い組カラーボックス}}
 \NewDocumentCommand\pdf挿入{ O{} D<>{0pt} m O{} }%

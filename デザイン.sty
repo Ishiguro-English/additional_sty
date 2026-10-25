@@ -198,7 +198,9 @@
       {\hukidashi[hukidasihaba=3pt,hukidasitakasa=3pt,hukidasiiti=B]{#2}}%
       {\hukidashi[hukidasihaba=3pt,hukidasitakasa=3pt]{#2}}%
   }%
-\newcommand{\fukidashi}{\@ifnextchar{\@fukidashi}{\@@fukidashi}}%"
+\newcommand{\fukidashi}{\@ifnextchar{\@fukidashi}{\@@fukidashi}}%
+
+\RenewDocumentCommand\fukidashi{ O{equal} m }{\FUbox[#1,tipsharpness=1.5pt,tipout=5pt,sep=1.3pt,reserve height=auto,reserve depth=auto]{\footnotesize#2}}
 % \網掛け見出し{}--------------------------------------
 \newcommand\網掛け見出し[2][black]{
 %\bgroup%

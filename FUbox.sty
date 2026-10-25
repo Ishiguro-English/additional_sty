@@ -1,0 +1,821 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{FUbox}[2026/05/22 FUbox balloon box v16 reserve shift fix (pLaTeX plain)]
+\RequirePackage{tikz}
+\usetikzlibrary{intersections,calc}
+% -----------------------------------------------------------------------------
+% FUbox.sty
+% -----------------------------------------------------------------------------
+% このパッケージは，本文や数式の現在位置を基準点として，先端付きの小箱
+% （吹き出し）を重ねて描画するためのものです．
+%
+% 基本の考え方は次の通りです．
+% 1. \FUbox{...} の中身を一度組んで，その自然幅・高さを測る．
+% 2. width が指定されていれば固定幅，指定されていなければ max width 以内の
+%    自然幅で minipage を作る．
+% 3. 先端の位置を (0,0) とし，angle 方向に箱本体の中心を置く．
+% 4. TikZ で箱本体・先端の三角形・境界消し用の線を描く．
+% 5. reserve 系キーがない場合は，描画結果を smash して本文レイアウトに
+%    ほとんど影響させない．
+% 6. reserve 系キーがある場合は，実際の TikZ の外接サイズを測り，その幅・高さ・
+%    深さを本文レイアウトに予約する．
+%
+% v5 での既定値：
+%   ・向きは right（angle=0）
+%   ・縦位置は c 相当（yshift=.3zh）
+% つまり \FUbox{...} は概ね \FUbox[c,right]{...} と同じ位置関係になります．
+% -----------------------------------------------------------------------------
+\def\FUboxfillcolor{white}
+\def\FUboxdrawcolor{black}
+\def\FUboxtipcolor{black}
+\def\FUboxlinewidth{thin}
+\def\FUboxsep{3pt}
+\def\FUtipsharpness{3pt}
+\def\FUboxroundedradius{3pt}
+\def\FUboxboxoptions{}% 追加：箱の既定TikZオプション
+\def\FUboxtipoptions{}% 追加：先端の既定TikZオプション
+\long\def\FUboxbeforecontents{}% 追加：内容の直前に入れる既定コード
+\long\def\FUboxaftercontents{}% 追加：内容の直後に入れる既定コード
+\newdimen\FUboxDefaultMaxWidth
+\FUboxDefaultMaxWidth=10zw\relax
+\newcommand{\FUboxSetDefaultMaxWidth}[1]{\FUboxDefaultMaxWidth=#1\relax}
+\newdimen\FUboxDefaultTipOut
+\FUboxDefaultTipOut=.5cm\relax
+\newcommand{\FUboxSetDefaultTipOut}[1]{\FUboxSetDefaultTipOut=#1\relax}
+\newdimen\FUboxDefaultCoverLineWidth
+\FUboxDefaultCoverLineWidth=2pt\relax
+\newcommand{\FUboxSetDefaultCoverLineWidth}[1]{\FUboxSetDefaultCoverLineWidth=#1\relax}
+% -----------------------------------------------------------------------------
+% 位置に関する既定値
+% -----------------------------------------------------------------------------
+% \FUbox のオプションを何も指定しないときに使う基準位置です．
+% 以前の版では below 相当（angle=-90）が既定でしたが，v5 では右向きに変更しました．
+% また，右向きの吹き出しでは，本文の基準線と箱の中心が少しずれるため，
+% c キーと同じ yshift=.3zh を既定にしています．
+\newdimen\FUboxDefaultXShift
+\newdimen\FUboxDefaultYShift
+\FUboxDefaultXShift=0pt\relax
+\FUboxDefaultYShift=.3zh\relax
+\def\FUboxDefaultAngle{0}
+\newcommand{\FUboxSetDefaultBoxOptions}[1]{\def\FUboxboxoptions{#1}}% 追加
+\newcommand{\FUboxSetDefaultTipOptions}[1]{\def\FUboxtipoptions{#1}}% 追加
+
+\makeatletter
+% -----------------------------------------------------------------------------
+% 線幅マクロ設定（Expl3 非依存の実装）
+% -----------------------------------------------------------------------------
+\def\FUbox@trimspaces#1{%
+  \edef#1{\expandafter\zap@space#1 \@empty}%
+}
+
+\def\FUbox@setlinewidthmacro#1#2{%
+  \edef\FUbox@lw@tmp{#2}%
+  \FUbox@trimspaces\FUbox@lw@tmp
+  \def\FUbox@lw@matched{0}%
+  \def\FUbox@checklw##1{%
+    \def\FUbox@lw@cand{##1}%
+    \FUbox@trimspaces\FUbox@lw@cand
+    \ifx\FUbox@lw@tmp\FUbox@lw@cand
+      \def\FUbox@lw@matched{1}%
+    \fi
+  }%
+  \FUbox@checklw{ultra thin}%
+  \FUbox@checklw{very thin}%
+  \FUbox@checklw{thin}%
+  \FUbox@checklw{semithick}%
+  \FUbox@checklw{thick}%
+  \FUbox@checklw{very thick}%
+  \FUbox@checklw{ultra thick}%
+  \if1\FUbox@lw@matched
+    \expandafter\let\csname #1\endcsname\FUbox@lw@tmp
+  \else
+    \expandafter\FUbox@checkequal\FUbox@lw@tmp=\FUbox@nil
+    \if1\FUbox@has@equal
+      \expandafter\let\csname #1\endcsname\FUbox@lw@tmp
+    \else
+      \expandafter\edef\csname #1\endcsname{line width=\FUbox@lw@tmp}%
+    \fi
+  \fi
+}
+
+\def\FUbox@checkequal#1=#2\FUbox@nil{%
+  \def\FUbox@chk{#2}%
+  \ifx\FUbox@chk\@empty
+    \def\FUbox@has@equal{0}%
+  \else
+    \def\FUbox@has@equal{1}%
+  \fi
+}
+
+% -----------------------------------------------------------------------------
+% 内部で使う記号・寸法・フラグ
+% -----------------------------------------------------------------------------
+\def\FUbox@autosymbol{auto}
+\def\FUbox@nonesymbol{none}
+\newdimen\FUboxDefaultReserveWidth
+\newdimen\FUboxDefaultReserveHeight
+\newdimen\FUboxDefaultReserveDepth
+\newif\ifFUboxDefaultReserveWidthAuto
+\newif\ifFUboxDefaultReserveWidthFixed
+\newif\ifFUboxDefaultReserveHeightAuto
+\newif\ifFUboxDefaultReserveHeightFixed
+\newif\ifFUboxDefaultReserveDepthAuto
+\newif\ifFUboxDefaultReserveDepthFixed
+\FUboxDefaultReserveWidth=0pt\relax
+\FUboxDefaultReserveHeight=0pt\relax
+\FUboxDefaultReserveDepth=0pt\relax
+\FUboxDefaultReserveWidthAutofalse
+\FUboxDefaultReserveWidthFixedfalse
+\FUboxDefaultReserveHeightAutofalse
+\FUboxDefaultReserveHeightFixedfalse
+\FUboxDefaultReserveDepthAutofalse
+\FUboxDefaultReserveDepthFixedfalse
+\newdimen\FUbox@xshift
+\newdimen\FUbox@yshift
+\def\FUbox@angle{0}
+\newdimen\FUbox@radiusdim
+\newif\ifFUbox@radiusgiven
+\newdimen\FUbox@boxxshift
+\newdimen\FUbox@boxyshift
+\newdimen\FUbox@maxwidth
+\newdimen\FUbox@width
+\newif\ifFUbox@widthgiven
+\newdimen\FUbox@realwidth
+\newdimen\FUbox@cornerradius
+\newdimen\FUbox@sep
+\newdimen\FUbox@tipsharpness
+\newdimen\FUbox@tipout
+\newdimen\FUbox@coverlinewidth
+\newdimen\FUbox@drawkern
+\newdimen\FUbox@reservewidth
+\newdimen\FUbox@reserveheight
+\newdimen\FUbox@reservedepth
+\newdimen\FUbox@autoreservewidth
+\newdimen\FUbox@autoreserveheight
+\newdimen\FUbox@autoreservedepth
+\newdimen\FUbox@cx
+\newdimen\FUbox@cy
+\newdimen\FUbox@leftedge
+\newdimen\FUbox@rightedge
+\newdimen\FUbox@topedge
+\newdimen\FUbox@bottomedge
+\newdimen\FUbox@outleft
+\newif\ifFUbox@reservewidthauto
+\newif\ifFUbox@reservewidthfixed
+\newif\ifFUbox@reserveheightauto
+\newif\ifFUbox@reserveheightfixed
+\newif\ifFUbox@reservedepthauto
+\newif\ifFUbox@reservedepthfixed
+\newif\ifFUbox@reserveactive
+\newdimen\FUbox@hx
+\newdimen\FUbox@hy
+\newdimen\FUbox@centerdist
+\newdimen\FUbox@halfzh
+\newdimen\FUbox@halfzw
+\FUbox@halfzh=.5zh\relax
+\FUbox@halfzw=.5zw\relax
+\newbox\FUbox@measurebox
+\newbox\FUbox@contentbox
+\newbox\FUbox@picturebox
+\def\FUbox@fillcolor{white}
+\def\FUbox@boxdrawcolor{black}
+\def\FUbox@tipdrawcolor{black}
+\def\FUbox@boxlinewidth{thin}
+\def\FUbox@tiplinewidth{thin}
+\def\FUbox@boxoptions{}
+\def\FUbox@tipoptions{}
+\def\FUbox@boxoptsexpanded{}
+\def\FUbox@tipoptsexpanded{}
+\def\FUbox@tmp{}
+\def\FUbox@nil{\FUbox@nil}
+\def\FUboxEqualDefaultOptions{below,b}
+\def\FUbox@equaldefaultoptions{below,b}
+\newif\ifFUbox@haspar
+\def\FUbox@sentinel{\FUbox@sentinel}
+\newif\ifFUbox@equal
+\newcount\FUbox@repcount
+\def\FUbox@b{b}
+\def\FUbox@t{t}
+\def\FUbox@c{c}
+\def\FUbox@l{l}
+\def\FUbox@r{r}
+\long\def\FUbox@detectpar#1{\FUbox@detectparA#1\par\FUbox@sentinel\FUbox@nil}
+\long\def\FUbox@detectparA#1\par#2\FUbox@nil{%
+\def\FUbox@tmp{#2}%
+\ifx\FUbox@tmp\FUbox@sentinel
+  \FUbox@hasparfalse
+\else
+  \FUbox@haspartrue
+\fi
+}
+\def\FUbox@resetdefaults{%
+\FUbox@xshift=\FUboxDefaultXShift\relax
+\FUbox@yshift=\FUboxDefaultYShift\relax
+\def\FUbox@angle{\FUboxDefaultAngle}%
+\FUbox@radiusgivenfalse
+\FUbox@radiusdim=0pt\relax
+\FUbox@boxxshift=0zw\relax
+\FUbox@boxyshift=0zh\relax
+\FUbox@maxwidth=\FUboxDefaultMaxWidth\relax
+\FUbox@width=0pt\relax
+\FUbox@widthgivenfalse
+\def\FUbox@fillcolor{\FUboxfillcolor}%
+\def\FUbox@boxdrawcolor{\FUboxdrawcolor}%
+\def\FUbox@tipdrawcolor{\FUboxtipcolor}%
+\FUbox@setlinewidthmacro{FUbox@boxlinewidth}{\FUboxlinewidth}%
+\FUbox@setlinewidthmacro{FUbox@tiplinewidth}{\FUboxlinewidth}%
+\FUbox@cornerradius=0pt\relax
+\FUbox@sep=\FUboxsep\relax
+\FUbox@tipsharpness=\FUtipsharpness\relax
+\FUbox@tipout=\FUboxDefaultTipOut\relax
+\FUbox@coverlinewidth=\FUboxDefaultCoverLineWidth\relax
+\def\FUbox@boxoptions{\FUboxboxoptions}%
+\def\FUbox@tipoptions{\FUboxtipoptions}%
+\let\FUbox@beforecontents\FUboxbeforecontents
+\let\FUbox@aftercontents\FUboxaftercontents
+\let\FUbox@equaldefaultoptions\FUboxEqualDefaultOptions
+\def\FUbox@boxoptsexpanded{}%
+\def\FUbox@tipoptsexpanded{}%
+\FUbox@reservewidth=\FUboxDefaultReserveWidth\relax
+\FUbox@reserveheight=\FUboxDefaultReserveHeight\relax
+\FUbox@reservedepth=\FUboxDefaultReserveDepth\relax
+\FUbox@reserveactivefalse
+\ifFUboxDefaultReserveWidthAuto\FUbox@reservewidthautotrue\else\FUbox@reservewidthautofalse\fi
+\ifFUboxDefaultReserveWidthFixed\FUbox@reservewidthfixedtrue\else\FUbox@reservewidthfixedfalse\fi
+\ifFUboxDefaultReserveHeightAuto\FUbox@reserveheightautotrue\else\FUbox@reserveheightautofalse\fi
+\ifFUboxDefaultReserveHeightFixed\FUbox@reserveheightfixedtrue\else\FUbox@reserveheightfixedfalse\fi
+\ifFUboxDefaultReserveDepthAuto\FUbox@reservedepthautotrue\else\FUbox@reservedepthautofalse\fi
+\ifFUboxDefaultReserveDepthFixed\FUbox@reservedepthfixedtrue\else\FUbox@reservedepthfixedfalse\fi
+\FUbox@autoreservewidth=0pt\relax
+\FUbox@autoreserveheight=0pt\relax
+\FUbox@autoreservedepth=0pt\relax
+\FUbox@equalfalse
+}
+\def\FUbox@getlasttok#1#2\relax{%
+\def\FUbox@lasttok{#1}%
+\ifx\relax#2\relax\else
+  \expandafter\FUbox@getlasttok#2\relax
+\fi
+}
+\def\FUbox@setradius#1{%
+\edef\FUbox@tmp{\zap@space#1 \@empty}%
+\expandafter\FUbox@getlasttok\FUbox@tmp\relax
+\ifcat a\FUbox@lasttok
+  \FUbox@radiusdim=\FUbox@tmp\relax
+\else
+  \FUbox@radiusdim=\FUbox@tmp cm\relax
+\fi
+\FUbox@radiusgiventrue
+}
+\def\FUbox@applyequaldefaultoptions#1{\pgfkeys{/FUbox/.cd,#1}}
+\def\FUbox@applyBrep#1{%
+\count@=#1\relax
+\advance\count@ by -1\relax
+\dimen@=\count@\FUbox@halfzh\relax
+\FUbox@yshift=0pt\relax
+\advance\FUbox@yshift by -\dimen@\relax
+}
+\def\FUbox@applyTrep#1{%
+\count@=#1\relax
+\advance\count@ by -1\relax
+\dimen@=\count@\FUbox@halfzh\relax
+\FUbox@yshift=1zh\relax
+\advance\FUbox@yshift by \dimen@\relax
+}
+\def\FUbox@applyCrep#1{%
+\count@=#1\relax
+\advance\count@ by -1\relax
+\dimen@=\count@\FUbox@halfzh\relax
+\FUbox@yshift=.3zh\relax
+\advance\FUbox@yshift by \dimen@\relax
+}
+\def\FUbox@applyLrep#1{%
+\count@=#1\relax
+\dimen@=\count@\FUbox@halfzw\relax
+\advance\FUbox@xshift by -\dimen@\relax
+}
+\def\FUbox@applyRrep#1{%
+\count@=#1\relax
+\dimen@=\count@\FUbox@halfzw\relax
+\advance\FUbox@xshift by \dimen@\relax
+}
+\def\FUbox@countRest#1{%
+\ifx#1\relax
+  \let\FUbox@next\relax
+\else
+  \def\FUbox@tmpa{#1}%
+  \ifx\FUbox@tmpa\FUbox@target
+    \advance\FUbox@repcount by 1\relax
+    \let\FUbox@next\FUbox@countRest
+  \else
+    \FUbox@repcount=0\relax
+    \let\FUbox@next\FUbox@countRestSkip
+  \fi
+\fi
+\FUbox@next
+}
+\def\FUbox@countRestSkip#1{%
+\ifx#1\relax
+  \let\FUbox@next\relax
+\else
+  \let\FUbox@next\FUbox@countRestSkip
+\fi
+\FUbox@next
+}
+\def\FUbox@handleUnknown#1{%
+\edef\FUbox@unknownname{#1}%
+\expandafter\FUbox@handleUnknownI\FUbox@unknownname\relax
+}
+\def\FUbox@handleUnknownI#1#2\relax{%
+\def\FUbox@target{#1}%
+\FUbox@repcount=1\relax
+\FUbox@countRest#2\relax
+\ifnum\FUbox@repcount>0\relax
+  \ifx\FUbox@target\FUbox@b
+    \FUbox@applyBrep{\the\FUbox@repcount}%
+  \else\ifx\FUbox@target\FUbox@t
+    \FUbox@applyTrep{\the\FUbox@repcount}%
+  \else\ifx\FUbox@target\FUbox@c
+    \FUbox@applyCrep{\the\FUbox@repcount}%
+  \else\ifx\FUbox@target\FUbox@l
+    \FUbox@applyLrep{\the\FUbox@repcount}%
+  \else\ifx\FUbox@target\FUbox@r
+    \FUbox@applyRrep{\the\FUbox@repcount}%
+  \else
+    \PackageError{FUbox}{Unknown key `\FUbox@unknownname'}{Key `\FUbox@unknownname' is not defined.}%
+  \fi\fi\fi\fi\fi
+\else
+  \PackageError{FUbox}{Unknown key `\FUbox@unknownname'}{Key `\FUbox@unknownname' is not defined.}%
+\fi
+}
+
+\def\FUbox@setreservewidth#1{%
+\edef\FUbox@tmp{\zap@space#1 \@empty}%
+\ifx\FUbox@tmp\FUbox@autosymbol
+  \FUbox@reservewidthautotrue
+  \FUbox@reservewidthfixedfalse
+\else\ifx\FUbox@tmp\FUbox@nonesymbol
+  \FUbox@reservewidthautofalse
+  \FUbox@reservewidthfixedfalse
+  \FUbox@reservewidth=0pt\relax
+\else
+  \FUbox@reservewidth=#1\relax
+  \FUbox@reservewidthautofalse
+  \FUbox@reservewidthfixedtrue
+\fi\fi
+}
+\def\FUbox@setreserveheight#1{%
+\edef\FUbox@tmp{\zap@space#1 \@empty}%
+\ifx\FUbox@tmp\FUbox@autosymbol
+  \FUbox@reserveheightautotrue
+  \FUbox@reserveheightfixedfalse
+\else\ifx\FUbox@tmp\FUbox@nonesymbol
+  \FUbox@reserveheightautofalse
+  \FUbox@reserveheightfixedfalse
+  \FUbox@reserveheight=0pt\relax
+\else
+  \FUbox@reserveheight=#1\relax
+  \FUbox@reserveheightautofalse
+  \FUbox@reserveheightfixedtrue
+\fi\fi
+}
+\def\FUbox@setreservedepth#1{%
+\edef\FUbox@tmp{\zap@space#1 \@empty}%
+\ifx\FUbox@tmp\FUbox@autosymbol
+  \FUbox@reservedepthautotrue
+  \FUbox@reservedepthfixedfalse
+\else\ifx\FUbox@tmp\FUbox@nonesymbol
+  \FUbox@reservedepthautofalse
+  \FUbox@reservedepthfixedfalse
+  \FUbox@reservedepth=0pt\relax
+\else
+  \FUbox@reservedepth=#1\relax
+  \FUbox@reservedepthautofalse
+  \FUbox@reservedepthfixedtrue
+\fi\fi
+}
+\def\FUbox@setreservesize#1{%
+\edef\FUbox@tmp{\zap@space#1 \@empty}%
+\ifx\FUbox@tmp\FUbox@autosymbol
+  \FUbox@setreservewidth{auto}%
+  \FUbox@setreserveheight{auto}%
+  \FUbox@setreservedepth{auto}%
+\else\ifx\FUbox@tmp\FUbox@nonesymbol
+  \FUbox@setreservewidth{none}%
+  \FUbox@setreserveheight{none}%
+  \FUbox@setreservedepth{none}%
+\else
+  \PackageError{FUbox}{Invalid value for reserve size `#1'}{Use `auto' or `none'.}%
+\fi\fi
+}
+\def\FUbox@setupreservewidth#1{%
+\edef\FUbox@tmp{\zap@space#1 \@empty}%
+\ifx\FUbox@tmp\FUbox@autosymbol
+  \FUboxDefaultReserveWidthAutotrue
+  \FUboxDefaultReserveWidthFixedfalse
+\else\ifx\FUbox@tmp\FUbox@nonesymbol
+  \FUboxDefaultReserveWidthAutofalse
+  \FUboxDefaultReserveWidthFixedfalse
+  \FUboxDefaultReserveWidth=0pt\relax
+\else
+  \FUboxDefaultReserveWidth=#1\relax
+  \FUboxDefaultReserveWidthAutofalse
+  \FUboxDefaultReserveWidthFixedtrue
+\fi\fi
+}
+\def\FUbox@setupreserveheight#1{%
+\edef\FUbox@tmp{\zap@space#1 \@empty}%
+\ifx\FUbox@tmp\FUbox@autosymbol
+  \FUboxDefaultReserveHeightAutotrue
+  \FUboxDefaultReserveHeightFixedfalse
+\else\ifx\FUbox@tmp\FUbox@nonesymbol
+  \FUboxDefaultReserveHeightAutofalse
+  \FUboxDefaultReserveHeightFixedfalse
+  \FUboxDefaultReserveHeight=0pt\relax
+\else
+  \FUboxDefaultReserveHeight=#1\relax
+  \FUboxDefaultReserveHeightAutofalse
+  \FUboxDefaultReserveHeightFixedtrue
+\fi\fi
+}
+\def\FUbox@setupreservedepth#1{%
+\edef\FUbox@tmp{\zap@space#1 \@empty}%
+\ifx\FUbox@tmp\FUbox@autosymbol
+  \FUboxDefaultReserveDepthAutotrue
+  \FUboxDefaultReserveDepthFixedfalse
+\else\ifx\FUbox@tmp\FUbox@nonesymbol
+  \FUboxDefaultReserveDepthAutofalse
+  \FUboxDefaultReserveDepthFixedfalse
+  \FUboxDefaultReserveDepth=0pt\relax
+\else
+  \FUboxDefaultReserveDepth=#1\relax
+  \FUboxDefaultReserveDepthAutofalse
+  \FUboxDefaultReserveDepthFixedtrue
+\fi\fi
+}
+\def\FUbox@setupreservesize#1{%
+\edef\FUbox@tmp{\zap@space#1 \@empty}%
+\ifx\FUbox@tmp\FUbox@autosymbol
+  \FUbox@setupreservewidth{auto}%
+  \FUbox@setupreserveheight{auto}%
+  \FUbox@setupreservedepth{auto}%
+\else\ifx\FUbox@tmp\FUbox@nonesymbol
+  \FUbox@setupreservewidth{none}%
+  \FUbox@setupreserveheight{none}%
+  \FUbox@setupreservedepth{none}%
+\else
+  \PackageError{FUbox}{Invalid value for reserve size `#1'}{Use `auto' or `none'.}%
+\fi\fi
+}
+% -----------------------------------------------------------------------------
+% 個別指定用キー：\FUbox[...] の [...] で使うキー
+% -----------------------------------------------------------------------------
+\pgfkeys{/FUbox/.is family,/FUbox,
+xshift/.code={\FUbox@xshift=#1\relax},
+yshift/.code={\FUbox@yshift=#1\relax},
+t/.code={\FUbox@applyTrep{1}},
+c/.code={\FUbox@applyCrep{1}},
+b/.code={\FUbox@applyBrep{1}},
+l/.code={\FUbox@applyLrep{1}},
+r/.code={\FUbox@applyRrep{1}},
+angle/.code={\def\FUbox@angle{#1}},
+radius/.code={\FUbox@setradius{#1}},
+boxxshift/.code={\FUbox@boxxshift=#1\relax},
+boxyshift/.code={\FUbox@boxyshift=#1\relax},
+width/.code={\FUbox@width=#1\relax\FUbox@widthgiventrue},
+max width/.code={\FUbox@maxwidth=#1\relax},
+maxwidth/.style={max width=#1},
+fillcolor/.code={\def\FUbox@fillcolor{#1}},
+drawcolor/.code={\def\FUbox@boxdrawcolor{#1}\def\FUbox@tipdrawcolor{#1}},
+boxdrawcolor/.code={\def\FUbox@boxdrawcolor{#1}},
+tipdrawcolor/.code={\def\FUbox@tipdrawcolor{#1}},
+linewidth/.code={\FUbox@setlinewidthmacro{FUbox@boxlinewidth}{#1}\FUbox@setlinewidthmacro{FUbox@tiplinewidth}{#1}},
+boxlinewidth/.code={\FUbox@setlinewidthmacro{FUbox@boxlinewidth}{#1}},
+tiplinewidth/.code={\FUbox@setlinewidthmacro{FUbox@tiplinewidth}{#1}},
+sep/.code={\FUbox@sep=#1\relax},
+tipsharpness/.code={\FUbox@tipsharpness=#1\relax},
+tip/.code={\FUbox@tipout=#1\relax},
+tipout/.code={\FUbox@tipout=#1\relax},
+cover linewidth/.code={\FUbox@coverlinewidth=#1\relax},
+coverlinewidth/.code={\FUbox@coverlinewidth=#1\relax},
+sharp/.code={\FUbox@cornerradius=0pt\relax},
+rounded/.code={\FUbox@cornerradius=\FUboxroundedradius\relax},
+rounded radius/.code={\FUbox@cornerradius=#1\relax},
+box options/.code={\def\FUbox@boxoptions{#1}},
+tip options/.code={\def\FUbox@tipoptions{#1}},
+before contents/.code={\long\def\FUbox@beforecontents{#1}},
+after contents/.code={\long\def\FUbox@aftercontents{#1}},
+beforecontents/.style={before contents={#1}},
+aftercontents/.style={after contents={#1}},
+equal default options/.code={\def\FUbox@equaldefaultoptions{#1}},
+equal options/.style={equal default options={#1}},
+reserve width/.code={\FUbox@setreservewidth{#1}},
+reserve height/.code={\FUbox@setreserveheight{#1}},
+reserve depth/.code={\FUbox@setreservedepth{#1}},
+reserve size/.code={\FUbox@setreservesize{#1}},
+layout width/.style={reserve width=#1},
+layout height/.style={reserve height=#1},
+layout depth/.style={reserve depth=#1},
+layout size/.style={reserve size=#1},
+equal/.code={\FUbox@equaltrue\expandafter\FUbox@applyequaldefaultoptions\expandafter{\FUbox@equaldefaultoptions}},
+left/.code={\def\FUbox@angle{180}},
+right/.code={\def\FUbox@angle{0}},
+above/.code={\def\FUbox@angle{90}},
+below/.code={\def\FUbox@angle{-90}},
+above right/.code={\def\FUbox@angle{45}},
+above left/.code={\def\FUbox@angle{135}},
+below right/.code={\def\FUbox@angle{-45}},
+below left/.code={\def\FUbox@angle{-135}},
+.unknown/.code={\FUbox@handleUnknown{\pgfkeyscurrentname}}}
+% -----------------------------------------------------------------------------
+% 既定値変更用キー：\setupFUbox{...} で使うキー
+% -----------------------------------------------------------------------------
+\pgfkeys{/FUboxsetup/.is family,/FUboxsetup,
+xshift/.code={\FUboxDefaultXShift=#1\relax},
+yshift/.code={\FUboxDefaultYShift=#1\relax},
+angle/.code={\def\FUboxDefaultAngle{#1}},
+left/.code={\def\FUboxDefaultAngle{180}},
+right/.code={\def\FUboxDefaultAngle{0}},
+above/.code={\def\FUboxDefaultAngle{90}},
+below/.code={\def\FUboxDefaultAngle{-90}},
+above right/.code={\def\FUboxDefaultAngle{45}},
+above left/.code={\def\FUboxDefaultAngle{135}},
+below right/.code={\def\FUboxDefaultAngle{-45}},
+below left/.code={\def\FUboxDefaultAngle{-135}},
+t/.code={\FUboxDefaultYShift=1zh\relax},
+c/.code={\FUboxDefaultYShift=.3zh\relax},
+b/.code={\FUboxDefaultYShift=0pt\relax},
+l/.code={\advance\FUboxDefaultXShift by -.5zw\relax},
+r/.code={\advance\FUboxDefaultXShift by .5zw\relax},
+fillcolor/.code={\def\FUboxfillcolor{#1}},
+drawcolor/.code={\def\FUboxdrawcolor{#1}\def\FUboxtipcolor{#1}},
+boxdrawcolor/.code={\def\FUboxdrawcolor{#1}},
+tipdrawcolor/.code={\def\FUboxtipcolor{#1}},
+tipcolor/.code={\def\FUboxtipcolor{#1}},
+linewidth/.code={\def\FUboxlinewidth{#1}},
+sep/.code={\def\FUboxsep{#1}},
+tipsharpness/.code={\def\FUtipsharpness{#1}},
+rounded radius/.code={\def\FUboxroundedradius{#1}},
+sharp/.code={\def\FUboxroundedradius{0pt}},
+rounded/.code={\def\FUboxroundedradius{3pt}},
+max width/.code={\FUboxDefaultMaxWidth=#1\relax},
+maxwidth/.style={max width=#1},
+tip/.code={\FUboxDefaultTipOut=#1\relax},
+tipout/.code={\FUboxDefaultTipOut=#1\relax},
+cover linewidth/.code={\FUboxDefaultCoverLineWidth=#1\relax},
+coverlinewidth/.code={\FUboxDefaultCoverLineWidth=#1\relax},
+box options/.code={\def\FUboxboxoptions{#1}},
+tip options/.code={\def\FUboxtipoptions{#1}},
+before contents/.code={\long\def\FUboxbeforecontents{#1}},
+after contents/.code={\long\def\FUboxaftercontents{#1}},
+beforecontents/.style={before contents={#1}},
+aftercontents/.style={after contents={#1}},
+equal default options/.code={\def\FUboxEqualDefaultOptions{#1}},
+equal options/.style={equal default options={#1}},
+reserve width/.code={\FUbox@setupreservewidth{#1}},
+reserve height/.code={\FUbox@setupreserveheight{#1}},
+reserve depth/.code={\FUbox@setupreservedepth{#1}},
+reserve size/.code={\FUbox@setupreservesize{#1}},
+layout width/.style={reserve width=#1},
+layout height/.style={reserve height=#1},
+layout depth/.style={reserve depth=#1},
+layout size/.style={reserve size=#1}}
+\newcommand{\setupFUbox}[1]{\pgfkeys{/FUboxsetup,#1}}
+% -----------------------------------------------------------------------------
+% 自動 radius 計算
+% -----------------------------------------------------------------------------
+\def\FUbox@compute_autoradius{%
+\dimen@=\FUbox@hx\relax \edef\FUbox@hxpt{\strip@pt\dimen@}%
+\dimen@=\FUbox@hy\relax \edef\FUbox@hypt{\strip@pt\dimen@}%
+\dimen@=\FUbox@tipout\relax \edef\FUbox@tippt{\strip@pt\dimen@}%
+\pgfmathsetmacro{\FUbox@cap}{8000}%
+\pgfmathsetmacro{\FUbox@craw}{abs(cos(\FUbox@angle))}%
+\pgfmathsetmacro{\FUbox@sraw}{abs(sin(\FUbox@angle))}%
+\pgfmathsetmacro{\FUbox@epsx}{\FUbox@hxpt/\FUbox@cap}%
+\pgfmathsetmacro{\FUbox@epsy}{\FUbox@hypt/\FUbox@cap}%
+\pgfmathsetmacro{\FUbox@cabs}{max(\FUbox@craw,\FUbox@epsx)}%
+\pgfmathsetmacro{\FUbox@sabs}{max(\FUbox@sraw,\FUbox@epsy)}%
+\pgfmathsetmacro{\FUbox@tx}{\FUbox@hxpt/\FUbox@cabs}%
+\pgfmathsetmacro{\FUbox@ty}{\FUbox@hypt/\FUbox@sabs}%
+\pgfmathsetmacro{\FUbox@tmin}{min(\FUbox@tx,\FUbox@ty)}%
+\pgfmathsetmacro{\FUbox@rpt}{max(\FUbox@tmin + \FUbox@tippt, 0.1)}%
+\pgfmathsetlength{\FUbox@centerdist}{\FUbox@rpt pt}%
+}
+
+\def\FUbox@setreserveactive{%
+\FUbox@reserveactivefalse
+\ifFUbox@reservewidthauto\FUbox@reserveactivetrue\fi
+\ifFUbox@reservewidthfixed\FUbox@reserveactivetrue\fi
+\ifFUbox@reserveheightauto\FUbox@reserveactivetrue\fi
+\ifFUbox@reserveheightfixed\FUbox@reserveactivetrue\fi
+\ifFUbox@reservedepthauto\FUbox@reserveactivetrue\fi
+\ifFUbox@reservedepthfixed\FUbox@reserveactivetrue\fi
+}
+\def\FUbox@computereserve{%
+\pgfmathsetlength{\FUbox@cx}{\FUbox@centerdist*cos(\FUbox@angle)+\FUbox@boxxshift}%
+\pgfmathsetlength{\FUbox@cy}{\FUbox@centerdist*sin(\FUbox@angle)+\FUbox@boxyshift}%
+\FUbox@leftedge=\dimexpr\FUbox@cx-\FUbox@hx\relax
+\FUbox@rightedge=\dimexpr\FUbox@cx+\FUbox@hx\relax
+\FUbox@bottomedge=\dimexpr\FUbox@cy-\FUbox@hy\relax
+\FUbox@topedge=\dimexpr\FUbox@cy+\FUbox@hy\relax
+\advance\FUbox@leftedge by \FUbox@xshift\relax
+\advance\FUbox@rightedge by \FUbox@xshift\relax
+\advance\FUbox@bottomedge by \FUbox@yshift\relax
+\advance\FUbox@topedge by \FUbox@yshift\relax
+\ifdim\FUbox@leftedge>0pt\relax\FUbox@leftedge=0pt\relax\fi
+\ifdim\FUbox@rightedge<0pt\relax\FUbox@rightedge=0pt\relax\fi
+\ifdim\FUbox@bottomedge>0pt\relax\FUbox@bottomedge=0pt\relax\fi
+\ifdim\FUbox@topedge<0pt\relax\FUbox@topedge=0pt\relax\fi
+\FUbox@autoreservewidth=\dimexpr\FUbox@rightedge-\FUbox@leftedge\relax
+\FUbox@autoreserveheight=\FUbox@topedge\relax
+\FUbox@autoreservedepth=-\FUbox@bottomedge\relax
+\ifFUbox@reservewidthauto\FUbox@reservewidth=\FUbox@autoreservewidth\relax\fi
+\ifFUbox@reserveheightauto\FUbox@reserveheight=\FUbox@autoreserveheight\relax\fi
+\ifFUbox@reservedepthauto\FUbox@reservedepth=\FUbox@autoreservedepth\relax\fi
+\FUbox@reserveactivefalse
+\ifFUbox@reservewidthauto\FUbox@reserveactivetrue\fi
+\ifFUbox@reservewidthfixed\FUbox@reserveactivetrue\fi
+\ifFUbox@reserveheightauto\FUbox@reserveactivetrue\fi
+\ifFUbox@reserveheightfixed\FUbox@reserveactivetrue\fi
+\ifFUbox@reservedepthauto\FUbox@reserveactivetrue\fi
+\ifFUbox@reservedepthfixed\FUbox@reserveactivetrue\fi
+}
+\def\FUbox@reserveout{%
+\ifdim\FUbox@reservewidth<0pt\relax\FUbox@reservewidth=0pt\relax\fi
+\ifdim\FUbox@reserveheight<0pt\relax\FUbox@reserveheight=0pt\relax\fi
+\ifdim\FUbox@reservedepth<0pt\relax\FUbox@reservedepth=0pt\relax\fi
+\ifmmode
+  \hbox to \FUbox@reservewidth{\vrule width 0pt height \FUbox@reserveheight depth \FUbox@reservedepth\hfil}%
+\else
+  \vrule width 0pt height \FUbox@reserveheight depth \FUbox@reservedepth\relax
+  \kern\FUbox@reservewidth\relax
+\fi
+}
+
+% -----------------------------------------------------------------------------
+% reserve なしの描画
+% -----------------------------------------------------------------------------
+\def\FUbox@drawout{%
+\smash{\hbox to 0pt{\kern\FUbox@drawkern\raisebox{\the\FUbox@yshift}{\begin{tikzpicture}[baseline=0pt]
+\useasboundingbox (0,0) rectangle (0,0);
+\tikzset{FUboxCurrentBoxLineWidth/.style/.expanded={\FUbox@boxlinewidth}}%
+\tikzset{FUboxCurrentTipLineWidth/.style/.expanded={\FUbox@tiplinewidth}}%
+\tikzset{FUboxNodeStyle/.style={inner sep=\the\FUbox@sep,fill=\FUbox@fillcolor,draw=\FUbox@boxdrawcolor,FUboxCurrentBoxLineWidth,rounded corners=\the\FUbox@cornerradius}}%
+\tikzset{FUboxtipStyle/.style={draw=\FUbox@tipdrawcolor,FUboxCurrentTipLineWidth}}%
+\tikzset{FUboxNodeUser/.style={\FUbox@boxoptsexpanded}}%
+\tikzset{FUboxtipUser/.style={\FUbox@tipoptsexpanded}}%
+\coordinate (FUboxO) at (0,0);
+\coordinate (FUboxCenterBase) at (\FUbox@angle:\the\FUbox@centerdist);
+\coordinate (FUboxCenter) at ($(FUboxCenterBase)+(\the\FUbox@boxxshift,\the\FUbox@boxyshift)$);
+\node[FUboxNodeStyle,FUboxNodeUser] (FUboxN) at (FUboxCenter) {\FUcontent};
+\path[name path=FUboxRect] (FUboxN.south west) rectangle (FUboxN.north east);
+\path[name path=FUboxRay] (FUboxO) -- ++(\FUbox@angle:200cm);
+\path[name intersections={of=FUboxRect and FUboxRay, name=FUboxI, sort by=FUboxRay}];
+\coordinate (FUboxHit) at (FUboxI-1);
+\path let \p1=(FUboxHit) in \pgfextra{%
+\dimen@=\x1\relax\edef\FUbox@hitx{\strip@pt\dimen@}%
+\dimen@=\y1\relax\edef\FUbox@hity{\strip@pt\dimen@}%
+\dimen@=\FUbox@tipsharpness\relax\edef\FUbox@ashpt{\strip@pt\dimen@}%
+\pgfmathsetmacro{\FUbox@dhit}{max(veclen(\FUbox@hitx,\FUbox@hity),0.001)}%
+\pgfmathsetmacro{\FUbox@eps}{atan(\FUbox@ashpt/\FUbox@dhit)}%
+\pgfmathsetmacro{\FUbox@tmpOne}{\FUbox@angle+\FUbox@eps}%
+\pgfmathsetmacro{\FUbox@tmpTwo}{\FUbox@angle-\FUbox@eps}%
+\xdef\FUbox@dirone{\FUbox@tmpOne}%
+\xdef\FUbox@dirtwo{\FUbox@tmpTwo}%
+};
+\path[name path=FUboxLone] (FUboxO) -- ++(\FUbox@dirone:200cm);
+\path[name path=FUboxLtwo] (FUboxO) -- ++(\FUbox@dirtwo:200cm);
+\path[name intersections={of=FUboxRect and FUboxLone, name=FUboxQone, sort by=FUboxLone}];
+\path[name intersections={of=FUboxRect and FUboxLtwo, name=FUboxQtwo, sort by=FUboxLtwo}];
+\coordinate (FUboxQoneP) at (FUboxQone-1);
+\coordinate (FUboxQtwoP) at (FUboxQtwo-1);
+\fill[draw=none,fill=\FUbox@fillcolor] (FUboxQoneP)--(FUboxO)--(FUboxQtwoP)--cycle;
+\draw[line width=\the\FUbox@coverlinewidth,draw=\FUbox@fillcolor,line cap=butt,line join=miter] (FUboxQoneP)--(FUboxQtwoP);
+\draw[FUboxtipStyle,FUboxtipUser,line cap=round,line join=round] (FUboxQoneP)--(FUboxO)--(FUboxQtwoP);
+\end{tikzpicture}}\hss}}%
+}
+
+% -----------------------------------------------------------------------------
+% reserve ありのときに使う自然サイズ TikZ
+% -----------------------------------------------------------------------------
+\def\FUbox@naturalpicture{%
+\begin{tikzpicture}[baseline=0pt]
+\tikzset{FUboxCurrentBoxLineWidth/.style/.expanded={\FUbox@boxlinewidth}}%
+\tikzset{FUboxCurrentTipLineWidth/.style/.expanded={\FUbox@tiplinewidth}}%
+\tikzset{FUboxNodeStyle/.style={inner sep=\the\FUbox@sep,fill=\FUbox@fillcolor,draw=\FUbox@boxdrawcolor,FUboxCurrentBoxLineWidth,rounded corners=\the\FUbox@cornerradius}}%
+\tikzset{FUboxtipStyle/.style={draw=\FUbox@tipdrawcolor,FUboxCurrentTipLineWidth}}%
+\tikzset{FUboxNodeUser/.style={\FUbox@boxoptsexpanded}}%
+\tikzset{FUboxtipUser/.style={\FUbox@tipoptsexpanded}}%
+\coordinate (FUboxO) at (\the\FUbox@xshift,\the\FUbox@yshift);
+\coordinate (FUboxCenterBase) at ($(FUboxO)+(\FUbox@angle:\the\FUbox@centerdist)$);
+\coordinate (FUboxCenter) at ($(FUboxCenterBase)+(\the\FUbox@boxxshift,\the\FUbox@boxyshift)$);
+\node[FUboxNodeStyle,FUboxNodeUser] (FUboxN) at (FUboxCenter) {\FUcontent};
+\path[overlay,name path=FUboxRect] (FUboxN.south west) rectangle (FUboxN.north east);
+\path[overlay,name path=FUboxRay] (FUboxO) -- ++(\FUbox@angle:200cm);
+\path[overlay,name intersections={of=FUboxRect and FUboxRay, name=FUboxI, sort by=FUboxRay}];
+\coordinate (FUboxHit) at (FUboxI-1);
+\path[overlay] let \p1=(FUboxHit), \p2=(FUboxO) in \pgfextra{%
+\dimen@=\dimexpr\x1-\x2\relax\edef\FUbox@hitx{\strip@pt\dimen@}%
+\dimen@=\dimexpr\y1-\y2\relax\edef\FUbox@hity{\strip@pt\dimen@}%
+\dimen@=\FUbox@tipsharpness\relax\edef\FUbox@ashpt{\strip@pt\dimen@}%
+\pgfmathsetmacro{\FUbox@dhit}{max(veclen(\FUbox@hitx,\FUbox@hity),0.001)}%
+\pgfmathsetmacro{\FUbox@eps}{atan(\FUbox@ashpt/\FUbox@dhit)}%
+\pgfmathsetmacro{\FUbox@tmpOne}{\FUbox@angle+\FUbox@eps}%
+\pgfmathsetmacro{\FUbox@tmpTwo}{\FUbox@angle-\FUbox@eps}%
+\xdef\FUbox@dirone{\FUbox@tmpOne}%
+\xdef\FUbox@dirtwo{\FUbox@tmpTwo}%
+};
+\path[overlay,name path=FUboxLone] (FUboxO) -- ++(\FUbox@dirone:200cm);
+\path[overlay,name path=FUboxLtwo] (FUboxO) -- ++(\FUbox@dirtwo:200cm);
+\path[overlay,name intersections={of=FUboxRect and FUboxLone, name=FUboxQone, sort by=FUboxLone}];
+\path[overlay,name intersections={of=FUboxRect and FUboxLtwo, name=FUboxQtwo, sort by=FUboxLtwo}];
+\coordinate (FUboxQoneP) at (FUboxQone-1);
+\coordinate (FUboxQtwoP) at (FUboxQtwo-1);
+\fill[draw=none,fill=\FUbox@fillcolor] (FUboxQoneP)--(FUboxO)--(FUboxQtwoP)--cycle;
+\draw[line width=\the\FUbox@coverlinewidth,draw=\FUbox@fillcolor,line cap=butt,line join=miter] (FUboxQoneP)--(FUboxQtwoP);
+\draw[FUboxtipStyle,FUboxtipUser,line cap=round,line join=round] (FUboxQoneP)--(FUboxO)--(FUboxQtwoP);
+\end{tikzpicture}%
+}
+% -----------------------------------------------------------------------------
+% reserve ありの出力
+% -----------------------------------------------------------------------------
+\def\FUbox@reserveboxout{%
+\FUbox@computereserve
+\ifdim\FUbox@reservewidth<0pt\relax\FUbox@reservewidth=0pt\relax\fi
+\ifdim\FUbox@reserveheight<0pt\relax\FUbox@reserveheight=0pt\relax\fi
+\ifdim\FUbox@reservedepth<0pt\relax\FUbox@reservedepth=0pt\relax\fi
+\ifFUbox@reservewidthauto
+  \FUbox@outleft=\FUbox@leftedge\relax
+\else
+  \FUbox@outleft=0pt\relax
+\fi
+\FUbox@drawkern=\dimexpr\FUbox@xshift-\FUbox@outleft\relax
+\kern\FUbox@outleft\relax
+\hbox to \FUbox@reservewidth{\vrule width 0pt height \FUbox@reserveheight depth \FUbox@reservedepth\relax\FUbox@drawout\hss}%
+}
+
+\def\FUbox@equalleft{%
+\mathchoice{\FUbox@equalleft@do\displaystyle}{\FUbox@equalleft@do\textstyle}{\FUbox@equalleft@do\scriptstyle}{\FUbox@equalleft@do\scriptscriptstyle}%
+}
+\def\FUbox@equalleft@do#1{%
+\setbox\z@=\hbox{$#1\m@th=$}%
+\setbox\tw@=\hbox{$#1\m@th\mskip\thickmuskip$}%
+\dimen@=\dimexpr\wd\tw@+\wd\z@/2\relax
+\kern-\dimen@
+}
+\def\FUbox@equalright{%
+\mathchoice{\FUbox@equalright@do\displaystyle}{\FUbox@equalright@do\textstyle}{\FUbox@equalright@do\scriptstyle}{\FUbox@equalright@do\scriptscriptstyle}%
+}
+\def\FUbox@equalright@do#1{%
+\setbox\z@=\hbox{$#1\m@th=$}%
+\setbox\tw@=\hbox{$#1\m@th\mskip\thickmuskip$}%
+\dimen@=\dimexpr\wd\tw@+\wd\z@/2\relax
+\kern\dimen@
+}
+% -----------------------------------------------------------------------------
+% ユーザーコマンド \FUbox（\newcommand による実装）
+% -----------------------------------------------------------------------------
+\newcommand{\FUbox}[2][]{%
+\begingroup
+\FUbox@resetdefaults
+\pgfkeys{/FUbox,#1}%
+\FUbox@detectpar{#2}%
+\ifFUbox@widthgiven
+  \FUbox@realwidth=\FUbox@width\relax
+\else
+  \ifFUbox@haspar
+    \FUbox@realwidth=\FUbox@maxwidth\relax
+  \else
+    \setbox\FUbox@measurebox=\hbox{\begin{tabular}{@{}c@{}}\FUbox@beforecontents\ignorespaces#2\unskip\FUbox@aftercontents\end{tabular}}%
+    \ifdim\wd\FUbox@measurebox>\FUbox@maxwidth\relax
+      \FUbox@realwidth=\FUbox@maxwidth\relax
+    \else
+      \FUbox@realwidth=\wd\FUbox@measurebox\relax
+    \fi
+  \fi
+\fi
+\long\def\FUcontent{\begin{minipage}{\FUbox@realwidth}{\FUbox@beforecontents#2\FUbox@aftercontents\par}\end{minipage}}%
+\setbox\FUbox@contentbox=\hbox{\FUcontent}%
+\FUbox@hx=\dimexpr\wd\FUbox@contentbox/2+\FUbox@sep\relax
+\FUbox@hy=\dimexpr(\ht\FUbox@contentbox+\dp\FUbox@contentbox)/2+\FUbox@sep\relax
+\ifFUbox@radiusgiven
+  \FUbox@centerdist=\FUbox@radiusdim\relax
+\else
+  \FUbox@compute_autoradius
+\fi
+\FUbox@setreserveactive
+\edef\FUbox@boxoptsexpanded{\FUbox@boxoptions}%
+\edef\FUbox@tipoptsexpanded{\FUbox@tipoptions}%
+\ifFUbox@equal\ifmmode\FUbox@equalleft\fi\fi
+\ifmmode\else\leavevmode\fi
+\ifFUbox@reserveactive
+  \FUbox@reserveboxout
+\else
+  \FUbox@drawkern=\FUbox@xshift\relax
+  \FUbox@drawout
+\fi
+\ifFUbox@equal\ifmmode\FUbox@equalright\fi\fi
+\endgroup
+\ignorespaces
+}
+\makeatother
+\endinput

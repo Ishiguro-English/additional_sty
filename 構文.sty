@@ -54,6 +54,8 @@
 \newcommand{\Appendix}{\setcounter{hoibangou}{0}\twocolumn[\begin{asbox7}{Appendix}\end{asbox7}]~\br{-1}}
 \newenvironment{例題}[2][]{\begin{太い枠囲み}[#1]{#2}\begin{choubun}}{\end{choubun}\end{太い枠囲み}\br1\ノート}
 \newcommand{\宿題解説}{\begin{asbox7}{宿題解説}\end{asbox7}}
+\newcommand{\英文解釈}{\begin{asbox7}{英文解釈}\end{asbox7}}
+\newcommand{\長文読解}{\onecolumn\begin{asbox7}{長文読解}\end{asbox7}\br{.5}}
 
 \renewcommand{\mru}[2][]{%
   \jghostguarded{% 前後に和文ゴースト挿入
@@ -87,6 +89,23 @@
 \newtcolorbox{kaisou1}[1]{enhanced,breakable,title=#1,colframe=red!50!black,colback=white,fonttitle={\gtfamily[5]},before upper=\段落下げ}
 \newtcolorbox{kaisou2}[1]{enhanced,breakable,title=#1,colframe=green!50!black,colback=white,fonttitle={\gtfamily[5]},before skip=1zw,before upper=\段落下げ}
 \newtcolorbox{kaisou3}[1]{enhanced,breakable,title=#1,colframe=orange!50!black,colback=white,fonttitle={\gtfamily[5]},before skip=1zw,before upper=\段落下げ}
+\def\hantai{\br{-.3}\centerline{\rotatebox[origin=c]{90}{\color{black!100}\Huge\←\ihspace{-.8zw}\→}}\br{-.6}}
+\def\plus{\br{-.25}\centerline{\color{black!100}\Huge\丸囲み{\ebgt{＋}}}\br{-.6}}
+\def\next{\br{-.4}\centerline{\color{black!100}\HUGE\白下矢印}\br{-.65}}
+\def\before{\br{-.35}\centerline{\color{black!100}\HUGE\白上矢印}\br{-.75}}
+\newtcolorbox{1F}[1]{enhanced,breakable,title=#1,colframe=black!100,colback=white,fonttitle={\gtfamily[5]},before skip=1zw,before upper={\段落下げ
+  \def\hantai{\br{-.6}\centerline{\rotatebox[origin=c]{90}{\color{black!75}\Huge\←\ihspace{-.8zw}\→}}\br{-.6}}
+  \def\plus{\br{-.6}\centerline{\color{black!75}\Huge\丸囲み{\ebgt{＋}}}\br{-.6}}
+  \def\next{\br{-.75}\centerline{\color{black!75}\HUGE\白下矢印}\br{-.65}}
+  \def\before{\br{-.65}\centerline{\color{black!100}\HUGE\白上矢印}\br{-.75}}
+}}
+\newtcolorbox{2F}[1]{enhanced,breakable,title=#1,colframe=black!75,colback=white,fonttitle={\gtfamily[5]},before skip=1zw,before upper={\段落下げ
+  \def\hantai{\br{-.6}\centerline{\rotatebox[origin=c]{90}{\color{black!50}\Huge\←\ihspace{-.8zw}\→}}\br{-.6}}
+  \def\plus{\br{-.6}\centerline{\color{black!60}\Huge\丸囲み{\ebgt{＋}}}\br{-.6}}
+  \def\next{\br{-.75}\centerline{\color{black!60}\HUGE\白下矢印}\br{-.65}}
+}}
+\newtcolorbox{3F}[1]{enhanced,breakable,title=#1,colframe=black!50,colback=white,fonttitle={\gtfamily[5]},before skip=1zw,before upper={\段落下げ
+}}
 \newcommand{\penA}[1]{\下線[position=.4zw,width=1.2zw,color=magenta!35,background]{#1}}
 \newcommand{\penB}[1]{\下線[position=.4zw,width=1.2zw,color=orange!90,background]{#1}}
 \newcommand{\penC}[1]{\下線[position=.4zw,width=1.2zw,color=yellow!80!orange,background]{#1}}
