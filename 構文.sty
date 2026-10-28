@@ -119,6 +119,7 @@
 \newenvironment{OldRules}{\let\ajkaku\ajKaku\def\ajKaku##1{\mg{\ajkaku{##1}}}\begin{kcolorbox9}{\textcolor{black!80}{\▲}\ihspace{-.4zw}\textcolor{black!60}{\▲}\ihspace{-.4zw}\textcolor{black!40}{\▲}Old Rules}\begin{kakuenu}}{\end{kakuenu}\br{-.5}\end{kcolorbox9}}
 \newenvironment{NewRules}{\begin{kcolorbox9}{New Rules\textcolor{black!80}{\▲}\ihspace{-.4zw}\textcolor{black!60}{\▲}\ihspace{-.4zw}\textcolor{black!40}{\▲}}\begin{shikakubenu}}{\end{shikakubenu}\br{-.5}\end{kcolorbox9}\noindent\kangaekata}
 \newenvironment{答案}{\br{-.5}\begin{答案段落}}{\end{答案段落}\br{-.5}}
+\newenvironment{表現}[1]{\begin{枠囲み}[#1]{表現}}{\end{枠囲み}\br{-.3}}
 
 \def\先行詞#1{%
   \tikz[remember picture,baseline=(A.base)]%
