@@ -145,6 +145,13 @@
     \draw (0.55em,0.2em) -- (0.75em,0) -- (0.55em,-0.2em);
   \end{tikzpicture}%
 }
+\newcommand{\逆変化説明}[2][]{%
+  \ifthenelse{\equal{#1}{}}{%
+    \ensuremath{\xleftarrow{\text{#2}}}%
+  }{%
+    \ensuremath{\xleftarrow{\text{\makebox[#1][c]{#2}}}}%
+  }%
+}
 % 下線系----------------------------------------------------------------------
 \let\ul\下線%
 \newcommand{\imp}[1]{\下線{\gt{#1}}}%

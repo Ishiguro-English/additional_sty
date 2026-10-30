@@ -1,6 +1,10 @@
 \NeedsTeXFormat{pLaTeX2e}
 \ProvidesPackage{構文}[2026/08/22, ver.1.0.1]
 
+\fboxsep=1pt
+\let\originalfbox\fbox
+\renewcommand{\fbox}[1]{\originalfbox{\vphantom{あ}#1}}
+
 \def\N#1{\hspace{-.5zw}\mbox{\textcolor{red}{\bgt{〈\hspace{0pt}}}}\nolinebreak#1\nolinebreak\textcolor{red}{\bgt{〉\inhibitglue}}}
 \def\A#1{\hspace{-.5zw}\mbox{\textcolor{blue}{\bgt{［\hspace{0pt}}}}\nolinebreak#1\nolinebreak\textcolor{blue}{\bgt{］\inhibitglue}}}
 \def\M#1{\hspace{-.5zw}\mbox{\textcolor{green}{\bgt{（\hspace{0pt}}}}\nolinebreak#1\nolinebreak\textcolor{green}{\bgt{）\inhibitglue}}}
