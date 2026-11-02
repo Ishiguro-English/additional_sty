@@ -4,6 +4,12 @@
 \fboxsep=1pt
 \let\originalfbox\fbox
 \renewcommand{\fbox}[1]{\originalfbox{\vphantom{あ}#1}}
+\renewcommand{\白黒反転文字列}[1]{%
+  \bgroup
+  \setlength{\fboxsep}{1.4pt}%
+  \colorbox{black}{\color{white}#1}%
+  \egroup
+}
 
 \def\N#1{\hspace{-.5zw}\mbox{\textcolor{red}{\bgt{〈\hspace{0pt}}}}\nolinebreak#1\nolinebreak\textcolor{red}{\bgt{〉\inhibitglue}}}
 \def\A#1{\hspace{-.5zw}\mbox{\textcolor{blue}{\bgt{［\hspace{0pt}}}}\nolinebreak#1\nolinebreak\textcolor{blue}{\bgt{］\inhibitglue}}}
@@ -60,6 +66,10 @@
 \newcommand{\宿題解説}{\begin{asbox7}{宿題解説}\end{asbox7}}
 \newcommand{\英文解釈}{\begin{asbox7}{英文解釈}\end{asbox7}}
 \newcommand{\長文読解}{\onecolumn\begin{asbox7}{長文読解}\end{asbox7}\br{.5}}
+
+\newcommand{\@文}[1]{{\RUBYbigintrusion{10}\RUBYintergap{.2}\ispace\ruby[||S>]{}{\scalebox{1.4}{\品詞*{#1}}}}}%
+\newcommand{\@@文}[1]{{\RUBYbigintrusion{10}\RUBYintergap{.3}\ispace\ruby[||S>]{}{\scalebox{1.4}{\品詞*{#1}}}}}%
+\def\文{\@ifstar{\@@文}{\@文}}%
 
 \renewcommand{\mru}[2][]{%
   \jghostguarded{% 前後に和文ゴースト挿入
