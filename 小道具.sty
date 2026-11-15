@@ -293,3 +293,28 @@ overlay unbroken={%
 }
 
 \def\誤答kotae{\kotae\hamidasi(-2zw,0zw)[L]{\scalebox{3}[1]{\mg{×}}}}
+
+\def\星の最大数{5}
+\def\星の間隔{0mm}
+\newdimen\@@starwidth
+\ExplSyntaxOn
+\dim_new:N \@starwidth
+\newcommand\@calcStarWidth[1]{%
+  \dim_set:Nn \@starwidth{\fp_to_dim:n {\fp_eval:n{floor(#1)*\dim_to_fp:n {\@@starwidth+\星の間隔} + (#1-floor(#1))*\dim_to_fp:n {\@@starwidth}}}}
+}
+\let\replicate\prg_replicate:nn
+\ExplSyntaxOff
+\def\星数#1{%
+  \setbox9\hbox{☆}%
+  \@@starwidth=\wd9\relax
+  \begin{tikzpicture}[x=\@@starwidth,y=\@@starwidth,inner sep=0pt,outer sep=0pt,baseline=(STAR.base)]
+    \setlength\kanjiskip{\星の間隔}%
+    \node[anchor=south west] (STAR) at (0,0) {\replicate{\星の最大数}{☆}};
+    \@calcStarWidth{#1}%
+    \clip (0,0) rectangle (\@starwidth,1);
+    \node[anchor=south west,color=black] at (0,0) {\replicate{\星の最大数}{★}};
+    \node[anchor=south west] (STAR) at (0,0) {\replicate{\星の最大数}{☆}};%% 縁取り用
+  \end{tikzpicture}%
+}
+\let\星の数\星数
+\let\星の個数\星数
