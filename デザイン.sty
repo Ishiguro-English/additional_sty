@@ -1,7 +1,7 @@
 \NeedsTeXFormat{pLaTeX2e}
-\ProvidesPackage{デザイン}[2025/03/14, ver.1.0.0]
+\ProvidesPackage{デザイン}[2026/11/15, ver.1.0.1]
 
-% デザイン------------------------------------------------------------------------------------
+% デザイン=============================================
 % 点線囲み---------------------------------------------
 %\newenvironment{点線囲み}{%
 %\par\br{-.5}
@@ -31,6 +31,51 @@
     \path[fill=#1!50!black,draw=none] (interior.south west) rectangle node[white]{\huge\bgt{!}} ([xshift=4mm]interior.north west);
     },
   drop fuzzy shadow}
+% tilebox----------------------------------------------
+\newlength{\tileboxlength}
+\DeclareTColorBox{tilebox}{ m }{%
+  enhanced, empty, left=2mm, right=2mm, top=2mm, colframe=black, coltext=black, breakable,
+  before={\settowidth{\tileboxlength}{#1}\vspace{2mm}\vspace*{5mm}},
+  before upper={\setlength{\parindent}{1em}},
+  underlay unbroken={%
+    \draw[black, line width=.8pt] (frame.north west) -- (frame.north east) -- (frame.south east) -- (frame.south west) -- cycle;
+    \filldraw[draw=black, fill=black!60, line width=.8pt] ([shift={(0mm, 5mm)}]frame.north west) -- ([shift={(\tileboxlength+4mm, 5mm)}]frame.north west) -- ([shift={(\tileboxlength+4mm, 0mm)}]frame.north west) -- ([shift={(0mm, 0mm)}]frame.north west) -- cycle;
+    \node[anchor=south west, inner sep=1mm] at ([shift={(1.5mm, 0mm)}]frame.north west) {\mbox{\gtfamily\textcolor{white}{#1}}};
+    \draw[white, line width=.3pt] ([shift={(0mm+.3pt, 1mm)}]frame.north west) -- ([shift={(\tileboxlength+4mm-.3pt, 1mm)}]frame.north west);
+    \draw[white, line width=.3pt] ([shift={(0mm+.3pt, 3mm)}]frame.north west) -- ([shift={(1mm, 3mm)}]frame.north west) -- ([shift={(1mm, 0mm+.3pt)}]frame.north west);
+    \draw[white, line width=.3pt] ([shift={(0mm+.3pt, 2mm)}]frame.north west) -- ([shift={(2mm, 2mm)}]frame.north west) -- ([shift={(2mm, 0mm+.3pt)}]frame.north west);
+    \draw[white, line width=.3pt] ([shift={(\tileboxlength+4mm-.3pt, 2mm)}]frame.north west) -- ([shift={(\tileboxlength+3mm, 2mm)}]frame.north west) -- ([shift={(\tileboxlength+3mm, 0mm+.3pt)}]frame.north west);
+    \draw[black!80, line width=.3pt] ([shift={(\tileboxlength+4mm, 3mm)}]frame.north west) -- ([shift={(\tileboxlength+5mm, 3mm)}]frame.north west) -- ([shift={(\tileboxlength+5mm, 0mm+.3pt)}]frame.north west);
+    \draw[black!80, line width=.3pt] ([shift={(\tileboxlength+4mm, 2mm)}]frame.north west) -- ([shift={(\tileboxlength+6mm, 2mm)}]frame.north west) -- ([shift={(\tileboxlength+6mm, 0mm+.3pt)}]frame.north west);
+    \draw[black!80, line width=.3pt] ([shift={(\tileboxlength+4mm, 1mm)}]frame.north west) -- ([shift={(-1mm, 1mm)}]frame.north east) -- ([shift={(-1mm, 0mm+.3pt)}]frame.south east);
+    \draw[black!80, line width=.3pt] ([shift={(0mm, 2mm)}]frame.south east) -- ([shift={(-2mm, 2mm)}]frame.south east) -- ([shift={(-2mm, 0mm+.3pt)}]frame.south east);
+    \draw[black!80, line width=.3pt] ([shift={(0mm, 1mm)}]frame.south east) -- ([shift={(-3mm, 1mm)}]frame.south east) -- ([shift={(-3mm, 0mm+.3pt)}]frame.south east);
+  },
+  underlay first={%
+    \draw[black, line width=.8pt] (frame.north west) -- (frame.south west);
+    \draw[black, line width=.8pt] (frame.north west) -- (frame.north east) -- (frame.south east);
+    \filldraw[draw=black, fill=black!60, line width=.8pt] ([shift={(0mm, 5mm)}]frame.north west) -- ([shift={(\tileboxlength+4mm, 5mm)}]frame.north west) -- ([shift={(\tileboxlength+4mm, 0mm)}]frame.north west) -- ([shift={(0mm, 0mm)}]frame.north west) -- cycle;
+    \node[anchor=south west, inner sep=1mm] at ([shift={(1.5mm, 0mm)}]frame.north west) {\mbox{\gtfamily\textcolor{white}{#1}}};
+    \draw[white, line width=.3pt] ([shift={(0mm+.3pt, 1mm)}]frame.north west) -- ([shift={(\tileboxlength+4mm-.3pt, 1mm)}]frame.north west);
+    \draw[white, line width=.3pt] ([shift={(0mm+.3pt, 3mm)}]frame.north west) -- ([shift={(1mm, 3mm)}]frame.north west) -- ([shift={(1mm, 0mm+.3pt)}]frame.north west);
+    \draw[white, line width=.3pt] ([shift={(0mm+.3pt, 2mm)}]frame.north west) -- ([shift={(2mm, 2mm)}]frame.north west) -- ([shift={(2mm, 0mm+.3pt)}]frame.north west);
+    \draw[white, line width=.3pt] ([shift={(\tileboxlength+4mm-.3pt, 2mm)}]frame.north west) -- ([shift={(\tileboxlength+3mm, 2mm)}]frame.north west) -- ([shift={(\tileboxlength+3mm, 0mm+.3pt)}]frame.north west);
+    \draw[black!80, line width=.3pt] ([shift={(\tileboxlength+4mm, 3mm)}]frame.north west) -- ([shift={(\tileboxlength+5mm, 3mm)}]frame.north west) -- ([shift={(\tileboxlength+5mm, 0mm+.3pt)}]frame.north west);
+    \draw[black!80, line width=.3pt] ([shift={(\tileboxlength+4mm, 2mm)}]frame.north west) -- ([shift={(\tileboxlength+6mm, 2mm)}]frame.north west) -- ([shift={(\tileboxlength+6mm, 0mm+.3pt)}]frame.north west);
+    \draw[black!80, line width=.3pt] ([shift={(\tileboxlength+4mm, 1mm)}]frame.north west) -- ([shift={(-1mm, 1mm)}]frame.north east) -- ([shift={(-1mm, 0mm+.3pt)}]frame.south east);
+  },
+  underlay middle={%
+    \draw[black, line width=.8pt] (frame.north west) -- (frame.south west);
+    \draw[black, line width=.8pt] (frame.north east) -- (frame.south east);
+    \draw[black!80, line width=.3pt] ([xshift=-1mm]frame.north east) -- ([xshift=-1mm]frame.south east);
+  },
+  underlay last={%
+    \draw[black, line width=.8pt] (frame.north west) -- (frame.south west) -- (frame.south east) -- (frame.north east);
+    \draw[black!80, line width=.3pt] ([xshift=-1mm]frame.north east) -- ([xshift=-1mm]frame.south east);
+    \draw[black!80, line width=.3pt] ([shift={(0mm, 2mm)}]frame.south east) -- ([shift={(-2mm, 2mm)}]frame.south east) -- ([shift={(-2mm, 0mm+.3pt)}]frame.south east);
+    \draw[black!80, line width=.3pt] ([shift={(0mm, 1mm)}]frame.south east) -- ([shift={(-3mm, 1mm)}]frame.south east) -- ([shift={(-3mm, 0mm+.3pt)}]frame.south east);
+  }
+}
 % \numtitle[]{}----------------------------------------
 \newcounter{numtitlebangou}
 \setcounter{numtitlebangou}{1}
@@ -39,7 +84,7 @@
     \一行カラーボックス[角丸半径=0pt,fboxrule=0pt,枠の色=#1!85!white,右タイトル背景色=#1!30!white]{\large\２文字半[c]{\scalebox{.8}[1]{\bignum{\thenumtitlebangou}}}}{\vphantom{\raisebox{.2zw}{\Large あ}\raisebox{-.2zw}{\Large あ}}\bgtfamily\Large\:#2}%
     \stepcounter{numtitlebangou}
   }%
-% \colorfreashtitle[]{}{}{}----------------------------
+% \colorfreshtitle[]{}{}{}-----------------------------
  \NewDocumentCommand\colorfreshtitle{ O{black} m m m }%
    {%
      \smallskip%
