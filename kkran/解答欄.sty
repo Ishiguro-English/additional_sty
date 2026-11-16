@@ -1,0 +1,987 @@
+%%% License %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This package is licensed under the terms of the MIT License.
+
+% Copyright (c) 2025-2026 Kosei Kawaguchi
+
+% Permission is hereby granted, free of charge, 
+% to any person obtaining a copy of this software and associated documentation files 
+% (the "Software"), to deal in the Software without restriction, 
+% including without limitation the rights to use, copy, modify, merge, publish, 
+% distribute, sublicense, and/or sell copies of the Software, 
+% and to permit persons to whom the Software is furnished to do so, 
+% subject to the following conditions:
+
+% The above copyright notice and this permission notice 
+% shall be included in all copies or substantial portions of the Software.
+
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+% EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+% FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+% IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
+% DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+% ARISING FROM, 
+% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{解答欄}[2026/11/16, Version 1.4.0-up]
+\RequirePackage{iftex}
+\RequirePackage{calc}
+\RequirePackage{tikz}
+  \usetikzlibrary{shapes}
+  \usetikzlibrary{calc}
+\RequirePackage{xcolor}
+\RequirePackage{kvoptions}
+\RequirePackage{etoolbox} 
+
+%%% package options
+\SetupKeyvalOptions{%
+  family=解答欄,%
+  prefix=解答欄@%
+}
+\DeclareStringOption[1]{解答表示}
+\DeclareStringOption[red]{kaitoucolor}
+\DeclareStringOption[20]{gridmax}
+\DeclareStringOption[20]{nongridmax}
+\DeclareStringOption[1.8zw]{unit}
+\DeclareStringOption[.7pt]{wakuwidth}
+\DeclareStringOption[.4pt]{tensenwakuwidth}
+\DeclareStringOption[1pt]{tensenon}
+\DeclareStringOption[1pt]{tensenoff}
+\DeclareStringOption[0]{clsadjust}
+\DeclareStringOption[\relax]{fontdaimonbangou}
+\DeclareStringOption[\relax]{fontshoumonbangou}
+\DeclareStringOption[kaku]{styledaimonbangou}
+\DeclareStringOption[kakko]{styleshoumonbangou}
+\ProcessKeyvalOptions*
+%%%
+
+
+%%% clsadjust (LuaLaTeX / upLaTeX 対応)
+\ifnum\number\解答欄@clsadjust=1\relax
+  \ifluatex
+    \RequirePackage[scale=1]{luatexja-fontspec}%
+    \RequirePackage[deluxe,expert]{luatexja-preset}%
+  \else
+    \RequirePackage[deluxe,expert]{otf}%
+  \fi
+\else
+  \ifnum\number\解答欄@clsadjust=0\relax
+  \else
+    \errmessage{Error: clsadjust option requires to be 0 or 1.}%
+  \fi
+\fi
+%%%
+
+
+%%% 縦書き判定の共通ラッパー
+\newif\if解答欄@tate
+\ifluatex
+  \newcommand{\解答欄@check@tate}{%
+    \ifnum\ltjgetparameter{direction}=3\relax
+      \解答欄@tatetrue
+    \else
+      \解答欄@tatefalse
+    \fi
+  }
+\else
+  \newcommand{\解答欄@check@tate}{%
+    \iftdir
+      \解答欄@tatetrue
+    \else
+      \解答欄@tatefalse
+    \fi
+  }
+\fi
+%%%
+
+
+%%% internal parameters
+\newdimen\width@解答欄 \width@解答欄=\解答欄@unit
+\newdimen\unit@解答欄 \unit@解答欄=\解答欄@unit
+
+\newdimen\waku@解答欄 \waku@解答欄=\解答欄@wakuwidth
+\newdimen\tensenwaku@解答欄 \tensenwaku@解答欄=\解答欄@tensenwakuwidth
+
+\def\modai@bangou@wd{0.5}
+\def\mondai@position@tmp{0}
+\def\mondai@position@y@tmp{0}
+
+\def\mondai@dash@pat@on{\解答欄@tensenon}
+\def\mondai@dash@pat@off{\解答欄@tensenoff}
+
+\newcount\NUM@mondai
+\newcount\NUM@小問
+%%%
+
+
+%%% 共通フォントサイズ設定
+% マス目基準（1zw = \unit@解答欄）
+\newcommand{\解答欄@set@unitfont}{%
+  \setlength{\baselineskip}{\dimexpr\unit@解答欄\relax}%
+  \fontsize{\unit@解答欄}{\baselineskip}\selectfont%
+  \pgfmathparse{(\unit@解答欄 / 1zw) * \unit@解答欄}%
+  \fontsize{\pgfmathresult pt}{\baselineskip}\selectfont%
+}
+
+% 解答出力（赤文字）用：マス目より少し小さめ（0.85倍）
+\newcommand{\解答欄@set@kaitoufont}{%
+  \setlength{\baselineskip}{\dimexpr\unit@解答欄\relax}%
+  \fontsize{\unit@解答欄}{\baselineskip}\selectfont%
+  \pgfmathparse{0.85 * (\unit@解答欄 / 1zw) * \unit@解答欄}%
+  \fontsize{\pgfmathresult pt}{\baselineskip}\selectfont%
+}
+%%%
+
+
+%%% KaitouInput（赤文字の解答部分のみ少し小さめのサイズを適用）
+\NewDocumentCommand{\KaitouInput}{m}{%
+  \ifnum\number\解答欄@解答表示=1\relax
+    {\解答欄@set@kaitoufont\color{\解答欄@kaitoucolor}#1}%
+  \else
+    \ifnum\number\解答欄@解答表示=0\relax
+      {\解答欄@set@kaitoufont\color{white}#1}%
+    \else
+      \errmessage{Error: 解答表示 option requires to be 0 or 1.}%
+    \fi
+  \fi
+}
+%%%
+
+
+%%% rotation of the question numbers
+\NewDocumentCommand{\RevBangou}{m}{%
+  \解答欄@check@tate
+  \if解答欄@tate
+    \rotatebox[origin=c]{-90}{#1}%
+  \else
+    #1%
+  \fi
+} 
+%%%
+
+
+%%% counter setting commands
+\NewDocumentCommand{\SetDaimon}{m}{\NUM@mondai=#1}
+\NewDocumentCommand{\SetShoumon}{m}{\NUM@小問=#1}
+%%%
+
+
+%%% 大問番号・小問番号の描画フォーマットと自動幅計算
+\def\bangoustyle@大問{\解答欄@styledaimonbangou}
+\NewDocumentCommand{\default@大問@bangou}{}{%
+  {\解答欄@fontdaimonbangou
+   \ifx\bangoustyle@大問\@empty
+     (\number\NUM@mondai)%
+   \else
+     \expandafter\csname \bangoustyle@大問\endcsname{\number\NUM@mondai}%
+   \fi}%
+}
+\let\how@to@count@大問@bangou\default@大問@bangou
+
+\NewDocumentCommand{\大問@bangou@yokotate}{}{%
+  \def\rotate@or@not@大問{0}%
+} 
+
+% #1(省略可:幅倍率), #2(テキスト) から実効幅倍率 \解答欄@calc@wd@res を算出
+\newcommand{\解答欄@calc@box@wd}[2]{%
+  \sbox0{\scalebox{.8}{\ #2\ }}%
+  \IfNoValueTF{#1}{%
+    \pgfmathparse{max(1zw / \width@解答欄, (\wd0 + 0.15\width@解答欄) / \width@解答欄)}%
+    \edef\解答欄@calc@wd@res{\pgfmathresult}%
+  }{%
+    \def\解答欄@calc@wd@res{#1}%
+  }%
+}
+
+\NewDocumentCommand{\Daimon@Box@A@N}{ o m o }{% 大問番号
+  \大問@bangou@yokotate%
+  \IfNoValueTF{#3}{\global\advance\NUM@mondai by 1}{}%
+  \edef\解答欄@cur@text{\IfNoValueTF{#3}{\noexpand\how@to@count@大問@bangou}{\unexpanded{#3}}}%
+  \解答欄@calc@box@wd{#1}{\解答欄@cur@text}%
+  \global\let\modai@bangou@wd\解答欄@calc@wd@res%
+  \draw[line width=\waku@解答欄] (0,0) rectangle (\modai@bangou@wd\width@解答欄,- #2\width@解答欄);%
+  \node[anchor=center,overlay
+    ,rotate=\rotate@or@not@大問
+  ]
+   at (.5*\modai@bangou@wd\width@解答欄,- .5*#2\width@解答欄) {\scalebox{.8}{\ \解答欄@cur@text\ }};
+  \pgfmathparse{\mondai@position@tmp + \modai@bangou@wd}%
+  \edef\mondai@position@tmp{\pgfmathresult}%
+}
+
+\def\bangoustyle@小問{\解答欄@styleshoumonbangou}
+\NewDocumentCommand{\default@小問@bangou}{}{%
+  {\解答欄@fontshoumonbangou
+   \ifx\bangoustyle@shoumon\@empty
+     (\number\NUM@小問)%
+   \else
+     \expandafter\csname \bangoustyle@小問\endcsname{\number\NUM@小問}%
+   \fi}%
+}
+\let\how@to@count@小問@bangou\default@小問@bangou
+
+\NewDocumentCommand{\小問@bangou@yokotate}{}{%
+  \def\rotate@or@not@小問{0}%
+} 
+
+\NewDocumentCommand{\Shoumon@Box@A@N}{ o m o }{% 小問番号
+  \小問@bangou@yokotate%
+  \IfNoValueTF{#3}{\advance\NUM@小問 by 1}{}%
+  \edef\解答欄@cur@text{\IfNoValueTF{#3}{\noexpand\how@to@count@小問@bangou}{\unexpanded{#3}}}%
+  \解答欄@calc@box@wd{#1}{\解答欄@cur@text}%
+  \let\解答欄@小問@wd\解答欄@calc@wd@res%
+
+  \draw[line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (0,- #2\width@解答欄);
+  \draw[line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (\解答欄@小問@wd\width@解答欄,0);
+  \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off] (\mondai@position@tmp\width@解答欄+\解答欄@小問@wd\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (0,- #2\width@解答欄);
+  \draw[line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄+\解答欄@小問@wd\width@解答欄,-\mondai@position@y@tmp\width@解答欄- #2\width@解答欄) -- ++ (-\解答欄@小問@wd\width@解答欄,0);
+
+  \node[anchor=center,overlay
+    ,rotate=\rotate@or@not@小問
+  ]
+  at (\mondai@position@tmp\width@解答欄+.5*\解答欄@小問@wd\width@解答欄,-\mondai@position@y@tmp\width@解答欄- .5*#2\width@解答欄) {\scalebox{.8}{\ \解答欄@cur@text\ }};
+
+  \pgfmathparse{\mondai@position@tmp + \解答欄@小問@wd}%
+  \edef\mondai@position@tmp{\pgfmathresult}%
+}
+
+
+%%% 小問欄（Shoumon@Box@A）
+\define@key{Shoumon@Box@A}{west}{%
+  \def\westtext@Shoumon@Box@A{#1}%
+}
+\define@key{Shoumon@Box@A}{center}{%
+  \def\centertext@Shoumon@Box@A{#1}%
+}
+\define@key{Shoumon@Box@A}{east}{%
+  \def\easttext@Shoumon@Box@A{#1}%
+}
+\define@key{Shoumon@Box@A}{north west}{%
+  \def\nwtext@Shoumon@Box@A{#1}%
+}
+\define@key{Shoumon@Box@A}{north east}{%
+  \def\netext@Shoumon@Box@A{#1}%
+}
+\define@key{Shoumon@Box@A}{south west}{%
+  \def\swtext@Shoumon@Box@A{#1}%
+}
+\define@key{Shoumon@Box@A}{south east}{%
+  \def\setext@Shoumon@Box@A{#1}%
+}
+\NewDocumentCommand{\reset@Shoumon@Box@A}{}{%
+  \def\westtext@Shoumon@Box@A{}%
+  \def\centertext@Shoumon@Box@A{}%
+  \def\easttext@Shoumon@Box@A{}%
+  \def\nwtext@Shoumon@Box@A{}%
+  \def\netext@Shoumon@Box@A{}%
+  \def\swtext@Shoumon@Box@A{}%
+  \def\setext@Shoumon@Box@A{}%
+}
+
+% 小問欄の横幅倍率を自動算出（#1: 省略可の幅倍率）
+\newdimen\解答欄@ran@maxwd
+\newcommand{\解答欄@calc@ran@wd@A}[1]{%
+  \IfNoValueTF{#1}{%
+    \解答欄@ran@maxwd=0pt\relax
+    \sbox0{\westtext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\centertext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\easttext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\nwtext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\netext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\swtext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\setext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \pgfmathparse{max(1, (\解答欄@ran@maxwd + 0.5\width@解答欄) / \width@解答欄)}%
+    \edef\解答欄@ran@wd@res{\pgfmathresult}%
+  }{%
+    \def\解答欄@ran@wd@res{#1}%
+  }%
+}
+
+\NewDocumentCommand{\Shoumon@Box@A}{ o m O{} }{% 小問（#1:省略可の幅倍率, #2:高さ倍率, #3:キーオプション）
+  \reset@Shoumon@Box@A\setkeys{Shoumon@Box@A}{#3}%
+  \解答欄@calc@ran@wd@A{#1}%
+  \let\解答欄@ran@wd\解答欄@ran@wd@res%
+
+  % 左上から反時計回りに A, B, C, D を定義
+  \path (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) coordinate (A@Shoumon@Box@A)
+        -- ++(0,-#2\width@解答欄) coordinate (B@Shoumon@Box@A)
+        -- ++(\解答欄@ran@wd\width@解答欄,0)  coordinate (C@Shoumon@Box@A)
+        -- ++(0,#2\width@解答欄)  coordinate (D@Shoumon@Box@A);
+
+  % 箱の描画
+  \draw[line width=\tensenwaku@解答欄, white] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (0,- #2\width@解答欄);
+  \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (0,- #2\width@解答欄);
+  \draw[line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (\解答欄@ran@wd\width@解答欄,0) -- ++ (0,- #2\width@解答欄) -- ++ (-\解答欄@ran@wd\width@解答欄-.5\tensenwaku@解答欄,0);
+
+  % 文字列などの挿入用
+  \node[overlay,anchor=center] at ($(A@Shoumon@Box@A)!0.5!(C@Shoumon@Box@A)$) {\centertext@Shoumon@Box@A};
+  \node[overlay,anchor=west] at ($(A@Shoumon@Box@A)!0.5!(B@Shoumon@Box@A)$) {\westtext@Shoumon@Box@A};
+  \node[overlay,anchor=east] at ($(C@Shoumon@Box@A)!0.5!(D@Shoumon@Box@A)$) {\easttext@Shoumon@Box@A};
+  \node[overlay,anchor=north west] at (A@Shoumon@Box@A) {\nwtext@Shoumon@Box@A};
+  \node[overlay,anchor=north east] at (D@Shoumon@Box@A) {\netext@Shoumon@Box@A};
+  \node[overlay,anchor=south west] at (B@Shoumon@Box@A) {\swtext@Shoumon@Box@A};
+  \node[overlay,anchor=south east] at (C@Shoumon@Box@A) {\setext@Shoumon@Box@A};
+
+  % 座標の更新
+  \pgfmathparse{\mondai@position@tmp + \解答欄@ran@wd}%
+  \edef\mondai@position@tmp{\pgfmathresult}%
+}
+
+
+%%% 小問中欄（Shoumon@Box@B）
+\define@key{Shoumon@Box@B}{west}{%
+  \def\westtext@Shoumon@Box@B{#1}%
+}
+\define@key{Shoumon@Box@B}{center}{%
+  \def\centertext@Shoumon@Box@B{#1}%
+}
+\define@key{Shoumon@Box@B}{east}{%
+  \def\easttext@Shoumon@Box@B{#1}%
+}
+\define@key{Shoumon@Box@B}{north west}{%
+  \def\nwtext@Shoumon@Box@B{#1}%
+}
+\define@key{Shoumon@Box@B}{north east}{%
+  \def\netext@Shoumon@Box@B{#1}%
+}
+\define@key{Shoumon@Box@B}{south west}{%
+  \def\swtext@Shoumon@Box@B{#1}%
+}
+\define@key{Shoumon@Box@B}{south east}{%
+  \def\setext@Shoumon@Box@B{#1}%
+}
+\NewDocumentCommand{\reset@Shoumon@Box@B}{}{%
+  \def\westtext@Shoumon@Box@B{}%
+  \def\centertext@Shoumon@Box@B{}%
+  \def\easttext@Shoumon@Box@B{}%
+  \def\nwtext@Shoumon@Box@B{}%
+  \def\netext@Shoumon@Box@B{}%
+  \def\swtext@Shoumon@Box@B{}%
+  \def\setext@Shoumon@Box@B{}%
+}
+
+\newcommand{\解答欄@calc@ran@wd@B}[1]{%
+  \IfNoValueTF{#1}{%
+    \解答欄@ran@maxwd=0pt\relax
+    \sbox0{\westtext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\centertext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\easttext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\nwtext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\netext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\swtext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \sbox0{\setext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
+    \pgfmathparse{max(1, (\解答欄@ran@maxwd + 0.5\width@解答欄) / \width@解答欄)}%
+    \edef\解答欄@ran@wd@res{\pgfmathresult}%
+  }{%
+    \def\解答欄@ran@wd@res{#1}%
+  }%
+}
+
+\NewDocumentCommand{\Shoumon@Box@B}{ o m O{} }{% 小問（右が点線に）
+  \reset@Shoumon@Box@B\setkeys{Shoumon@Box@B}{#3}%
+  \解答欄@calc@ran@wd@B{#1}%
+  \let\解答欄@ran@wd\解答欄@ran@wd@res%
+
+  % 左上から反時計回りに A, B, C, D を定義
+  \path (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) coordinate (A@Shoumon@Box@B)
+        -- ++(0,-#2\width@解答欄) coordinate (B@Shoumon@Box@B)
+        -- ++(\解答欄@ran@wd\width@解答欄,0)  coordinate (C@Shoumon@Box@B)
+        -- ++(0,#2\width@解答欄)  coordinate (D@Shoumon@Box@B);
+
+  % 箱の描画
+  \draw[line width=\tensenwaku@解答欄, white] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (0,- #2\width@解答欄);
+  \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (0,- #2\width@解答欄);
+  \draw[line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (\解答欄@ran@wd\width@解答欄,0);
+  \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off] (\mondai@position@tmp\width@解答欄+\解答欄@ran@wd\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (0,- #2\width@解答欄);
+  \draw[line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄+\解答欄@ran@wd\width@解答欄,-\mondai@position@y@tmp\width@解答欄- #2\width@解答欄) -- ++ (-\解答欄@ran@wd\width@解答欄-.5\tensenwaku@解答欄,0);
+
+  % 文字列などの挿入用
+  \node[overlay,anchor=center] at ($(A@Shoumon@Box@B)!0.5!(C@Shoumon@Box@B)$) {\centertext@Shoumon@Box@B};
+  \node[overlay,anchor=west] at ($(A@Shoumon@Box@B)!0.5!(B@Shoumon@Box@B)$) {\westtext@Shoumon@Box@B};
+  \node[overlay,anchor=east] at ($(C@Shoumon@Box@B)!0.5!(D@Shoumon@Box@B)$) {\easttext@Shoumon@Box@B};
+  \node[overlay,anchor=north west] at (A@Shoumon@Box@B) {\nwtext@Shoumon@Box@B};
+  \node[overlay,anchor=north east] at (D@Shoumon@Box@B) {\netext@Shoumon@Box@B};
+  \node[overlay,anchor=south west] at (B@Shoumon@Box@B) {\swtext@Shoumon@Box@B};
+  \node[overlay,anchor=south east] at (C@Shoumon@Box@B) {\setext@Shoumon@Box@B};
+
+  % 座標の更新
+  \pgfmathparse{\mondai@position@tmp + \解答欄@ran@wd}%
+  \edef\mondai@position@tmp{\pgfmathresult}%
+}
+
+
+%%% マス目テキスト用字間・サイズ調整 (LuaLaTeX / upLaTeX 対応)
+\newcommand{\masume@text@解答欄}[1]{%
+  \begingroup%
+    \ifluatex
+      \ltjsetparameter{kanjiskip=0pt}% 
+      \ltjsetparameter{xkanjiskip=0pt}% 
+    \else
+      \kanjiskip=0pt\relax
+      \xkanjiskip=0pt\relax
+    \fi
+    \解答欄@set@unitfont%
+    {#1}% 
+    \setlength{\lineskiplimit}{-99mm}%
+    \par%
+  \endgroup%
+}
+%%%
+
+\NewDocumentCommand{\Shoumon@Grid@A}{ O{#2} m  O{} }{% 
+    \def\grid@max@A{#2}\def\grid@min@A{#1}%
+    \ifnum\grid@max@A<\grid@min@A\relax
+      \errmessage{Error: \grid@max@A (\the\grid@max@A) must be greater than or equal to \grid@min@A (\the\grid@min@A).}%
+    \fi
+    \def\grid@x@A{\解答欄@gridmax}%
+    \pgfmathtruncatemacro{\shou@grid@max@A}{\grid@max@A / \grid@x@A}%
+    \pgfmathtruncatemacro{\amari@grid@max@A}{mod(\grid@max@A,\grid@x@A)}%
+    \pgfmathtruncatemacro{\max@minus@amari@grid@max@A}{\grid@x@A-\amari@grid@max@A}%
+    \pgfmathtruncatemacro{\shou@grid@min@A}{\grid@min@A / \grid@x@A}%
+    \pgfmathtruncatemacro{\amari@grid@min@A}{mod(\grid@min@A,\grid@x@A)}%
+    \pgfmathtruncatemacro{\min@minus@amari@grid@min@A}{\grid@x@A-\amari@grid@min@A}%
+
+    \ifnum\grid@min@A<\grid@x@A\relax
+      \draw[overlay,line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄) -- (\mondai@position@tmp\width@解答欄+\amari@grid@min@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄);
+      \draw[overlay,line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄+\amari@grid@min@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄) -- (\mondai@position@tmp\width@解答欄+\amari@grid@min@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@grid@min@A\unit@解答欄);
+      \draw[overlay,line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄+\amari@grid@min@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@grid@min@A\unit@解答欄) -- (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄);
+    \else
+      \ifnum\amari@grid@min@A=0\relax
+        \draw[overlay,line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@min@A\unit@解答欄) -- (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@min@A\unit@解答欄);
+        \draw[overlay,line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@min@A\unit@解答欄) -- (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄);
+        \draw[overlay,line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄) -- (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄);
+      \else
+        \coordinate (A@amari@non@zero) at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄);%
+        \coordinate (B@amari@non@zero) at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@min@A\unit@解答欄-\unit@解答欄);%
+        \coordinate (C@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\amari@grid@min@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@min@A\unit@解答欄-\unit@解答欄);%
+        \coordinate (D@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\amari@grid@min@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@min@A\unit@解答欄);%
+        \coordinate (E@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@min@A\unit@解答欄);%
+        \coordinate (F@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄);%
+
+        \draw[overlay,line width=\waku@解答欄] (B@amari@non@zero) -- (C@amari@non@zero);
+        \draw[overlay,line width=\waku@解答欄] (C@amari@non@zero) -- (D@amari@non@zero);
+        \draw[overlay,line width=\waku@解答欄] (D@amari@non@zero) -- (E@amari@non@zero);
+        \draw[overlay,line width=\waku@解答欄] (E@amari@non@zero) -- (F@amari@non@zero);
+        \draw[overlay,line width=\waku@解答欄] (F@amari@non@zero) -- (A@amari@non@zero);
+      \fi
+    \fi
+    
+    \ifnum\grid@max@A<\grid@x@A\relax
+      \foreach \x in {1,2,...,\amari@grid@max@A} {
+        \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]
+          ($(\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) + (\x\unit@解答欄,0)$)
+          -- ++(0,-\unit@解答欄);
+      }
+
+      \draw[line width=\tensenwaku@解答欄, white]  (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄);
+      \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]  (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄);
+      \draw[line width=\waku@解答欄]
+        (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄) --
+        (\mondai@position@tmp\width@解答欄+\amari@grid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄) --
+        (\mondai@position@tmp\width@解答欄+\amari@grid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@grid@max@A\unit@解答欄) --
+        (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@grid@max@A\unit@解答欄);
+
+      \node[anchor=north west,inner sep=0pt] at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@grid@max@A\unit@解答欄) {\masume@text@解答欄{#3}};
+
+      \pgfmathparse{\mondai@position@tmp + \grid@max@A}%
+      \edef\mondai@position@tmp{\pgfmathresult}%
+    \else
+      \ifnum\amari@grid@max@A=0\relax
+        \coordinate (P@amarizero) at (\mondai@position@tmp\width@解答欄, -\mondai@position@y@tmp\width@解答欄);
+        \def\H{\shou@grid@max@A\unit@解答欄}
+
+        \foreach \x in {1,2,...,\grid@x@A} {
+          \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]
+            ($(P@amarizero) + (\x\unit@解答欄,0)$)
+            -- ++(0,-\shou@grid@max@A\unit@解答欄);
+        }
+
+        \foreach \y in {0,1,...,\shou@grid@max@A} {
+          \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]
+            ($(P@amarizero) + (0,-\y\unit@解答欄)$)
+            -- ++(\grid@x@A\unit@解答欄,0);
+        }
+
+        \draw[line width=\tensenwaku@解答欄, white] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄);
+        \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄);
+        \draw[line width=\waku@解答欄]
+          (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄) --
+          (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄) --
+          (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄) --
+          (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄);
+        
+        \node[anchor=north west,inner sep=0pt] at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) {\parbox{\grid@x@A\unit@解答欄}{\masume@text@解答欄{#3}}};
+
+      \else
+        \coordinate (A@amari@non@zero) at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄);%
+        \coordinate (B@amari@non@zero) at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄-\unit@解答欄);%
+        \coordinate (C@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\amari@grid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄-\unit@解答欄);%
+        \coordinate (D@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\amari@grid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄);%
+        \coordinate (E@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄);%
+        \coordinate (F@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄);%
+
+        \foreach \x in {1,2,...,\amari@grid@max@A} {
+          \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]
+            ($(A@amari@non@zero) + (\x\unit@解答欄,0)$)
+            -- ++(0,-\shou@grid@max@A\unit@解答欄-\unit@解答欄);
+        }
+        \foreach \x in {1,2,...,\max@minus@amari@grid@max@A} {
+          \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]
+            ($(D@amari@non@zero) + (\x\unit@解答欄, \shou@grid@max@A\unit@解答欄)$)
+            -- ++(0, -\shou@grid@max@A\unit@解答欄);
+        }
+
+        \foreach \y in {0,1,...,\shou@grid@max@A} {
+          \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]
+            ($(A@amari@non@zero) + (0,-\y\unit@解答欄)$)
+            -- ++(\amari@grid@max@A\unit@解答欄,0);
+        }
+        \foreach \y in {0,1,...,\shou@grid@max@A} {
+          \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]
+            ($(D@amari@non@zero) + (0,\y\unit@解答欄)$)
+            -- ++(\max@minus@amari@grid@max@A\unit@解答欄,0);
+        }
+
+        \draw[line width=\tensenwaku@解答欄, white] (A@amari@non@zero) -- (B@amari@non@zero);
+        \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off] (A@amari@non@zero) -- (B@amari@non@zero);
+        \draw[line width=\waku@解答欄] ([xshift=-.5\tensenwaku@解答欄]B@amari@non@zero) -- (C@amari@non@zero)
+        -- (D@amari@non@zero) -- (E@amari@non@zero) -- (F@amari@non@zero) -- ([xshift=-.5\tensenwaku@解答欄]A@amari@non@zero);
+
+        \node[anchor=north west,inner sep=0pt] at (A@amari@non@zero) {\parbox{\grid@x@A\unit@解答欄}{\masume@text@解答欄{#3}}};
+      \fi
+      \pgfmathparse{\mondai@position@tmp + \grid@x@A}%
+      \edef\mondai@position@tmp{\pgfmathresult}%
+    \fi
+}
+
+
+\NewDocumentCommand{\Shoumon@NonGrid@A}{ m O{} }{%
+    \def\nongrid@max@A{#1}%
+    \def\nongrid@x@A{\解答欄@nongridmax}%
+    \pgfmathtruncatemacro{\shou@nongrid@max@A}{\nongrid@max@A / \nongrid@x@A}%
+    \pgfmathtruncatemacro{\amari@nongrid@max@A}{mod(\nongrid@max@A,\nongrid@x@A)}%
+    \pgfmathtruncatemacro{\max@minus@amari@nongrid@max@A}{\nongrid@x@A-\amari@nongrid@max@A}%
+
+    \ifnum\nongrid@max@A<\nongrid@x@A\relax
+      \draw[line width=\tensenwaku@解答欄, white]  (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄);
+      \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]  (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄);
+      \draw[line width=\waku@解答欄]
+        (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄) --
+        (\mondai@position@tmp\width@解答欄+\amari@nongrid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄) --
+        (\mondai@position@tmp\width@解答欄+\amari@nongrid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@nongrid@max@A\unit@解答欄) --
+        (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@nongrid@max@A\unit@解答欄);
+
+      \node[anchor=north west,inner sep=0pt] at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@nongrid@max@A\unit@解答欄) {\masume@text@解答欄{#2}};
+
+      \pgfmathparse{\mondai@position@tmp + \nongrid@max@A}%
+      \edef\mondai@position@tmp{\pgfmathresult}%
+    \else
+      \ifnum\amari@nongrid@max@A=0\relax
+        \coordinate (P@amarizero) at (\mondai@position@tmp\width@解答欄, -\mondai@position@y@tmp\width@解答欄);
+        \def\H{\shou@nongrid@max@A\unit@解答欄}
+
+        \foreach \y in {0,1,...,\shou@nongrid@max@A} {
+          \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]
+            ($(P@amarizero) + (0,-\y\unit@解答欄)$)
+            -- ++(\nongrid@x@A\unit@解答欄,0);
+        }
+
+        \draw[line width=\tensenwaku@解答欄, white] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄);
+        \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄);
+        \draw[line width=\waku@解答欄]
+          (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄) --
+          (\mondai@position@tmp\width@解答欄+\nongrid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄) --
+          (\mondai@position@tmp\width@解答欄+\nongrid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄) --
+          (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄);
+        
+        \node[anchor=north west,inner sep=0pt] at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) {\parbox{\nongrid@x@A\unit@解答欄}{\masume@text@解答欄{#2}}};
+
+      \else
+        \coordinate (A@amari@non@zero) at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄);%
+        \coordinate (B@amari@non@zero) at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄-\unit@解答欄);%
+        \coordinate (C@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\amari@nongrid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄-\unit@解答欄);%
+        \coordinate (D@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\amari@nongrid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄);%
+        \coordinate (E@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\nongrid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄);%
+        \coordinate (F@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\nongrid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄);%
+
+        \foreach \y in {0,1,...,\shou@nongrid@max@A} {
+          \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]
+            ($(A@amari@non@zero) + (0,-\y\unit@解答欄)$)
+            -- ++(\nongrid@x@A\unit@解答欄,0);
+        }
+        \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off]
+          ($(D@amari@non@zero) + (0,\shou@nongrid@max@A\unit@解答欄)$)
+          -- ++(\max@minus@amari@nongrid@max@A\unit@解答欄,0);
+
+        \draw[line width=\tensenwaku@解答欄, white] (A@amari@non@zero) -- (B@amari@non@zero);
+        \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off] (A@amari@non@zero) -- (B@amari@non@zero);
+        \draw[line width=\waku@解答欄] ([xshift=-.5\tensenwaku@解答欄]B@amari@non@zero) -- (C@amari@non@zero)
+        -- (D@amari@non@zero) -- (E@amari@non@zero) -- (F@amari@non@zero) -- ([xshift=-.5\tensenwaku@解答欄]A@amari@non@zero);
+
+        \node[anchor=north west,inner sep=0pt] at (A@amari@non@zero) {\parbox{\nongrid@x@A\unit@解答欄}{\masume@text@解答欄{#2}}};
+      \fi
+      \pgfmathparse{\mondai@position@tmp + \nongrid@x@A}%
+      \edef\mondai@position@tmp{\pgfmathresult}%
+    \fi
+}
+
+
+\NewDocumentCommand{\GoDown}{m}{% 下へ行く
+  \pgfmathparse{\mondai@position@y@tmp + #1}%
+  \edef\mondai@position@y@tmp{\pgfmathresult}%
+  \def\mondai@position@tmp{0}%
+  \pgfmathparse{\mondai@position@tmp + \modai@bangou@wd}%
+  \edef\mondai@position@tmp{\pgfmathresult}%
+}
+
+
+%%% 外枠
+\newcommand{\BlockFillMode@解答欄}{%
+  % \Daimon@Box@A@N のパッチ
+  \RenewDocumentCommand{\Daimon@Box@A@N}{ o m o }{%
+    \IfNoValueTF{##3}{\global\advance\NUM@mondai by 1}{}%
+    \edef\解答欄@cur@text{\IfNoValueTF{##3}{\noexpand\how@to@count@大問@bangou}{\unexpanded{##3}}}%
+    \解答欄@calc@box@wd{##1}{\解答欄@cur@text}%
+    \global\let\modai@bangou@wd\解答欄@calc@wd@res%
+    \fill (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) 
+          rectangle ++(\modai@bangou@wd\width@解答欄, -##2\width@解答欄);%
+    \pgfmathparse{\mondai@position@tmp + \modai@bangou@wd}%
+    \edef\mondai@position@tmp{\pgfmathresult}%
+  }%
+  
+  % Shoumon@Box@A@N のパッチ
+  \RenewDocumentCommand{\Shoumon@Box@A@N}{ o m o }{%
+    \IfNoValueTF{##3}{\advance\NUM@小問 by 1}{}%
+    \edef\解答欄@cur@text{\IfNoValueTF{##3}{\noexpand\how@to@count@小問@bangou}{\unexpanded{##3}}}%
+    \解答欄@calc@box@wd{##1}{\解答欄@cur@text}%
+    \let\解答欄@小問@wd\解答欄@calc@wd@res%
+    \fill (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) 
+          rectangle ++(\解答欄@小問@wd\width@解答欄, -##2\width@解答欄);%
+    \pgfmathparse{\mondai@position@tmp + \解答欄@小問@wd}%
+    \edef\mondai@position@tmp{\pgfmathresult}%
+  }%
+  
+  % Shoumon@Box@A のパッチ
+  \RenewDocumentCommand{\Shoumon@Box@A}{ o m O{} }{%
+    \reset@Shoumon@Box@A\setkeys{Shoumon@Box@A}{##3}%
+    \解答欄@calc@ran@wd@A{##1}%
+    \let\解答欄@ran@wd\解答欄@ran@wd@res%
+    \fill (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) 
+          rectangle ++(\解答欄@ran@wd\width@解答欄, -##2\width@解答欄);%
+    \pgfmathparse{\mondai@position@tmp + \解答欄@ran@wd}%
+    \edef\mondai@position@tmp{\pgfmathresult}%
+  }%
+
+  % Shoumon@Box@B のパッチ
+  \RenewDocumentCommand{\Shoumon@Box@B}{ o m O{} }{%
+    \reset@Shoumon@Box@B\setkeys{Shoumon@Box@B}{##3}%
+    \解答欄@calc@ran@wd@B{##1}%
+    \let\解答欄@ran@wd\解答欄@ran@wd@res%
+    \fill (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) 
+          rectangle ++(\解答欄@ran@wd\width@解答欄, -##2\width@解答欄);%
+    \pgfmathparse{\mondai@position@tmp + \解答欄@ran@wd}%
+    \edef\mondai@position@tmp{\pgfmathresult}%
+  }%
+
+  % Shoumon@Grid@A
+  \RenewDocumentCommand{\Shoumon@Grid@A}{ O{##2} m O{}}{%
+    \def\grid@max@A{##2}\def\grid@min@A{##1}%
+    \def\grid@x@A{\解答欄@gridmax}%
+    \pgfmathtruncatemacro{\shou@grid@max@A}{\grid@max@A / \grid@x@A}%
+    \pgfmathtruncatemacro{\amari@grid@max@A}{mod(\grid@max@A,\grid@x@A)}%
+    \pgfmathtruncatemacro{\max@minus@amari@grid@max@A}{\grid@x@A-\amari@grid@max@A}%
+    \pgfmathtruncatemacro{\shou@grid@min@A}{\grid@min@A / \grid@x@A}%
+    \pgfmathtruncatemacro{\amari@grid@min@A}{mod(\grid@min@A,\grid@x@A)}%
+    \pgfmathtruncatemacro{\min@minus@amari@grid@min@A}{\grid@x@A-\amari@grid@min@A}%
+    
+    \ifnum\grid@max@A<\grid@x@A\relax
+      \fill
+      (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄) --
+      (\mondai@position@tmp\width@解答欄+\amari@grid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄) --
+      (\mondai@position@tmp\width@解答欄+\amari@grid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@grid@max@A\unit@解答欄) --
+      (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@grid@max@A\unit@解答欄) -- cycle;
+    \else
+      \ifnum\amari@grid@max@A=0\relax
+        \fill
+          (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄) --
+          (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄) --
+          (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄) --
+          (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- cycle;
+      \else
+        \coordinate (A@amari@non@zero) at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄);%
+        \coordinate (B@amari@non@zero) at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄-\unit@解答欄);%
+        \coordinate (C@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\amari@grid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄-\unit@解答欄);%
+        \coordinate (D@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\amari@grid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄);%
+        \coordinate (E@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@grid@max@A\unit@解答欄);%
+        \coordinate (F@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\grid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄);%
+        \fill (B@amari@non@zero) -- (C@amari@non@zero)
+        -- (D@amari@non@zero) -- (E@amari@non@zero) -- (F@amari@non@zero) -- (A@amari@non@zero) -- cycle;
+      \fi
+    \fi
+  }
+
+  % Shoumon@NonGrid@A
+  \RenewDocumentCommand{\Shoumon@NonGrid@A}{ m O{}}{%
+    \def\nongrid@max@A{##1}
+    \def\nongrid@x@A{\解答欄@nongridmax}%
+    \pgfmathtruncatemacro{\shou@nongrid@max@A}{\nongrid@max@A / \nongrid@x@A}% 
+    \pgfmathtruncatemacro{\amari@nongrid@max@A}{mod(\nongrid@max@A,\nongrid@x@A)}%
+    \pgfmathtruncatemacro{\max@minus@amari@nongrid@max@A}{\nongrid@x@A-\amari@nongrid@max@A}% 
+    
+    \ifnum\nongrid@max@A<\nongrid@x@A\relax
+      \fill
+      (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄) --
+      (\mondai@position@tmp\width@解答欄+\amari@nongrid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\unit@解答欄) --
+      (\mondai@position@tmp\width@解答欄+\amari@nongrid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@nongrid@max@A\unit@解答欄) --
+      (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@nongrid@max@A\unit@解答欄) -- cycle;
+      
+      \pgfmathparse{\mondai@position@tmp + \nongrid@max@A}%
+      \edef\mondai@position@tmp{\pgfmathresult}%
+    \else
+      \ifnum\amari@nongrid@max@A=0\relax
+        \fill
+          (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄) --
+          (\mondai@position@tmp\width@解答欄+\nongrid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄) --
+          (\mondai@position@tmp\width@解答欄+\nongrid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄) --
+          (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- cycle;
+
+        \pgfmathparse{\mondai@position@tmp + \nongrid@x@A}%
+        \edef\mondai@position@tmp{\pgfmathresult}%
+      \else
+        \coordinate (A@amari@non@zero) at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄);%
+        \coordinate (B@amari@non@zero) at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄-\unit@解答欄);%
+        \coordinate (C@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\amari@nongrid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄-\unit@解答欄);%
+        \coordinate (D@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\amari@nongrid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄);%
+        \coordinate (E@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\nongrid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄-\shou@nongrid@max@A\unit@解答欄);%
+        \coordinate (F@amari@non@zero) at (\mondai@position@tmp\width@解答欄+\nongrid@x@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄);%
+        \fill (B@amari@non@zero) -- (C@amari@non@zero)
+        -- (D@amari@non@zero) -- (E@amari@non@zero) -- (F@amari@non@zero) -- (A@amari@non@zero) -- cycle;
+
+        \pgfmathparse{\mondai@position@tmp + \nongrid@x@A}%
+        \edef\mondai@position@tmp{\pgfmathresult}%
+      \fi
+    \fi
+  }
+}
+
+
+%%% 補助カウンタ出力用コマンド群
+\ExplSyntaxOn
+% アルファベット
+\seq_set_split:Nnn \g_alphabet_lower_seq {} {abcdefghijklmnopqrstuvwxyz}
+\seq_set_split:Nnn \g_alphabet_upper_seq {} {ABCDEFGHIJKLMNOPQRSTUVWXYZ}
+\NewDocumentCommand{\alphabetarray}{ s m }{%
+  \IfBooleanTF{#1}
+    {\seq_item:Nn \g_alphabet_upper_seq {#2}}
+    {\seq_item:Nn \g_alphabet_lower_seq {#2}}
+}
+% ローマ数字
+\NewDocumentCommand{\Rrnum}{ s m }{%
+  \IfBooleanTF{#1}{\romannumeral#2}{\uppercase\expandafter{\romannumeral#2}}%
+}
+% 50音 
+\seq_set_split:Nnn \g_gojyuon_hira_seq {} {あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん}
+\seq_set_split:Nnn \g_gojyuon_kata_seq {} {アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン}
+\NewDocumentCommand{\gojyuon}{ s m }{%
+  \IfBooleanTF{#1}{\seq_item:Nn \g_gojyuon_kata_seq {#2}} {\seq_item:Nn \g_gojyuon_hira_seq {#2}}
+}
+% いろはうた
+\seq_set_split:Nnn \g_iroha_seq {}{いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせす}
+\seq_set_split:Nnn \g_irohakata_seq {}{イロハニホヘトチリヌルヲワカヨタレソツネナラムウヰノオクヤマケフコエテアサキユメミシヱヒモセス}
+\NewDocumentCommand{\iroha}{ s m }{%
+  \IfBooleanTF{#1}{\seq_item:Nn \g_irohakata_seq {#2}}{\seq_item:Nn \g_iroha_seq {#2}}
+}
+% 漢数字
+\int_new:N \wabunkansuji_tmpa_int
+\int_new:N \wabunkansuji_tmpb_int
+\int_new:N \wabunkansuji_tmpc_int
+
+\cs_new:Npn \wabunkansuji_one:n #1
+ {
+   \int_case:nnF {#1}
+    { {1}{一}{2}{二}{3}{三}{4}{四}{5}{五}{6}{六}{7}{七}{8}{八}{9}{九} }{}
+ }
+
+\cs_new:Npn \wabunkansuji_main:n #1
+ {
+   \int_compare:nNnTF {#1} = {0} {零}
+   {
+     \int_compare:nNnTF {#1} = {10000} {一万}
+     {
+       \int_set:Nn \wabunkansuji_tmpa_int { \int_div_truncate:nn {#1} {10000} }
+       \int_set:Nn \wabunkansuji_tmpb_int { #1 - \wabunkansuji_tmpa_int * 10000 }
+
+       \int_compare:nNnTF \wabunkansuji_tmpa_int > 0
+         { \wabunkansuji_one:n{\wabunkansuji_tmpa_int}万 }{}
+
+       \int_set:Nn \wabunkansuji_tmpa_int { \int_div_truncate:nn \wabunkansuji_tmpb_int {1000} }
+       \int_set:Nn \wabunkansuji_tmpc_int { \wabunkansuji_tmpb_int - \wabunkansuji_tmpa_int * 1000 }
+       \int_compare:nNnTF \wabunkansuji_tmpa_int = 0 {} 
+         { \int_compare:nNnTF \wabunkansuji_tmpa_int = 1 {千}{\wabunkansuji_one:n{\wabunkansuji_tmpa_int}千} }
+
+       \int_set:Nn \wabunkansuji_tmpa_int { \int_div_truncate:nn \wabunkansuji_tmpc_int {100} }
+       \int_set:Nn \wabunkansuji_tmpb_int { \wabunkansuji_tmpc_int - \wabunkansuji_tmpa_int * 100 }
+       \int_compare:nNnTF \wabunkansuji_tmpa_int = 0 {} 
+         { \int_compare:nNnTF \wabunkansuji_tmpa_int = 1 {百}{\wabunkansuji_one:n{\wabunkansuji_tmpa_int}百} }
+
+       \int_set:Nn \wabunkansuji_tmpa_int { \int_div_truncate:nn \wabunkansuji_tmpb_int {10} }
+       \int_set:Nn \wabunkansuji_tmpc_int { \wabunkansuji_tmpb_int - \wabunkansuji_tmpa_int * 10 }
+       \int_compare:nNnTF \wabunkansuji_tmpa_int = 0 {} 
+         { \int_compare:nNnTF \wabunkansuji_tmpa_int = 1 {十}{\wabunkansuji_one:n{\wabunkansuji_tmpa_int}十} }
+
+       \int_compare:nNnTF \wabunkansuji_tmpc_int = 0 {} {\wabunkansuji_one:n{\wabunkansuji_tmpc_int}}
+     }
+   }
+ }
+\NewDocumentCommand{\wabunkansuji}{ m }{\wabunkansuji_main:n{#1}}
+
+
+%%% 解答欄 第3引数オプション定義 (l3keys)
+\keys_define:nn { 解答欄_opt }
+  {
+    大問 .code:n = {
+      \def\how@to@count@大問@bangou{%
+        \begingroup
+          \def\数字{\number\NUM@mondai}%
+          \def\num{\number\NUM@mondai}%
+          {\解答欄@fontdaimonbangou #1}%
+        \endgroup
+      }
+    },
+    小問 .code:n = {
+      \def\how@to@count@小問@bangou{%
+        \begingroup
+          \def\数字{\number\NUM@小問}%
+          \def\num{\number\NUM@小問}%
+          {\解答欄@fontshoumonbangou #1}%
+        \endgroup
+      }
+    },
+  }
+\cs_new_protected:Npn \解答欄@set@keys #1 { \keys_set:nn { 解答欄_opt } { #1 } }
+\ExplSyntaxOff
+
+
+%%% メイン環境コマンド \解答欄
+\NewDocumentCommand{\解答欄}{ O{2pt} m O{} }{%
+  \begingroup%
+    \解答欄@set@keys{#3}%
+    \def\byouga@解答欄{%
+      #2%
+    }
+    \begin{tikzpicture}
+      % 1. 黒の太線シルエット（背景）
+      \begin{scope}[line width=#1, line join=round] 
+        \BlockFillMode@解答欄
+        \tikzset{every path/.style={draw=black, fill=black}} 
+        \byouga@解答欄
+      \end{scope}
+
+      % 2. 白のシルエット（中抜き用）
+      \begin{scope}
+        \BlockFillMode@解答欄
+        \tikzset{every path/.style={fill=white, draw=none}}
+        \byouga@解答欄
+      \end{scope}
+
+      % 3. 本番の描画（前面）
+      \begin{scope}
+        \byouga@解答欄
+      \end{scope}
+    \end{tikzpicture}
+  \endgroup%
+  \let\how@to@count@小問@bangou\default@小問@bangou
+  \let\how@to@count@大問@bangou\default@大問@bangou
+}
+%%%
+
+
+%%% 名前をユーザー用に切り替え
+\let\大問番号\Daimon@Box@A@N
+\let\小問番号\Shoumon@Box@A@N
+\let\小問欄\Shoumon@Box@A
+\let\小問中欄\Shoumon@Box@B
+\let\小問マス目\Shoumon@Grid@A
+\let\小問記述\Shoumon@NonGrid@A
+%%%
+
+
+%%% マークシート (自前の \graydaen / \filleddaen を使用)
+\ExplSyntaxOn
+\seq_new:N \l__解答欄_mark_tmp_seq
+\seq_new:N \l__解答欄_mark_out_seq
+\int_new:N \l__解答欄_mark_idx_int
+
+\cs_new_protected:Npn \解答欄_register_mark_array:nn #1 #2
+  {
+    \seq_set_split:Nnn \l__解答欄_mark_tmp_seq { | } { #2 }
+    \seq_remove_all:Nn \l__解答欄_mark_tmp_seq { }
+    \seq_clear_new:c { g__解答欄_mark_#1_seq }
+    \seq_gset_eq:cN { g__解答欄_mark_#1_seq } \l__解答欄_mark_tmp_seq
+    \exp_args:Nc \NewDocumentCommand { #1マーク配列 } { O{0} }
+      {
+        \解答欄_render_mark_array:nn { #1 } { ##1 }
+      }
+  }
+
+\cs_new_protected:Npn \解答欄_render_mark_array:nn #1 #2
+  {
+    \seq_clear:N \l__解答欄_mark_out_seq
+    \int_zero:N \l__解答欄_mark_idx_int
+    \seq_map_inline:cn { g__解答欄_mark_#1_seq }
+      {
+        \int_incr:N \l__解答欄_mark_idx_int
+        \int_compare:nNnTF { \l__解答欄_mark_idx_int } = { #2 }
+          {
+            \ifnum\number\解答欄@解答表示=1\relax
+              \sbox0{\graydaen{##1}}%
+              \sbox2{\filleddaen}%
+              \dim_set:Nn \l_tmpa_dim { (\ht0 - \dp0 - \ht2 + \dp2) / 2 }%
+              \seq_put_right:Nn \l__解答欄_mark_out_seq
+                { \makebox[\wd0]{\vphantom{\usebox0}\raisebox{\l_tmpa_dim}{\usebox2}} }
+            \else
+              \seq_put_right:Nn \l__解答欄_mark_out_seq { \graydaen{##1} }
+            \fi
+          }
+          { \seq_put_right:Nn \l__解答欄_mark_out_seq { \graydaen{##1} } }
+      }
+    \seq_use:Nn \l__解答欄_mark_out_seq { \hfill }
+  }
+
+\NewDocumentCommand{\MarkArrayMake}{ m m }
+  {
+    \解答欄_register_mark_array:nn { #1 } { #2 }
+  }
+\ExplSyntaxOff
+
+\NewDocumentCommand{\マークシート}{ m m o }{%
+  \makebox[#1\unit@解答欄]{%
+    \sffamily\gtfamily%
+    \IfNoValueTF{#3}{%
+      #2%
+    }{%
+      #2[#3]%
+    }%
+  }%
+}
+%%%
+
+
+%%%% マス目用縮小
+\NewDocumentCommand{\全角幅固定}{ s m }{%
+  \makebox[1zw]{%
+    \解答欄@set@unitfont%
+    \sbox0{#2}%
+    \ifdim\wd0>1zw%
+      \resizebox{1zw}{\height}{\usebox0}%
+    \else%
+      \usebox0%
+    \fi%
+  }%
+}
+%%%
+
+\let\解答出力\KaitouInput
+\let\行送り\GoDown
+
+\endinput
