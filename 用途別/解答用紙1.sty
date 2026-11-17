@@ -21,10 +21,11 @@
 \setlength{\小得点欄の高さ}{18pt}
 \setlength{\小得点欄の幅}{32pt}
 
-\newcommand{\週数}[2]{~\br{-1.5}{\color{black!50}\gridline{\color{black}\:\gt[3]{\normalsize#1\ \:第{\large#2}週　\large 解答用紙}\:}}\br{1.5}}
+\newcommand{\週数}[2]{~\br{-1.5}{\color{black!50}\gridline{\color{black}\:\mg{\normalsize#1\ \:第\:\scalebox{1.25}{#2}\:週　\scalebox{1.1}{解答用紙}}\:}}\br{1.5}}
 
 \newenvironment{採点基準}
   {\vfill\begin{同ページに収める}\color{black!60}\noindent\scriptsize\raisebox{.02zw}{\venzm}\small\ \gt{採点基準}\br0}
   {\end{同ページに収める}}
 
 \newenvironment{箇条書き}{\begin{enumerate}[・\ihspace{-.6zw}]}{\end{enumerate}}
+
