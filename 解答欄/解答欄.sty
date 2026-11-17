@@ -24,7 +24,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{解答欄}[2026/11/16, Version 1.4.0-up]
+\ProvidesPackage{解答欄}[2026/11/17, Version 1.4.5-up]
 \RequirePackage{iftex}
 \RequirePackage{calc}
 \RequirePackage{tikz}
@@ -112,6 +112,9 @@
 
 \newcount\NUM@mondai
 \newcount\NUM@小問
+
+\newif\if解答欄@in@masume
+\解答欄@in@masumefalse
 %%%
 
 
@@ -134,13 +137,73 @@
 %%%
 
 
+%%% 1マス単位（1文字、または {AB} のようなグループ）をマスの幅(\unit@解答欄)に収める
+% ・「」や句読点などの和文約物は本来の全角位置を保ちつつ1マス幅に配置
+% ・{19} や {AB} のようにグループ化した複数文字は1マス幅に収めて中央揃え（はみ出す場合は自動縮小）
+\newcommand{\解答欄@render@one@cell}[1]{%
+  \makebox[\unit@解答欄][c]{%
+    \ifluatex\else\inhibitglue\fi
+    \sbox0{#1}%
+    \ifdim\wd0>\unit@解答欄
+      \resizebox{\unit@解答欄}{\height}{\usebox0}%
+    \else
+      \usebox0%
+    \fi
+    \ifluatex\else\inhibitglue\fi
+  }\hskip0pt\relax
+}
+
+\long\def\解答欄@masume@loop#1{%
+  \ifx#1\解答欄@masume@end
+    \let\next\relax
+  \else
+    \ifx#1\par
+      \par
+    \else
+      \ifx#1\\%
+        \\
+      \else
+        \解答欄@render@one@cell{#1}%
+      \fi
+    \fi
+    \let\next\解答欄@masume@loop
+  \fi
+  \next
+}
+\def\解答欄@masume@end{\解答欄@masume@end}
+\newcommand{\解答欄@put@in@masume}[1]{%
+  \解答欄@masume@loop#1\解答欄@masume@end
+}
+%%%
+
+\newif\if解答欄@in@sidekey
+\解答欄@in@sidekeyfalse
+
 %%% KaitouInput（赤文字の解答部分のみ少し小さめのサイズを適用）
 \NewDocumentCommand{\KaitouInput}{m}{%
   \ifnum\number\解答欄@解答表示=1\relax
-    {\解答欄@set@kaitoufont\color{\解答欄@kaitoucolor}#1}%
+    {\解答欄@set@kaitoufont\color{\解答欄@kaitoucolor}%
+     \if解答欄@in@masume
+       \解答欄@put@in@masume{#1}%
+     \else
+       \if解答欄@in@sidekey
+         #1%
+       \else
+         \ihspace{.3zw}#1\ihspace{.3zw}%
+       \fi
+     \fi}%
   \else
     \ifnum\number\解答欄@解答表示=0\relax
-      {\解答欄@set@kaitoufont\color{white}#1}%
+      {\解答欄@set@kaitoufont\color{white}%
+       \if解答欄@in@masume
+         \解答欄@put@in@masume{#1}%
+       \else
+         \if解答欄@in@sidekey
+           #1%
+         \else
+           \ihspace{.3zw}#1\ihspace{.3zw}%
+         \fi
+       \fi}%
     \else
       \errmessage{Error: 解答表示 option requires to be 0 or 1.}%
     \fi
@@ -185,7 +248,7 @@
 
 % #1(省略可:幅倍率), #2(テキスト) から実効幅倍率 \解答欄@calc@wd@res を算出
 \newcommand{\解答欄@calc@box@wd}[2]{%
-  \sbox0{\scalebox{.8}{\ #2\ }}%
+  \sbox0{\scalebox{.8}{#2}}%
   \IfNoValueTF{#1}{%
     \pgfmathparse{max(1zw / \width@解答欄, (\wd0 + 0.15\width@解答欄) / \width@解答欄)}%
     \edef\解答欄@calc@wd@res{\pgfmathresult}%
@@ -204,7 +267,7 @@
   \node[anchor=center,overlay
     ,rotate=\rotate@or@not@大問
   ]
-   at (.5*\modai@bangou@wd\width@解答欄,- .5*#2\width@解答欄) {\scalebox{.8}{\ \解答欄@cur@text\ }};
+   at (.5*\modai@bangou@wd\width@解答欄,- .5*#2\width@解答欄) {\scalebox{.8}{\解答欄@cur@text}};
   \pgfmathparse{\mondai@position@tmp + \modai@bangou@wd}%
   \edef\mondai@position@tmp{\pgfmathresult}%
 }
@@ -239,12 +302,11 @@
   \node[anchor=center,overlay
     ,rotate=\rotate@or@not@小問
   ]
-  at (\mondai@position@tmp\width@解答欄+.5*\解答欄@小問@wd\width@解答欄,-\mondai@position@y@tmp\width@解答欄- .5*#2\width@解答欄) {\scalebox{.8}{\ \解答欄@cur@text\ }};
+  at (\mondai@position@tmp\width@解答欄+.5*\解答欄@小問@wd\width@解答欄,-\mondai@position@y@tmp\width@解答欄- .5*#2\width@解答欄) {\scalebox{.8}{\解答欄@cur@text}};
 
   \pgfmathparse{\mondai@position@tmp + \解答欄@小問@wd}%
   \edef\mondai@position@tmp{\pgfmathresult}%
 }
-
 
 %%% 小問欄（Shoumon@Box@A）
 \define@key{Shoumon@Box@A}{west}{%
@@ -278,19 +340,48 @@
   \def\setext@Shoumon@Box@A{}%
 }
 
-% 小問欄の横幅倍率を自動算出（#1: 省略可の幅倍率）
+% west / east 等の端寄せ指定があるかどうかを判定して \解答欄@in@sidekey を切り替える
+\newcommand{\解答欄@check@sidekey@A}{%
+  \解答欄@in@sidekeyfalse
+  \ifx\westtext@Shoumon@Box@A\@empty\else\解答欄@in@sidekeytrue\fi
+  \ifx\easttext@Shoumon@Box@A\@empty\else\解答欄@in@sidekeytrue\fi
+  \ifx\nwtext@Shoumon@Box@A\@empty\else\解答欄@in@sidekeytrue\fi
+  \ifx\netext@Shoumon@Box@A\@empty\else\解答欄@in@sidekeytrue\fi
+  \ifx\swtext@Shoumon@Box@A\@empty\else\解答欄@in@sidekeytrue\fi
+  \ifx\setext@Shoumon@Box@A\@empty\else\解答欄@in@sidekeytrue\fi
+}
+
+% 小問欄の横幅倍率を自動算出（余白を適正化し、半角・数式の実幅にも対応）
 \newdimen\解答欄@ran@maxwd
+\newdimen\解答欄@ran@rowwd
 \newcommand{\解答欄@calc@ran@wd@A}[1]{%
   \IfNoValueTF{#1}{%
-    \解答欄@ran@maxwd=0pt\relax
-    \sbox0{\westtext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\centertext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\easttext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\nwtext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\netext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\swtext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\setext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \pgfmathparse{max(1, (\解答欄@ran@maxwd + 0.5\width@解答欄) / \width@解答欄)}%
+    \begingroup%
+      \解答欄@check@sidekey@A
+      \global\解答欄@ran@maxwd=0pt\relax
+      \解答欄@ran@rowwd=0pt\relax
+      \ifx\westtext@Shoumon@Box@A\@empty\else
+        \sbox0{\westtext@Shoumon@Box@A}\advance\解答欄@ran@rowwd by \wd0
+        \ifx\centertext@Shoumon@Box@A\@empty\else \advance\解答欄@ran@rowwd by 0.25\width@解答欄\fi
+      \fi
+      \ifx\centertext@Shoumon@Box@A\@empty\else
+        \sbox0{\centertext@Shoumon@Box@A}\advance\解答欄@ran@rowwd by \wd0
+      \fi
+      \ifx\easttext@Shoumon@Box@A\@empty\else
+        \ifx\centertext@Shoumon@Box@A\@empty
+          \ifx\westtext@Shoumon@Box@A\@empty\else \advance\解答欄@ran@rowwd by 0.25\width@解答欄\fi
+        \else
+          \advance\解答欄@ran@rowwd by 0.25\width@解答欄
+        \fi
+        \sbox0{\easttext@Shoumon@Box@A}\advance\解答欄@ran@rowwd by \wd0
+      \fi
+      \ifdim\解答欄@ran@rowwd>\解答欄@ran@maxwd \global\解答欄@ran@maxwd=\解答欄@ran@rowwd\fi
+      \sbox0{\nwtext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \global\解答欄@ran@maxwd=\wd0\fi
+      \sbox0{\netext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \global\解答欄@ran@maxwd=\wd0\fi
+      \sbox0{\swtext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \global\解答欄@ran@maxwd=\wd0\fi
+      \sbox0{\setext@Shoumon@Box@A}\ifdim\wd0>\解答欄@ran@maxwd \global\解答欄@ran@maxwd=\wd0\fi
+    \endgroup%
+    \pgfmathparse{max(1, (\解答欄@ran@maxwd + 0.45\width@解答欄) / \width@解答欄)}%
     \edef\解答欄@ran@wd@res{\pgfmathresult}%
   }{%
     \def\解答欄@ran@wd@res{#1}%
@@ -313,14 +404,21 @@
   \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off] (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (0,- #2\width@解答欄);
   \draw[line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (\解答欄@ran@wd\width@解答欄,0) -- ++ (0,- #2\width@解答欄) -- ++ (-\解答欄@ran@wd\width@解答欄-.5\tensenwaku@解答欄,0);
 
-  % 文字列などの挿入用
-  \node[overlay,anchor=center] at ($(A@Shoumon@Box@A)!0.5!(C@Shoumon@Box@A)$) {\centertext@Shoumon@Box@A};
-  \node[overlay,anchor=west] at ($(A@Shoumon@Box@A)!0.5!(B@Shoumon@Box@A)$) {\westtext@Shoumon@Box@A};
-  \node[overlay,anchor=east] at ($(C@Shoumon@Box@A)!0.5!(D@Shoumon@Box@A)$) {\easttext@Shoumon@Box@A};
-  \node[overlay,anchor=north west] at (A@Shoumon@Box@A) {\nwtext@Shoumon@Box@A};
-  \node[overlay,anchor=north east] at (D@Shoumon@Box@A) {\netext@Shoumon@Box@A};
-  \node[overlay,anchor=south west] at (B@Shoumon@Box@A) {\swtext@Shoumon@Box@A};
-  \node[overlay,anchor=south east] at (C@Shoumon@Box@A) {\setext@Shoumon@Box@A};
+  % west / center / east を1つの横並びボックス内で重ならないように配置
+  \node[overlay,anchor=center] at ($(A@Shoumon@Box@A)!0.5!(C@Shoumon@Box@A)$) {%
+    \解答欄@check@sidekey@A
+    \makebox[\dimexpr\解答欄@ran@wd\width@解答欄 - 0.3\width@解答欄\relax][s]{%
+      \ifx\westtext@Shoumon@Box@A\@empty\else\westtext@Shoumon@Box@A\fi
+      \hfill
+      \ifx\centertext@Shoumon@Box@A\@empty\else\centertext@Shoumon@Box@A\fi
+      \hfill
+      \ifx\easttext@Shoumon@Box@A\@empty\else\easttext@Shoumon@Box@A\fi
+    }%
+  };
+  \node[overlay,anchor=north west] at (A@Shoumon@Box@A) {\解答欄@in@sidekeytrue\nwtext@Shoumon@Box@A};
+  \node[overlay,anchor=north east] at (D@Shoumon@Box@A) {\解答欄@in@sidekeytrue\netext@Shoumon@Box@A};
+  \node[overlay,anchor=south west] at (B@Shoumon@Box@A) {\解答欄@in@sidekeytrue\swtext@Shoumon@Box@A};
+  \node[overlay,anchor=south east] at (C@Shoumon@Box@A) {\解答欄@in@sidekeytrue\setext@Shoumon@Box@A};
 
   % 座標の更新
   \pgfmathparse{\mondai@position@tmp + \解答欄@ran@wd}%
@@ -360,17 +458,44 @@
   \def\setext@Shoumon@Box@B{}%
 }
 
+\newcommand{\解答欄@check@sidekey@B}{%
+  \解答欄@in@sidekeyfalse
+  \ifx\westtext@Shoumon@Box@B\@empty\else\解答欄@in@sidekeytrue\fi
+  \ifx\easttext@Shoumon@Box@B\@empty\else\解答欄@in@sidekeytrue\fi
+  \ifx\nwtext@Shoumon@Box@B\@empty\else\解答欄@in@sidekeytrue\fi
+  \ifx\netext@Shoumon@Box@B\@empty\else\解答欄@in@sidekeytrue\fi
+  \ifx\swtext@Shoumon@Box@B\@empty\else\解答欄@in@sidekeytrue\fi
+  \ifx\setext@Shoumon@Box@B\@empty\else\解答欄@in@sidekeytrue\fi
+}
+
 \newcommand{\解答欄@calc@ran@wd@B}[1]{%
   \IfNoValueTF{#1}{%
-    \解答欄@ran@maxwd=0pt\relax
-    \sbox0{\westtext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\centertext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\easttext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\nwtext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\netext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\swtext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \sbox0{\setext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \解答欄@ran@maxwd=\wd0\fi
-    \pgfmathparse{max(1, (\解答欄@ran@maxwd + 0.5\width@解答欄) / \width@解答欄)}%
+    \begingroup%
+      \解答欄@check@sidekey@B
+      \global\解答欄@ran@maxwd=0pt\relax
+      \解答欄@ran@rowwd=0pt\relax
+      \ifx\westtext@Shoumon@Box@B\@empty\else
+        \sbox0{\westtext@Shoumon@Box@B}\advance\解答欄@ran@rowwd by \wd0
+        \ifx\centertext@Shoumon@Box@B\@empty\else \advance\解答欄@ran@rowwd by 0.25\width@解答欄\fi
+      \fi
+      \ifx\centertext@Shoumon@Box@B\@empty\else
+        \sbox0{\centertext@Shoumon@Box@B}\advance\解答欄@ran@rowwd by \wd0
+      \fi
+      \ifx\easttext@Shoumon@Box@B\@empty\else
+        \ifx\centertext@Shoumon@Box@B\@empty
+          \ifx\westtext@Shoumon@Box@B\@empty\else \advance\解答欄@ran@rowwd by 0.25\width@解答欄\fi
+        \else
+          \advance\解答欄@ran@rowwd by 0.25\width@解答欄
+        \fi
+        \sbox0{\easttext@Shoumon@Box@B}\advance\解答欄@ran@rowwd by \wd0
+      \fi
+      \ifdim\解答欄@ran@rowwd>\解答欄@ran@maxwd \global\解答欄@ran@maxwd=\解答欄@ran@rowwd\fi
+      \sbox0{\nwtext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \global\解答欄@ran@maxwd=\wd0\fi
+      \sbox0{\netext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \global\解答欄@ran@maxwd=\wd0\fi
+      \sbox0{\swtext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \global\解答欄@ran@maxwd=\wd0\fi
+      \sbox0{\setext@Shoumon@Box@B}\ifdim\wd0>\解答欄@ran@maxwd \global\解答欄@ran@maxwd=\wd0\fi
+    \endgroup%
+    \pgfmathparse{max(1, (\解答欄@ran@maxwd + 0.45\width@解答欄) / \width@解答欄)}%
     \edef\解答欄@ran@wd@res{\pgfmathresult}%
   }{%
     \def\解答欄@ran@wd@res{#1}%
@@ -395,34 +520,46 @@
   \draw[line width=\tensenwaku@解答欄, dash pattern=on \mondai@dash@pat@on off \mondai@dash@pat@off] (\mondai@position@tmp\width@解答欄+\解答欄@ran@wd\width@解答欄,-\mondai@position@y@tmp\width@解答欄) -- ++ (0,- #2\width@解答欄);
   \draw[line width=\waku@解答欄] (\mondai@position@tmp\width@解答欄+\解答欄@ran@wd\width@解答欄,-\mondai@position@y@tmp\width@解答欄- #2\width@解答欄) -- ++ (-\解答欄@ran@wd\width@解答欄-.5\tensenwaku@解答欄,0);
 
-  % 文字列などの挿入用
-  \node[overlay,anchor=center] at ($(A@Shoumon@Box@B)!0.5!(C@Shoumon@Box@B)$) {\centertext@Shoumon@Box@B};
-  \node[overlay,anchor=west] at ($(A@Shoumon@Box@B)!0.5!(B@Shoumon@Box@B)$) {\westtext@Shoumon@Box@B};
-  \node[overlay,anchor=east] at ($(C@Shoumon@Box@B)!0.5!(D@Shoumon@Box@B)$) {\easttext@Shoumon@Box@B};
-  \node[overlay,anchor=north west] at (A@Shoumon@Box@B) {\nwtext@Shoumon@Box@B};
-  \node[overlay,anchor=north east] at (D@Shoumon@Box@B) {\netext@Shoumon@Box@B};
-  \node[overlay,anchor=south west] at (B@Shoumon@Box@B) {\swtext@Shoumon@Box@B};
-  \node[overlay,anchor=south east] at (C@Shoumon@Box@B) {\setext@Shoumon@Box@B};
+  % west / center / east を1つの横並びボックス内で重ならないように配置
+  \node[overlay,anchor=center] at ($(A@Shoumon@Box@B)!0.5!(C@Shoumon@Box@B)$) {%
+    \解答欄@check@sidekey@B
+    \makebox[\dimexpr\解答欄@ran@wd\width@解答欄 - 0.3\width@解答欄\relax][s]{%
+      \ifx\westtext@Shoumon@Box@B\@empty\else\westtext@Shoumon@Box@B\fi
+      \hfill
+      \ifx\centertext@Shoumon@Box@B\@empty\else\centertext@Shoumon@Box@B\fi
+      \hfill
+      \ifx\easttext@Shoumon@Box@B\@empty\else\easttext@Shoumon@Box@B\fi
+    }%
+  };
+  \node[overlay,anchor=north west] at (A@Shoumon@Box@B) {\解答欄@in@sidekeytrue\nwtext@Shoumon@Box@B};
+  \node[overlay,anchor=north east] at (D@Shoumon@Box@B) {\解答欄@in@sidekeytrue\netext@Shoumon@Box@B};
+  \node[overlay,anchor=south west] at (B@Shoumon@Box@B) {\解答欄@in@sidekeytrue\swtext@Shoumon@Box@B};
+  \node[overlay,anchor=south east] at (C@Shoumon@Box@B) {\解答欄@in@sidekeytrue\setext@Shoumon@Box@B};
 
   % 座標の更新
   \pgfmathparse{\mondai@position@tmp + \解答欄@ran@wd}%
   \edef\mondai@position@tmp{\pgfmathresult}%
 }
 
-
 %%% マス目テキスト用字間・サイズ調整 (LuaLaTeX / upLaTeX 対応)
 \newcommand{\masume@text@解答欄}[1]{%
   \begingroup%
-    \ifluatex
+    \解答欄@in@masumetrue%
+    \ifluatex%
       \ltjsetparameter{kanjiskip=0pt}% 
       \ltjsetparameter{xkanjiskip=0pt}% 
-    \else
-      \kanjiskip=0pt\relax
-      \xkanjiskip=0pt\relax
-    \fi
+    \else%
+      \kanjiskip=0pt\relax%
+      \xkanjiskip=0pt\relax%
+    \fi%
     \解答欄@set@unitfont%
-    {#1}% 
+    \setlength{\parindent}{0pt}%
+    \setlength{\parskip}{0pt}%
+    \setlength{\baselineskip}{\unit@解答欄}%
+    \setlength{\lineskip}{0pt}%
     \setlength{\lineskiplimit}{-99mm}%
+    \vspace*{0.07\unit@解答欄}%
+    {#1}%
     \par%
   \endgroup%
 }
@@ -481,7 +618,7 @@
         (\mondai@position@tmp\width@解答欄+\amari@grid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@grid@max@A\unit@解答欄) --
         (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@grid@max@A\unit@解答欄);
 
-      \node[anchor=north west,inner sep=0pt] at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@grid@max@A\unit@解答欄) {\masume@text@解答欄{#3}};
+      \node[anchor=north west,inner sep=0pt] at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@grid@max@A\unit@解答欄) {\parbox{\amari@grid@max@A\unit@解答欄}{\masume@text@解答欄{#3}}};
 
       \pgfmathparse{\mondai@position@tmp + \grid@max@A}%
       \edef\mondai@position@tmp{\pgfmathresult}%
@@ -571,7 +708,7 @@
         (\mondai@position@tmp\width@解答欄+\amari@nongrid@max@A\unit@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@nongrid@max@A\unit@解答欄) --
         (\mondai@position@tmp\width@解答欄-.5\tensenwaku@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@nongrid@max@A\unit@解答欄);
 
-      \node[anchor=north west,inner sep=0pt] at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@nongrid@max@A\unit@解答欄) {\masume@text@解答欄{#2}};
+      \node[anchor=north west,inner sep=0pt] at (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄+\shou@nongrid@max@A\unit@解答欄) {\parbox{\amari@nongrid@max@A\unit@解答欄}{\masume@text@解答欄{#2}}};
 
       \pgfmathparse{\mondai@position@tmp + \nongrid@max@A}%
       \edef\mondai@position@tmp{\pgfmathresult}%
@@ -637,12 +774,14 @@
 
 %%% 外枠
 \newcommand{\BlockFillMode@解答欄}{%
-  % \Daimon@Box@A@N のパッチ
+  % \Daimon@Box@A@N のパッチ（本番描画まで \NUM@mondai を確定加算しない）
   \RenewDocumentCommand{\Daimon@Box@A@N}{ o m o }{%
-    \IfNoValueTF{##3}{\global\advance\NUM@mondai by 1}{}%
-    \edef\解答欄@cur@text{\IfNoValueTF{##3}{\noexpand\how@to@count@大問@bangou}{\unexpanded{##3}}}%
-    \解答欄@calc@box@wd{##1}{\解答欄@cur@text}%
-    \global\let\modai@bangou@wd\解答欄@calc@wd@res%
+    \begingroup%
+      \IfNoValueTF{##3}{\advance\NUM@mondai by 1}{}%
+      \edef\解答欄@cur@text{\IfNoValueTF{##3}{\noexpand\how@to@count@大問@bangou}{\unexpanded{##3}}}%
+      \解答欄@calc@box@wd{##1}{\解答欄@cur@text}%
+      \global\let\modai@bangou@wd\解答欄@calc@wd@res%
+    \endgroup%
     \fill (\mondai@position@tmp\width@解答欄,-\mondai@position@y@tmp\width@解答欄) 
           rectangle ++(\modai@bangou@wd\width@解答欄, -##2\width@解答欄);%
     \pgfmathparse{\mondai@position@tmp + \modai@bangou@wd}%
@@ -863,8 +1002,8 @@
 
 
 %%% メイン環境コマンド \解答欄
-\NewDocumentCommand{\解答欄}{ O{2pt} m O{} }{%
-  \begingroup%
+\NewDocumentCommand{\解答欄}{ O{1.5pt} m O{} }{%
+  \noindent\begingroup%
     \解答欄@set@keys{#3}%
     \def\byouga@解答欄{%
       #2%
@@ -983,5 +1122,6 @@
 
 \let\解答出力\KaitouInput
 \let\行送り\GoDown
+\let\num\数字
 
 \endinput
