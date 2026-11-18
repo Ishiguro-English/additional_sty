@@ -1065,7 +1065,7 @@
 
 %%% メイン環境コマンド \解答欄
 \NewDocumentCommand{\解答欄}{ O{1.5pt} m O{} }{%
-  \br0\begingroup%
+  \begingroup%
     \解答欄@set@keys{#3}%
     \def\byouga@解答欄{%
       #2%
@@ -1090,7 +1090,7 @@
         \byouga@解答欄
       \end{scope}
     \end{tikzpicture}
-  \endgroup\br0%
+  \endgroup%
   \let\how@to@count@小問@bangou\default@小問@bangou
   \let\how@to@count@大問@bangou\default@大問@bangou
 }
@@ -1205,5 +1205,16 @@
 \let\解答出力\KaitouInput
 \let\行送り\GoDown
 \let\num\数字
+\newcommand{\大問数}[1]{\SetDaimon{#1}{\global\advance\NUM@mondai by -1}}
+\newcommand{\小問数}[1]{\SetShoumon{#1}{\global\advance\NUM@小問 by -1}}
+\let\大問高さ\大問番号
+\let\小問高さ\小問番号
+\MarkArrayMake{２択}{|1|2|}
+\MarkArrayMake{３択}{|1|2|3|}
+\MarkArrayMake{４択}{|1|2|3|4|}
+\MarkArrayMake{５択}{|1|2|3|4|5|}
+\MarkArrayMake{６択}{|1|2|3|4|5|6|}
+\MarkArrayMake{７択}{|1|2|3|4|5|6|7|}
+\MarkArrayMake{８択}{|1|2|3|4|5|6|7|8|}
 
 \endinput

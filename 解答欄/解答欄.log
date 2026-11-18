@@ -1,0 +1,94 @@
+This is e-upTeX, Version 3.141592653-p4.1.1-u1.30-230214-2.6 (utf8.uptex) (TeX Live 2024) (preloaded format=uplatex 2024.4.5)  17 NOV 2026 17:32
+entering extended mode
+ \write18 enabled.
+ file:line:error style messages enabled.
+**解答欄.sty
+(./解答欄.sty
+pLaTeX2e <2018-07-28u02> (based on LaTeX2e <2018-12-01>)
+
+LaTeX Warning: You have requested package `',
+               but the package provides `解答欄'.
+
+Package: 解答欄 2026/11/17, Version 1.4.9-up
+(/usr/local/teTeX/share/texmf/ptex/platex/additionalFonts/misc/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+) (/usr/local/teTeX/share/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count83
+\calc@Bcount=\count84
+\calc@Adimen=\dimen118
+\calc@Bdimen=\dimen119
+\calc@Askip=\skip41
+\calc@Bskip=\skip42
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count85
+\calc@Cskip=\skip43
+)
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/tikz/TikZ/sty/frontendlayer/tikz.sty
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/tikz/TikZ/sty/basiclayer/pgf.sty
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/tikz/TikZ/sty/utilities/pgfrcs.sty
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/tikz/TikZ/tex/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks15
+\pgfutil@tempdima=\dimen120
+\pgfutil@tempdimb=\dimen121
+)
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/tikz/TikZ/tex/utilities/pgfutil-latex.def
+\pgfutil@abb=\box43
+
+(/usr/local/teTeX/share/texmf-dist/tex/latex/ms/everyshi.sty
+Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
+))
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/tikz/TikZ/tex/utilities/pgfrcs.code.tex
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/tikz/TikZ/tex/pgf.revision.tex)
+Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
+))
+Package: pgf 2025-08-29 v3.1.11a (3.1.11a)
+
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/tikz/TikZ/sty/basiclayer/pgfcore.sty
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/graphics/graphics/graphicx.sty
+Package: graphicx 2014/04/25 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/graphics/graphics/keyval.sty
+Package: keyval 2014/05/08 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/graphics/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/graphics/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+
+/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/graphics/graphics/graphics.sty:89: Package graphics Error: No driver specified.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ->\errmessage  Package graphics Error: No driver specified.^^J^^JSee the graphics package documentation for explanation.^^JType  H <return>
+  for immediate help\@err@                                                                   
+                                                                                                                                            
+                                                                                             
+l.89      }
+           
+? 
+/usr/local/teTeX/share/texmf/ptex/platex/tetsutex/graphics/graphics/graphics.sty:89: Emergency stop.
+ ->\errmessage  Package graphics Error: No driver specified.^^J^^JSee the graphics package documentation for explanation.^^JType  H <return>
+  for immediate help\@err@                                                                   
+                                                                                                                                            
+                                                                                             
+l.89      }
+           
+You should make a default driver option in a file 
+graphics.cfg
+eg: \ExecuteOptions{textures}
+
+ 
+Here is how much of TeX's memory you used:
+ 607 strings out of 993849
+ 11015 string characters out of 39917233
+ 71415 words of memory out of 6012603
+ 4616 multiletter control sequences out of 15000+500000
+ 6281 words of font info for 32 fonts, out of 3000000 for 2000
+ 566 hyphenation exceptions out of 8191
+ 46i,0n,25p,237b,14s stack positions out of 30000i,4000n,32767p,200000b,500000s
+No pages of output.

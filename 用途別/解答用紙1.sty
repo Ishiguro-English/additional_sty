@@ -1,6 +1,7 @@
 \NeedsTeXFormat{pLaTeX2e}%
 \ProvidesPackage{解答用紙1}[2026/11/13, ver.1.0.0]%
 
+
 \setlength{\行解答欄の問題見出し幅}{2zw}
 \setlength{\行解答欄の行送り}{1zw}
 \renewcommand{\行解答欄の下線スタイル}{\点線}
@@ -21,11 +22,12 @@
 \setlength{\小得点欄の高さ}{18pt}
 \setlength{\小得点欄の幅}{32pt}
 
-\newcommand{\週数}[2]{~\br{-1.5}{\color{black!50}\gridline{\color{black}\:\mg{\normalsize#1\ \:第\:\scalebox{1.25}{#2}\:週　\scalebox{1.1}{解答用紙}}\:}}\br{1.5}}
+\newcommand{\週数}[3]{\newpage\SetDaimon{1}~\br{-1.5}\begin{jquote}(-5zw)(-5zw)\color{black!50}\gridline{\color{black}\:\mg{\normalsize#1\ \:第\:\scalebox{1.25}{#3}\:週　\scalebox{1.1}{#2}}\:}\end{jquote}\br{2.5}}
 
 \newenvironment{採点基準}
-  {\vfill\begin{同ページに収める}\color{black!60}\noindent\scriptsize\raisebox{.02zw}{\venzm}\small\ \gt{採点基準}\br0}
-  {\end{同ページに収める}}
+  {\ifthenelse{\equal{\解答欄@解答表示}{0}}{\bgroup\def\cdotsfill{}\color{white}}{}\br{.5}\noindent\raisebox{.05zw}{\small\venzm}\ \gt{\large 採点基準}\br{-.5}\begin{multicols*}{2}}
+  {\end{multicols*}\ifthenelse{\equal{\解答欄@解答表示}{0}}{\egroup}{}}
 
-\newenvironment{箇条書き}{\begin{enumerate}[・\ihspace{-.6zw}]}{\end{enumerate}}
+\newenvironment{箇条書き}{\begin{enumerate}[・\ihspace{-.6zw}]}{\end{enumerate}\br{.3}}
 
+\newcommand{\得失点}[1]{\,{\color{gray}~\cdotsfill~}\,#1点}
