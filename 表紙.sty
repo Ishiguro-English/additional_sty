@@ -35,3 +35,189 @@
       \incluedefullgraphics{/usr/local/tetex/share/texmf/ptex/platex/tetsutex/追加sty/画像/#1}#2
     \end{titlepage}%
   }%
+
+%-------------------------------------------------------------------
+
+\newlength{\spcoverH@sp@one}
+
+%\definecolor{背景上部}{RGB}{239,246,253}
+%\definecolor{背景下部}{RGB}{181,207,237}
+%\definecolor{背景の装飾楕円}{RGB}{143,180,222}
+%\definecolor{中央円盤の外周}{RGB}{220,239,251}
+%\definecolor{円盤の影}{RGB}{55,73,96}
+%\definecolor{spHoverOrange@sp@one}{RGB}{244,135,28}
+%\definecolor{メイン枠線}{RGB}{45,105,175}
+%\definecolor{タイトル}{RGB}{30,40,55}
+%\definecolor{フッタ}{RGB}{55,73,96}
+
+\newcommand{\スマート表紙}[5]
+  [%
+    \definecolor{背景上部}{RGB}{205,205,205}
+    \definecolor{背景下部}{RGB}{120,120,120}
+    \definecolor{背景の装飾楕円}{RGB}{85,85,85}
+    \definecolor{中央円盤の外周}{RGB}{180,180,180}
+    \definecolor{円盤の影}{RGB}{20,20,20}
+    \definecolor{メイン枠線}{RGB}{25,25,25}
+    \definecolor{タイトル}{RGB}{5,5,5}
+    \definecolor{フッタ}{RGB}{20,20,20}
+  ]%
+  {#1\spMakeHoverCover{#2}{#3}{#4}{#5}}
+
+% ------------------------------------------
+
+% 表紙土台
+\newcommand{\spFrameUnderlay@sp@one}[2]{%
+  \draw[#1, opacity=0.36, line width=.6pt, rounded corners=2.2pt]
+    ([xshift=.55zw, yshift=-.55zw]frame.north west)
+    rectangle ([xshift=-.55zw, yshift=.55zw]frame.south east);
+  \draw[#1, opacity=0.72, line width=.6pt, rounded corners=1.8pt]
+    ([xshift=.95zw, yshift=-.95zw]frame.north west)
+    rectangle ([xshift=-.95zw, yshift=.95zw]frame.south east);
+  \filldraw[fill=#2, draw=#1, line width=.6pt] ([xshift=.55zw, yshift=-.55zw]frame.north west) circle (.5zw);
+  \filldraw[fill=#2, draw=#1, line width=.6pt] ([xshift=-.55zw, yshift=-.55zw]frame.north east) circle (.5zw);
+  \filldraw[fill=#2, draw=#1, line width=.6pt] ([xshift=.55zw, yshift=.55zw]frame.south west) circle (.5zw);
+  \filldraw[fill=#2, draw=#1, line width=.6pt] ([xshift=-.55zw, yshift=.55zw]frame.south east) circle (.5zw);
+}
+
+% 全面フレーム箱
+\newtcolorbox{spcoverframe@sp@one}[1]{%
+  enhanced, breakable=false, height=\spcoverH@sp@one,
+  halign=center, valign=center,
+  colback=white, colframe=white, boxrule=0pt, arc=4pt,
+  left=6mm, right=6mm, top=6mm, bottom=6mm,
+  underlay={\spFrameUnderlay@sp@one{メイン枠線}{white}#1}}
+
+% \spMakeCover{エクスプ}{主題}{回など}{フッタ}
+\NewDocumentCommand{\spMakeCover}{ m m m m }{%
+  \clearpage\thispagestyle{empty}%
+  \setlength{\spcoverH@sp@one}{\dimexpr\textheight-2mm\relax}%
+  \begin{spcoverframe@sp@one}{%
+    \begin{tcbclipinterior}
+      \draw[メイン枠線, opacity=.07, line width=.8pt] (interior.center) circle (6.2cm);
+      \draw[メイン枠線, opacity=.12, line width=.6pt, dash pattern=on .5pt off 3.4pt]
+        (interior.center) circle (4.6cm);
+      \draw[メイン枠線, opacity=.10, line width=.7pt] (interior.center) circle (3.2cm);
+      \fill[メイン枠線, opacity=.22] ([yshift=6.2cm]interior.center) circle (3.2pt);
+    \end{tcbclipinterior}}%
+    {\gtfamily[5]\large\color{フッタ}#1}\\[12pt]
+    {\gtfamily[8]\fontsize{32}{38}\selectfont\color{メイン枠線}#2}\\[16pt]
+    {\gtfamily[6]\Large\color{タイトル}#3}\\[10pt]
+    \tikz{\draw[メイン枠線, line width=1pt, line cap=round]
+      (0,0) .. controls (1.1zw,.5zw) and (2.1zw,.5zw) .. (3.2zw,0);}\\[42pt]
+    {\gtfamily[5]\color{フッタ}\small#4}%
+  \end{spcoverframe@sp@one}%
+  \clearpage}
+
+% \spMakeBackCover{主題}{副題}{注記1}{注記2}
+\NewDocumentCommand{\spMakeBackCover}{ m m m m }{%
+  \clearpage\thispagestyle{empty}%
+  \setlength{\spcoverH@sp@one}{\dimexpr\textheight-2mm\relax}%
+  \begin{spcoverframe@sp@one}{%
+    \begin{tcbclipinterior}
+      \draw[メイン枠線, opacity=.06, line width=.7pt] (interior.center) circle (4.5cm);
+    \end{tcbclipinterior}}%
+    \tikz[baseline=0pt]{%
+      \draw[メイン枠線, line width=1.1pt] (0,0) circle (.9cm);
+      \draw[メイン枠線, line width=.6pt, dash pattern=on .5pt off 2.2pt] (0,0) circle (.62cm);
+      \fill[メイン枠線] (0,0) circle (.24cm);}\\[18pt]
+    {\gtfamily[6]\large\color{タイトル}#1}\\[6pt]
+    {\gtfamily[5]\color{フッタ}\small#2}\\[36pt]
+    {\color{フッタ}\footnotesize#3}\\[2pt]
+    {\color{フッタ}\footnotesize#4}%
+  \end{spcoverframe@sp@one}%
+  \clearpage}
+
+% \spMakeHoverCover{版・キッカー}{主題}{副題}{フッタ}
+\NewDocumentCommand{\spMakeHoverCover}{ m m m m }{%
+  \clearpage\thispagestyle{empty}\null
+  \begin{tikzpicture}[remember picture,overlay]
+    \coordinate (spHoverCenter@sp@one) at
+      ($(current page.south west)!0.685!(current page.south east)+(0,15.45cm)$);
+
+    \shade[shading=axis,shading angle=90,
+      left color=背景下部,
+      right color=背景上部]
+      (current page.south west) rectangle (current page.north east);
+
+    \fill[white,opacity=.13]
+      ([xshift=-10.8cm,yshift=-1cm]current page.west)
+      ellipse[x radius=13.8cm,y radius=24cm];
+    \fill[背景の装飾楕円,opacity=.12]
+      ([xshift=-12.4cm,yshift=-4cm]current page.west)
+      ellipse[x radius=16.5cm,y radius=26cm];
+    \fill[white,opacity=.16]
+      ([xshift=2.8cm,yshift=7.8cm]current page.south west)
+      .. controls ([xshift=5.1cm,yshift=13.5cm]current page.south west)
+         and ([xshift=2.4cm,yshift=23.3cm]current page.south west)
+      .. ([xshift=6.0cm,yshift=29.7cm]current page.south west)
+      -- (current page.north west) -- (current page.south west) -- cycle;
+
+    \fill[円盤の影,opacity=.035]
+      ([xshift=-1.5cm,yshift=-2.25cm]spHoverCenter@sp@one)
+      ellipse[x radius=8.8cm,y radius=7.7cm];
+    \fill[円盤の影,opacity=.045]
+      ([xshift=-1.15cm,yshift=-1.75cm]spHoverCenter@sp@one)
+      ellipse[x radius=8.45cm,y radius=7.35cm];
+    \fill[円盤の影,opacity=.055]
+      ([xshift=-.75cm,yshift=-1.25cm]spHoverCenter@sp@one)
+      ellipse[x radius=8.1cm,y radius=7.05cm];
+
+    \shade[inner color=white,outer color=中央円盤の外周,
+      shading=radial]
+      (spHoverCenter@sp@one) circle[radius=8.15cm];
+    \fill[white,opacity=.10]
+      ([xshift=-2.2cm,yshift=2.5cm]spHoverCenter@sp@one)
+      circle[radius=5.3cm];
+
+    \foreach \spHr/\spHa/\spHb/\spHo in {
+      8.55/34/325/.60,8.82/40/332/.66,9.08/45/339/.58,
+      9.34/50/347/.68,9.61/55/355/.54,9.88/61/364/.62,
+      10.16/66/371/.48,10.44/71/378/.58,10.73/76/384/.46,
+      11.03/81/390/.52,11.34/87/397/.40,11.67/93/405/.46}{
+      \draw[white,opacity=\spHo,line width=1pt,line cap=round]
+        ($(spHoverCenter@sp@one)+(\spHa:\spHr cm)$)
+        arc[start angle=\spHa,end angle=\spHb,radius=\spHr cm];}
+
+    \foreach \spHr/\spHa/\spHb in {
+      8.70/137/151,8.96/159/168,9.22/174/184,9.49/190/199,
+      9.76/207/218,10.04/225/237,10.33/244/254,10.62/262/273,
+      10.91/281/293,11.21/301/312,11.52/320/331}{
+      \draw[white,opacity=.92,line width=1.05pt,line cap=round]
+        ($(spHoverCenter@sp@one)+(\spHa:\spHr cm)$)
+        arc[start angle=\spHa,end angle=\spHb,radius=\spHr cm];}
+
+    \node[align=center,text=white,opacity=.92]
+      at ([xshift=.7pt,yshift=1.6cm]spHoverCenter@sp@one)
+      {\mbox{\gtfamily\Large#1}};
+    \node[align=center,text=フッタ]
+      at ([yshift=1.63cm]spHoverCenter@sp@one)
+      {\mbox{\gtfamily\Large#1}};
+    \node[align=center,text=white,opacity=.94]
+      at ([xshift=.9pt,yshift=-.08cm]spHoverCenter@sp@one)
+      {\mbox{\gtfamily[5]\fontsize{38}{38}\selectfont#2}};
+    \node[align=center,text=フッタ]
+      at ([yshift=-.05cm]spHoverCenter@sp@one)
+      {\mbox{\gtfamily[5]\fontsize{38}{38}\selectfont#2}};
+    \node[align=center,text=white,opacity=.94]
+      at ([xshift=.7pt,yshift=-2.08cm]spHoverCenter@sp@one)
+      {\mbox{\gtfamily[5]\LARGE#3}};
+    \node[align=center,text=フッタ]
+      at ([yshift=-2.05cm]spHoverCenter@sp@one)
+      {\mbox{\gtfamily[5]\LARGE#3}};
+
+    \begin{scope}[shift={([xshift=17mm,yshift=20mm]current page.south west)}]
+%      \fill[lightblue!70] (0,0) circle[radius=4.2mm];
+%      \draw[white,line width=.8pt] (-1.4mm,0)--(1.4mm,0)
+%        (0,-1.4mm)--(0,1.4mm);
+      \draw[white,opacity=.85,line width=1pt]
+        (0,0) circle[radius=2.6mm];
+      \draw[white,opacity=.85,line width=.7pt]
+        (1.8mm,2.3mm) circle[radius=2.4mm];
+%      \draw[white,opacity=.85,line width=.55pt]
+%        (4.2mm,3.9mm) circle[radius=1.6mm];
+      \node[anchor=west,text=フッタ,align=left,text width=56mm]
+        at (6.5mm,-2mm)
+        {\mbox{\gtfamily[3]\large\textcolor{black}{#4}}};
+    \end{scope}
+  \end{tikzpicture}%
+  \clearpage}

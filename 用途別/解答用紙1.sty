@@ -27,7 +27,15 @@
 \newenvironment{採点基準}
   {\ifthenelse{\equal{\解答欄@解答表示}{0}}{\bgroup\def\cdotsfill{}\color{white}}{}\br{.5}\noindent\raisebox{.05zw}{\small\venzm}\ \gt{\large 採点基準}\br{-.5}\begin{multicols*}{2}}
   {\end{multicols*}\ifthenelse{\equal{\解答欄@解答表示}{0}}{\egroup}{}}
+\newenvironment{採点基準*}
+  {\ifthenelse{\equal{\解答欄@解答表示}{0}}{\bgroup\def\cdotsfill{}\color{white}}{}\br{.5}\noindent\raisebox{.05zw}{\small\venzm}\ \gt{\large 採点基準}\br{.3}}
+  {\ifthenelse{\equal{\解答欄@解答表示}{0}}{\egroup}{}}
 
 \newenvironment{箇条書き}{\begin{enumerate}[・\ihspace{-.6zw}]}{\end{enumerate}\br{.3}}
 
-\newcommand{\得失点}[1]{\,{\color{gray}~\cdotsfill~}\,#1点}
+\newcommand{\得失点}[1]{\ispace\,{\color{gray}~\cdotsfill~}\,#1点}
+
+\def\基本{\ \raisebox{-.05zw}{\２文字半{\kihon}}}
+\def\標準{\ \raisebox{-.05zw}{\２文字半{\hyoujyun}}}
+\def\やや難{\ \raisebox{-.05zw}{\２文字半{\yayanan}}}
+\def\難{\ \raisebox{-.05zw}{\２文字半{\nan}}}
